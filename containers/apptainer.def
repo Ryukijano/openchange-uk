@@ -1,0 +1,15 @@
+Bootstrap: docker
+From: nvcr.io/nvidia/pytorch:25.05-py3
+
+%help
+    OpenChange-UK image. Isambard-AI is aarch64. Pull linux/arm64 only.
+    Documented base: https://docs.isambard.ac.uk/user-documentation/applications/ML-packages/
+
+%environment
+    export PYTHONUNBUFFERED=1
+
+%post
+    python3 -c "import platform; assert platform.machine() == 'aarch64', platform.machine()"
+
+%runscript
+    exec python3 "$@"

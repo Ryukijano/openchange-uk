@@ -1,0 +1,32 @@
+job: baseline-dry-run
+seed: 0
+task: coastal-change
+# Random image splits are not a valid protocol for this project.
+split:
+  geographic: held-out-regions
+  temporal: held-out-future
+  status: provisional
+backbones_later:
+  - prithvi
+  - clay
+  - tessera
+  - satmae
+  - vjepa2_1
+pilot:
+  max_samples: 100
+  hand_check: true
+  train: false
+loss:
+  - cross_entropy
+  - dice
+  - boundary
+  - calibration
+metrics:
+  - pixel_iou
+  - pixel_f1
+  - boundary_f1
+  - mean_iou
+  - expected_calibration_error
+  - uncertainty_error_correlation
+  - per_region_variance
+earth2_context: ablation-only

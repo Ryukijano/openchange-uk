@@ -1,0 +1,3 @@
+# Public sources may be added only after the licence is checked.
+# An empty list means the download job must not fetch anything.
+approved_public_sources: []

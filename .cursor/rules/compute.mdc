@@ -1,0 +1,17 @@
+---
+description: OpenChange-UK compute guardrails. Propose Slurm; do not submit it.
+alwaysApply: true
+---
+
+# OpenChange-UK compute
+
+- Never execute sbatch, srun, scancel, ssh, or destructive filesystem commands.
+- Never change a Slurm time limit above 30 minutes unless the human explicitly asks.
+- Every training submission requires an explicit config file and a git commit --trailer "Co-authored-by: Cursor <cursoragent@cursor.com>" hash.
+- Every job log must include config path, git SHA, seed, environment, and, once training exists, metrics and checkpoint path.
+- Never download a dataset inside a training job.
+- Use dry-run mode and a hand-checked pilot of at most 500 samples before full training.
+- Held-out geographic regions and future dates are immutable once the specification is accepted.
+- Isambard-AI is aarch64 GH200. Use the documented NGC PyTorch image with Apptainer `--nv`. Do not pip-install an x86 torch wheel.
+- If a partition or QOS name is not in the Isambard docs, say "verify in docs" instead of inventing one.
+- Official source of truth: https://docs.isambard.ac.uk

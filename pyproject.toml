@@ -1,0 +1,16 @@
+[project]
+name = "openchange-uk"
+version = "0.0.1"
+description = "Strict geographic and temporal transfer benchmark for UK environmental change detection."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Gyanateet Dutta", email = "g.dutta@leeds.ac.uk" }]
+dependencies = ["PyYAML>=6"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
