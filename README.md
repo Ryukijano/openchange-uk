@@ -43,4 +43,4 @@ make evaluate
 
 See `reports/SPEC.md` for the task, splits, metrics, and the stop rules.
 
-The working plan is [docs/PLAN.md](docs/PLAN.md). Papers and BibTeX are in [papers/](papers/README.md).
+The working plan is [docs/PLAN.md](docs/PLAN.md). The cluster loop is [docs/WORKFLOW.md](docs/WORKFLOW.md). Papers and BibTeX are in [papers/](papers/README.md).

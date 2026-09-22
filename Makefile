@@ -1,4 +1,4 @@
-.PHONY: lint test dry-run smoke train-small evaluate reproduce-table-1
+.PHONY: lint test dry-run smoke train-small evaluate reproduce-table-1 check-sbatch
 
 export PYTHONPATH := src
 
@@ -7,6 +7,9 @@ lint:
 
 test:
 	python -m unittest discover -s tests -v
+
+check-sbatch:
+	python scripts/check_sbatch.py
 
 dry-run:
 	python scripts/train.py --config configs/baseline.yaml --dry-run
