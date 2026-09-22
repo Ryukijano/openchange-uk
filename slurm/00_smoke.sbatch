@@ -10,7 +10,13 @@ set -euo pipefail
 cd "${SLURM_SUBMIT_DIR:-.}"
 mkdir -p logs outputs
 
-SIF="${OPENCHANGE_SIF:-${HOME}/sif-images/pytorch_25.05-py3.sif}"
+if [[ -n "${OPENCHANGE_SIF:-}" ]]; then
+  SIF="${OPENCHANGE_SIF}"
+elif [[ -n "${PROJECTDIR:-}" && -f "${PROJECTDIR}/sif-images/pytorch_25.05-py3.sif" ]]; then
+  SIF="${PROJECTDIR}/sif-images/pytorch_25.05-py3.sif"
+else
+  SIF="${HOME}/sif-images/pytorch_25.05-py3.sif"
+fi
 
 echo "=== PROVENANCE ==="
 date -Is || date
@@ -25,9 +31,8 @@ env | sort
 
 if [[ ! -f "${SIF}" ]]; then
   echo "Missing container: ${SIF}"
-  echo "On the login node, before sbatch:"
-  echo "  mkdir -p \"\$HOME/sif-images\""
-  echo "  apptainer pull \"\$HOME/sif-images/pytorch_25.05-py3.sif\" docker://nvcr.io/nvidia/pytorch:25.05-py3"
+  echo "Submit slurm/00_pull_sif.sbatch first."
+  echo "Expected image: ${PROJECTDIR}/sif-images/pytorch_25.05-py3.sif"
   exit 2
 fi
 
