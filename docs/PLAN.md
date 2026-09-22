@@ -2,6 +2,23 @@
 
 Status: provisional. The smoke job has not been run. Region names and the time cutoff are still unset.
 
+## Links
+
+Papers stored in this repo, then the pages to open in a browser.
+
+| What | Read |
+|---|---|
+| Evaluation gap, 152 papers / 401 benchmarks | [abstract](https://arxiv.org/abs/2605.12678) · [PDF](https://arxiv.org/pdf/2605.12678) · [local copy](../papers/arxiv/2605.12678.pdf) |
+| V-JEPA 2.1 | [abstract](https://arxiv.org/abs/2603.14482) · [PDF](https://arxiv.org/pdf/2603.14482) · [local copy](../papers/arxiv/2603.14482.pdf) · [code](https://github.com/facebookresearch/vjepa2) |
+| TESSERA, CVPR 2026 | [abstract](https://arxiv.org/abs/2506.20380) · [PDF](https://arxiv.org/pdf/2506.20380) · [local copy](../papers/arxiv/2506.20380.pdf) · [CVF open access](https://openaccess.thecvf.com/content/CVPR2026/html/Feng_TESSERA_Temporal_Embeddings_of_Surface_Spectra_for_Earth_Representation_and_CVPR_2026_paper.html) · [code](https://github.com/ucam-eo/tessera) · [ESA note](https://www.esa.int/Applications/Observing_the_Earth/Copernicus/Tessera_AI_model_offers_accessible_way_to_view_Earth) |
+| TESSERA v2 | [abstract](https://arxiv.org/abs/2607.03949) · [PDF](https://arxiv.org/pdf/2607.03949) · [local copy](../papers/arxiv/2607.03949.pdf) |
+| AI and scientific focus (context only) | [Nature](https://www.nature.com/articles/s41586-025-09922-y) · [code](https://github.com/tsinghua-fib-lab/AI-Impacts-Science) |
+| Prithvi-EO-2.0, pilot candidate | [code](https://github.com/NASA-IMPACT/Prithvi-EO-2.0) · [paper](https://arxiv.org/abs/2412.02732) · [300M weights](https://huggingface.co/ibm-nasa-geospatial/Prithvi-EO-2.0-300M) |
+| Clay v1.5, pilot candidate | [model notes](https://clay-foundation.github.io/model/release-notes/specification.html) |
+| Isambard docs | [docs](https://docs.isambard.ac.uk) · [PyTorch on GH200](https://docs.isambard.ac.uk/user-documentation/applications/ML-packages/) · [agent policy](https://docs.isambard.ac.uk/user-documentation/guides/using_ai_agents/) |
+| NV-Disruptron provenance | [Ryukijano/NV-Disruptron](https://github.com/Ryukijano/NV-Disruptron) |
+| BibTeX | [papers/references.bib](../papers/references.bib) |
+
 ## Decision
 
 Build an open UK benchmark and transfer-learning toolkit for environmental change, starting with coastal shoreline and land-cover change. Do not grow NV-Disruptron into a larger product, and do not pretrain a foundation model.
@@ -51,13 +68,13 @@ Flood extent is the second task, after the coastal harness works. Urban heat is 
 
 ## Backbones
 
-Pilot, after a licence and an aarch64 check, two open encoders. Starting candidates: Prithvi and Clay. Confirm sizes and licences before the pilot; do not treat that pair as final.
+Pilot, after a licence and an aarch64 check, two open encoders. Starting candidates: [Prithvi-EO-2.0](https://github.com/NASA-IMPACT/Prithvi-EO-2.0) and [Clay v1.5](https://clay-foundation.github.io/model/release-notes/specification.html). Confirm sizes and licences before the pilot; do not treat that pair as final.
 
 Later, on the same splits:
 
-- TESSERA (CVPR 2026; Sentinel-1/2 annual embeddings)
+- [TESSERA](https://arxiv.org/abs/2506.20380) (CVPR 2026; Sentinel-1/2 annual embeddings)
 - SatMAE
-- V-JEPA 2.1 dense features on image sequences
+- [V-JEPA 2.1](https://arxiv.org/abs/2603.14482) dense features on image sequences
 
 Earth-2 context is scored as the difference between vision-only and vision-plus-weather. A zero gain is a result.
 

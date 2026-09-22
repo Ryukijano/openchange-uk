@@ -20,7 +20,7 @@ Train regions and test regions are disjoint. The test window starts after a sing
 
 ## Pilot
 
-100 to 500 hand-checked pairs. Two open encoders with public weights and aarch64-capable runtimes, candidates Prithvi and Clay, chosen after a licence check. V-JEPA 2.1, Tessera, and SatMAE wait until that harness runs.
+100 to 500 hand-checked pairs. Two open encoders with public weights and aarch64-capable runtimes, candidates [Prithvi-EO-2.0](https://github.com/NASA-IMPACT/Prithvi-EO-2.0) and [Clay v1.5](https://clay-foundation.github.io/model/release-notes/specification.html), chosen after a licence check. [V-JEPA 2.1](https://arxiv.org/abs/2603.14482), [TESSERA](https://arxiv.org/abs/2506.20380), and SatMAE wait until that harness runs. Full link list: [docs/PLAN.md](../docs/PLAN.md).
 
 ## Metrics
 
