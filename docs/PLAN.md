@@ -103,7 +103,7 @@ Loss for the first real fit, when training is allowed: cross-entropy, Dice, a bo
 
 ## Data
 
-`configs/sources.yaml` is empty on purpose. The download job exits without fetching until a source is added with a licence note. Manifests and checksums are the released data product. Unclear licences are not redistributed.
+`configs/sources.yaml` is empty on purpose. Nothing is fetched until a source entry passes `scripts/validate_sources.py`: URL, licence, attribution, expected size, use, and splits, plus who approved it and when. Manifests and checksums are the released data product. Unclear licences are not redistributed.
 
 ## Compute
 

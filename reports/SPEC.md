@@ -16,7 +16,7 @@ Pretraining a foundation model. A Nemotron chatbot. Clinical or robotic deployme
 
 ## Splits
 
-Train regions and test regions are disjoint. The test window starts after a single cutoff. Both stay unset in code until this page is reviewed. `src/openchange/splits.py` rejects overlap.
+Train regions and test regions are disjoint. The test window starts after a single cutoff. Both stay unset in code until this page is reviewed. `src/openchange/splits.py` rejects overlap between train, validation, and test regions, and rejects samples on the wrong side of the cutoff. Candidate regions and cutoffs are in [SPLIT_PROPOSAL.md](SPLIT_PROPOSAL.md). That page is PROPOSED, not accepted.
 
 ## Pilot
 

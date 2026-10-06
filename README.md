@@ -14,15 +14,16 @@ V-JEPA 2.1 has public code and checkpoints ([arXiv:2603.14482](https://arxiv.org
 
 Isambard-AI Phase 2 is Arm64 GH200. BriCS does not install PyTorch for you. The documented GPU path is the NGC image `nvcr.io/nvidia/pytorch:25.05-py3` with Apptainer `--nv` ([ML packages](https://docs.isambard.ac.uk/user-documentation/applications/ML-packages/)).
 
-On the login node, after `clifton auth`:
+On the login node, after `clifton auth` and `ssh u6xn.aip2.isambard` (full Linux steps in [docs/WORKFLOW.md](docs/WORKFLOW.md)):
 
 ```bash
-mkdir -p "$HOME/sif-images"
-apptainer pull "$HOME/sif-images/pytorch_25.05-py3.sif" docker://nvcr.io/nvidia/pytorch:25.05-py3
-mkdir -p logs
+mkdir -p "$PROJECTDIR/sif-images"
+apptainer pull "$PROJECTDIR/sif-images/pytorch_25.05-py3.sif" docker://nvcr.io/nvidia/pytorch:25.05-py3
 sbatch slurm/00_smoke.sbatch
 squeue --me
 ```
+
+`$PROJECTDIR` is the documented place for shared container images ([storage](https://docs.isambard.ac.uk/user-documentation/information/system-storage/)). Set `OPENCHANGE_SIF` to use another path. The job writes `logs/airr-smoke-<jobid>.out` and `outputs/smoke-slurm<jobid>/{manifest.json,smoke.json}`.
 
 Ten minutes on one GPU is about 0.042 NHR. One GPU is one GH200. A full node is four GPUs and one NHR per wall-hour. Do not train until that log shows `aarch64`, a GH200, and a bfloat16 matmul, and the container file plus the git commit are recorded.
 
@@ -31,13 +32,16 @@ Ten minutes on one GPU is about 0.042 NHR. One GPU is one GH200. A full node is 
 ## Local checks
 
 ```bash
-python -m pip install -e ".[dev]" PyYAML
-make test
-make dry-run
-make evaluate
+uv venv --python 3.11 .venv && . .venv/bin/activate
+uv pip install -e ".[dev]"
+make check
 ```
 
-`make smoke` only prints the `sbatch` line.
+`make check` runs lint, unit tests, the Slurm template checker, the source-approval check, a dry-run, and the evaluation stub. It needs no GPU, no network, and no Isambard login. `make smoke` only prints the `sbatch` line.
+
+## Data sources
+
+Nothing is fetched until an entry in `configs/sources.yaml` passes `scripts/validate_sources.py`. Each entry needs a URL, licence and licence URL, attribution, expected size in bytes, use, intended splits, redistribution terms, and who approved it and when. A future fetcher must call `openchange.sources.require_approved(source_id, split)` first.
 
 ## Layout
 
