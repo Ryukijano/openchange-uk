@@ -2,6 +2,8 @@
 
 Status: provisional. The smoke job has not been run. Region names and the time cutoff are still unset.
 
+The [clean-JEPA EO study](research/clean-jepa/README.md) is now the selected research extension. Its formulation and implementation gates are documented separately; it does not change the benchmark split or authorize compute/data access. The benchmark sequence below remains valid for the benchmark, not as a JEPA training recipe.
+
 ## Links
 
 Papers stored in this repo, then the pages to open in a browser.
@@ -21,7 +23,7 @@ Papers stored in this repo, then the pages to open in a browser.
 
 ## Decision
 
-Build an open UK benchmark and transfer-learning toolkit for environmental change, starting with coastal shoreline and land-cover change. Do not grow NV-Disruptron into a larger product, and do not pretrain a foundation model.
+Build an open UK benchmark and transfer-learning toolkit for environmental change, starting with coastal shoreline and land-cover change. Do not grow NV-Disruptron into a larger product. Foundation-model pretraining is not part of this benchmark sequence; the separately gated clean-JEPA study must pass its own approval, pilot and resource checks first.
 
 The flagship is evaluation-first:
 
@@ -38,7 +40,7 @@ Random image splits are not a result.
 ## What stays out
 
 - Fine-tuning Nemotron into another chatbot.
-- Spending the allocation on pretraining.
+- Spending the allocation on pretraining before the clean-JEPA study's award-scope, source, pilot and measured-budget gates pass.
 - A generic climate dashboard.
 - Clinical, surgical, or robotic deployment.
 - Treating Earth-2 as the change-detection backbone. Weather or hazard fields are an ablation only.
@@ -103,13 +105,15 @@ Loss for the first real fit, when training is allowed: cross-entropy, Dice, a bo
 
 ## Data
 
-`configs/sources.yaml` is empty on purpose. The download job exits without fetching until a source is added with a licence note. Manifests and checksums are the released data product. Unclear licences are not redistributed.
+`configs/sources.yaml` is empty on purpose. Nothing is fetched until a source entry passes `scripts/validate_sources.py`: URL, licence, attribution, expected size, use, and splits, plus who approved it and when. Manifests and checksums are the released data product. Unclear licences are not redistributed.
 
 ## Compute
 
 Award: AI Builder, BriCS project `u6xn`, Isambard-AI Phase 2, through 15 March 2027. Balance used for planning: 5000 NHR. One NHR is one node-hour, which is four GH200 GPU-hours. One GPU for one wall-hour is 0.25 NHR.
 
 These are envelopes, not jobs to submit. They sum to the allocation:
+
+This table predates the clean-JEPA extension and already assigns the entire planning envelope. It is not a verified remaining balance. Do not add a second JEPA budget to it: replace the combined ledger after award confirmation and measured pilot throughput.
 
 | Phase | GPU-hours | NHR |
 |---|---:|---:|
