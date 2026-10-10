@@ -1,8 +1,10 @@
-# Research notes: evaluation-first predictive models (outside OpenChange-UK scope)
+# Research notes: EO clean-JEPA study and earlier explorations
 
-Working notes from the October 2026 exploration of a scaling-laws study on predictive models and planning, separate from the OpenChange-UK benchmark. Nothing here is decided; DEEP_THINK.md is the current synthesis and is still open for revision.
+The current research direction is the [clean-JEPA EO pilot](clean-jepa/README.md): selected design, exact formulation, implementation gates, sources and a standalone training diagram. This is a gated pretraining/representation study beside the OpenChange-UK benchmark, not a change to its held-out specification. No JEPA training is implemented or run yet.
 
-## Current synthesis
+The older predictive-model/planning explorations below are retained for provenance. They are superseded as the next project direction, and their budgets/claims are not implementation instructions.
+
+## Earlier synthesis (superseded)
 - `deep-think.md` — v2 synthesis: the loss-vs-decisions question, the planner-reachable-error reformulation, substrate verdicts (TORAX/FreeGSNKE first, LIBERO pilot, The Well out), pilots P1–P3, kill criteria, risks, gate verdicts.
 - `deep-explorer-report.md`, `deep-pessimist-report.md`, `deep-verifier-report.md` — three independent child-session reports that fed v2 (formulations, red-team, claim checks).
 

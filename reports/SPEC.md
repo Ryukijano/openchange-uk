@@ -1,5 +1,7 @@
 # OpenChange-UK specification (provisional)
 
+This is the benchmark specification. The separate [clean-JEPA research track](../docs/research/clean-jepa/README.md) has selected pilot defaults and implementation gates; it does not accept or alter this benchmark's regions, cutoff, labels or metrics.
+
 ## Claim
 
 Parameter-efficient adaptation of an open visual encoder improves coastal change detection under held-out UK regions and a future time cutoff, relative to a frozen encoder and a small from-scratch baseline.
@@ -12,7 +14,7 @@ Flood extent, urban heat, and Earth-2 weather context are ablations or later tas
 
 ## Not in scope
 
-Pretraining a foundation model. A Nemotron chatbot. Clinical or robotic deployment. Random image splits. Redistributing imagery whose licence is unclear.
+Pretraining a foundation model inside this benchmark's training sequence (the clean-JEPA extension is separately gated). A Nemotron chatbot. Clinical or robotic deployment. Random image splits. Redistributing imagery whose licence is unclear.
 
 ## Splits
 
