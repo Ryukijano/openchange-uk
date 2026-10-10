@@ -86,6 +86,10 @@ fallbacks. In particular do not infer data roots, licence approval or a test cut
 
 ## 2. P0 — Approve and curate at most 500 locations
 
+Also cap the actual pilot at **500 observation items/pairs**, not 500 locations times
+all their dates. Select at most one acquisition pair per location for P0. All dates
+still inherit that location's geographic assignment if a larger slice is approved later.
+
 **Owner:** human approves source/licence and holdout policy; implementer builds the local manifest.
 
 1. Check the exact SSL4EO-S12 v1.1 endpoint/card and licence. Record full immutable
@@ -270,7 +274,7 @@ freeze the stem or become stale. Stable compressed pixels are the reusable cache
 Measure compressed bytes/pair, decoded bytes, CPU time, random/sequential access,
 workers/prefetch memory, cache hit rate and projected per-GPU bandwidth. Benchmark
 source-precision and proposed packing on the same slice. The old ~0.6 MB/pair estimate
-is a scenario, not a universal compression result. Test shader/loss memory separately
+is a scenario, not a universal compression result. Test shard/loss memory separately
 from data loader memory. A node-local cache must fit the actual measured data and
 document its lifecycle; do not assume NVMe capacity or speed.
 
