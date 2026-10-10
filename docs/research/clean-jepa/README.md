@@ -14,7 +14,10 @@ Updating these documents is not approval to fetch a dataset or use an allocation
 4. [Sources and corrections](SOURCES.md): primary links, provenance and errors in earlier reviews.
 5. [Training diagram](training-diagram.html): self-contained HTML with selectable nodes.
    GitHub shows HTML source; download the file and open it locally to use the diagram.
+   Sources in [diagram-src](diagram-src/).
 6. [Review archive](reviews/README.md): supporting reports, not the implementation specification.
+   Superseded plan versions and the first diagram live in [plans](plans/); a synthetic
+   SIGReg gap check lives in [checks](checks/).
 
 ## What we are testing
 

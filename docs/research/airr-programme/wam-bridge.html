@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIRR masterplan — decision quality under shift</title>
+<style>
+:root{--ink:#1b2830;--muted:#59656c;--line:#d7dfdf;--paper:#fff;--wash:#f1f5f4;--accent:#125c58}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--wash);color:var(--ink);font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}
+.status{padding:13px 24px;background:#153d3c;color:white;font-size:13px;letter-spacing:.03em}
+.layout{display:grid;grid-template-columns:260px minmax(0,940px);max-width:1240px;margin:0 auto;gap:24px;padding:30px 20px 70px}
+nav{position:sticky;top:20px;align-self:start;font-size:13px;padding:15px 12px}nav p{font-weight:700;color:var(--accent);margin:0 0 12px}nav ul{margin:0;padding:0;list-style:none}nav li{margin-bottom:9px}nav a{color:var(--muted);text-decoration:none}nav a:hover,nav a:focus{color:var(--accent);text-decoration:underline}
+main{background:var(--paper);padding:40px 46px;border:1px solid var(--line);border-radius:8px;min-width:0}
+h1{font-size:34px;line-height:1.2;margin:0 0 22px;letter-spacing:-.035em}h2{font-size:25px;line-height:1.3;margin:45px 0 15px;padding-top:12px;border-top:2px solid var(--line);scroll-margin-top:22px}h3{font-size:19px;margin:27px 0 12px;line-height:1.4}p{margin:14px 0}a{color:var(--accent);overflow-wrap:anywhere}blockquote{margin:23px 0;padding:3px 20px;border-left:4px solid var(--accent);background:#edf5f2;font-size:18px}
+table{border-collapse:collapse;display:block;overflow-x:auto;width:100%;margin:22px 0;font-size:13px;line-height:1.55}th,td{text-align:left;vertical-align:top;padding:11px 12px;border:1px solid var(--line);min-width:100px}th{background:#e9f0ee;font-weight:650}td:first-child{min-width:125px}tr:nth-child(even) td{background:#f8faf9}
+ul,ol{padding-left:23px}li{margin:7px 0}code{font-size:.9em;background:#eef1f1;padding:2px 4px;border-radius:3px}strong{font-weight:680}.footer{margin-top:40px;border-top:1px solid var(--line);padding-top:18px;font-size:13px;color:var(--muted)}
+@media(max-width:920px){.layout{display:block;padding:14px 12px 40px}nav{position:static;padding:12px 5px 18px}nav ul{columns:2}nav li{break-inside:avoid}main{padding:25px 23px}h1{font-size:29px}}
+@media(max-width:520px){nav ul{columns:1}main{padding:22px 17px}h1{font-size:26px}h2{font-size:22px}body{font-size:15px}}
+@media print{body{background:white;font-size:11pt}.status,nav{display:none}.layout{display:block;padding:0}main{border:0;padding:0}h2{break-after:avoid}h3{break-after:avoid}table{display:table;font-size:9pt}th,td{min-width:0;padding:6px}a{color:inherit}}
+</style></head><body>
+<header class="status">RESEARCH-DESIGN DRAFT · 9 OCT 2026 · NO EXPERIMENTS AUTHORISED OR RUN</header>
+<div class="layout"><nav aria-label="Contents"><p>AIRR masterplan</p><ul><li><a href="#0-the-problem-with-plan-v2">0. The problem with plan v2</a></li><li><a href="#1-what-changed-this-week-all-7-8-oct-2026">1. What changed this week (all 7–8 Oct 2026)</a></li><li><a href="#2-candidate-topic-one-sentence">2. Candidate topic (one sentence)</a></li><li><a href="#3-how-it-sits-beside-plan-v2">3. How it sits beside plan v2</a></li><li><a href="#4-immediate-local-steps-if-a">4. Immediate local steps if A</a></li></ul></nav>
+<main><h1 id="wam-bridge-where-world-action-models-fit-the-airr-plan">WAM bridge: where world-action models fit the AIRR plan</h1>
+<p>Status: design note, 10 Oct 2026. Companion to CLEAN_JEPA_PLAN_V2.md. Nothing here has been run. Items marked UNVERIFIED were not checked against a primary source this session.</p>
+<h2 id="0-the-problem-with-plan-v2">0. The problem with plan v2</h2>
+<p>Plan v2 (clean JEPA on Earth observation) answers &quot;massive open data + clean publication&quot;, but it does not touch world-action models (WAMs), which are a stated goal. This note asks whether the same methodology (clean JEPA, pre-registered scaling grid, matched baselines, three operational guarantees) can be pointed at WAMs instead, and what the honest cost is.</p>
+<h2 id="1-what-changed-this-week-all-7-8-oct-2026">1. What changed this week (all 7–8 Oct 2026)</h2>
+<table>
+<thead>
+<tr>
+  <th>Paper</th>
+  <th>What it does</th>
+  <th>What it leaves open</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><a href="https://arxiv.org/abs/2610.10528">Long-WAM</a> (NVIDIA/MIT/HKU)</td>
+  <td>AR video pretrain (LongLive2.0-Robot, ~10,000 window-equivalent h: RoVid-X 82.7%, EgoDex 9.0%, AgiBot World 4.8%, EgoVerse 2.6%, VITRA 0.8%) then causal world-action adaptation. RoboCasa GR-1 success 63.3→78.7% as history goes 0→19.2 s, drops at 38.4 s; LIBERO-Long 94.5→99.5%, saturates at 2.4 s. Central claim: <strong>a bidirectionally pretrained init shows no net gain from history; AR pretraining makes history usable.</strong> Pretrain ≈30,720 H100 GPU-h on 64 H100; WAMs on 16 GB200. Code Apache-2.0, checkpoints on HF (five GR-1 history lengths).</td>
+  <td>Five history points, two benchmarks, one model size, one backbone family. No law in history × model × data, no matched-compute comparison, and no test of whether the history benefit needs <em>pixel generation</em> or only <em>causal structure</em>.</td>
+</tr>
+<tr>
+  <td><a href="https://arxiv.org/abs/2610.10515">RoboJEPA</a> (Meta)</td>
+  <td>Action-conditioned latent world model on frozen V-JEPA 2.1, 22M–8B, 23 datasets; imagination error follows a second-order power law in compute; planning success correlates with it. Checkpoints and code promised.</td>
+  <td>Frozen encoder (laws are about the predictor only). History handled only as a max trained length. Its own Fig. 11: on the short-horizon obstacle-reach task &quot;reward correlates with compute, but no clean frontier emerges and smaller models often beat larger ones&quot;. No action head, no policy.</td>
+</tr>
+<tr>
+  <td><a href="https://arxiv.org/abs/2610.12407">LeWAM</a> (JEPA WAM, diffusion-steering MPC)</td>
+  <td>ViT-tiny + SIGReg, one bidirectional transformer for forward/backward/inverse/policy modes; 3 context frames; PushT/robomimic. Finding: planning in the policy's noise space stops MPC exploiting dynamics errors.</td>
+  <td>Tiny scale, 3-frame history, sim only. Note the name clash with <a href="https://github.com/XuejiFang/LeWAM">XuejiFang/LeWAM</a> (Baidu, &quot;Latent Evolving WAM&quot;, I-JEPA-Huge).</td>
+</tr>
+<tr>
+  <td><a href="https://arxiv.org/abs/2606.15768">LaWAM</a></td>
+  <td>Latent WAM on a frozen VFM, latent subgoals instead of video; LIBERO 98.6%.</td>
+  <td>No scaling, no history study.</td>
+</tr>
+<tr>
+  <td><a href="https://arxiv.org/abs/2607.15275">RoboTTT</a></td>
+  <td>VLA with test-time-training fast weights; context 1K→8K timesteps gives +62%; &quot;context length as a new scaling axis&quot;.</td>
+  <td>Two context points, one architecture, policy not world model.</td>
+</tr>
+</tbody>
+</table>
+<p>Reading: the field has just established (i) latent world models scale predictably (RoboJEPA), (ii) history helps WAMs <em>if</em> the pretraining is causal (Long-WAM), (iii) clean JEPA latents can carry a WAM at small scale (LeWAM). <strong>Nobody has combined them</strong>: a clean, decoder-free, <em>causal</em> JEPA pretrained on the same open robot video, adapted to actions the same way, with history length as a pre-registered scaling axis against the AR-generative backbone at matched compute.</p>
+<h2 id="2-candidate-topic-one-sentence">2. Candidate topic (one sentence)</h2>
+<p><strong>Does the benefit of visual history in world-action models come from causal pretraining structure or from pixel generation, and does it follow a law in history length, model size and data that survives shift?</strong></p>
+<h3 id="gate-1-open">Gate 1, open?</h3>
+<p>Five closest: Long-WAM (history benefit, one backbone, no law); RoboJEPA (laws, no history axis, no action head, frozen encoder); RoboTTT (context axis, policy only, two points); LeWAM (clean-JEPA WAM, tiny, 3 frames); LeVJEPA (clean video JEPA, bidirectional masking, no actions; UNVERIFIED whether a causal variant exists). Earlier work on latent-vs-generative world models does not vary history. <strong>open: yes</strong>, but the window is weeks, not months: Long-WAM's authors can run the latent arm themselves.</p>
+<h3 id="gate-2-contribution">Gate 2, contribution?</h3>
+<p>&quot;Unlike Long-WAM, which attributes the history gain to AR pretraining with one generative backbone, we pretrain a causal clean-JEPA (no decoder, no EMA, SIGReg) on the same open video at matched FLOPs and fit the first joint law of closed-loop success in history length × compute × data, which tells practitioners whether a 30k-GPU-hour video generator is needed to use history or a far cheaper latent predictor suffices, and how much history to buy per unit of decision-time compute.&quot;</p>
+<p>Three results, each publishable with either sign:</p>
+<ol>
+<li><strong>Structure vs generation.</strong> Causal clean-JEPA vs AR-generative vs bidirectional JEPA, same data, matched pretrain FLOPs, same action adaptation. Outcome A: latent causal gets the history gain at a fraction of the cost (applied win: edge WAMs without video decoding). Outcome B: it does not; generation carries information history needs (a real finding about what latents drop).</li>
+<li><strong>History law.</strong> Success and imagination error vs history length at 4 sizes × 3 data fractions; is there a predictable optimum (Long-WAM's drop at 38.4 s) and does it move with scale? Pre-register the prediction for the held-out largest run.</li>
+<li><strong>The EO-plan guarantees, ported.</strong> (a) Label-free selection: does clean-JEPA pretraining loss rank WAM checkpoints by closed-loop success (RoboJEPA says yes for imagination error, no for reward on one task; the &quot;Control Theory of Predictability&quot; and &quot;Not All Errors Matter&quot; papers say no in general). (b) Version compatibility: can an action expert trained on world-model version k be reused on version k+1 after a Procrustes fit, so retraining the policy per backbone (what Long-WAM ships per benchmark) is unnecessary? (c) Substitution: held-out camera/embodiment, the analogue of SAR-for-optical.</li>
+</ol>
+<p>Method contribution, parallel to availability-stratified SIGReg: <strong>history-stratified SIGReg</strong>, Gaussianise the latent conditional on how much history was available so the embedding does not encode context length as nuisance, which is exactly what a mixed-history training batch invites. Same ablation grid as plan v2. UNVERIFIED that pooled SIGReg actually encodes history length; this is pilot P2.</p>
+<p><strong>contribution: yes if result 1 or 2 lands; unclear if only 3.</strong></p>
+<h3 id="gate-3-feasible">Gate 3, feasible?</h3>
+<p><strong>Data.</strong> Open and large: RoVid-X 4M clips / 10K+ h, CC-BY-4.0, HF (<a href="https://huggingface.co/datasets/DAGroup-PKU/RoVid-X">DAGroup-PKU/RoVid-X</a>, size category &gt;1 TB; bytes UNVERIFIED), and it is 82.7% of Long-WAM's own mix. Open X-Embodiment CC-BY-4.0. RoboCasa365: code MIT, assets and 600 h human + 1,600 h synthetic demos CC-BY-4.0, GR-1 humanoid tasks with real headroom (63–79%), which fixes the LIBERO saturation problem from deep-think. Exclude or quarantine: AgiBot World (CC-BY-NC-SA), EgoDex (CC-BY-NC-ND; derivative-weights question), EgoVerse/VITRA (licence UNVERIFIED). Storage: RoVid-X raw will not fit 5 TiB scratch; pre-encode to latents once in $PROJECTDIR, as in plan v2.</p>
+<p><strong>Compute.</strong> Long-WAM's generative pretrain alone is ~30.7k H100-h, i.e. ~38% of the 80k GH200-GPU-h allocation if GH200≈H100 (UNVERIFIED rate). So the matched-compute comparison must run at 1/10–1/3 of that scale (ViT-S/B/L latent predictors, the generative arm fine-tuned from LongLive2.0-Robot or trained small) with the law extrapolated, not replicated at 5B. Closed-loop evaluation on RoboCasa GR-1 is the hidden cost again (MuJoCo on Grace cores, policy on GPU). Rough grid: 3 backbones × 4 sizes × 4 history lengths × 2 seeds ≈ 96 adaptation runs plus ~12 pretrains; unpriced until a 1-GPU throughput pilot. The 24 h walltime and 32-GPU cap apply as in MASTERPLAN.</p>
+<p><strong>Skill/time.</strong> Closest to the user's trajectory (LeWM/ESD-WORLD, V-JEPA). Heavy engineering: RoboCasa eval harness, two backbones, streaming history. Realistic for one person: 5–6 months to a submission, not the 5 weeks to CVPR.</p>
+<p><strong>Minimal viable experiment (P1, no Isambard).</strong> Pre-encode RoboCasa365 GR-1 demos for 5 tasks; train a 20M causal clean-JEPA predictor and a 20M bidirectional one on the latents at 3 history lengths (0, 2.4 s, 9.6 s); attach the same flow-matching action head; measure closed-loop success. If the causal arm shows no monotone history gain at this scale while Long-WAM's released checkpoints do, the headline is at risk (or is Outcome B). Needs one GPU (DGX Spark or a 1-GPU Isambard smoke); CPU-only VM can build the harness and data pipeline but not run it.</p>
+<h3 id="verdict">Verdict</h3>
+<p><strong>PIVOT-ready GO.</strong> Gate 1 yes (narrow, closing), gate 2 yes conditional on results 1–2, gate 3 yes at reduced scale with the pilot gate. verdict_reason: the question is open and sharper than plan v2's EO headline for this user's goals, but it is a race against the Long-WAM/RoboJEPA groups, and the compute makes it a laws-at-small-scale paper, not a frontier model.</p>
+<h2 id="3-how-it-sits-beside-plan-v2">3. How it sits beside plan v2</h2>
+<table>
+<thead>
+<tr>
+  <th></th>
+  <th>Plan v2 (clean JEPA on EO)</th>
+  <th>WAM bridge (clean JEPA WAM)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Serves</td>
+  <td>OpenChange-UK, UK AI-for-Science fit, u6xn wording (if EO)</td>
+  <td>stated WAM goal, AIMS/robotics trajectory</td>
+</tr>
+<tr>
+  <td>Data</td>
+  <td>20 TB Copernicus-Pretrain, CC-BY</td>
+  <td>10K h RoVid-X + RoboCasa365, CC-BY</td>
+</tr>
+<tr>
+  <td>Closed-loop truth</td>
+  <td>none (probes only)</td>
+  <td>simulator with reset (RoboCasa)</td>
+</tr>
+<tr>
+  <td>Race risk</td>
+  <td>low (narrow gap, slow field)</td>
+  <td>high (two groups active this month)</td>
+</tr>
+<tr>
+  <td>Compute</td>
+  <td>FLOPs cheap, bytes expensive</td>
+  <td>both moderate; evaluation dominates</td>
+</tr>
+<tr>
+  <td>Shared method</td>
+  <td>SIGReg stratified on availability</td>
+  <td>SIGReg stratified on history length</td>
+</tr>
+<tr>
+  <td>Shared guarantees</td>
+  <td>selection, version compatibility, substitution</td>
+  <td>same three</td>
+</tr>
+</tbody>
+</table>
+<p>Two honest options:</p>
+<ul>
+<li><strong>A. WAM leads, EO is the OpenChange-UK track.</strong> Project B becomes this note; plan v2's Q1–Q3 run on EO only as far as OpenChange-UK needs. Fits the goal; needs the allocator's OK if u6xn names EO.</li>
+<li><strong>B. EO leads, WAM is paper two.</strong> Safer on compute and permissions, slower on the goal, and the WAM gap may close meanwhile.</li>
+</ul>
+<p>Not recommended: both at full scale in one paper (deep-think's pessimist costed one substrate at 18–25 weeks).</p>
+<h2 id="4-immediate-local-steps-if-a">4. Immediate local steps if A</h2>
+<ol>
+<li>Verify licences for EgoVerse and VITRA; decide the corpus (RoVid-X + OXE + RoboCasa365 only is the clean choice).</li>
+<li>Check LeVJEPA/LeJEPA reference code for a causal mask path; if absent, specify the causal clean-JEPA objective (SIGReg per time step vs pooled) in writing before coding.</li>
+<li>Build the RoboCasa365 GR-1 eval harness with dry-run and the 500-sample pilot rule; measure sim steps/s on CPU.</li>
+<li>Download nothing until the source gate passes; log bytes/sample for RoVid-X from the HF metadata only.</li>
+<li>Re-cost BUDGET_DESIGN for this grid after a 1-GPU throughput number exists.</li>
+</ol>
+<footer class="footer">Prepared for Gyanateet Dutta. Budget ceilings and timeline are proposals, not measured runs. No cluster access or dataset downloads were performed.</footer></main></div>
+</body></html>

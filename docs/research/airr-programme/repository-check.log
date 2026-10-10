@@ -1,0 +1,62 @@
+.venv/bin/python -m ruff check src scripts tests .cursor/hooks
+All checks passed!
+.venv/bin/python -m compileall -q src scripts tests
+.venv/bin/python -m unittest discover -s tests -v
+test_bad_templates (test_check_sbatch.CheckSbatchTest.test_bad_templates) ... ok
+test_good_template (test_check_sbatch.CheckSbatchTest.test_good_template) ... ok
+test_marks (test_check_sbatch.CheckSbatchTest.test_marks) ... ok
+test_repo_templates_pass (test_check_sbatch.CheckSbatchTest.test_repo_templates_pass) ... ok
+test_allowed (test_cursor_hooks.DenyHookTest.test_allowed) ... ok
+test_denied (test_cursor_hooks.DenyHookTest.test_denied) ... ok
+test_env_git_sha_wins (test_provenance.ProvenanceTest.test_env_git_sha_wins) ... ok
+test_filtered_env_drops_secrets_and_unrelated (test_provenance.ProvenanceTest.test_filtered_env_drops_secrets_and_unrelated) ... ok
+test_run_id_uses_slurm_job (test_provenance.ProvenanceTest.test_run_id_uses_slurm_job) ... ok
+test_start_run_writes_manifest (test_provenance.ProvenanceTest.test_start_run_writes_manifest) ... ok
+test_duplicate_ids_and_unknown_keys (test_sources.DocumentTest.test_duplicate_ids_and_unknown_keys) ... ok
+test_empty_repo_config_blocks_fetch (test_sources.DocumentTest.test_empty_repo_config_blocks_fetch) ... ok
+test_invalid_file_blocks_every_source (test_sources.DocumentTest.test_invalid_file_blocks_every_source) ... ok
+test_repo_sources_file_is_valid_and_empty (test_sources.DocumentTest.test_repo_sources_file_is_valid_and_empty) ... ok
+test_require_approved (test_sources.DocumentTest.test_require_approved) ... ok
+test_complete_entry_is_valid (test_sources.EntryTest.test_complete_entry_is_valid) ... ok
+test_every_required_field_is_enforced (test_sources.EntryTest.test_every_required_field_is_enforced) ... ok
+test_rejections (test_sources.EntryTest.test_rejections) ... ok
+test_check_sample (test_splits.SplitContractTest.test_check_sample) ... ok
+test_cutoff_rules (test_splits.SplitContractTest.test_cutoff_rules) ... ok
+test_pilot_is_not_scoreable (test_splits.SplitContractTest.test_pilot_is_not_scoreable) ... ok
+test_pilot_regions_do_not_overlap (test_splits.SplitContractTest.test_pilot_regions_do_not_overlap) ... ok
+test_shared_region_is_leakage (test_splits.SplitContractTest.test_shared_region_is_leakage) ... ok
+test_validation_overlap_is_leakage (test_splits.SplitContractTest.test_validation_overlap_is_leakage) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 0.015s
+
+OK
+.venv/bin/python scripts/check_sbatch.py
+ok slurm/00_pull_sif.sbatch
+ok slurm/00_smoke.sbatch
+ok slurm/01_download.sbatch
+ok slurm/02_train_1gpu.sbatch
+ok slurm/03_train_4gpu.sbatch
+.venv/bin/python scripts/validate_sources.py --config configs/sources.yaml
+No approved public sources. Not downloading.
+.venv/bin/python scripts/train.py --config configs/baseline.yaml --dry-run --output-root outputs
+dry-run
+run_dir: outputs/baseline-dry-run-local20261009T200236Z-104337
+config: configs/baseline.yaml sha256=dc84faa16f7c
+seed: 0
+git_sha: e5c65720de5ba462952033b9c33c63e440636531 dirty=False source=git
+machine: x86_64 python=3.11.17
+container: none
+task: coastal-change
+split: {'geographic': 'held-out-regions', 'temporal': 'held-out-future', 'status': 'provisional'}
+train regions: ('holdout-unset-train',)
+validation regions: ()
+test regions: ('holdout-unset-test',)
+temporal cutoff: unset
+backbones reserved for later: prithvi, clay, tessera, satmae, vjepa2_1
+.venv/bin/python scripts/evaluate.py --config configs/baseline.yaml
+config: configs/baseline.yaml
+git_sha: e5c65720de5ba462952033b9c33c63e440636531
+No scores: split status is provisional, cutoff is unset.
+metrics: pixel_iou, pixel_f1, boundary_f1, mean_iou, expected_calibration_error, uncertainty_error_correlation, per_region_variance
+earth2_context: ablation-only

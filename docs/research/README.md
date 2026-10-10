@@ -2,7 +2,7 @@
 
 The current research direction is the [clean-JEPA EO pilot](clean-jepa/README.md): selected design, exact formulation, implementation gates, sources and a standalone training diagram. This is a gated pretraining/representation study beside the OpenChange-UK benchmark, not a change to its held-out specification. No JEPA training is implemented or run yet.
 
-The older predictive-model/planning explorations below are retained for provenance. They are superseded as the next project direction, and their budgets/claims are not implementation instructions.
+The older predictive-model/planning explorations below are retained for provenance. They are superseded as the next project direction, and their budgets/claims are not implementation instructions. The wider AIRR programme planning (masterplan, execution plan, world-action-model bridge and their reviews) is archived in [airr-programme](airr-programme/).
 
 ## Earlier synthesis (superseded)
 - `deep-think.md` — v2 synthesis: the loss-vs-decisions question, the planner-reachable-error reformulation, substrate verdicts (TORAX/FreeGSNKE first, LIBERO pilot, The Well out), pilots P1–P3, kill criteria, risks, gate verdicts.

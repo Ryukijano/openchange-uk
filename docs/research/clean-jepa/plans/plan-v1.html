@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIRR masterplan — decision quality under shift</title>
+<style>
+:root{--ink:#1b2830;--muted:#59656c;--line:#d7dfdf;--paper:#fff;--wash:#f1f5f4;--accent:#125c58}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--wash);color:var(--ink);font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}
+.status{padding:13px 24px;background:#153d3c;color:white;font-size:13px;letter-spacing:.03em}
+.layout{display:grid;grid-template-columns:260px minmax(0,940px);max-width:1240px;margin:0 auto;gap:24px;padding:30px 20px 70px}
+nav{position:sticky;top:20px;align-self:start;font-size:13px;padding:15px 12px}nav p{font-weight:700;color:var(--accent);margin:0 0 12px}nav ul{margin:0;padding:0;list-style:none}nav li{margin-bottom:9px}nav a{color:var(--muted);text-decoration:none}nav a:hover,nav a:focus{color:var(--accent);text-decoration:underline}
+main{background:var(--paper);padding:40px 46px;border:1px solid var(--line);border-radius:8px;min-width:0}
+h1{font-size:34px;line-height:1.2;margin:0 0 22px;letter-spacing:-.035em}h2{font-size:25px;line-height:1.3;margin:45px 0 15px;padding-top:12px;border-top:2px solid var(--line);scroll-margin-top:22px}h3{font-size:19px;margin:27px 0 12px;line-height:1.4}p{margin:14px 0}a{color:var(--accent);overflow-wrap:anywhere}blockquote{margin:23px 0;padding:3px 20px;border-left:4px solid var(--accent);background:#edf5f2;font-size:18px}
+table{border-collapse:collapse;display:block;overflow-x:auto;width:100%;margin:22px 0;font-size:13px;line-height:1.55}th,td{text-align:left;vertical-align:top;padding:11px 12px;border:1px solid var(--line);min-width:100px}th{background:#e9f0ee;font-weight:650}td:first-child{min-width:125px}tr:nth-child(even) td{background:#f8faf9}
+ul,ol{padding-left:23px}li{margin:7px 0}code{font-size:.9em;background:#eef1f1;padding:2px 4px;border-radius:3px}strong{font-weight:680}.footer{margin-top:40px;border-top:1px solid var(--line);padding-top:18px;font-size:13px;color:var(--muted)}
+@media(max-width:920px){.layout{display:block;padding:14px 12px 40px}nav{position:static;padding:12px 5px 18px}nav ul{columns:2}nav li{break-inside:avoid}main{padding:25px 23px}h1{font-size:29px}}
+@media(max-width:520px){nav ul{columns:1}main{padding:22px 17px}h1{font-size:26px}h2{font-size:22px}body{font-size:15px}}
+@media print{body{background:white;font-size:11pt}.status,nav{display:none}.layout{display:block;padding:0}main{border:0;padding:0}h2{break-after:avoid}h3{break-after:avoid}table{display:table;font-size:9pt}th,td{min-width:0;padding:6px}a{color:inherit}}
+</style></head><body>
+<header class="status">RESEARCH-DESIGN DRAFT · 9 OCT 2026 · NO EXPERIMENTS AUTHORISED OR RUN</header>
+<div class="layout"><nav aria-label="Contents"><p>AIRR masterplan</p><ul><li><a href="#1-what-lejepa-claims-that-nobody-has-tested-at-scale">1. What LeJEPA claims that nobody has tested at scale</a></li><li><a href="#2-where-the-massive-open-data-is">2. Where the massive open data is</a></li><li><a href="#3-three-translation-angles-with-closest-prior-work">3. Three &quot;translation&quot; angles, with closest prior work</a></li><li><a href="#4-the-paper-i-would-write">4. The paper I would write</a></li><li><a href="#5-budget-shape-to-be-priced-by-a-pilot">5. Budget shape, to be priced by a pilot</a></li><li><a href="#6-what-this-does-to-the-earlier-plans">6. What this does to the earlier plans</a></li><li><a href="#7-open-questions-before-any-compute">7. Open questions before any compute</a></li><li><a href="#8-first-week-local-no-cluster">8. First week, local, no cluster</a></li></ul></nav>
+<main><h1 id="scaling-a-clean-jepa-what-to-train-on-what-to-claim">Scaling a clean JEPA: what to train on, what to claim</h1>
+<p>Date: 2026-10-09. Status: proposal for discussion, no experiment run. &quot;Clean JEPA&quot; below means the LeJEPA family: a single encoder, a predictive/invariance loss plus SIGReg, no EMA teacher, no stop-gradient, no schedulers (<a href="https://arxiv.org/abs/2511.08544">LeJEPA, arXiv:2511.08544</a>; <a href="https://arxiv.org/abs/2608.27395">LeVJEPA for video, 27 Aug 2026</a>; <a href="https://arxiv.org/abs/2605.26379">identifiability theory, arXiv:2605.26379</a>).</p>
+<h2 id="1-what-lejepa-claims-that-nobody-has-tested-at-scale">1. What LeJEPA claims that nobody has tested at scale</h2>
+<table>
+<thead>
+<tr>
+  <th>LeJEPA claim</th>
+  <th>Evidence in the papers</th>
+  <th>Open at scale?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Training loss tracks downstream quality, so models can be selected without labels</td>
+  <td>One plot, ImageNet-1k, ViT-B</td>
+  <td>Yes. The only large controlled EO scaling study (<a href="https://arxiv.org/abs/2607.03949">TESSERA v2, 395 runs on 1,024 GH200, Barlow Twins</a>) found the opposite for its loss: Pearson r below 0.2</td>
+</tr>
+<tr>
+  <td>In-domain clean SSL beats transfer from frontier models (DINOv2/v3)</td>
+  <td>Galaxy10, a 17k-image dataset</td>
+  <td>Yes. Never tested on a domain with tens of millions of samples and a strong in-domain frontier baseline</td>
+</tr>
+<tr>
+  <td>Stable without heuristics up to 1.8B</td>
+  <td>ImageNet</td>
+  <td>Partly. No data-scaling or compute-optimal fit exists for any LeJEPA model</td>
+</tr>
+<tr>
+  <td>Gaussian latents are linearly identifiable, which enables planning</td>
+  <td>Theory plus toy and small control tasks</td>
+  <td>Yes for any real domain</td>
+</tr>
+<tr>
+  <td>LeVJEPA: cost is governed by tokens seen, 95% token dropping works</td>
+  <td>Kinetics/SSv2-style video</td>
+  <td>Yes outside natural video</td>
+</tr>
+</tbody>
+</table>
+<p>The robot-video version of a JEPA scaling law is taken: <a href="https://arxiv.org/abs/2610.10515">RoboJEPA (7 Oct 2026)</a> fits compute laws from 22M to 8B on 23 public datasets with V-JEPA 2.1 features. Molecules and weather are covered by JEPA-Anything (<a href="https://arxiv.org/abs/2609.20800">arXiv:2609.20800</a>) and by existing weather scaling laws. Astronomy already has <a href="https://arxiv.org/abs/2405.14930">AstroPT</a> scaling 1M to 2.1B on 8.6M DESI stamps.</p>
+<h2 id="2-where-the-massive-open-data-is">2. Where the massive open data is</h2>
+<table>
+<thead>
+<tr>
+  <th>Domain</th>
+  <th>Dataset</th>
+  <th>Size</th>
+  <th>Licence</th>
+  <th>Who already scaled on it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Earth observation, all Sentinel sensors</td>
+  <td><a href="https://huggingface.co/datasets/wangyi111/Copernicus-Pretrain">Copernicus-Pretrain</a></td>
+  <td>18.7M aligned images, 8 modalities (S1 SAR, S2 optical, S3, four S5P gases, DEM), ~310k 0.25 degree grids aligned to ERA5, 20.7 TB</td>
+  <td>Copernicus legal notice: free, full and open; reproduction, distribution and adaptation allowed with attribution (<a href="https://cds.climate.copernicus.eu/licences/ec-sentinel">text</a>)</td>
+  <td>Copernicus-FM (ICCV 2025), MAE-style; no JEPA, no scaling law</td>
+</tr>
+<tr>
+  <td>Earth observation, S2 + S1 + DEM on one grid</td>
+  <td><a href="https://github.com/ESA-PhiLab/Major-TOM">Major TOM</a> Core-S2L2A 23 TB, Core-S1RTC 16 TB, Core-DEM 1 TB</td>
+  <td>2.2M S2 patches of 1068x1068 at 10 m</td>
+  <td>Copernicus data, redistributed by ESA</td>
+  <td>PhilEO scaling study (44M to 300M, 0.5 to 23 TB, <a href="https://arxiv.org/abs/2506.14765">arXiv:2506.14765</a>); supervised-style, no JEPA</td>
+</tr>
+<tr>
+  <td>Earth observation, analysis-ready multi-season</td>
+  <td><a href="https://huggingface.co/datasets/embed2scale/SSL4EO-S12-v1.1">SSL4EO-S12 v1.1</a></td>
+  <td>246k locations x 4 seasons, S1+S2 aligned, 2.26 TB, Zarr</td>
+  <td>CC-BY-4.0</td>
+  <td>Many MAE/DINO baselines; small by today's standards</td>
+</tr>
+<tr>
+  <td>Robot video</td>
+  <td>OXE, DROID (CC-BY 4.0); <a href="https://huggingface.co/datasets/agibot-world/AgiBotWorld2026">AgiBot World 2026</a> 13.6 TB</td>
+  <td>10k+ hours</td>
+  <td>AgiBot is CC-BY-NC-SA</td>
+  <td>RoboJEPA, OpenWAM, InternW0</td>
+</tr>
+<tr>
+  <td>Molecules</td>
+  <td><a href="https://fair-chem.github.io/omol25/">OMol25</a></td>
+  <td>100M+ DFT calculations</td>
+  <td>CC-BY-4.0, gated download</td>
+  <td>Meta UMA; JEPA-Anything for MD</td>
+</tr>
+<tr>
+  <td>Astronomy</td>
+  <td>DESI Legacy DR8 stamps</td>
+  <td>8.6M</td>
+  <td>Open</td>
+  <td>AstroPT scaling laws</td>
+</tr>
+</tbody>
+</table>
+<p>Earth observation is the only domain on this list with (a) tens of terabytes of licence-clean, redistributable data, (b) several aligned sensors so &quot;translation&quot; has a literal meaning, (c) no JEPA scaling study, (d) a direct point of comparison on the loss-vs-downstream question (TESSERA v2), and (e) a fit to the u6xn award if it names OpenChange-UK. It is also where the field admits it cannot rank models: the 152-paper audit <a href="https://arxiv.org/abs/2605.12678">No One Knows the State of the Art in GFMs</a> found 46 cross-paper disagreements of 10+ points and 39% of papers releasing no weights. A controlled, fully released study is a contribution in itself there.</p>
+<h2 id="3-three-translation-angles-with-closest-prior-work">3. Three &quot;translation&quot; angles, with closest prior work</h2>
+<p><strong>T1. Cross-sensor latent translation.</strong> Train one clean JEPA where the context is one sensor and the target embedding is another (S1 SAR to S2 optical, S2 to S3, S2 to S5P gases), on Copernicus-Pretrain. Measure translation error and downstream value as a function of model size, data and compute. Closest prior: <a href="https://openaccess.thecvf.com/content/WACV2026/html/Choudhury_X-JEPA_A_Novel_Joint_Learning_Cross-Modal_Predictive_Alignment_Framework_for_WACV_2026_paper.html">X-JEPA (WACV 2026)</a> and <a href="https://arxiv.org/abs/2606.00706">CR-JEPA</a>, both small and retrieval-only; <a href="https://openaccess.thecvf.com/content/ICCV2025/html/Jakubik_TerraMind_Large-Scale_Generative_Multimodality_for_Earth_Observation_ICCV_2025_paper.html">TerraMind (ICCV 2025)</a> and <a href="https://arxiv.org/html/2609.37496">GeoSET (Sep 2026)</a>, which translate in pixel/token space and score with FID. Nobody has asked whether latent translation gets predictably better with scale, or whether a SAR-conditioned latent reaches the downstream accuracy of a native optical latent (the cloud-cover question that matters for UK coasts).</p>
+<p><strong>T2. Temporal translation, the EO world model.</strong> LeVJEPA on satellite image time series: predict the embedding of the next acquisition from past acquisitions, no generation. Closest prior: <a href="https://arxiv.org/html/2603.13943v1">Sat-JEPA-Diff (Mar 2026)</a>, which predicts AlphaEarth embeddings to steer a diffusion decoder, and <a href="https://arxiv.org/abs/2603.14941v1">RS-WorldModel</a>, a text-guided generative model. Neither is a scaling study and neither is heuristics-free.</p>
+<p><strong>T3. Geographic and temporal transfer.</strong> Pretrain globally, score on held-out UK coastal regions and future dates. That is exactly the OpenChange-UK benchmark, so the harness, splits and leakage rules already exist.</p>
+<p>If &quot;translation&quot; meant something else (sim to real, or carrying scaling laws from one domain to another), say so and this section changes.</p>
+<h2 id="4-the-paper-i-would-write">4. The paper I would write</h2>
+<p>Working title: <em>Does a heuristics-free JEPA scale cleanly on Earth observation? Loss, translation and transfer from 20M to 1B parameters.</em></p>
+<p>Pre-registered questions, each with a yes/no answer that is publishable either way:</p>
+<ol>
+<li><strong>Loss as a selector.</strong> Across a controlled grid (4 to 5 model sizes, 3 data scales, matched token budgets), does the LeJEPA training loss predict downstream performance on a standard EO suite (PANGAEA or Copernicus-Bench plus the OpenChange-UK tasks)? Report Pearson and rank correlation per task against TESSERA v2's r below 0.2 for Barlow Twins. If the answer is yes, label-free model selection in EO becomes real; if no, LeJEPA's central practical claim fails outside ImageNet.</li>
+<li><strong>In-domain versus frontier transfer.</strong> Does a clean JEPA trained on Copernicus data beat frozen <a href="https://huggingface.co/facebook/dinov3-vit7b16-pretrain-sat493m">DINOv3 SAT-493M</a> (7B, 493M Maxar images at 0.6 m, RGB) on 10 m multispectral tasks, and at what compute? The honest caveat is resolution and band mismatch; it has to be reported as such, not hidden.</li>
+<li><strong>Translation scaling.</strong> Do cross-sensor (T1) and temporal (T2) prediction errors follow the same compute exponents as same-sensor prediction, and does the gap between SAR-conditioned and optical-native downstream accuracy close with scale?</li>
+<li><strong>Held-out prediction.</strong> Fit the laws on the small grid, write down the predicted loss and downstream score of the largest model before training it, then train it once.</li>
+</ol>
+<p>Controls that reviewers will demand: same tokenizer and patching across sizes; same evaluation protocol for every run (the GFM audit is the reason); released weights, manifests and logs for every grid point; geographic and temporal splits fixed before any pretraining; a supervised baseline and a MAE baseline at one size so the comparison is not JEPA-only.</p>
+<p>Natural venues: ICLR or NeurIPS for the scaling and label-free selection claims; CVPR EarthVision or an ISPRS/IEEE TGRS journal for the EO-specific results. Both audiences read the GFM audit.</p>
+<h2 id="5-budget-shape-to-be-priced-by-a-pilot">5. Budget shape, to be priced by a pilot</h2>
+<p>TESSERA v2 used 1,024 GH200 for 395 runs. We cannot match that, and should not try. A grid of 4 sizes (20M, 90M, 300M, 1B) x 3 data scales x 1 seed, plus 3 seeds at the two smallest sizes, with LeVJEPA-style 90 to 95% token dropping, is the shape. The real numbers come from a one-GPU pilot: tokens per second per size, tokens needed to saturate, and the data pipeline rate from Zarr or parquet on Isambard storage. Until that pilot runs, no GPU-hour figure in this document should be quoted. Known constraints: 32-GPU project cap, 24 h job cap, 30 min template cap in the repo until a human raises it, scratch quota unknown.</p>
+<h2 id="6-what-this-does-to-the-earlier-plans">6. What this does to the earlier plans</h2>
+<p>This replaces the TORAX decision-versus-compute study as the lead candidate for project B. The TORAX work stays as a documented fallback. It reuses OpenChange-UK's splits, source gating and Slurm guardrails, so projects A and B merge into one repository and one award question rather than two.</p>
+<h2 id="7-open-questions-before-any-compute">7. Open questions before any compute</h2>
+<ol>
+<li>Confirm the meaning of &quot;translation&quot; (section 3).</li>
+<li>u6xn award wording: does it name Earth observation? If so this plan is in scope; the TORAX plan was not obviously so.</li>
+<li>Which downstream suite is the primary endpoint: PANGAEA, Copernicus-Bench, or the OpenChange-UK tasks? One has to be primary before pretraining starts.</li>
+<li>Storage: Copernicus-Pretrain is 20.7 TB and Major TOM S2+S1 is 39 TB. Which subset fits the scratch quota, and is downloading it to Isambard allowed under the source-approval rule?</li>
+</ol>
+<h2 id="8-first-week-local-no-cluster">8. First week, local, no cluster</h2>
+<ul>
+<li>Pull a 500-sample Copernicus-Pretrain slice through the existing source-approval path; check alignment of S1/S2/S3/S5P per grid cell.</li>
+<li>Implement LeJEPA (SIGReg plus invariance loss) and the cross-sensor variant on a 20M ViT; verify loss goes down and does not collapse on CPU.</li>
+<li>Wire PANGAEA or Copernicus-Bench evaluation to the OpenChange-UK harness; run it on one public checkpoint to confirm the protocol reproduces published numbers within a point.</li>
+<li>Write the pre-registration draft for questions 1 to 4.</li>
+</ul>
+<footer class="footer">Prepared for Gyanateet Dutta. Budget ceilings and timeline are proposals, not measured runs. No cluster access or dataset downloads were performed.</footer></main></div>
+</body></html>
