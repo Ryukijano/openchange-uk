@@ -5,6 +5,12 @@ small reviewed changes. Do not download anything, fit EO models, submit cluster 
 or claim readiness merely because this document exists. Decisions are in [README](README.md),
 loss definitions in [FORMULATION](FORMULATION.md), source records in [SOURCES](SOURCES.md).
 
+P1 synthetic code is now implemented; its commands and limitations are recorded in
+[the evidence guide](../../../reports/jepa/p1/README.md). Real-data ingestion is not
+implemented. [DATA_PLAN.md](DATA_PLAN.md) records the current provider formats and
+the metadata-first next handoff. The layouts below remain design contracts, not a
+claim that every listed module or real-data entry point exists.
+
 ## 0. Verify the existing repository first
 
 From the repository root, use the documented development environment:
@@ -16,8 +22,9 @@ make check PYTHON=.venv/bin/python
 ```
 
 If an existing environment is present, use it rather than recreating it. Current checks
-cover the benchmark scaffolding, not JEPA. No PyTorch runtime is required for these
-checks. The source list is deliberately empty. Before any future fetch:
+cover the benchmark scaffolding and torch-free JEPA config/dry-run checks. Optional
+torch-dependent tests skip without torch; run `make test-jepa` in the separate CPU
+environment for those tests. The source list is deliberately empty. Before any future fetch:
 
 ```bash
 make validate-sources PYTHON=.venv/bin/python
@@ -29,7 +36,7 @@ each source access. Use `pilot` for the initial slice, not an invented split enu
 The existing schema does not independently enforce acquisition revisions or geography:
 those are additional manifest/curation requirements. Do not weaken the source gate.
 
-## 1. Implementation layout and interfaces (all proposed)
+## 1. Implementation layout and interfaces (real-data interfaces proposed)
 
 Keep `scripts/train.py`, the current benchmark config and dry-run semantics intact.
 Add training functionality behind an explicit new command only when it exists and

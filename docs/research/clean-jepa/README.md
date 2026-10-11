@@ -11,6 +11,8 @@ Updating these documents is not approval to fetch a dataset or use an allocation
 1. This page: decisions and boundaries.
 2. [Formulation](FORMULATION.md): notation, exact losses, gradients and distributed convention.
 3. [Implementation runbook](IMPLEMENTATION.md): work packages, interfaces, tests and exit gates.
+   [Data audit and next handoff](DATA_PLAN.md): pinned releases, access granularity,
+   metadata-first curation and real-loader gates.
 4. [Sources and corrections](SOURCES.md): primary links, provenance and errors in earlier reviews.
 5. [Training diagram](training-diagram.html): self-contained HTML with selectable nodes.
    GitHub shows HTML source; download the file and open it locally to use the diagram.

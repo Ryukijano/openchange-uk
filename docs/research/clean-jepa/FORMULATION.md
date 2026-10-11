@@ -79,7 +79,9 @@ Globals feel the extra pull from locals (factor 3 at 2 globals/6 locals). The su
 embedding gradients over all views is zero: common translation is unconstrained.
 **This does not mean the global centre stays fixed**: the sum over global gradients
 alone can be nonzero. Parameter sharing further couples updates between samples.
-Invariance alone allows all views of all samples to collapse.
+Invariance alone allows all views of all samples to collapse. At exactly z=0,
+EP has nonzero value but zero gradient (all sine terms vanish). SIGReg therefore
+does not supply a gradient to escape exact collapse.
 
 ## 3. Per-view Epps–Pulley SIGReg
 
@@ -115,8 +117,10 @@ The leading N_S cancels the 1/N_S derivative of the empirical CF. Systematic
 per-sample EP gradients can be O(1) in N_S, while invariance gradients are O(1/N).
 This is why batch size changes effective regularization; lambda is not batch-free.
 
-For i.i.d. standard-normal samples, the **expected** statistic is about 1.0525 under
-this quadrature. Over the entire real line the expectation is
+For i.i.d. standard-normal samples, the **expected** statistic is exactly
+sum_l q_l(1-exp(-t_l^2)) = 1.052464154799 under this quadrature, for any N_S>=1,
+M and unit directions. Stratified weights must sum to one for the same expectation.
+Over the entire real line the expectation is
 sqrt(2*pi)-sqrt(2*pi/3)≈1.0594. This is a sampling null expectation, **not a positive
 lower bound or guaranteed training plateau**. Optimized finite batches can go below it;
 repeated locations violate the i.i.d. assumption. Population mismatch contributes
