@@ -1,0 +1,8 @@
+stage,cap_NHR,normal_rate_GPU_hour_equivalent,cumulative_NHR_including_stage,status
+systems_smoke,100,400,100,proposed_not_authorised
+feasibility,400,1600,500,proposed_not_authorised
+exploration,1500,6000,2000,proposed_not_authorised
+confirmatory_training,7000,28000,9000,proposed_not_authorised
+closed_loop_evaluation,4000,16000,13000,proposed_not_authorised
+robustness_held_out,2000,8000,15000,proposed_not_authorised
+reserve,5000,20000,20000,conditional_not_authorised

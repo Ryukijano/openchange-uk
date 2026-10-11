@@ -1,3 +1,20 @@
-# Public sources may be added only after the licence is checked.
-# An empty list means the download job must not fetch anything.
+# Data sources that a future fetcher may use. An empty list means nothing is fetched.
+# scripts/validate_sources.py and src/openchange/sources.py enforce this schema.
+# Add an entry only after a human has checked the licence and the split spec.
+#
+# approved_public_sources:
+#   - id: example-sentinel2-l2a          # lowercase, digits, hyphens
+#     url: https://...                    # https only; the exact endpoint or collection
+#     license: "..."                      # licence name as published by the provider
+#     license_url: https://...
+#     attribution: "..."                  # exact attribution text to ship with outputs
+#     expected_size_bytes: 123456789      # upper estimate for what will be fetched
+#     use: imagery                        # imagery | labels | auxiliary
+#     splits: [pilot]                     # any of pilot, train, validation, test
+#     redistribution: manifest-only       # allowed | manifest-only
+#     approved_by: "name"
+#     approved_on: 2026-01-31
+#     notes: "optional"
+#     checksum_sha256: "optional, 64 hex"
+#     manifest: "optional, path to a manifest file"
 approved_public_sources: []

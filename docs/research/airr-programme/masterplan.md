@@ -1,0 +1,272 @@
+# AIRR masterplan: when does more model or planning compute buy better decisions?
+
+**Research-design draft · 9 October 2026 · no experiments authorised or run**
+
+Scope: the AIRR/Isambard project only. No SfM/CVPR project, surgical world model, SUMO, chatbot or from-scratch video foundation model. The existing OpenChange-UK benchmark remains unchanged. This document proposes a new study; it does not change the allocation's approved project.
+
+## 1. Recommendation
+
+Build **one controlled study of decision quality versus training and planning compute under physical shift**, backed by a resettable simulator. Make the useful output a measured allocation frontier and a held-out prediction, not another chart showing that larger models have lower loss.
+
+**Provisional first-paper question:**
+
+> At a fixed resource budget, how does controlled physical shift change the choice between a better-trained world model and more planning with a cheaper model? Can costed, separately calibrated plan-error measurements choose that allocation better than ordinary validation loss?
+
+Use a bounded simulator-verification arm only if the pilot demonstrates a useful speed/quality trade-off. It is not a third full research programme. “Agentic” here means action selection, model-based search and budget allocation—not an LLM talking about actions.
+
+**Provisional substrate:** TORAX/Gym-TORAX, because action-conditioned physical simulation and a fusion research context are documented. **Do not commit the main allocation to it yet.** The shipped demonstration may have too little control headroom, and a 1D surrogate may saturate with a small model. If it fails, allow one explicitly approved switch to a resettable robot simulator; do not build both papers concurrently.
+
+The first deliverable is a **topic-and-feasibility verdict**, not a large trained checkpoint. A 20,000-NHR allocation is a ceiling, not a spending target.
+
+### What is fixed now and what is not
+
+| Fix now | Decide after the first gate |
+|---|---|
+| One domain for paper one; simulator truth; matched costs; immutable tests; three independent training seeds at fitted points | Domain permission, simulator, valid parameter ranges and tasks |
+| Training and planning are separate axes; no universal-loss claim | Model family, useful size range and data volume |
+| One primary confirmatory outcome; held-out-scale or held-out-budget test | Effect-size margin, powered sample size and exact grid |
+| Logs, manifests and a small local reproduction are part of the paper | Multi-node scale, actual spend and submission date |
+
+## 2. What the new literature changes
+
+These are **author-reported results**, not experiments we reproduced. Most recent items below are preprints; search coverage is targeted, not an exhaustive systematic review.
+
+| Closest work | What it already covers | Remaining candidate difference—not a novelty guarantee |
+|---|---|---|
+| [Pearce et al., ICML 2025](https://proceedings.mlr.press/v267/pearce25a.html) | World-model/imitation pretraining scaling; tokenizer/task/architecture change coefficients | Decisions under graded physical shift at measured planning budgets |
+| [World-In-World, ICLR 2026](https://iclr.cc/virtual/2026/oral/10006575) | Closed-loop world-model evaluation, data scaling and inference-compute gains | Closed-loop evaluation is already established; our candidate difference is a prospective allocation test under controlled physical shift |
+| [RoboJEPA, 7 Oct 2026](https://arxiv.org/abs/2610.10515) | Frozen V-JEPA predictors, 22M–8B; imagination-error scaling; loss extrapolation; planning gains; held-out scenes | A controlled physical-shift dose–response, a planner-budget sweep, and pre-registered extrapolation of decision quality rather than loss |
+| [SufficientPlan, 6 Oct 2026](https://arxiv.org/abs/2610.08350) | Paired closed-loop certification of sufficient planning budgets at fixed model/task; encoder caching | Training-scale × planning-budget frontier and recalibration under physical shift |
+| [Jones, 2021](https://arxiv.org/abs/2104.03113) | Train/test-compute trade-off in AlphaZero/Hex | Learned-model error and physical shift; “training trades off with planning” alone is not new |
+| [τ0-VLA, Aug 2026](https://arxiv.org/abs/2608.16885) | World-model-guided, compute-scalable subtask search; reported gains in shifted settings | “Search helps under shift” alone is not new; training-scale comparison and a costed, pre-registered allocation test are needed |
+| [Control Theory of Predictability](https://arxiv.org/abs/2607.10362) and [Operator-on-F](https://arxiv.org/abs/2607.04464) | Plan-relevant discrepancies can matter more than ordinary prediction error | Whether a diagnostic improves an unseen allocation decision, with its measurement cost included |
+| [The Objective Is the Bottleneck](https://arxiv.org/abs/2608.12959) | A planner objective can dominate model quality | Diagnose the objective before attributing effects to model scale |
+| [Physics-aware ACOPF scaling](https://arxiv.org/abs/2609.16282) | Surrogate size/data/objective scaling and physical feasibility | Closed-loop decisions with separately measured search effort and shift; “physics-aware scaling” alone is taken |
+| [PETS](https://arxiv.org/abs/1805.12114), [MOReL](https://arxiv.org/abs/2005.05951), [revisited offline model-based RL](https://arxiv.org/abs/2110.04135) | Ensembles, pessimism, model exploitation and uncertainty calibration | A costed allocation test, not claiming discovery of model exploitation |
+| [Cafe-MPC](https://arxiv.org/abs/2403.03995) and [varying-fidelity planning](https://www.cs.cmu.edu/~reids/papers/PlanRob2015.pdf) | Fidelity/computation trade-offs and high-fidelity checks | Verification is an established idea; any new claim must be about the measured scale/shift interaction or a demonstrably better allocation rule |
+
+**Important correction:** RoboJEPA's compute-ordered loss/planning correlation does not refute papers showing that average loss can fail at fixed capability or on planner-selected states. Those are different comparisons. Do not predeclare that loss always works or never works. Compare both after controlling for compute, data and planner budget.
+
+RoboJEPA's paper advertises released code/checkpoints, but the verifier's GitHub API and LICENSE requests returned 404, and my later repository fetch returned no content. **Public checkpoint access and licence remain unverified.** Paper CC-BY does not establish checkpoint licensing. Do not make the project depend on those weights yet.
+
+### Three-gate topic verdict
+
+| Gate | Current verdict | What resolves it |
+|---|---|---|
+| Open? | **Unconfirmed** | Direct full-text comparison of these nearest papers plus scientific-control/multi-fidelity literature. Targeted ICML/ICLR/NeurIPS proceedings searches were made; a complete last-two-years venue audit remains a pre-registration task. Do not claim “nobody has done this.” |
+| Contribution? | **Plausible, conditional** | A measured frontier that changes a real allocation choice, or a well-powered failure boundary with a causal explanation—not just two correlated metrics |
+| Feasible? | **Unconfirmed** | Scope, expiry, remaining NHR, simulator snapshots, headroom, throughput and evaluation cost |
+
+**Verdict: PIVOT from the broad scaling headline; GO only for an approved deciding pilot. Main training is NO-GO until all three gates pass.**
+
+Candidate contribution sentence: “Unlike compute-scaling studies with a fixed planner or budget studies with a fixed model, we measure the decision-quality frontier under graded physical shift and test whether calibrated plan-error measurements improve a held-out compute-allocation choice.” This is a proposed claim, not a finding.
+
+## 3. Substrate choice: one domain, not an omnibus benchmark
+
+| Candidate | Why it is useful | Deciding weakness | Role |
+|---|---|---|---|
+| **TORAX + Gym-TORAX** | JAX tokamak transport; configurable actions/observations/objectives; documented fusion context; TORAX core Apache-2.0 and wrapper MIT | Reduced 1D physics; possible small-model saturation; deterministic snapshot/replay and Grace throughput not tested | Conditional first pilot |
+| **FreeGSNKE** | UKAEA/Fusion Computing Lab free-boundary evolution/equilibrium work | Different physics/API/task; not a drop-in TORAX validation; extra engineering and licence review | Later same-domain extension, not first-paper dependency |
+| **RoboCasa or another action-labelled robot simulator** | Counterfactual simulation and direct comparison with recent world-model work; RoboCasa lists MIT code and CC-BY-4.0 assets/data | Crowded; reset must include controller state; aarch64/headless rendering untested; real-video-to-sim mismatch | One possible fallback, requiring scope approval |
+| **HydroGym/controlled fluid simulation** | Physically meaningful control and parameter shifts | Solver/dependency/Arm feasibility and runtime untested; another full integration | Reserve candidate if reviewed, not simultaneous build |
+| **The Well/passive scientific trajectories** | Useful prediction benchmarks and possible auxiliary data | Dataset does not by itself provide the action-conditioned resettable control system; MHD is not automatically tokamak control | Not the primary decision substrate |
+| **DROID/OXE/public video** | Representation/pretraining data; DROID's paper states CC-BY-4.0 | Recorded actions do not provide counterfactual outcomes; OXE constituent licences require individual checks | Optional later transfer, not the truth source |
+
+For TORAX, “ground truth” means the **reference simulator under stated numerical tolerances**, not a real plasma. TORAX already uses transport surrogates such as QLKNN; a new learned surrogate can therefore approximate a simulation that itself contains learned approximations. Do not advertise experimental fusion control or physical safety certification.
+
+The Gym-TORAX demonstration includes PI/open-loop baselines. The independent pessimist identified a modest gap in its published demonstration returns; that is a warning, not our measured headroom result. We must not invent a harder reward merely to make large models necessary. Any new target/constraint must have a scientific rationale and validated simulator configuration.
+
+TORAX's Apache licence explicitly excludes `data/third_party`. Geometry files, transport weights and all redistributed assets need separate checks. Wrapper licence is not permission for every dependency or dataset. References: [TORAX](https://github.com/google-deepmind/torax), [TORAX licence](https://raw.githubusercontent.com/google-deepmind/torax/main/LICENSE), [Gym-TORAX paper](https://arxiv.org/abs/2510.11283), [wrapper licence](https://raw.githubusercontent.com/antoine-mouchamps/gymtorax/main/LICENSE), [FreeGSNKE](https://github.com/FusionComputingLab/freegsnke), [RoboCasa](https://github.com/robocasa/robocasa), [DROID](https://arxiv.org/abs/2403.12945).
+
+## 4. The minimum experiment that decides whether this is worth doing
+
+No training is needed to answer the first three questions. **Run this only after approval.**
+
+1. **Can we replay counterfactuals?** Snapshot a simulator state, apply two action sequences independently, restore, and reproduce each result within declared tolerance. Include solver carry, controller state, time-dependent inputs and RNG state. A Gym `reset()` method alone does not prove arbitrary-state replay. Measure warm-up/JIT separately from steady-state speed.
+2. **Is the task meaningful and unsaturated?** Compare a tuned PI/PID/scripted controller, prescribed open-loop control, and a strong simulator-based planner. Use physically justified tracking/control costs and constraints. The simulator planner is a reference, not a proven global optimum.
+3. **Is a surrogate economically necessary?** Compare direct simulator planning at the same hardware-cost/latency budget. If it already matches the useful frontier, do not train a large surrogate to replace it.
+4. **Does model fidelity affect decisions?** Train a linear/low-rank baseline and two small nonlinear predictors on the same approved pilot data, with independent seeds. Use at most 500 hand-checked pilot samples under the existing project rule; expanding data requires a separate approval. Measure candidate ranking and closed-loop performance, not only rollout MSE.
+5. **Can we afford the confirmatory test?** Measure data-generation rate, cold/warm reset cost, rollout cost, model throughput, planning latency, checkpoint size and NHR per evaluation episode. Price the complete grid and sample-size requirement before releasing more compute.
+
+Do not choose a 1B predictor before establishing that a much smaller model leaves decision-relevant error. If a simple model saturates, the honest finding is saturation; choose a smaller paper or stop this substrate.
+
+## 5. Protocol: separate what gets predicted from what gets chosen
+
+### 5.1 Data and shifts
+
+Start with full-state, action-conditioned dynamics. Partial observability, video encoders and real-data transfer are later studies, not hidden additions to the first pilot.
+
+Split whole trajectories and physical configurations—not neighbouring time steps. Freeze train, calibration, exploratory-shift and confirmatory-test manifests. Keep an unseen physical regime and an unseen compute/model point out of all fitting. Use nested training-data subsets with hashed membership; no test-informed subsampling.
+
+Candidate TORAX shifts are validated changes in transport parameters, actuator effectiveness or initial-profile regimes. Exact axes and ranges need a domain reviewer or established validated configurations. Treat numerical mesh/solver changes separately from physical shift. Test severity within a physically meaningful domain; do not call unsupported simulator extrapolation physics.
+
+State explicitly what the planner knows: current observation, targets, known configuration and action limits. Privileged parameters may be used by a labelled simulator reference, not silently by the learned planner. A solver check using the exact hidden test dynamics is an **oracle-assisted simulator experiment**; an approximate/misspecified verifier is a different condition and gives no physical safety guarantee.
+
+### 5.2 Common quantities
+
+- **Ordinary loss:** physical-state prediction error, per-channel scaling fixed from training data. If using latent features, keep the encoder/normalisation fixed; raw losses from independently scaled representations are not comparable.
+- **Probe-bank diagnostic:** at separately sampled calibration states, evaluate a shared bank of feasible action sequences with model and simulator. Measure plan-cost discrepancy, action ranking error and selected-plan optimism. Bank construction and query cap are fixed before fitting; account for all reference calls.
+- **Primary decision metric:** closed-loop cost excess relative to the declared simulator-planner reference on paired episodes. This is *reference-relative regret*, not regret against a known optimum. It can be negative if the evaluated controller beats that imperfect reference.
+- **Shared-bank regret:** cost of the model-selected sequence minus the lowest simulator cost in that bank. This is nonnegative finite-bank regret; it is not global optimality.
+- **Secondary:** target tracking, physical constraint violations, action effort, success rate, latency, query counts, calibration and tail outcomes. Do not bury constraint violations in a tunable reward.
+
+Keep offline probe measurements separate from final evaluation episodes. The diagnostic must not choose a model using the same episodes on which its selection is scored.
+
+### 5.3 Controls and a deliberately fractional design
+
+Main scaling arms use **one shared, interpretable physical task cost**, one dynamics family, three planner budgets, and fixed seed lists. Compare with a linear/low-rank predictor, a tuned simple controller, an uncertainty-aware/PETS-style baseline and direct simulator planning.
+
+The model family is chosen using calibration data and then frozen. A small MLP, temporal transformer or neural operator is an option—not an instruction to train all three at scale. Hyperparameter tuning has a fixed budget and is reported. Model size, data and training FLOPs are not interchangeable: use multiple parameter/data allocations at a common training cap before claiming a compute-efficient frontier.
+
+Run the objective diagnostic only at representative points. If a learned reward or latent cost is actually introduced, use a small 2×2 of {learned dynamics, simulator dynamics} × {learned/latent cost, physical cost}. Do not add a fictitious latent-cost arm to a study that never uses one.
+
+Use shared proposal banks first to isolate dynamics/ranking errors; then adaptive CEM/MPPI to measure full closed-loop interaction. Make proposal policy, planning horizon and iteration count explicit. A longer horizon is not just more compute: it changes the decision problem.
+
+**Illustrative exploration, not an approved grid:** 2 capacities × 3 training caps × 3 seeds = 18 runs, at fixed data; a small nested-data check at one capacity separates data limitation. Cheap losses/diagnostics for all checkpoints; full planning only at preselected representative points. Main grid size and FLOP span are chosen from measured costs and identifiable effects, not from the unused award balance.
+
+### 5.4 Hypotheses and analysis
+
+| ID / status | Falsifiable prediction | Metric and falsifier |
+|---|---|---|
+| H1 — confirmatory candidate | If we calibrate an allocation rule with plan-error probes on small scales, then under predeclared physical shift it will choose a model/planner allocation with lower reference-relative regret than a validation-loss rule at the same total allowance | **Primary: paired regret difference between the two rules** on held-out episodes and at least one held-out compute/model point. Equal fitting complexity and information except the diagnostic. No benefit beyond the predeclared practical margin falsifies it |
+| H2 — exploratory | If search queries increasingly unreliable model regions, then additional search will sometimes lower imagined cost while failing to improve or worsening realised cost, with this effect changing across scale/shift | Imagined-versus-realised cost gap and quality–budget curve; no such divergence in tested regimes falsifies the proposed failure pattern. Model exploitation itself is not a new contribution |
+| H3 — optional, exploratory | If simulator queries are sufficiently costly and candidate ranking is imperfect, then a capped top-k verification arm will improve the cost–quality frontier over equal-cost extra unverified search | Regret/latency/query frontier against direct solver planning and fixed-query baselines; domination by either baseline falsifies the efficiency claim. No universal 50× ratio is assumed |
+
+H1 is **not yet pre-registered**: its practical margin, concrete budget menus and minimum sample size need the pilot's noise/cost estimates and domain judgement. Freeze those before confirmatory results. Optional arms cannot silently become the primary outcome after H1 fails.
+
+For the allocation comparison, give both selectors the same candidate menu, known budget information and fitted-data allowance. Compare against simple compute-only and uncertainty rules as well as loss. Include both in-distribution validation loss and a strong shifted predictive-loss baseline computed from the **same calibration reference-query data** as the plan diagnostic. Otherwise a diagnostic could win merely because it had privileged information. Include the diagnostic's amortised calibration expense.
+
+Make allocation prospective: fit selectors on the small-run calibration grid, record their chosen recipe/budget and predictions for a predeclared held-out menu, then train/evaluate that menu. Do not expose held-out-model diagnostic measurements or held-out-regime outcomes before the prediction is sealed. A separate “recalibrate after seeing the new shift” study is an adaptation experiment, not the same extrapolation claim. All menu training is part of actual research spend; per-choice lifetime cost is a separately labelled counterfactual deployment calculation, not an assertion that the other training runs were free.
+
+Use paired episode differences and hierarchical uncertainty across independent training seeds, initial conditions and physical regimes. Checkpoints from one training run are correlated observations, not extra independent seeds. Correlation after controlling for scale is secondary; it is not the contribution.
+
+Determine sample size from the primary effect/noise and budget. Fifty successful episodes do not establish a rare-failure claim: with zero failures the rough 95% upper bound is 3/50 ≈ 6%. If required precision is unaffordable, reduce conditions or the strength of the claim—not the sample size while retaining the claim.
+
+For scaling fits compare a floor-plus-power model, alternatives with curvature, a saturation/no-trend model and a simple empirical baseline. Do not force a law onto a narrow range. Reserve an unseen compute/model point and one physical regime for predictive scoring; report interval coverage as well as error. A null or non-monotonic result stays in the record.
+
+## 6. Cost model: what actually consumes the award
+
+Use NHR as the spending ledger, model FLOPs as the scientific training axis, and measured latency/query counts for deployment. Simulator CPU work and model GPU work must not be added as if one floating-point operation cost the same everywhere.
+
+For workload deployment over M episodes:
+
+**lifetime cost = data generation + preprocessing + training + diagnostic calibration + M × (planning + verification).**
+
+Show results for predeclared deployment counts or leave the amortisation point as a plotted parameter. Do not pick M after seeing which method wins. Also report per-episode latency independently of offline cost.
+
+Normal Isambard-AI node fraction is determined by the **maximum GPU, CPU or memory fraction**, subject to a minimum quarter-node allocation. GPU-hours/4 is valid only when GPU share dominates the request. Asking for all 288 CPUs while using one GPU can still bill a whole node. A CPU simulator on Isambard-AI is not free just because its GPU is idle. [Accounting](https://docs.isambard.ac.uk/user-documentation/guides/accounting/)
+
+### Provisional hard ceilings — not forecasts or permission to spend
+
+| Stage | NHR cap | Normal-rate GPU-hour equivalent* | Release gate |
+|---|---:|---:|---|
+| Systems / smoke | 100 | 400 | Scope and approved sources; human-reviewed small smoke |
+| Feasibility | 400 | 1,600 | Replay works and measurable task/economic headroom |
+| Exploratory grid | 1,500 | 6,000 | Valid shifts; small-model signal; priced evaluation |
+| Confirmatory training | 7,000 | 28,000 | Topic audit passed; signed protocol; powered feasible grid |
+| Closed-loop evaluation | 4,000 | 16,000 | Representative cells fixed in advance; costs within cap |
+| Robustness / held-out prediction | 2,000 | 8,000 | Frozen extrapolation and final test manifests |
+| Reserve | 5,000 | 20,000 | Specific evidence-backed release: seeds, failures or one justified extension |
+| **Total** | **20,000** | **80,000** | **Ceiling based on the user's stated NHR award** |
+
+*Four GPU-hour equivalents per NHR at the normal rate, not necessarily four hours of useful GPU work. Simulator work, startup, communication and retries are inside the caps. The interactive reservation currently bills at 1.5×; do not use it for bulk training/evaluation. See [scheduling](https://docs.isambard.ac.uk/user-documentation/information/job-scheduling/).
+
+The caps are **incremental and cumulative**: first two stages total at most 500 NHR; exploration brings the total to 2,000. Unused allocations are not automatically rolled into a larger model. Before each release, write a workload bill of materials: task, repetitions, measured seconds, resource fraction, storage, contingency, completion date and ledger balance.
+
+Evaluation forecast = cells × episodes × measured cost per episode, including reference replays. Review it before training. If it exceeds 4,000 NHR, cut an axis, choose representative points or narrow the paper before any expensive grid starts. Failed jobs remain billable and remain logged.
+
+## 7. The allocation and calendar are still unresolved
+
+**Verified policy:** Isambard uses NHR; a normal one-GPU hour is 0.25 NHR. The published UKRI Rapid route says **20,000 GPU-hours in three months**, and Gateway says **up to 10,000 GPU-hours in three months**. Neither tells us what u6xn was actually awarded. [Rapid](https://www.ukri.org/opportunity/isambard-ai-and-dawn-airr-supercomputers-rapid-access-route/) · [Gateway](https://www.ukri.org/opportunity/access-to-isambard-ai-and-dawn-airr-supercomputers-gateway-route/)
+
+Ask the human to check the portal/award, not to provide credentials:
+
+- Awarded and **remaining** balance, with unit; permitted project description and any domain-change approval.
+- Project end date, award route and any monthly/quarterly usage requirements.
+- Project-specific GPU/QoS limits and actual free project/scratch space.
+- Human capacity to review/submit/recover jobs and an external archive destination.
+
+The default Phase-2 scheduling table currently lists **32 GPUs per project**. For a normal-rate, GPU-proportional workload, 32 GPUs correspond to eight node equivalents: 20,000 NHR of such work requires at least 20,000/8 = 2,500 running hours ≈ **104 days**, even with continuous allocation and zero queue delay. Equivalently, 80,000 useful GPU-hours / 32 GPUs gives that bound. It is not a scheduling forecast or a universal bound on billed expenditure: CPU/memory-heavy requests and premium reservations can consume NHR faster without delivering those GPU-hours. With three months left, the full nominal GPU-hour equivalent is not a realistic default assumption under that limit.
+
+If the portal shows 20,000 **GPU-hours**, the budget is 5,000 NHR, not 20,000. Redesign as a smaller pilot/follow-up; do not pretend the fourfold reduction leaves the same study intact. Likewise, a short expiry calls for a narrower claim or pre-existing licensed checkpoints, not a rushed full grid.
+
+Review reserve release by **end date minus eight weeks**, or sooner if the measured queue/workload needs it. This is a planning checkpoint, not an instruction to spend unused hours. Only release for justified evidence; otherwise narrow, seek the allocator's advice or accept unused capacity. Some awards require even usage; gates must be scheduled to respect the actual terms.
+
+Access Terms restrict use to the granted Research Project. A fusion priority in government strategy is not permission to repurpose an Earth-observation allocation. [Terms](https://docs.isambard.ac.uk/policies/access_terms/)
+
+## 8. Isambard and local reproduction
+
+### Hardware/software
+
+Official docs describe four GH200 superchips and 288 Arm CPU cores per node. CPU/GPU memory descriptions differ across overview/accounting/example pages; log the actual allocated device and available memory instead of sizing jobs from one generic figure. [Overview](https://docs.isambard.ac.uk/user-documentation/information/how-isambard-works/)
+
+Use the repo-required documented NGC PyTorch image with Apptainer `--nv`, record its immutable digest, and separately validate JAX/TORAX dependencies on aarch64. Do not reuse an x86 environment or assume a JAX/solver package works because PyTorch does. Current official docs list GPU JAX and Arm PyTorch support, but this exact combined simulator stack is **not tested**. [ML packages](https://docs.isambard.ac.uk/user-documentation/applications/ML-packages/)
+
+No agent cluster access: the human reviews and runs jobs. No SSH/Clifton credentials requested. No dataset download inside jobs. Sources must pass existing approval checks; every submission has an explicit config and git commit.
+
+The repo currently permits only **one node and at most 30 minutes** per Slurm template. Official workq's 24-hour maximum does not override that local rule. Longer or multi-node templates require explicit human permission; do not silently relax the checker.
+
+### Multi-node: an efficiency test, not a prestige goal
+
+After that permission, compare 1, 4, 8 and 16 GPUs; consider 32 only if measured useful and within the project's total limit. Preserve effective batch, data order semantics and optimisation schedule; report strong-scaling speedup and NHR per fixed scientific workload, including communication and restart costs.
+
+Use documented `brics/nccl`/AWS-OFI Slingshot integration and the documented multi-node Apptainer setup. Benchmark the real job, not only all-reduce. Prefer independent single-GPU jobs for small fits/seeds. Use distributed training for memory or a demonstrable walltime benefit, and record its resource penalty. [Modules](https://docs.isambard.ac.uk/user-documentation/guides/modules/) · [Distributed tutorial](https://docs.isambard.ac.uk/user-documentation/tutorials/distributed-training/) · [Multi-node containers](https://docs.isambard.ac.uk/user-documentation/guides/containers/apptainer-multi-node/)
+
+### Storage and artefacts
+
+Published Phase-2 quotas: HOME 100 GiB, SCRATCH 5 TiB/1M files, PROJECT 200 TiB/50M files, compute LOCALDIR 48 GiB. These are defaults, not u6xn's remaining free space. Scratch-retention wording differs between narrative and tables; archive conservatively and confirm the applicable policy. No system storage is backed up. [Storage](https://docs.isambard.ac.uk/user-documentation/information/system-storage/)
+
+Use trajectory shards rather than millions of frame files. Record generation cost, bytes/trajectory, checksums, simulator version, configuration ranges and licences. Keep local fast storage disposable. Back up manifests, protocols, logs, selected checkpoints and final tables outside the cluster well before expiry.
+
+### Local reproduction contract
+
+Deliver CPU tests for snapshots/replay, data splits, costs, budget accounting and a tiny dynamics fit. Provide a single-GPU configuration for a small-scale training/closed-loop experiment and released results/checkpoints to regenerate the full paper's tables. Hardware-specific locks may differ between a local x86 PC and Arm cluster, while configs and evaluation semantics remain shared.
+
+Do not promise that a local PC reruns the largest training sweep. Local reproduction means the method/evaluator and a meaningful small experiment run locally; full-scale reproduction requires comparable resources. Ask for local GPU/RAM/storage before promising a runtime.
+
+Every run record includes config path/hash, git SHA, seed, environment/container digest, data/split IDs, simulator version/tolerances, start/end/exit status, NHR/resource request, metrics and checkpoint path. Log failures and restarts; resume optimiser/RNG state and test resumed-versus-continuous equivalence. Results tables are generated from raw records, not hand-edited.
+
+## 9. Milestone ladder and stops
+
+| Milestone | Evidence required | Stop or narrow when |
+|---|---|---|
+| M0 — permission/topic | Award facts; exact contribution audit; accepted source list | Scope not approved; a direct paper already covers the proposed contribution |
+| M1 — smoke | Local replay/metric tests; human Arm/container/device log; ≤500-sample hand check | Snapshot cannot restore full state; dependency cannot run; numerical validity unresolved |
+| M2 — deciding pilot | Controller/reference/model headroom, variance, timing and storage report | Simple control/direct simulation already dominates; small models saturate; scale effects cannot be resolved affordably |
+| M3 — exploration | Fractional grid; candidate diagnostic; effect/noise and power estimate; priced main plan | No informative decision variation across justified regimes; required main evaluation exceeds the cap |
+| M4 — protocol freeze | One primary endpoint, practical margin, immutable manifests, sample size, fit candidates and held-out predictions | Topic/contribution/feasibility gates still unresolved |
+| M5 — main + evaluation | Matched-compute curves; seeded paired outcomes; cost ledger; failure records | Cost/queue forecast threatens expiry—cut scope by dated amendment, not test results |
+| M6 — robustness/paper | Held-out prediction scored once; uncertainty; mechanism analysis; public-reproduction audit | Claims are stronger than tested regimes, precision or available evidence |
+
+Indicative solo-research horizon: **roughly 16–24 weeks after permission**, with the first 1–2 weeks aimed at a feasibility verdict. This is not a forecast until expiry, hardware throughput and human job-review capacity are known. Agents can reduce implementation overhead; they cannot replace domain validity, queue time or independent seeds.
+
+**Scientific nulls are not hidden stops.** A pre-registered H1 failure is reported. “Loss predicts decisions as well as the diagnostic” rejects the extra diagnostic, not the data. Kill the expensive programme only if the remaining result lacks enough novelty, headroom or statistical resolution—not because the preferred hypothesis lost.
+
+## 10. What a paper would actually contain
+
+1. A transparent task/shift specification with meaningful controls and replay validation.
+2. Cost–quality curves for model/training scale and planner effort, with seeded uncertainty.
+3. An objective/reference diagnostic explaining what limits improvement.
+4. The pre-registered held-out allocation test, including failure and extrapolation error.
+5. One bounded verification/uncertainty comparison if justified, not another huge factorial.
+6. Full hardware/data-generation/calibration/evaluation costs and local reproduction.
+
+A general method/empirical-insight paper could fit ICML, NeurIPS or ICLR; a domain-specific finding may better fit a scientific-computing/control venue. That is topic fit, not an acceptance prediction. Select the venue after the contribution and evidence are real. A single domain can support a strong paper if tasks/regimes vary meaningfully and the mechanism is explained; cross-domain universality cannot be claimed from it.
+
+Do not claim “first world-model scaling law”, “first train/test-compute trade-off”, “safe fusion control”, a physics foundation model, or a new verification idea simply by combining established components.
+
+## 11. UK fit without letting the call choose the science
+
+The government's [AI for Science Strategy](https://www.gov.uk/government/publications/ai-for-science-strategy/ai-for-science-strategy) names engineering biology, fusion energy, materials science, medical research and quantum technologies. A genuine tokamak-simulation control study has a concrete domain link; renaming generic PDE error “fusion” does not.
+
+The [UKRI enabling-AI-adoption call](https://www.ukri.org/opportunity/ukri-enabling-ai-adoption-across-science-and-engineering/) excludes primarily AI-method advances without a clear domain link. That restriction belongs to that call; it is **not a universal rule barring robotics or methods work from AIRR**. Award terms and route must be checked independently. Do not discard the user's research interests merely to match a named priority.
+
+## 12. Next authorised step
+
+**Before any pilot:** review this draft, confirm the u6xn award/remaining NHR/expiry/scope, and approve the substrate and small local pilot. Keep the main allocation closed. Do not download data, submit jobs, change Slurm policies, commit or publish this proposal by implication.
+
+Then build only the replay/headroom/cost harness. Its report decides whether TORAX is a credible first-paper substrate. If not, document the failure and make one explicit fallback decision. That is how we use the hours well: discover the reasons not to scale before scaling.
+
+### Research provenance
+
+Primary paper/policy/code pages were searched/read on 9 October 2026; additional independent [verifier](https://app.devin.ai/sessions/bb466435067d4c0aab18733f64b27a66) and [pessimist](https://app.devin.ai/sessions/1ca0ad416d3245209837aa6b400089f2) checks were incorporated. Full-text details of RoboJEPA/SufficientPlan came from those checks; main-source abstracts and official policies were also checked directly. Targeted proceedings/web searches are not a certified systematic review. No cited empirical paper has been reproduced here, and no simulator, training or cluster benchmark was run. Budget/timeline/model-grid numbers are proposals or arithmetic, not observed throughput. Earlier brainstorm and budget notes are historical and superseded where this document disagrees.

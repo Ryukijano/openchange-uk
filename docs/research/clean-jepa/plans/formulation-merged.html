@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIRR masterplan — decision quality under shift</title>
+<style>
+:root{--ink:#1b2830;--muted:#59656c;--line:#d7dfdf;--paper:#fff;--wash:#f1f5f4;--accent:#125c58}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--wash);color:var(--ink);font:16px/1.65 system-ui,-apple-system,Segoe UI,sans-serif}
+.status{padding:13px 24px;background:#153d3c;color:white;font-size:13px;letter-spacing:.03em}
+.layout{display:grid;grid-template-columns:260px minmax(0,940px);max-width:1240px;margin:0 auto;gap:24px;padding:30px 20px 70px}
+nav{position:sticky;top:20px;align-self:start;font-size:13px;padding:15px 12px}nav p{font-weight:700;color:var(--accent);margin:0 0 12px}nav ul{margin:0;padding:0;list-style:none}nav li{margin-bottom:9px}nav a{color:var(--muted);text-decoration:none}nav a:hover,nav a:focus{color:var(--accent);text-decoration:underline}
+main{background:var(--paper);padding:40px 46px;border:1px solid var(--line);border-radius:8px;min-width:0}
+h1{font-size:34px;line-height:1.2;margin:0 0 22px;letter-spacing:-.035em}h2{font-size:25px;line-height:1.3;margin:45px 0 15px;padding-top:12px;border-top:2px solid var(--line);scroll-margin-top:22px}h3{font-size:19px;margin:27px 0 12px;line-height:1.4}p{margin:14px 0}a{color:var(--accent);overflow-wrap:anywhere}blockquote{margin:23px 0;padding:3px 20px;border-left:4px solid var(--accent);background:#edf5f2;font-size:18px}
+table{border-collapse:collapse;display:block;overflow-x:auto;width:100%;margin:22px 0;font-size:13px;line-height:1.55}th,td{text-align:left;vertical-align:top;padding:11px 12px;border:1px solid var(--line);min-width:100px}th{background:#e9f0ee;font-weight:650}td:first-child{min-width:125px}tr:nth-child(even) td{background:#f8faf9}
+ul,ol{padding-left:23px}li{margin:7px 0}code{font-size:.9em;background:#eef1f1;padding:2px 4px;border-radius:3px}strong{font-weight:680}.footer{margin-top:40px;border-top:1px solid var(--line);padding-top:18px;font-size:13px;color:var(--muted)}
+@media(max-width:920px){.layout{display:block;padding:14px 12px 40px}nav{position:static;padding:12px 5px 18px}nav ul{columns:2}nav li{break-inside:avoid}main{padding:25px 23px}h1{font-size:29px}}
+@media(max-width:520px){nav ul{columns:1}main{padding:22px 17px}h1{font-size:26px}h2{font-size:22px}body{font-size:15px}}
+@media print{body{background:white;font-size:11pt}.status,nav{display:none}.layout{display:block;padding:0}main{border:0;padding:0}h2{break-after:avoid}h3{break-after:avoid}table{display:table;font-size:9pt}th,td{min-width:0;padding:6px}a{color:inherit}}
+</style></head><body>
+<header class="status">RESEARCH-DESIGN DRAFT · 9 OCT 2026 · NO EXPERIMENTS AUTHORISED OR RUN</header>
+<div class="layout"><nav aria-label="Contents"><p>AIRR masterplan</p><ul><li><a href="#0-what-the-three-reviews-changed">0. What the three reviews changed</a></li><li><a href="#1-model">1. Model</a></li><li><a href="#2-views-and-loss">2. Views and loss</a></li><li><a href="#3-per-modality-and-availability-stratified-sigreg-m">3. Per-modality and availability-stratified SIGReg (M)</a></li><li><a href="#4-what-identifiability-predicts-and-how-q2-tests-it">4. What identifiability predicts and how Q2 tests it</a></li><li><a href="#5-q1-and-q3-in-numbers-details-subagent-eval-1-3">5. Q1 and Q3 in numbers (details: subagent-eval §1, §3)</a></li><li><a href="#6-data-bytes-i-o-details-subagent-data">6. Data, bytes, I/O (details: subagent-data)</a></li><li><a href="#7-compute-estimate-35-mfu-unverified-gh200-per-gpu-peak-taken-as-h100">7. Compute (estimate; 35% MFU UNVERIFIED; GH200 per-GPU peak taken as H100)</a></li><li><a href="#8-harness">8. Harness</a></li><li><a href="#9-local-pilots-revised">9. Local pilots, revised</a></li><li><a href="#10-open-items">10. Open items</a></li></ul></nav>
+<main><h1 id="clean-jepa-on-earth-observation-the-formulation">Clean JEPA on Earth observation: the formulation</h1>
+<p>Date: 2026-10-10. Merges three independent desk reviews run today (formulation: subagent-formulation.md; data and I/O: subagent-data.md; evaluation, statistics and pricing: subagent-eval.md) plus two checks run on this VM (checks/sigreg_gap_result.md). Supersedes the formulation parts of CLEAN_JEPA_PLAN_V2.md; the three questions (Q1 label-free selection, Q2 version compatibility, Q3 sensor substitution) and the method row M stand, but most of the numbers under them change. Labels: <strong>fact</strong> (primary source linked), <strong>measured</strong> (run today, file named), <strong>estimate</strong> (arithmetic, assumptions stated), <strong>hypothesis</strong> (what we test), <strong>UNVERIFIED</strong>.</p>
+<h2 id="0-what-the-three-reviews-changed">0. What the three reviews changed</h2>
+<table>
+<thead>
+<tr>
+  <th>#</th>
+  <th>Plan v2 said</th>
+  <th>Now</th>
+  <th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1</td>
+  <td>&quot;prediction term&quot;, predictor implied</td>
+  <td>LeJEPA has no predictor and no masking: every view regresses onto the mean of the global-view embeddings (per-coordinate MSE). LeVJEPA keeps that and adds 95% uniform token dropping.</td>
+  <td><a href="https://github.com/galilai-group/lejepa/blob/main/MINIMAL.md">MINIMAL.md</a>, <a href="https://github.com/MLO-lab/LeVJEPA">LeVJEPA code</a></td>
+</tr>
+<tr>
+  <td>2</td>
+  <td>Grid costs ~1,800 node-hours</td>
+  <td>At 2B/8B/32B processed tokens the LeJEPA S/B/L grid is ~390 GPU-h, the 1B run ~157 GPU-h; everything incl. matched BT/MAE grids and eval ~3,000 GPU-h = ~750 node-hours (estimate, 35% MFU UNVERIFIED). Eval is the largest line.</td>
+  <td>subagent-eval §6</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td>Allocation 15,000-20,000 NHR</td>
+  <td>OpenChange-UK's own SPEC.md and PLAN.md say u6xn is <strong>5,000 NHR through 15 Mar 2027</strong> (AI Builder, BriCS). 750 NHR is 15% of that. Still confirm against the award letter.</td>
+  <td>repos/openchange-uk/reports/SPEC.md:35, docs/PLAN.md:110</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td>Q1 at 3-4 shared cells</td>
+  <td>Underpowered: n=12 gives a 95% CI on rho=0.7 of [0.14, 0.92]. Need ~60 independent runs per objective per population; do it with 64-config Sobol sweeps at ViT-S/2B tokens (~0.2 GPU-h each).</td>
+  <td>subagent-eval §1c</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td>LeJEPA 0.85 vs TESSERA v2 -0.18 is a contradiction</td>
+  <td>They measured different things: within-setting hyperparameter sweeps + in-domain linear probe vs 395 runs across four orders of compute vs a 15-task composite. Our design must produce both populations (W within-setting, A across-scale) for each objective; only then is there a contrast.</td>
+  <td>subagent-eval §1a</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td>Q2 Procrustes on backbone features</td>
+  <td>The identifiability theorem constrains the projector output h, not the backbone f that probes read. Test the theorem on h; test the applied question on f with linear/CCA maps; report both. Fix projector dim K across sizes.</td>
+  <td>subagent-formulation §5</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td>&quot;pooled SIGReg can be satisfied by a modality-gapped mixture&quot; (asserted)</td>
+  <td>Measured twice. Two strata 1.8 sigma apart along one coordinate: pooled 0.99+-0.13 vs Gaussian 1.03+-0.20 (N=512, K=16); stratified 7.8 (K=16), 2.6 (K=64), +0.4 over floor at K=256. My check: in K=128 a perfect two-point gap along one coordinate scores 1.05 vs 1.07 Gaussian. Detection decays ~1/K.</td>
+  <td>checks/sigreg_gap_result.md; subagent-formulation §4.2</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td>&quot;&gt;=256 per stratum because gradient bounds scale 1/N&quot;</td>
+  <td>Wrong reason (that bound is stability). Right reason is sensitivity: the N-scaled statistic has a floor ~1.05 and a deviation D is visible only when N*D clears the batch-to-batch spread. &gt;=256 stands on the measured numbers.</td>
+  <td>subagent-formulation §4</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td>&quot;1B samples per run&quot;, 1.1 MB/sample, &lt;150 KB target</td>
+  <td>Copernicus-Pretrain S1/S2 = 1,067,267 patches in 247,723 cells, ~4 timestamps, 4.22M S2 images. 1B samples = ~240 passes. Measured bytes: 1.81 MB per S2 image (int16, 13 bands, 264^2), 0.56 MB per S1 image; packed+lossless ~0.6 MB per S1+S2 pair. 150 KB needs 128^2 tiles.</td>
+  <td><a href="https://huggingface.co/datasets/wangyi111/Copernicus-Pretrain">HF card</a>; subagent-data §0, §3</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td>S1/S2 &quot;aligned&quot;, temporal pairs from Copernicus-Pretrain</td>
+  <td>Aligned in space only: S2 dates are the same season in 4 years (2019-2022), S1 dates differ (2021). Time-matched S1&lt;-&gt;S2 pairs (median gap 3 days) and temporal positives come from SSL4EO-S12 v1.1.</td>
+  <td>subagent-data §0.5</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td>&quot;real S2 cloud masks&quot; for M</td>
+  <td>Corpora are cloud-filtered at collection: 80.9% of SSL4EO-S12 S2 images have cloud fraction 0, 5.2% &gt; 0.3; Copernicus-Pretrain ships no per-pixel masks. Strata m2 (partly cloudy) and m3 (S1 only) must be synthesised (drop S2; paste a real mask from another sample).</td>
+  <td>subagent-data §6</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td>&quot;DEM and ERA5 alignment already in Copernicus-Pretrain&quot;</td>
+  <td>DEM yes; ERA5 is only the grid definition; no WorldCover. Theory-test variables need external joins.</td>
+  <td>HF card; subagent-eval §0.6</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td>Kill rule vs frozen Copernicus-FM on Sen1Floods11</td>
+  <td>Sen1Floods11 is not in Copernicus-Bench; Copernicus-FM reports no number there. Rerun the baseline ourselves.</td>
+  <td>subagent-eval §0.7</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td>3 sizes + 1B</td>
+  <td>Cannot fit a 3-parameter saturating law. Add ViT-Ti (5.7M) and a ~40M width; WSD cooldowns give 5+ token budgets per run.</td>
+  <td>subagent-eval §0.10, <a href="https://arxiv.org/abs/2405.18392">Hägele et al.</a></td>
+</tr>
+<tr>
+  <td>15</td>
+  <td>lambda-rescaled loss as a proxy</td>
+  <td>Only differs from raw loss if lambda varies across runs. lambda is a sweep axis in population W or the proxy is dropped. Also lambda's effective strength scales with batch N (SIGReg is multiplied by N); fix global batch across the grid and never compare loss totals across N.</td>
+  <td>subagent-eval §0.4; subagent-formulation §0.7</td>
+</tr>
+</tbody>
+</table>
+<h2 id="1-model">1. Model</h2>
+<p><strong>Input.</strong> Sentinel-1 GRD IW, VV+VH in dB, 10 m. Sentinel-2 L1C (Copernicus-Pretrain is TOA, 13 bands, 20/60 m bands resampled to 10 m) [fact, Copernicus-FM Table 1]. Store 12 S2 bands (drop B10 cirrus; B1/B9 optional) and 2 S1 bands as uint16 at native resolution; crop 264 -&gt; 256 at load. Per-band normalisation from the published SSL4EO/Copernicus-FM statistics (subagent-formulation §1.2 has the table and sources).</p>
+<p><strong>Tokenisation (option b).</strong> Per-sensor linear patch stems (S2: 12x16x16 -&gt; d; S1: 2x16x16 -&gt; d) into one ViT, with a learned modality embedding added to each token and shared 2-D position embeddings. 256 tokens per sensor per 256^2 crop; S1+S2 = 512 before dropping. The model accepts S1-only, S2-only or both at test time by construction. Rejected: one stacked 14-band stem (cannot take S1-only input without zero-filling), per-band hypernetwork stems as in Copernicus-FM (more flexible than needed, 13x tokens), per-band-group tokens (5x tokens for no byte saving). Tokenisation does not change bytes read; stored bands do.</p>
+<p><strong>Projector.</strong> MLP d -&gt; 2048 -&gt; 2048 -&gt; K with BatchNorm, as in MINIMAL. K is fixed across all sizes (needed for Q2 on h). Default K=128; the M ablation adds K=64 because stratified-SIGReg sensitivity decays with K (§3).</p>
+<p><strong>Sizes.</strong> ViT-Ti 5.7M, S 22M, ~40M (width 512, 12 layers), B 86M, L 303M; one pre-registered ViT-g-class 1B run. Patch 16, 256^2 crops.</p>
+<h2 id="2-views-and-loss">2. Views and loss</h2>
+<p><strong>Views.</strong> Global: 2 crops at 224 of the 256 tile (scale 0.4-1.0). Local: 6 crops at 96 (scale 0.05-0.4). Flips and 90-degree rotations (EO has no canonical orientation). S2 photometric: per-band gain +-5%. S1: no photometric jitter; optional +-1 dB offset per view as a calibration nuisance. Token dropping rho=0.9 on all views (LeVJEPA-style). Centre = mean of the two global embeddings.</p>
+<p>Arm A (shared encoder, S1&lt;-&gt;S2): globals are full observations (S1+S2 tokens); locals draw sensor in {S1-only, S2-only, both} with probability (0.4, 0.4, 0.2), then crop. All views regress onto the full-observation centre. Samples without clear S2 use the S1 global as target and fall in stratum m3.</p>
+<p>Temporal-positive row (ablation only): one extra global from another date, (t, t') sampled as an unordered pair with random role so p(z)=p(z') holds by construction (the stationarity assumption of <a href="https://arxiv.org/abs/2605.26379">2605.26379</a>). Expect it to hurt change detection: invariance across dates removes the change signal. No world-model claim; SIGReg's gradient w.r.t. transition weights is zero (<a href="https://arxiv.org/abs/2609.36227">2609.36227</a>).</p>
+<p><strong>Loss.</strong> For sample n, view v, z_{n,v} = g(f(x_{n,v})_cls) in R^K; mu_n = mean over global views.</p>
+<p>L_inv = mean_{n,v,k} (mu_{n,k} - z_{n,v,k})^2 (per-coordinate MSE, no normalisation) [fact, MINIMAL].</p>
+<p>SIGReg: draw M unit directions a_m (resampled each step, seeded by global step so DDP ranks agree). For view v and slice m, the empirical characteristic function phi(t) = (1/N) sum_n exp(i t a_m^T z_{n,v}); EP_{v,m} = N * sum_j w_j e^{-t_j^2/2} <a href="t_j">(Re phi - e^{-t_j^2/2})^2 + (Im phi)^2</a> with t_j = linspace(0,3,17), trapezoid weights (symmetric integration over [-3,3]); SIGReg = mean over (v,m). Under DDP the ECF is all-reduced so N is the global batch [fact, code]. Paper recommends 1024 slices, [-5,5]; code uses 256 and [0,3]; Table 1a shows &lt;0.5 points between them.</p>
+<p>L = (1 - lambda) L_inv + lambda SIGReg, lambda = 0.05 (paper; MINIMAL run uses 0.02; LeVJEPA uses inv + 0.02 SIGReg). P1 sweeps lambda in {0.02, 0.05, 0.1} at the 5M model. Pre-register the convention; log L_inv and the unscaled EP separately; keep global batch fixed across the grid.</p>
+<p>Other defaults to start from (sources in subagent-formulation §3): AdamW, lr warmup then cosine, wd 0.05, drop-path 0.1, bf16, batch 1024 global for S/B.</p>
+<h2 id="3-per-modality-and-availability-stratified-sigreg-m">3. Per-modality and availability-stratified SIGReg (M)</h2>
+<p>Strata per (location, timestamp), c = SEnSeI cloud+shadow fraction in the crop: m1 S2 clear (c &lt;= 0.01); m2 S2 partly cloudy, bins (0.01,0.1], (0.1,0.3], (0.3,0.7]; m3 S1 only (S2 absent or c &gt; 0.7); m4 both (c &lt;= 0.3 and S1 within +-7 days). Measured SSL4EO-S12 v1.1 frequencies: m1 ~83.6%, (0.01,0.1] 6.2%, (0.1,0.3] 5.0%, &gt;0.3 5.2%, S1 within 7 days 72.5%. m2 upper bins and m3 are therefore synthesised: drop S2 for a sampled fraction of pairs; paste real SEnSeI masks from other samples onto clear scenes. State this in the paper.</p>
+<p>SIGReg_strat = sum_m w_m SIGReg({z_{n,v} : m_n = m}), w_m = N_m / N, each stratum &gt;= 256 samples per step (loader guarantees it by stratified sampling with replacement for rare strata). What it enforces: z Gaussian conditional on m, hence z independent of m. What it does not enforce: alignment of strata with each other; that comes only from L_inv on paired views (S1-only local onto a full-observation centre). Failure mode to watch: strata align by rotation rather than overlap (SIGReg_strat passes, cross-stratum retrieval of the same scene fails). Diagnostics: linear probe for m and for c from frozen f and from h (target: chance); cross-stratum kNN retrieval of the same scene; per-stratum EP on held-out data.</p>
+<p>Sensitivity (measured): detection of a gap along a low-dimensional subspace decays ~1/K for both pooled and stratified SIGReg. Pre-registered variants: K=64, and an explicit stratum-mean term lambda_mu sum_m ||mean_m(z)||^2 on top of stratified SIGReg.</p>
+<p>Ablation (B/8B tokens, 3 seeds): no SIGReg / pooled / stratified / stratified without the paired-view invariance / stratified + mean term. Pass only if the m-probe falls to chance, downstream drop when S2 is removed at test time shrinks, clean-input scores stay within seed noise.</p>
+<p>Status of the theory link: the S1 and S2 views are different observation functions of the scene, which the identifiability theorem does not cover; &quot;per-modality SIGReg is what stationarity needs&quot; is a hypothesis motivated by the theorem, not implied by it.</p>
+<h2 id="4-what-identifiability-predicts-and-how-q2-tests-it">4. What identifiability predicts and how Q2 tests it</h2>
+<p>Theorem (<a href="https://arxiv.org/abs/2605.26379">2605.26379</a>, fact): with stationary additive-noise latent transitions, same observation function for both views, encoder output dim = latent dim, and alignment + Gaussian regularisation at the optimum, the encoder recovers the latents up to an orthogonal map; an approximate version degrades with the optimisation gap. Prediction for two independently trained clean JEPAs at the optimum: h_B = Q h_A, Q in O(K).</p>
+<p>Test (theory, on h): fit Q by orthogonal Procrustes (SVD of H_A^T H_B) on a calibration set of n_cal in {500, 1k, 5k, 20k} image embeddings (not pixels; a ViT/16 token covers 160 m); report normalised residual ||H_B - H_A Q||^2 / ||H_B||^2 against the general linear map and CCA, for seed pairs, size pairs, data-scale pairs, per objective. Predictions: LeJEPA residual &lt; BT, MAE; seed pairs &lt; data-scale pairs (Thm 3: error grows with the optimisation gap); residual floor (K - n)/K if K exceeds the true latent dim.</p>
+<p>Test (applied, on f): retained fraction r = acc(probe_A o M applied to f_B) / acc(probe_B native) with M in {orthogonal, linear, CCA}, linear and kNN probes, in-distribution and on OpenChange-UK. External pairs: GeoTessera v1.0 / v1.1 (dclimate, cambridge) / v2 (two betas), all 128-d, README says variants do not interoperate; BT-family only, so a baseline point, not a theory test. AlphaEarth has one public model version (64-d), so no pair.</p>
+<h2 id="5-q1-and-q3-in-numbers-details-subagent-eval-1-3">5. Q1 and Q3 in numbers (details: subagent-eval §1, §3)</h2>
+<p>Q1 populations. W (within-setting, the LeJEPA claim): ViT-S, 2B tokens, 10% data, 64 Sobol configurations per objective over lr (x10), wd (x10), lambda in [0.01, 0.2] (BT off-diagonal weight / MAE mask ratio for the baselines), number of local views, WSD cooldown length; 8 configurations x 3 seeds for seed noise; ~40 GPU-h for three objectives; repeat 24 configs at ViT-B/8B (~245 GPU-h). A (across-scale, the TESSERA claim): grid endpoints, 63 runs per objective. Unit of analysis = one independently trained run at its final checkpoint; intermediate checkpoints are not independent points. Percentile bootstrap, 10k resamples, cluster by configuration.</p>
+<p>Proxies: raw loss, lambda-rescaled loss (alpha fixed on a held-out set of runs), SIGReg term, invariance term, RankMe, LiDAR, alpha-ReQ (reference UNVERIFIED in detail), 1k-label linear probe. Targets per task family: classification, segmentation, change, regression; in-distribution and OpenChange-UK.</p>
+<p>Kill (pilot, population W at ViT-S): LeJEPA raw-loss Spearman upper CI bound &lt; 0.5 on all four ID families. Success: rho &gt;= 0.7 with lower bound &gt;= 0.5 on &gt;= 3 of 4 families at S and B; matched contrast rho_LeJEPA - rho_BT &gt;= 0.3 with CI excluding 0; OOD lower bound &gt;= 0.4 on families passed ID.</p>
+<p>Q3: Delta = score(S2 input) - score(S1 input) on Copernicus-Bench EuroSAT-S1/S2, BigEarthNet-S1/S2, DFC2020-S1/S2, reported against compute; S1-only on Flood-S1 and PANGAEA Sen1Floods11 (rerun the Copernicus-FM ViT-B baseline ourselves). Theory test: DEM (in corpus), plus externally joined WorldCover water/built-up and ERA5 soil moisture, vs NDVI and S5P NO2; pre-stated threshold on MLP-minus-linear probe R^2.</p>
+<h2 id="6-data-bytes-i-o-details-subagent-data">6. Data, bytes, I/O (details: subagent-data)</h2>
+<p>Corpus: Copernicus-Pretrain S1+S2 raw GeoTIFFs (CC-BY-4.0, 6.3-6.9 TB raw) as the location pool, plus SSL4EO-S12 v1.1 (CC-BY-4.0, time-matched S1/S2, SEnSeI masks) for paired and temporal views; Major TOM (CC-BY-SA) only as a labelled extra arm if the 100% point is data-limited. Copernicus-Pretrain already contains the 251k SSL4EO-S12 locations: dedupe. Unique-location key: Major TOM 10 km grid cell of the patch centre; ERA5 0.25-degree cell for strata and holdout; footprints with IoU &gt; 0.25 in one cell merge. Data axis counts cells, stratified by latitude band so 1% is not Europe-only. Known bias: city-centred sampling (10k largest cities, sigma 50 km) and cloud filtering at collection.</p>
+<p>Bytes: uint16 native-resolution packing gives 0.77 MB per 10-band S2 image raw, ~0.38 MB after lossless compression; ~0.6 MB per S1+S2 pair. Tile size, not token dropping, sets bytes: read once, make all V views from one read. Shards: WebDataset tar, ~2 GB each, ~1,250 shards for 4.2M pairs, uint16 npy + json per sample, wids for indexed access; $PROJECTDIR 200 TiB / 50M inodes, scratch 5 TiB, node $LOCALDIR 48 GiB tmpfs [fact, Isambard docs]. Lustre bandwidth per node UNVERIFIED; measure in the first 1-GPU smoke. Compute-side demand at 0.35 MFU: ViT-S needs ~50k samples/s/node, B ~13k, L ~3.7k, so S and B are I/O-bound at any plausible bandwidth unless each read feeds many views; L and 1B are not.</p>
+<p>Leakage: remove all UK land plus a buffer (49-61.5 N, 11 W-2.5 E) from pretraining, because OpenChange-UK regions and cutoff are still unset; date cutoff depends on corpus (Copernicus-Pretrain S2 runs to early 2023; SSL4EO-S12 ends 2021-10). EuroSAT, LCZ and BigEarthNet are city-centred in Europe like the corpus: spatial overlap is high and must be reported, with an exclusion of benchmark footprints from the pretraining set where footprints are published.</p>
+<h2 id="7-compute-estimate-35-mfu-unverified-gh200-per-gpu-peak-taken-as-h100">7. Compute (estimate; 35% MFU UNVERIFIED; GH200 per-GPU peak taken as H100)</h2>
+<p>FLOPs/token ~ 6N + 12 L T d. At T~102 visible tokens per view: S 1.4e8, B 5.3e8, L 1.9e9, 1B 6.1e9. GPU-hours per (data scale, seed), three budgets as separate runs: S 4.6, B 17.7, L 62.4; 1B at 32B tokens 157. LeJEPA grid ~390 GPU-h; BT/MAE at 4 shared cells ~65 each (full matched grids ~390 each); population W sweeps ~285; arms A/A'/S1/S2/M ~70; eval ~1.2-1.7 GPU-h per checkpoint on the fast suite, Copernicus-FM-matched UPerNet protocol only on ~30 final checkpoints. Total ~3,000 GPU-h = ~750 NHR; +50% contingency ~1,100 NHR = 22% of 5,000 NHR. Add the two extra sizes and WSD cooldowns before pricing again.</p>
+<h2 id="8-harness">8. Harness</h2>
+<p>Copernicus-Bench {EuroSAT-S1/S2, BigEarthNet-S1/S2, DFC2020-S1/S2, Flood-S1, LCZ-S2, Cloud-S2} + PANGAEA {Sen1Floods11, BioMassters} + OpenChange-UK frozen splits; GEO-Bench m-bigearthnet and m-so2sat as an external comparability row only. Frozen linear + kNN (with and without L2 normalisation) + one fixed light decoder; fine-tuning on a subset. Reporting checklist from the GFM audit (<a href="https://arxiv.org/abs/2605.12678">2605.12678</a>).</p>
+<h2 id="9-local-pilots-revised">9. Local pilots, revised</h2>
+<table>
+<thead>
+<tr>
+  <th>#</th>
+  <th>Pilot</th>
+  <th>Decides</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>P0</td>
+  <td>SSL4EO-S12 v1.1 500-location slice via the OpenChange-UK source gate: UK box removed, 84 per latitude band, &gt;=25% with cloud &gt; 0.05, 2.64 km dedupe, selection by sha256(sample_id) at a pinned revision; record revision, licence, checksums</td>
+  <td>data legality, formats, mask availability</td>
+</tr>
+<tr>
+  <td>P1</td>
+  <td>LeJEPA from MINIMAL with per-sensor stems, pooled / per-modality / stratified SIGReg, K in {64, 128, 256}; 5M and 20M models; 3 seeds; lambda sweep; log L_inv, EP per stratum, effective rank of f and h</td>
+  <td>code correctness; stratified sensitivity at real K</td>
+</tr>
+<tr>
+  <td>P2</td>
+  <td>Procrustes / linear / CCA residuals on h and f for P1 seed pairs</td>
+  <td>Q2 harness and the h-vs-f question</td>
+</tr>
+<tr>
+  <td>P3</td>
+  <td>Proxy harness and bootstrap code on P1 runs; two paired Copernicus-Bench loaders + one OpenChange-UK loader</td>
+  <td>Q1 harness</td>
+</tr>
+<tr>
+  <td>P4</td>
+  <td>Pack the slice to uint16 shards; bytes/sample; CPU decode throughput; views-per-read</td>
+  <td>I/O plan</td>
+</tr>
+<tr>
+  <td>P5</td>
+  <td>Pre-registration draft (template in subagent-eval §8)</td>
+  <td>protocol freeze</td>
+</tr>
+</tbody>
+</table>
+<p>Then: 30-minute 1-GPU smoke on Isambard (human-run, NGC image, Apptainer --nv), measured read bandwidth and MFU, re-priced grid, population-W pilot, M2-style report before the main grid.</p>
+<h2 id="10-open-items">10. Open items</h2>
+<ul>
+<li>Confirm u6xn: 5,000 NHR through 15 Mar 2027 per OpenChange-UK docs; approved project wording; whether this study is in scope.</li>
+<li>MFU on GH200 for small ViTs at ~100 tokens; Lustre bandwidth per node.</li>
+<li>Whether the SSL4EO-S12 v1.1 zarr repo is per-sample (19,234 files) or chunked.</li>
+<li>alpha-ReQ reference and formula; Copernicus-Bench task footprints and dates for the exclusion list.</li>
+<li>Whether the identifiability assumptions hold approximately on EO at all; P2 is the first look.</li>
+</ul>
+<footer class="footer">Prepared for Gyanateet Dutta. Budget ceilings and timeline are proposals, not measured runs. No cluster access or dataset downloads were performed.</footer></main></div>
+</body></html>

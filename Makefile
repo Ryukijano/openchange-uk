@@ -1,26 +1,37 @@
-.PHONY: lint test dry-run smoke train-small evaluate reproduce-table-1 check-sbatch
+.PHONY: lint test dry-run smoke train-small evaluate reproduce-table-1 check-sbatch validate-sources env-info check
 
 export PYTHONPATH := src
+PYTHON ?= python3
 
 lint:
-	python -m compileall -q src scripts tests
+	$(PYTHON) -m ruff check src scripts tests .cursor/hooks
+	$(PYTHON) -m compileall -q src scripts tests
 
 test:
-	python -m unittest discover -s tests -v
+	$(PYTHON) -m unittest discover -s tests -v
 
 check-sbatch:
-	python scripts/check_sbatch.py
+	$(PYTHON) scripts/check_sbatch.py
+
+validate-sources:
+	$(PYTHON) scripts/validate_sources.py --config configs/sources.yaml
 
 dry-run:
-	python scripts/train.py --config configs/baseline.yaml --dry-run
+	$(PYTHON) scripts/train.py --config configs/baseline.yaml --dry-run --output-root outputs
 
 evaluate:
-	python scripts/evaluate.py --config configs/baseline.yaml
+	$(PYTHON) scripts/evaluate.py --config configs/baseline.yaml
+
+env-info:
+	$(PYTHON) -m openchange.provenance
+
+# Everything that runs without Isambard, GPUs, or network access.
+check: lint test check-sbatch validate-sources dry-run evaluate
 
 train-small: dry-run
 
 reproduce-table-1:
-	@echo "Table 1 does not exist yet. Run make test and make dry-run."
+	@echo "Table 1 does not exist yet. Run make check."
 
 smoke:
 	@echo "Submit this yourself on the login node after the SIF exists:"
