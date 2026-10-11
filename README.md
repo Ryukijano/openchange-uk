@@ -2,7 +2,7 @@
 
 Open benchmark for geographic and temporal transfer in UK environmental change detection. The first task is coastal shoreline and land-cover change. Flood mapping, urban heat, and V-JEPA 2.1 are later experiments inside the same benchmark harness.
 
-The [clean-JEPA Sentinel-1/2 research track](docs/research/clean-jepa/README.md) adds a selected pilot design, [mathematical formulation](docs/research/clean-jepa/FORMULATION.md), [implementation runbook](docs/research/clean-jepa/IMPLEMENTATION.md) and [training diagram](docs/research/clean-jepa/training-diagram.html) for a separate gated representation/pretraining study. It is documentation, not an implemented trainer or permission to fetch data/use the allocation. The benchmark's proposed split remains unaccepted.
+The [clean-JEPA Sentinel-1/2 research track](docs/research/clean-jepa/README.md) includes a selected pilot design, [mathematical formulation](docs/research/clean-jepa/FORMULATION.md), [implementation runbook](docs/research/clean-jepa/IMPLEMENTATION.md), [training diagram](docs/research/clean-jepa/training-diagram.html) and a synthetic-only CPU trainer. The [approved metadata audit](reports/jepa/metadata/README.md) covers two pinned SSL4EO tables, not imagery. There is no real-data trainer, and neither imagery access nor allocation use is authorized. The benchmark's proposed split remains unaccepted.
 
 This repository does not submit jobs. Review commands against [docs.isambard.ac.uk](https://docs.isambard.ac.uk) and run them yourself.
 

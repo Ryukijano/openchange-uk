@@ -67,9 +67,24 @@ class EntryTest(unittest.TestCase):
 
 
 class DocumentTest(unittest.TestCase):
-    def test_repo_sources_file_is_valid_and_empty(self) -> None:
+    def test_repo_sources_file_is_valid(self) -> None:
         self.assertEqual(validate_document(load_document(DEFAULT_PATH)), [])
-        self.assertEqual(load_sources(DEFAULT_PATH), [])
+
+    def test_repo_metadata_approval_does_not_approve_imagery_or_training(self) -> None:
+        sources = load_sources(DEFAULT_PATH)
+        self.assertEqual(len(sources), 2)
+        self.assertLessEqual(sum(s.expected_size_bytes for s in sources), 40_000_000)
+        for source in sources:
+            self.assertEqual(source.use, "auxiliary")
+            self.assertEqual(source.splits, ("pilot",))
+            self.assertEqual(source.redistribution, "manifest-only")
+            self.assertTrue(source.url.endswith("metadata.parquet"))
+            self.assertIn("/97a91733db962222e1e6b40a836845ddbbb16b86/", source.url)
+            self.assertTrue(source.checksum_sha256)
+            with self.assertRaises(SourceNotApproved):
+                require_approved(source.id, "train")
+        with self.assertRaises(SourceNotApproved):
+            require_approved("ssl4eo-v11-imagery", "pilot")
 
     def test_duplicate_ids_and_unknown_keys(self) -> None:
         doc = {"approved_public_sources": [entry(), entry()], "extra": 1}
@@ -99,7 +114,7 @@ class DocumentTest(unittest.TestCase):
             with self.assertRaises(SourceNotApproved):
                 require_approved("example-imagery", None, path, TODAY)
 
-    def test_empty_repo_config_blocks_fetch(self) -> None:
+    def test_unlisted_repo_source_blocks_fetch(self) -> None:
         with self.assertRaises(SourceNotApproved):
             require_approved("anything")
 

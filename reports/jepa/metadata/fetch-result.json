@@ -1,0 +1,30 @@
+{
+  "status": "verified_metadata_only",
+  "fetched_at": "2026-10-11T14:36:52.605469+00:00",
+  "payload_cap_bytes": 40000000,
+  "actual_payload_bytes": 37823749,
+  "files": [
+    {
+      "source_id": "ssl4eo-v11-train-metadata",
+      "url": "https://huggingface.co/datasets/embed2scale/SSL4EO-S12-v1.1/resolve/97a91733db962222e1e6b40a836845ddbbb16b86/train_metadata.parquet",
+      "path": "/home/ubuntu/repos/openchange-uk/outputs/jepa-metadata-local20261011T143651Z-42766/train_metadata.parquet",
+      "bytes": 37358291,
+      "sha256": "1a9f413e3b442f01e736bf96edf69a9ae6b08cff1ef611b47ee6cac5a3cec1b1",
+      "verified": true,
+      "revision": "97a91733db962222e1e6b40a836845ddbbb16b86"
+    },
+    {
+      "source_id": "ssl4eo-v11-val-metadata",
+      "url": "https://huggingface.co/datasets/embed2scale/SSL4EO-S12-v1.1/resolve/97a91733db962222e1e6b40a836845ddbbb16b86/val_metadata.parquet",
+      "path": "/home/ubuntu/repos/openchange-uk/outputs/jepa-metadata-local20261011T143651Z-42766/val_metadata.parquet",
+      "bytes": 465458,
+      "sha256": "e563236c577667ecf62d0f1ea5f4afaf5d7de958ecc65a1f76d37692d3676069",
+      "verified": true,
+      "revision": "97a91733db962222e1e6b40a836845ddbbb16b86"
+    }
+  ],
+  "approval_quote": "Approve metadata only",
+  "imagery_approved": false,
+  "split_accepted": false,
+  "sources_config_sha256": "a1a2d4ff0ec92607617dc3ece172529972d08e2d2eb2ea317d05ef6bec3c594d"
+}

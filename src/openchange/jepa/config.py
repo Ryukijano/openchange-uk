@@ -219,6 +219,10 @@ def validate(cfg: dict[str, Any]) -> None:
         raise ConfigError("lambda_mu must be nonnegative")
     if cfg["sigreg_mode"] not in {"pooled", "stratified"}:
         raise ConfigError("sigreg_mode must be pooled or stratified")
+    if not _is_int(cfg["sigreg_knots"]) or cfg["sigreg_knots"] != 17:
+        raise ConfigError("sigreg_knots must equal 17 for the implemented quadrature")
+    if cfg["sigreg_t_max"] != 3.0:
+        raise ConfigError("sigreg_t_max must equal 3.0 for the implemented quadrature")
     if cfg["projector_norm"] not in {"batch", "frozen", "identity"}:
         raise ConfigError("projector_norm must be batch, frozen, or identity")
     if cfg["gradient_accumulation"] != 1:

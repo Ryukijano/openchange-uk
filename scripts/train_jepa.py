@@ -270,9 +270,13 @@ def _synthetic_fit(
             {"step": next_step, "sha256": checksum, "path": str(checkpoint_path)},
         )
 
+    def save_if_needed(next_step: int) -> None:
+        if not (run_dir / "checkpoints" / f"step_{next_step:06d}.pt").exists():
+            save_at(next_step)
+
     for step in range(start_step, cfg["schedule"]["total_steps"]):
         if time.perf_counter() - started >= cfg["runtime"]["max_wall_seconds"]:
-            save_at(step)
+            save_if_needed(step)
             status, exit_code = "runtime_cap", 3
             break
         model.train()
@@ -401,13 +405,12 @@ def _synthetic_fit(
         if next_step % cfg["checkpoint"]["every_steps"] == 0:
             save_at(next_step)
         if time.perf_counter() - started >= cfg["runtime"]["max_wall_seconds"]:
-            save_at(next_step)
+            save_if_needed(next_step)
             status, exit_code = "runtime_cap", 3
             break
     else:
         next_step = cfg["schedule"]["total_steps"]
-        if not (run_dir / "checkpoints" / f"step_{next_step:06d}.pt").exists():
-            save_at(next_step)
+        save_if_needed(next_step)
 
     result = {
         "status": status,

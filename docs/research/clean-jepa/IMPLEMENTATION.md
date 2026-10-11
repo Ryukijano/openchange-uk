@@ -24,7 +24,8 @@ make check PYTHON=.venv/bin/python
 If an existing environment is present, use it rather than recreating it. Current checks
 cover the benchmark scaffolding and torch-free JEPA config/dry-run checks. Optional
 torch-dependent tests skip without torch; run `make test-jepa` in the separate CPU
-environment for those tests. The source list is deliberately empty. Before any future fetch:
+environment for those tests. Only the two metadata tables are approved; imagery
+and training splits remain unapproved. Before any future fetch:
 
 ```bash
 make validate-sources PYTHON=.venv/bin/python
@@ -110,7 +111,9 @@ still inherit that location's geographic assignment if a larger slice is approve
    for the other task families. UK exclusion alone is not global benchmark decontamination.
 4. Dedupe geographic footprints/cell IDs across corpora. A 2.64 km centre-distance
    filter is a useful pilot check, not proof of no footprint overlap. Use actual footprints.
-5. Across six latitude bands consider up to 84 candidates each (504), then trim to 500
+5. Inspect the six latitude bands first; the pinned catalogue contains no samples
+   south of 60 S. Predeclare quotas over populated bands (including the sparse
+   >60 N band), rather than fabricating coverage. Trim to at most 500
    deterministically by SHA-256 sample ID. If trying to enrich cloudy observations
    (e.g. 25% above mask fraction 0.05), record feasibility; never fabricate a real stratum
    to satisfy a quota. Synthetic occlusion is separately labelled.

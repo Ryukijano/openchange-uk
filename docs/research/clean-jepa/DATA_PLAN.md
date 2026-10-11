@@ -1,15 +1,21 @@
 # Data audit and next implementation handoff
 
-Status: metadata/card audit, 11 October 2026. No imagery, Parquet tables or training
-shards were downloaded. `configs/sources.yaml` remains empty. This plan does not
-approve a source, accept benchmark splits, or authorize a cluster job.
+Status: metadata/card audit, followed by the human-approved metadata-only fetch on
+11 October 2026. Both pinned Parquet tables were verified; see
+[the measured audit](../../../reports/jepa/metadata/README.md). Only those two
+auxiliary sources are approved. No imagery/shards were downloaded, no benchmark
+split was accepted and no cluster job was authorized.
 
 ## 1. What was checked
 
 Provider cards, Hub repository metadata/file sizes, Dataset Viewer schema/size
-responses and the SSL4EO provider decoder were inspected. The compact API record is
+responses and the SSL4EO provider decoder were inspected before the file-fetch
+approval, without `require_approved()`. That historical public-catalog inspection
+is retained as provenance, not presented as a gated data fetch. Future source
+access, including metadata fetches, must pass the source gate. The compact API record is
 [audit.json](../../../reports/jepa/data-audit/audit.json). File sizes and advertised
-LFS SHA-256 IDs are from the provider; payload checksums have **not** been verified.
+LFS SHA-256 IDs are from the provider. The two metadata file checksums are now
+verified; imagery payload checksums remain unverified.
 
 | Corpus | Immutable revision | Use next |
 |---|---|---|
@@ -38,9 +44,11 @@ was copied into our implementation.
   when packing. The paper says missing values were filtered and interpolated;
   absence of NaNs does not prove every pixel was originally observed.
 - The current release stores one location's four dates in a Zarr ZIP member inside
-  a tar, with separate tar files per modality. The provider decoder documents
-  1,000 locations per full shard. The first validation S2L2A/S1GRD shard pair is
-  **2,352,353,280 bytes**: roughly 4,000 observation pairs, not a 500-item slice.
+  a tar, with separate tar files per modality. The provider decoder's generic
+  example says 1,000 samples, but the **pinned catalogue contains 512 locations
+  per full shard** (477 train tars, 5 validation tars). The first validation
+  S2L2A/S1GRD shard pair is **2,352,353,280 bytes**: 2,048 seasonal observation
+  pairs, not a 500-item slice. This corrects the earlier generic-code estimate.
 - Legacy Zarr ZIP blocks contain 64 locations x 4 dates. The first validation
   S2L2A/S1GRD block pair is **292,306,366 bytes**. Even this loads unselected dates
   and locations; fetching a container is not approval to use every member.
@@ -67,7 +75,7 @@ grid embeddings as if they were raw paired imagery.
 
 ### A. Metadata-only approval and curation
 
-First request: approve only the two pinned SSL4EO metadata tables, with a **40 MB
+Completed approval/fetch: only the two pinned SSL4EO metadata tables, with a **40 MB
 payload ceiling**, `use: auxiliary`, `splits: [pilot]`, and manifest-only publication.
 Give each exact file endpoint its own source entry/checksum. No imagery permission
 is implied. Fetching code must call `require_approved()` before network access and
@@ -152,7 +160,8 @@ to the cluster. EO remains a representation study, not an action-conditioned wor
 
 ## 3. Approval boundary
 
-Current decision needed: the **37.8 MB metadata-only fetch**. Imagery transfer,
+The **37.8 MB metadata-only fetch** is complete and verified. Imagery transfer,
 pilot gap/split/buffer/mask policy and cluster work require later explicit decisions.
-No array-level quality, pairing yield or remaining eligible corpus size has been
-measured in this audit.
+The measured audit reports metadata pairing and UK-exclusion counts; those are not
+a final eligible training corpus. Array-level quality, other benchmark exclusions,
+mask polarity and selective imagery access remain unverified.

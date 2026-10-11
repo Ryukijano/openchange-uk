@@ -105,6 +105,15 @@ class TestJEPAConfig(unittest.TestCase):
         with self.assertRaisesRegex(ConfigError, "B8A"):
             validate(cfg)
 
+    def test_noncanonical_quadrature_is_rejected(self) -> None:
+        for key, value in (("sigreg_knots", 9), ("sigreg_knots", 17.0),
+                           ("sigreg_t_max", 2.0), ("sigreg_t_max", float("nan"))):
+            with self.subTest(key=key, value=value):
+                cfg = _config()
+                cfg[key] = value
+                with self.assertRaisesRegex(ConfigError, key):
+                    validate(cfg)
+
     def test_keep_count_uses_exact_half_up_rounding(self) -> None:
         examples = (
             (196, 0.9, 20),

@@ -84,7 +84,8 @@ mid-grid and present the runs as one method.
   views.py only accepts synthetic observations; there is no real-data loader.
 - Missing: approved-shard data loader, benchmark adapters, selection/Procrustes
   experiments and measured throughput.
-- No dataset entry has been approved by this update. `configs/sources.yaml` remains empty.
+- Only the two pinned SSL4EO metadata tables have human approval. Imagery and
+  training-source use remain unapproved; see [the measured metadata audit](../../../reports/jepa/metadata/README.md).
 - `make train-small` is still a dry-run, and `make evaluate` is still a stub. Neither
   trains/evaluates JEPA. make jepa-synthetic-fit runs at most 50 CPU steps on
   synthetic tensors; it is a plumbing check, not representation learning or a result.

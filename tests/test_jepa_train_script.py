@@ -7,7 +7,10 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from contextlib import redirect_stdout
+from io import StringIO
 from pathlib import Path
+from unittest import mock
 
 if importlib.util.find_spec("torch") is None:
     raise unittest.SkipTest("install .venv-jepa with CPU torch")
@@ -146,6 +149,36 @@ class TestJEPATrainCLI(unittest.TestCase):
             self.assertEqual(result["status"], "runtime_cap")
             self.assertEqual(result["next_step"], 0)
             self.assertTrue((Path(result["run_dir"]) / "checkpoints" / "step_000000.pt").exists())
+
+    def test_cap_on_periodic_boundary_writes_one_checkpoint(self) -> None:
+        spec = importlib.util.spec_from_file_location("train_jepa_cap_test", SCRIPT_PATH)
+        trainer = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(trainer)
+        cfg = _config()
+        cfg["global_batch"] = 8
+        cfg["global_quotas"] = [2, 2, 2, 2]
+        cfg["synthetic"]["pool_per_stratum"] = 8
+        cfg["model"].update({"dim": 24, "depth": 2, "heads": 3, "mlp_ratio": 4})
+        cfg["projector_hidden"] = [32, 32]
+        cfg["projector_dim"] = 8
+        cfg["sigreg_slices"] = 8
+        cfg["schedule"].update({"warmup_steps": 1, "total_steps": 2})
+        cfg["runtime"].update({"cpu_threads": 1, "max_wall_seconds": 600})
+        cfg["checkpoint"]["every_steps"] = 1
+        for times in ((0, 0, 0, 0, 0, 0, 601, 601),
+                      (0, 0, 0, 0, 0, 0, 0, 601, 601)):
+            with self.subTest(times=times), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                config = _write_config(root, cfg)
+                output = StringIO()
+                with mock.patch.object(trainer, "time") as clock, redirect_stdout(output):
+                    clock.perf_counter.side_effect = times
+                    code = trainer._synthetic_fit(config, cfg, root / "outputs", None, "provisional")
+                self.assertEqual(code, 3)
+                result = json.loads(output.getvalue().strip().splitlines()[-1])
+                self.assertEqual(result["next_step"], 1)
+                rows = (Path(result["run_dir"]) / "checkpoints.jsonl").read_text().splitlines()
+                self.assertEqual([json.loads(row)["step"] for row in rows], [1])
 
 if __name__ == "__main__":
     unittest.main()
