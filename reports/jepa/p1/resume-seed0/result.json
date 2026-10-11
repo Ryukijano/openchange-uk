@@ -1,0 +1,12 @@
+{
+  "next_step": 50,
+  "nonfinite_events": 0,
+  "note": "plumbing check, not a result",
+  "resume_checkpoint": "/home/ubuntu/repos/openchange-uk/outputs/jepa-p1-synthetic-local20261011T023228Z-12671/checkpoints/step_000025.pt",
+  "run_dir": "/home/ubuntu/airr-masterplan/p1-logs/resume-seed0/jepa-p1-synthetic-local20261011T023508Z-13496",
+  "start_step": 25,
+  "status": "complete",
+  "steps_completed_this_run": 25,
+  "tokens_seen": 284210,
+  "wall_seconds": 39.01839576400016
+}

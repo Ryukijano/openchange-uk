@@ -1,0 +1,61 @@
+.venv-jepa/bin/python -m unittest discover -s tests -p "test_jepa_*.py" -v
+test_resume_matches_continuous_training_bitwise (test_jepa_checkpoints.TestJEPACheckpoints.test_resume_matches_continuous_training_bitwise) ... ok
+test_cosine_schedule_exact_points_and_monotonic_tail (test_jepa_config.TestJEPAConfig.test_cosine_schedule_exact_points_and_monotonic_tail) ... ok
+test_every_required_key_is_checked (test_jepa_config.TestJEPAConfig.test_every_required_key_is_checked) ... ok
+test_example_config_is_torch_free_and_valid (test_jepa_config.TestJEPAConfig.test_example_config_is_torch_free_and_valid) ... ok
+test_expected_tokens_match_the_view_mixture (test_jepa_config.TestJEPAConfig.test_expected_tokens_match_the_view_mixture) ... ok
+test_hash_is_stable_under_key_reordering (test_jepa_config.TestJEPAConfig.test_hash_is_stable_under_key_reordering) ... ok
+test_keep_count_uses_exact_half_up_rounding (test_jepa_config.TestJEPAConfig.test_keep_count_uses_exact_half_up_rounding) ... ok
+test_size_and_band_validation (test_jepa_config.TestJEPAConfig.test_size_and_band_validation) ... ok
+test_synthetic_contract_validation (test_jepa_config.TestJEPAConfig.test_synthetic_contract_validation) ... ok
+test_unknown_and_forbidden_keys_are_rejected_even_when_null (test_jepa_config.TestJEPAConfig.test_unknown_and_forbidden_keys_are_rejected_even_when_null) ... ok
+test_accumulation_and_ddp_conventions (test_jepa_distributed.DistributedHelperTests.test_accumulation_and_ddp_conventions) ... ok
+test_non_distributed_context_and_logging_mean (test_jepa_distributed.DistributedHelperTests.test_non_distributed_context_and_logging_mean) ... ok
+test_stratum_blocks_shard_evenly_and_bad_layout_is_rejected (test_jepa_distributed.DistributedHelperTests.test_stratum_blocks_shard_evenly_and_bad_layout_is_rejected) ... ok
+test_spawned_gloo_matches_single_process_for_world_one_and_two (test_jepa_distributed.SpawnedGlooTests.test_spawned_gloo_matches_single_process_for_world_one_and_two) ... /home/ubuntu/repos/openchange-uk/tests/test_jepa_distributed.py:103: FutureWarning: torch.distributed.nn.functional.all_reduce is deprecated, use torch.distributed._functional_collectives.all_reduce instead.
+  reference_sum = torch_dist_nn.all_reduce(reference, op=torch_dist.ReduceOp.SUM)
+/home/ubuntu/repos/openchange-uk/tests/test_jepa_distributed.py:103: FutureWarning: torch.distributed.nn.functional.all_reduce is deprecated, use torch.distributed._functional_collectives.all_reduce instead.
+  reference_sum = torch_dist_nn.all_reduce(reference, op=torch_dist.ReduceOp.SUM)
+/home/ubuntu/repos/openchange-uk/tests/test_jepa_distributed.py:103: FutureWarning: torch.distributed.nn.functional.all_reduce is deprecated, use torch.distributed._functional_collectives.all_reduce instead.
+  reference_sum = torch_dist_nn.all_reduce(reference, op=torch_dist.ReduceOp.SUM)
+ok
+test_autocast_disables_reduced_precision_loss_math (test_jepa_losses.EppsPulleyTests.test_autocast_disables_reduced_precision_loss_math) ... ok
+test_chunking_and_checkpoint_preserve_values_and_gradients (test_jepa_losses.EppsPulleyTests.test_chunking_and_checkpoint_preserve_values_and_gradients) ... ok
+test_collapsed_embedding_has_expected_value_and_zero_gradient (test_jepa_losses.EppsPulleyTests.test_collapsed_embedding_has_expected_value_and_zero_gradient) ... ok
+test_direction_seed_and_generator_determinism (test_jepa_losses.EppsPulleyTests.test_direction_seed_and_generator_determinism) ... ok
+test_ep_counts_weights_and_mean_penalty_are_applied_once (test_jepa_losses.EppsPulleyTests.test_ep_counts_weights_and_mean_penalty_are_applied_once) ... ok
+test_ep_gradient_formula_and_gradcheck (test_jepa_losses.EppsPulleyTests.test_ep_gradient_formula_and_gradcheck) ... ok
+test_ep_matches_numpy_complex_characteristic_function (test_jepa_losses.EppsPulleyTests.test_ep_matches_numpy_complex_characteristic_function) ... ok
+test_input_validation_errors (test_jepa_losses.EppsPulleyTests.test_input_validation_errors) ... ok
+test_isotropic_scale_matches_analytic_expectation_with_four_se (test_jepa_losses.EppsPulleyTests.test_isotropic_scale_matches_analytic_expectation_with_four_se) ... ok
+test_mean_penalty_null_and_gradient (test_jepa_losses.EppsPulleyTests.test_mean_penalty_null_and_gradient) ... ok
+test_one_coordinate_gap_is_detected_but_random_slices_are_near_null (test_jepa_losses.EppsPulleyTests.test_one_coordinate_gap_is_detected_but_random_slices_are_near_null) ... ok
+test_pooled_and_stratified_objectives_and_mean_penalty (test_jepa_losses.EppsPulleyTests.test_pooled_and_stratified_objectives_and_mean_penalty) ... ok
+test_rotation_invariance (test_jepa_losses.EppsPulleyTests.test_rotation_invariance) ... ok
+test_standard_normal_sampling_null_with_four_se (test_jepa_losses.EppsPulleyTests.test_standard_normal_sampling_null_with_four_se) ... ok
+test_total_loss_gradcheck (test_jepa_losses.EppsPulleyTests.test_total_loss_gradcheck) ... ok
+test_view_averaging_and_stratified_weighting (test_jepa_losses.EppsPulleyTests.test_view_averaging_and_stratified_weighting) ... ok
+test_gradient_formula_gradcheck_and_translation_invariance (test_jepa_losses.InvarianceTests.test_gradient_formula_gradcheck_and_translation_invariance) ... ok
+test_quadrature_constants_and_null (test_jepa_losses.QuadratureTests.test_quadrature_constants_and_null) ... ok
+test_bucketed_forward_matches_one_view_at_a_time (test_jepa_model.TestJEPAModel.test_bucketed_forward_matches_one_view_at_a_time) ... ok
+test_embedding_layout_and_attention_set_equivariance (test_jepa_model.TestJEPAModel.test_embedding_layout_and_attention_set_equivariance) ... ok
+test_invalid_bucket_shapes_missing_pairs_and_gradients (test_jepa_model.TestJEPAModel.test_invalid_bucket_shapes_missing_pairs_and_gradients) ... ok
+test_position_table_projector_and_block_sequence (test_jepa_model.TestJEPAModel.test_position_table_projector_and_block_sequence) ... ok
+test_projector_norm_modes_and_batch_state (test_jepa_model.TestJEPAModel.test_projector_norm_modes_and_batch_state) ... ok
+test_cli_refusals_exit_two (test_jepa_train_script.TestJEPATrainCLI.test_cli_refusals_exit_two) ... ok
+test_dry_run_writes_provisional_manifest_and_model_check (test_jepa_train_script.TestJEPATrainCLI.test_dry_run_writes_provisional_manifest_and_model_check) ... ok
+test_synthetic_fit_writes_finite_metrics_and_checkpoint (test_jepa_train_script.TestJEPATrainCLI.test_synthetic_fit_writes_finite_metrics_and_checkpoint) ... ok
+test_zero_wall_cap_exits_three_and_saves_checkpoint (test_jepa_train_script.TestJEPATrainCLI.test_zero_wall_cap_exits_three_and_saves_checkpoint) ... ok
+test_generator_intervention_and_occlusion_metadata (test_jepa_views.TestJEPAViews.test_generator_intervention_and_occlusion_metadata) ... ok
+test_local_sensor_frequencies_match_configured_probabilities (test_jepa_views.TestJEPAViews.test_local_sensor_frequencies_match_configured_probabilities) ... ok
+test_observation_and_real_data_refusals (test_jepa_views.TestJEPAViews.test_observation_and_real_data_refusals) ... ok
+test_sample_views_are_independent_of_batch_neighbors (test_jepa_views.TestJEPAViews.test_sample_views_are_independent_of_batch_neighbors) ... ok
+test_sampler_uses_stratum_blocks_that_shard_evenly (test_jepa_views.TestJEPAViews.test_sampler_uses_stratum_blocks_that_shard_evenly) ... ok
+test_sampling_is_repeatable_and_step_dependent (test_jepa_views.TestJEPAViews.test_sampling_is_repeatable_and_step_dependent) ... ok
+test_sensor_layout_shapes_and_global_views (test_jepa_views.TestJEPAViews.test_sensor_layout_shapes_and_global_views) ... ok
+test_shared_geometry_and_paired_sensor_pixels (test_jepa_views.TestJEPAViews.test_shared_geometry_and_paired_sensor_pixels) ... ok
+
+----------------------------------------------------------------------
+Ran 49 tests in 15.834s
+
+OK

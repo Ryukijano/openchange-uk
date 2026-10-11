@@ -160,11 +160,15 @@ and residual optical targets against S1-only controls.
 
 ## 5. Distributed convention
 
-One global batch is generated deterministically; rank r takes [r::world_size]. Each
-rank has the same count per stratum. Generate identical directions on all ranks.
+One global batch is generated deterministically in stratum-by-stratum blocks;
+rank r takes [r::world_size]. Every quota must be divisible by world_size, giving
+equal per-rank stratum counts. Interleaved stratum labels can break this guarantee.
+Generate identical directions on all ranks.
 For each view/stratum all-reduce the **local cos/sin sums**, then divide by the
 global stratum count. Counts use ordinary no-grad SUM; CF sums use an autograd-aware
-collective. Every rank computes the same global EP scalar. L_inv is the local mean.
+collective. T_mu also uses a differentiable SUM of z per stratum divided by global
+counts. Every rank computes the same global EP scalar. L_inv is the local mean;
+the total loss can differ across ranks, so log its detached rank mean.
 
 With a differentiable SUM collective, backward sums gradients from the replicated
 losses: each local contribution receives world_size times its single-global-loss
