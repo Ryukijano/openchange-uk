@@ -1,0 +1,12 @@
+{
+  "next_step": 50,
+  "nonfinite_events": 0,
+  "note": "plumbing check, not a result",
+  "resume_checkpoint": null,
+  "run_dir": "outputs/jepa-p1-synthetic-local20261011T023228Z-12671",
+  "start_step": 0,
+  "status": "complete",
+  "steps_completed_this_run": 50,
+  "tokens_seen": 284210,
+  "wall_seconds": 79.81084318299986
+}

@@ -1,0 +1,197 @@
+{
+  "config": {
+    "path": "configs/jepa/p1_synthetic.yaml",
+    "sha256": "59fb8895901c8a7fed1f2bf430728d5b8de45e0c99446cf0c321e1d5251851d2"
+  },
+  "config_hash": "0e9ebb5e112bf6aec107b3d8935d3ba1e73a1015d627c7ad3568ca9c70688930",
+  "container": {
+    "image": null,
+    "inside_container": false,
+    "nvidia_pytorch_version": null,
+    "sif": null,
+    "sif_sha256": null
+  },
+  "ddp_reduction": "none_single_process",
+  "env": {},
+  "environment": {
+    "hostname": "devin-box",
+    "machine": "x86_64",
+    "packages": {
+      "PyYAML": "6.0.3",
+      "numpy": "2.4.6",
+      "openchange-uk": "0.0.1",
+      "torch": "2.14.1+cpu"
+    },
+    "platform": "Linux-6.8.0-1061-aws-x86_64-with-glibc2.35",
+    "python": "3.11.17",
+    "python_executable": "/home/ubuntu/repos/openchange-uk/.venv-jepa/bin/python",
+    "system": "Linux"
+  },
+  "git": {
+    "dirty": true,
+    "sha": "b2027fb7c5ef0ab75ede5ee6844d2b1a384b5372",
+    "source": "git"
+  },
+  "job": "jepa-p1-synthetic",
+  "lr_scaling": "none_debug",
+  "mode": "synthetic_fit",
+  "numpy_version": "2.4.6",
+  "resolved_config": {
+    "checkpoint": {
+      "every_steps": 25
+    },
+    "crop_log_aspect": [
+      -0.2876821,
+      0.2876821
+    ],
+    "gaussian_target": "identity",
+    "global_batch": 32,
+    "global_crop_pixels": 224,
+    "global_crop_scale": [
+      0.4,
+      1.0
+    ],
+    "global_quotas": [
+      8,
+      8,
+      8,
+      8
+    ],
+    "global_token_drop": 0.9,
+    "global_views": 2,
+    "gradient_accumulation": 1,
+    "job": "jepa-p1-synthetic",
+    "lambda": 0.05,
+    "lambda_mu": 0.0,
+    "local_crop_pixels": 96,
+    "local_crop_scale": [
+      0.05,
+      0.4
+    ],
+    "local_sensor_probs": {
+      "both": 0.2,
+      "s1": 0.4,
+      "s2": 0.4
+    },
+    "local_token_drop": 0.5,
+    "local_views": 6,
+    "loss_reduction": "mean_n_v_k",
+    "model": {
+      "depth": 12,
+      "dim": 192,
+      "drop_path": 0.0,
+      "heads": 3,
+      "mlp_ratio": 4,
+      "pos_embed": "sincos2d_ref14"
+    },
+    "normalization": "synthetic_identity",
+    "optimizer": {
+      "betas": [
+        0.9,
+        0.95
+      ],
+      "eps": 1e-08,
+      "grad_clip_norm": 3.0,
+      "lr": 0.0005,
+      "lr_reference_batch": 1024,
+      "lr_scaling": "none_debug",
+      "name": "adamw",
+      "weight_decay": 0.05,
+      "weight_decay_scope": "matrices_only"
+    },
+    "patch_size": 16,
+    "precision": "fp32",
+    "projector_dim": 128,
+    "projector_hidden": [
+      2048,
+      2048
+    ],
+    "projector_norm": "batch",
+    "runtime": {
+      "cpu_threads": 4,
+      "deterministic": true,
+      "max_wall_seconds": 600
+    },
+    "s2_gain_jitter": 0.0,
+    "schedule": {
+      "floor_ratio": 0.001,
+      "name": "cosine",
+      "total_steps": 50,
+      "warmup_steps": 5
+    },
+    "schema_version": 1,
+    "seed": 0,
+    "sensors": {
+      "s1": [
+        "VV",
+        "VH"
+      ],
+      "s2": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B8A",
+        "B09",
+        "B11",
+        "B12"
+      ]
+    },
+    "sigreg_knots": 17,
+    "sigreg_mode": "stratified",
+    "sigreg_slices": 1024,
+    "sigreg_t_max": 3.0,
+    "split": "none",
+    "status": "synthetic_debug",
+    "strata": [
+      "joint_clear",
+      "joint_occluded",
+      "s1_only",
+      "s2_only"
+    ],
+    "stratum_weights": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ],
+    "synthetic": {
+      "image_pixels": 128,
+      "noise_std": 0.1,
+      "occlusion_fill": 0.0,
+      "occlusion_fraction": [
+        0.2,
+        0.6
+      ],
+      "pool_per_stratum": 64,
+      "private_s2_factors": 4,
+      "shared_factors": 4
+    },
+    "synthetic_only": true,
+    "token_keep_rounding": "half_up_exact"
+  },
+  "resumed_from": null,
+  "run_dir": "outputs/jepa-p1-synthetic-local20261011T023228Z-12671",
+  "seed": 0,
+  "seeded": [
+    "random",
+    "numpy",
+    "torch"
+  ],
+  "split_status": "provisional",
+  "started_utc": "2026-10-11T02:32:28+00:00",
+  "synthetic_only": true,
+  "token_keep_rounding": "half_up_exact",
+  "torch": {
+    "cpu_threads": 4,
+    "device": "cpu",
+    "numpy_version": "2.4.6",
+    "version": "2.14.1+cpu"
+  },
+  "torch_version": "2.14.1+cpu",
+  "weight_decay_scope": "matrices_only"
+}
