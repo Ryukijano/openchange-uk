@@ -29,9 +29,7 @@ def sincos_pos_embed(
         raise ValueError("grid and dim must be positive, and dim must be divisible by four")
     coordinates = (torch.arange(grid, dtype=torch.float64) + 0.5) * (ref_grid / grid)
     rows, columns = torch.meshgrid(coordinates, coordinates, indexing="ij")
-    frequencies = 1.0 / (
-        10000.0 ** (torch.arange(dim // 4, dtype=torch.float64) / (dim // 4))
-    )
+    frequencies = 1.0 / (10000.0 ** (torch.arange(dim // 4, dtype=torch.float64) / (dim // 4)))
 
     def encode(position: Tensor) -> Tensor:
         phase = position.reshape(-1, 1) * frequencies
@@ -60,9 +58,7 @@ class _Block(nn.Module):
 
     def forward(self, value: Tensor) -> Tensor:
         batch, length, dim = value.shape
-        qkv = self.qkv(self.norm1(value)).reshape(
-            batch, length, 3, self.heads, self.head_dim
-        )
+        qkv = self.qkv(self.norm1(value)).reshape(batch, length, 3, self.heads, self.head_dim)
         query, key, content = qkv.permute(2, 0, 3, 1, 4)
         attended = functional.scaled_dot_product_attention(query, key, content)
         attended = attended.transpose(1, 2).reshape(batch, length, dim)
@@ -89,6 +85,7 @@ class JEPAEncoder(nn.Module):
         self.global_token_drop = cfg["global_token_drop"]
         self.local_token_drop = cfg["local_token_drop"]
         self.projector_norm_kind = cfg["projector_norm"]
+        self._position_cache: dict[tuple[int, torch.device, torch.dtype], Tensor] = {}
         if model_cfg["pos_embed"] != "sincos2d_ref14" or model_cfg["drop_path"] != 0:
             raise ValueError("only fixed sincos2d_ref14 positions and zero drop path are supported")
 
@@ -106,10 +103,7 @@ class JEPAEncoder(nn.Module):
         )
         self.cls_token = nn.Parameter(torch.empty(1, 1, self.dim))
         self.blocks = nn.ModuleList(
-            [
-                _Block(self.dim, model_cfg["heads"], model_cfg["mlp_ratio"])
-                for _ in range(model_cfg["depth"])
-            ]
+            [_Block(self.dim, model_cfg["heads"], model_cfg["mlp_ratio"]) for _ in range(model_cfg["depth"])]
         )
         self.norm = nn.LayerNorm(self.dim, eps=1e-6)
 
@@ -159,9 +153,7 @@ class JEPAEncoder(nn.Module):
                 device=self.stems[sensor].weight.device,
                 dtype=self.stems[sensor].weight.dtype,
             )
-            if image.ndim != 4 or image.shape[1] != self.stems[sensor].in_features // (
-                self.patch_size**2
-            ):
+            if image.ndim != 4 or image.shape[1] != self.stems[sensor].in_features // (self.patch_size**2):
                 raise ValueError(f"{sensor} pixels must have shape [B,C,H,W] with configured channels")
             batch, _, height, width = image.shape
             if height != width or height % self.patch_size:
@@ -177,7 +169,14 @@ class JEPAEncoder(nn.Module):
                 .permute(0, 2, 4, 1, 3, 5)
                 .reshape(batch, grid * grid, -1)
             )
-            positions = sincos_pos_embed(grid, self.dim, dtype=image.dtype).to(device=image.device)
+            position_key = (grid, image.device, image.dtype)
+            if position_key not in self._position_cache:
+                if len(self._position_cache) >= 8:
+                    self._position_cache.pop(next(iter(self._position_cache)))
+                self._position_cache[position_key] = sincos_pos_embed(grid, self.dim, dtype=image.dtype).to(
+                    device=image.device
+                )
+            positions = self._position_cache[position_key]
             tokens.append(
                 self.stems[sensor](patches)
                 + positions.unsqueeze(0)
@@ -185,11 +184,15 @@ class JEPAEncoder(nn.Module):
             )
         return torch.cat(tokens, dim=1)
 
-    def backbone(self, pixels: dict[str, Tensor], keep_idx: Tensor) -> Tensor:
+    def backbone(self, pixels: dict[str, Tensor], keep_idx: Tensor, *, validate: bool = True) -> Tensor:
         embedded = self.embed(pixels)
         if keep_idx.ndim != 2 or keep_idx.dtype != torch.int64 or keep_idx.shape[0] != embedded.shape[0]:
             raise ValueError("keep_idx must be an int64 tensor of shape [B,keep]")
-        if keep_idx.numel() and (int(keep_idx.min()) < 0 or int(keep_idx.max()) >= embedded.shape[1]):
+        if (
+            validate
+            and keep_idx.numel()
+            and (int(keep_idx.min()) < 0 or int(keep_idx.max()) >= embedded.shape[1])
+        ):
             raise ValueError("keep_idx contains an out-of-range token")
         resolution = next(iter(pixels.values())).shape[-1]
         if resolution == self.global_crop_pixels:
@@ -201,7 +204,7 @@ class JEPAEncoder(nn.Module):
         expected_keep = keep_count(embedded.shape[1], rho)
         if keep_idx.shape[1] != expected_keep:
             raise ValueError(f"keep_idx width must equal keep_count={expected_keep}")
-        indices = keep_idx.to(device=embedded.device)
+        indices = keep_idx.to(device=embedded.device, non_blocking=True)
         selected = torch.gather(embedded, 1, indices.unsqueeze(-1).expand(-1, -1, self.dim))
         cls = self.cls_token.to(dtype=selected.dtype).expand(selected.shape[0], -1, -1)
         value = torch.cat((cls, selected), dim=1)
@@ -209,28 +212,36 @@ class JEPAEncoder(nn.Module):
             value = block(value)
         return self.norm(value[:, 0])
 
-    def forward(self, batch: ViewBatch) -> EncoderOutput:
+    def forward(self, batch: ViewBatch, *, validate: bool = True) -> EncoderOutput:
         parameter = next(self.parameters())
         device, dtype = parameter.device, parameter.dtype
         b = parameter.new_zeros((batch.n_views, batch.n_samples, self.dim))
-        filled = torch.zeros((batch.n_views, batch.n_samples), dtype=torch.int64, device=device)
-        tokens = torch.zeros_like(filled)
+        filled = (
+            torch.zeros((batch.n_views, batch.n_samples), dtype=torch.int64, device=device)
+            if validate
+            else None
+        )
+        tokens = torch.zeros((batch.n_views, batch.n_samples), dtype=torch.int64, device=device)
         for bucket in batch.buckets:
-            pixels = {sensor: image.to(device=device, dtype=dtype) for sensor, image in bucket.pixels.items()}
-            view_idx = bucket.view_idx.to(device=device)
-            sample_idx = bucket.sample_idx.to(device=device)
-            embeddings = self.backbone(pixels, bucket.keep_idx.to(device=device))
+            pixels = {
+                sensor: image.to(device=device, dtype=dtype, non_blocking=True)
+                for sensor, image in bucket.pixels.items()
+            }
+            view_idx = bucket.view_idx.to(device=device, non_blocking=True)
+            sample_idx = bucket.sample_idx.to(device=device, non_blocking=True)
+            embeddings = self.backbone(pixels, bucket.keep_idx, validate=validate)
             b = b.index_put((view_idx, sample_idx), embeddings)
-            filled.index_put_(
-                (view_idx, sample_idx),
-                torch.ones_like(view_idx),
-                accumulate=True,
-            )
+            if filled is not None:
+                filled.index_put_(
+                    (view_idx, sample_idx),
+                    torch.ones_like(view_idx),
+                    accumulate=True,
+                )
             tokens.index_put_(
                 (view_idx, sample_idx),
                 torch.full_like(view_idx, bucket.keep_idx.shape[1]),
             )
-        if not torch.all(filled == 1):
+        if validate and not torch.all(filled == 1):
             raise ValueError("each (view, sample) pair must be filled exactly once")
         z = self.projector(b.reshape(batch.n_views * batch.n_samples, self.dim)).reshape(
             batch.n_views, batch.n_samples, -1

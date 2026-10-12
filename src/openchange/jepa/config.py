@@ -136,34 +136,42 @@ def _fraction(value: Any, name: str) -> Fraction:
         raise ConfigError(f"{name} must be a finite number") from exc
 
 
-def load_config(path: Path) -> dict[str, Any]:
+def load_config(path: Path, *, local_pilot: bool = False, cuda: bool = False) -> dict[str, Any]:
     """Load and validate a YAML configuration without importing torch."""
     try:
         loaded = yaml.safe_load(Path(path).read_text(encoding="utf-8"))
     except (OSError, yaml.YAMLError) as exc:
         raise ConfigError(f"could not load config {path}: {exc}") from exc
-    validate(loaded)
+    validate(loaded, local_pilot=local_pilot, cuda=cuda)
     return loaded
 
 
-def validate(cfg: dict[str, Any]) -> None:
+def validate(cfg: dict[str, Any], *, local_pilot: bool = False, cuda: bool = False) -> None:
     """Validate required fields and enforce the synthetic-only pilot boundary."""
     if not isinstance(cfg, dict):
         raise ConfigError("config must be a mapping")
     forbidden = _contains_forbidden(cfg)
     if forbidden is not None:
         raise ConfigError(f"forbidden key {forbidden}")
-    _check_keys(cfg, set(REQUIRED_KEYS), "config")
+    required = set(REQUIRED_KEYS) - ({"synthetic"} if local_pilot else set())
+    _check_keys(cfg, required, "config")
     for key, keys in _NESTED_KEYS.items():
+        if key == "synthetic" and local_pilot:
+            continue
         _check_keys(cfg[key], keys, key)
 
     if cfg["schema_version"] != 1:
         raise ConfigError("schema_version must be 1")
-    if cfg["status"] not in {"planned", "synthetic_debug"}:
+    if local_pilot:
+        if cfg["status"] != "local_pilot" or cfg["synthetic_only"] is not False or cfg["split"] != "pilot":
+            raise ConfigError("local pilot requires status=local_pilot, synthetic_only=false, split=pilot")
+        if cfg["normalization"] != "manifest":
+            raise ConfigError("local pilot normalization must be manifest")
+    elif cfg["status"] not in {"planned", "synthetic_debug"}:
         raise ConfigError("status must be planned or synthetic_debug")
-    if cfg["synthetic_only"] is not True:
+    if not local_pilot and cfg["synthetic_only"] is not True:
         raise ConfigError("synthetic_only must be true")
-    if cfg["split"] != "none":
+    if not local_pilot and cfg["split"] != "none":
         raise ConfigError('split must equal "none"')
     if cfg["loss_reduction"] != "mean_n_v_k":
         raise ConfigError("loss_reduction must be mean_n_v_k")
@@ -227,7 +235,7 @@ def validate(cfg: dict[str, Any]) -> None:
         raise ConfigError("projector_norm must be batch, frozen, or identity")
     if cfg["gradient_accumulation"] != 1:
         raise ConfigError("gradient_accumulation must equal 1")
-    if cfg["precision"] != "fp32":
+    if cfg["precision"] not in ({"fp32", "bf16"} if cuda else {"fp32"}):
         raise ConfigError("precision must be fp32")
 
     schedule = cfg["schedule"]
@@ -235,7 +243,7 @@ def validate(cfg: dict[str, Any]) -> None:
         raise ConfigError("schedule.total_steps must be a positive integer")
     if not _is_int(schedule["warmup_steps"]) or schedule["warmup_steps"] < 0:
         raise ConfigError("schedule.warmup_steps must be a nonnegative integer")
-    if cfg["status"] == "synthetic_debug":
+    if cfg["status"] == "synthetic_debug" or local_pilot:
         if schedule["total_steps"] > 50:
             raise ConfigError("synthetic_debug total_steps must not exceed 50")
         if schedule["warmup_steps"] >= schedule["total_steps"]:

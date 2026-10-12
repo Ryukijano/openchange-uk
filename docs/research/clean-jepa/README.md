@@ -13,6 +13,8 @@ Updating these documents is not approval to fetch a dataset or use an allocation
 3. [Implementation runbook](IMPLEMENTATION.md): work packages, interfaces, tests and exit gates.
    [Data audit and next handoff](DATA_PLAN.md): pinned releases, access granularity,
    metadata-first curation and real-loader gates.
+   [Multi-GPU pilot](MULTIGPU.md): offline data boundary, torchrun/DDP semantics,
+   GH200 profiling/restart gates and the later temporal/decision sequence.
 4. [Sources and corrections](SOURCES.md): primary links, provenance and errors in earlier reviews.
 5. [Training diagram](training-diagram.html): self-contained HTML with selectable nodes.
    GitHub shows HTML source; download the file and open it locally to use the diagram.
@@ -81,8 +83,10 @@ mid-grid and present the runs as one method.
   (losses, distributed, model, views, checkpoints, config), scripts/train_jepa.py and
   configs/jepa/p1_synthetic.yaml. make test-jepa covers loss algebra, Monte Carlo null,
   1-rank vs 2-rank Gloo gradients/updates, bucketing, token counts and exact resume.
-  views.py only accepts synthetic observations; there is no real-data loader.
-- Missing: approved-shard data loader, benchmark adapters, selection/Procrustes
+  The original entry point remains synthetic-only. A separate offline local-array
+  pilot loader and torchrun runtime are described in [MULTIGPU.md](MULTIGPU.md).
+  Real views require an explicit opt-in after loader approval; defaults still refuse them.
+- Missing: raw approved-shard extraction, benchmark adapters, selection/Procrustes
   experiments and measured throughput.
 - Only the two pinned SSL4EO metadata tables have human approval. Imagery and
   training-source use remain unapproved; see [the measured metadata audit](../../../reports/jepa/metadata/README.md).

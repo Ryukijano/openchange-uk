@@ -133,8 +133,7 @@ def ep_per_view_stratum(
                 )
             else:
                 cosine_sums, sine_sums = cf_sums(z_compute, direction_chunk, onehot, t)
-            cosine_sums = sum_reduce(cosine_sums)
-            sine_sums = sum_reduce(sine_sums)
+            cosine_sums, sine_sums = sum_reduce(torch.stack((cosine_sums, sine_sums))).unbind(0)
             denominator = counts[None, :, None, None]
             cosine_means = cosine_sums / denominator
             sine_means = sine_sums / denominator

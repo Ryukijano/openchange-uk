@@ -1,4 +1,4 @@
-.PHONY: lint test test-jepa jepa-dry-run jepa-synthetic-fit dry-run smoke train-small evaluate reproduce-table-1 check-sbatch validate-sources env-info check
+.PHONY: lint test test-jepa jepa-dry-run jepa-synthetic-fit jepa-distributed-dry-run dry-run smoke train-small evaluate reproduce-table-1 check-sbatch validate-sources env-info check
 
 export PYTHONPATH := src
 PYTHON ?= python3
@@ -19,6 +19,9 @@ jepa-dry-run:
 
 jepa-synthetic-fit:
 	$(PYTHON) scripts/train_jepa.py --config configs/jepa/p1_synthetic.yaml --synthetic-fit --output-root outputs
+
+jepa-distributed-dry-run:
+	$(PYTHON) scripts/train_jepa_distributed.py --config configs/jepa/p1_synthetic.yaml --dry-run
 
 check-sbatch:
 	$(PYTHON) scripts/check_sbatch.py

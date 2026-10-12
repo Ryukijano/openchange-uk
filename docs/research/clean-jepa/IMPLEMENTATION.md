@@ -7,7 +7,9 @@ loss definitions in [FORMULATION](FORMULATION.md), source records in [SOURCES](S
 
 P1 synthetic code is now implemented; its commands and limitations are recorded in
 [the evidence guide](../../../reports/jepa/p1/README.md). Real-data ingestion is not
-implemented. [DATA_PLAN.md](DATA_PLAN.md) records the current provider formats and
+implemented in the original P1 entry point. The new offline paired-array/DDP pilot
+is described in [MULTIGPU.md](MULTIGPU.md); raw imagery extraction and accepted
+scientific splits remain absent. [DATA_PLAN.md](DATA_PLAN.md) records provider formats and
 the metadata-first next handoff. The layouts below remain design contracts, not a
 claim that every listed module or real-data entry point exists.
 

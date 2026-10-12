@@ -1,4 +1,4 @@
-"""Synthetic-only Sentinel-style observations and deterministic multi-crop views."""
+"""Sentinel-style observations and deterministic multi-crop views."""
 
 from __future__ import annotations
 
@@ -87,6 +87,14 @@ class ViewBatch:
     flip_rot: Tensor
     tokens: Tensor
     s2_valid_fraction: Tensor
+
+    def pin_memory(self) -> ViewBatch:
+        self.strata = self.strata.pin_memory()
+        for bucket in self.buckets:
+            bucket.pixels = {key: value.pin_memory() for key, value in bucket.pixels.items()}
+            for key in ("keep_idx", "view_idx", "sample_idx"):
+                setattr(bucket, key, getattr(bucket, key).pin_memory())
+        return self
 
 
 @lru_cache(maxsize=16)
@@ -307,10 +315,12 @@ def make_views(
     seed: int,
     step: int,
     cfg: dict,
+    *,
+    allow_real: bool = False,
 ) -> ViewBatch:
     if not observations:
         raise ValueError("observations must not be empty")
-    if any(not observation.synthetic_data for observation in observations):
+    if not allow_real and any(not observation.synthetic_data for observation in observations):
         raise ValueError("real data needs data.py")
     n_samples = len(observations)
     n_global = cfg["global_views"]

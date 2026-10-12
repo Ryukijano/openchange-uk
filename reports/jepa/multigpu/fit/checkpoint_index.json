@@ -1,0 +1,12 @@
+[
+  {
+    "path": "/home/ubuntu/airr-masterplan/p1-logs/multigpu-fit/jepa-multigpu-cpu-plumbing-local20261012T034127Z-48397/checkpoints/step_000005.pt",
+    "sha256": "316ba39ba57437e7845da89ad184e594214b06b77c2a4c9dea3998cc982d091a",
+    "step": 5
+  },
+  {
+    "path": "/home/ubuntu/airr-masterplan/p1-logs/multigpu-fit/jepa-multigpu-cpu-plumbing-local20261012T034127Z-48397/checkpoints/step_000010.pt",
+    "sha256": "9e92ea1643335abd26fc5e2799a091555ecda58c7f4c6cb11cad9749e59bab62",
+    "step": 10
+  }
+]
