@@ -1,0 +1,110 @@
+{
+  "independent_implementation": "csv+datetime; no pandas/merge_asof",
+  "potential_rows_before_contour_quality": 14,
+  "potential_scene_groups_before_contour_quality": 5,
+  "matched_rows": [
+    {
+      "date": "2004-06-30T10:43:24+00:00",
+      "sensor": "L7",
+      "profile": "-400",
+      "gap_hours": 37.276666666666664,
+      "period": "fit"
+    },
+    {
+      "date": "2015-09-26T10:48:10+00:00",
+      "sensor": "L7",
+      "profile": "-200",
+      "gap_hours": 37.19722222222222,
+      "period": "cal"
+    },
+    {
+      "date": "2015-09-26T10:48:10+00:00",
+      "sensor": "L7",
+      "profile": "-400",
+      "gap_hours": 37.19722222222222,
+      "period": "cal"
+    },
+    {
+      "date": "2017-10-17T10:50:50+00:00",
+      "sensor": "L7",
+      "profile": "-100",
+      "gap_hours": 37.15277777777778,
+      "period": "test"
+    },
+    {
+      "date": "2017-10-17T10:50:50+00:00",
+      "sensor": "L7",
+      "profile": "-200",
+      "gap_hours": 37.15277777777778,
+      "period": "test"
+    },
+    {
+      "date": "2018-05-24T11:00:36+00:00",
+      "sensor": "S2",
+      "profile": "-400",
+      "gap_hours": 12.99,
+      "period": "test"
+    },
+    {
+      "date": "2019-08-12T11:08:54+00:00",
+      "sensor": "S2",
+      "profile": "-100",
+      "gap_hours": 36.85166666666667,
+      "period": "test"
+    },
+    {
+      "date": "2019-08-12T11:08:54+00:00",
+      "sensor": "S2",
+      "profile": "-200",
+      "gap_hours": 36.85166666666667,
+      "period": "test"
+    },
+    {
+      "date": "2019-08-12T11:08:54+00:00",
+      "sensor": "S2",
+      "profile": "-300",
+      "gap_hours": 36.85166666666667,
+      "period": "test"
+    },
+    {
+      "date": "2019-08-12T11:08:54+00:00",
+      "sensor": "S2",
+      "profile": "-400",
+      "gap_hours": 36.85166666666667,
+      "period": "test"
+    }
+  ],
+  "counts": {
+    "fit": {
+      "rows": 1,
+      "scenes": 1
+    },
+    "cal": {
+      "rows": 2,
+      "scenes": 1
+    },
+    "test": {
+      "rows": 7,
+      "scenes": 3
+    }
+  },
+  "agrees_with_primary_audit": true,
+  "registered_folds": [
+    {
+      "test_site": "NARRABEEN",
+      "blocking_truc_partition": "cal",
+      "eligible": false
+    },
+    {
+      "test_site": "TRUCVERT",
+      "blocking_truc_partition": "test",
+      "eligible": false
+    },
+    {
+      "test_site": "TORREYPINES",
+      "blocking_truc_partition": "fit",
+      "eligible": false
+    }
+  ],
+  "status": "insufficient data; no model comparison or primary outcome computed"
+}

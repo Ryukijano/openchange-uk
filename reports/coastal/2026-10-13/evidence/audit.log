@@ -1,0 +1,26 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/audit_surveys.py", line 312, in <module>
+    main()
+  File "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/audit_surveys.py", line 300, in main
+    data, counts = build_observations(site, surveys)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/audit_surveys.py", line 204, in build_observations
+    data = match_surveys(coast, surveys)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/audit_surveys.py", line 191, in match_surveys
+    matched = pd.merge_asof(group.sort_values('date'), truth, left_on='date', right_on='survey_date',
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/airr-masterplan/eo-task-research/.venv312/lib/python3.12/site-packages/pandas/core/reshape/merge.py", line 917, in merge_asof
+    op = _AsOfMerge(
+         ^^^^^^^^^^^
+  File "/home/ubuntu/airr-masterplan/eo-task-research/.venv312/lib/python3.12/site-packages/pandas/core/reshape/merge.py", line 2353, in __init__
+    _OrderedMerge.__init__(
+  File "/home/ubuntu/airr-masterplan/eo-task-research/.venv312/lib/python3.12/site-packages/pandas/core/reshape/merge.py", line 2265, in __init__
+    _MergeOperation.__init__(
+  File "/home/ubuntu/airr-masterplan/eo-task-research/.venv312/lib/python3.12/site-packages/pandas/core/reshape/merge.py", line 1026, in __init__
+    self._maybe_require_matching_dtypes(self.left_join_keys, self.right_join_keys)
+  File "/home/ubuntu/airr-masterplan/eo-task-research/.venv312/lib/python3.12/site-packages/pandas/core/reshape/merge.py", line 2478, in _maybe_require_matching_dtypes
+    _check_dtype_match(lk, rk, i)
+  File "/home/ubuntu/airr-masterplan/eo-task-research/.venv312/lib/python3.12/site-packages/pandas/core/reshape/merge.py", line 2474, in _check_dtype_match
+    raise MergeError(msg)
+pandas.errors.MergeError: incompatible merge keys [0] datetime64[ns, UTC] and datetime64[us, UTC], must be the same type

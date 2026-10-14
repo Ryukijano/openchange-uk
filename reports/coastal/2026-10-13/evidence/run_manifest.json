@@ -1,0 +1,47 @@
+{
+  "started_utc": "2026-10-13T23:06:07.083985+00:00",
+  "finished_utc": "2026-10-13T23:06:35.974744+00:00",
+  "runs": [
+    {
+      "command": [
+        "/home/ubuntu/airr-masterplan/eo-task-research/.venv312/bin/python",
+        "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/audit_surveys.py"
+      ],
+      "start_utc": "2026-10-13T23:06:07.084067+00:00",
+      "end_utc": "2026-10-13T23:06:35.863699+00:00",
+      "elapsed_seconds": 28.779632,
+      "exit_code": 0
+    },
+    {
+      "command": [
+        "/home/ubuntu/airr-masterplan/eo-task-research/.venv312/bin/python",
+        "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/verify_match_counts.py"
+      ],
+      "start_utc": "2026-10-13T23:06:35.863728+00:00",
+      "end_utc": "2026-10-13T23:06:35.974701+00:00",
+      "elapsed_seconds": 0.110973,
+      "exit_code": 0
+    }
+  ],
+  "config_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/protocol.md",
+  "model_fit_performed": false,
+  "seed": "not applicable; deterministic count audit",
+  "sds_git_sha": "c0747c52b310433411fc4ab96822ee67441a8d2e",
+  "openchange_git_sha": "66eb56cdcc080118da66d3ebeac3334dde4cdbc7",
+  "audit_scripts_uncommitted": true,
+  "hardware": "CPU-only local x86_64; no GPU or cluster use",
+  "sha256": {
+    "protocol.md": "4b4dc8c35c626c4f286fb67b75a885d793e6871796640d21aacbc9559a09272c",
+    "sources.yaml": "e90e8df2c48f69e236cb34a2073cce08fc7dba50a0072f3045e30e5d687b8e37",
+    "acquire_surveys.py": "00629d939ab534157d76cd737bfdfd0364912e5c4a7d1032db76541ca4fc64e9",
+    "audit_surveys.py": "325d2d57706e22eba7b844a8ca6f826f2797d3d83ffac561ae26913195e1b2ee",
+    "verify_match_counts.py": "6e000dc67a789521b3fe2091b1cc630ab401e2e56e32d27e3305ae7e788e1eac",
+    "data_audit.json": "9fa371190d27b3118c2c1785aa9dba7d9bdbe4191a9716f862c76b75d922ebfd",
+    "independent_count_check.json": "0b865011fe99ec98fd04ed5306884f5f7b1fb85d2363dbf6c7f6fb589defa2d7",
+    "partial_acquisition_audit.json": "3a5c41f33195fe165a1479687e057659eb89f26b6cde44cb384fd52d86020753",
+    "download_manifest.json": "7632a8a9cf69912974f96fd4aa23d08616e8d651226f3d9a76ce96cc47c964a7",
+    "requirements.lock": "daa8d4f6ef292fc377cbab10347257dc43a82fd397e9fa5fdb38640829f560fd",
+    "environment.lock": "5a6ee9b14b835a3bcf50ec0b11b2bc7084a6a48ed71c603db1fd4adb2cae52b4",
+    "audit_final.log": "4356865a0e3da12561b2563125a201da2e6a3d2c91701bd0dd0c578c98b2f228"
+  }
+}
