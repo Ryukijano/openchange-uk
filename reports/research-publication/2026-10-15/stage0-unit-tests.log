@@ -1,0 +1,10 @@
+test_calibration_is_scene_max (test_stage0.Stage0Tests.test_calibration_is_scene_max) ... ok
+test_contour (test_stage0.Stage0Tests.test_contour) ... ok
+test_exact_hours_not_truncated_days (test_stage0.Stage0Tests.test_exact_hours_not_truncated_days) ... ok
+test_invalid_contours (test_stage0.Stage0Tests.test_invalid_contours) ... ok
+test_retains_whole_scenes (test_stage0.Stage0Tests.test_retains_whole_scenes) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.017s
+
+OK

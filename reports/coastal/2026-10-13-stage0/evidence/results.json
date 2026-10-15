@@ -1,0 +1,624 @@
+{
+  "status": "one-site temporal screen only; four-site Stage 0 blocked by missing surveys",
+  "survey_excluded": 14,
+  "survey_rows": 3227,
+  "max_label_grid_difference_m": 1.4210854715202004e-14,
+  "audits": [
+    {
+      "team": "team_CoastSat",
+      "series": "Landsat_or_mixed",
+      "available_rows": 2423,
+      "available_scenes": 537,
+      "matches_48h": {
+        "rows": 367,
+        "scenes": 84,
+        "surveys": 85,
+        "profiles": 5
+      },
+      "matches_36h": {
+        "rows": 300,
+        "scenes": 68,
+        "surveys": 69,
+        "profiles": 5
+      }
+    },
+    {
+      "team": "team_CoastSat",
+      "series": "S2",
+      "available_rows": 1724,
+      "available_scenes": 354,
+      "matches_48h": {
+        "rows": 294,
+        "scenes": 60,
+        "surveys": 51,
+        "profiles": 5
+      },
+      "matches_36h": {
+        "rows": 250,
+        "scenes": 51,
+        "surveys": 44,
+        "profiles": 5
+      }
+    },
+    {
+      "team": "team_SHOREX",
+      "series": "Landsat_or_mixed",
+      "available_rows": 2782,
+      "available_scenes": 600,
+      "matches_48h": {
+        "rows": 372,
+        "scenes": 66,
+        "surveys": 59,
+        "profiles": 5
+      },
+      "matches_36h": {
+        "rows": 291,
+        "scenes": 51,
+        "surveys": 47,
+        "profiles": 5
+      }
+    },
+    {
+      "team": "team_CASSIE",
+      "series": "Landsat_or_mixed",
+      "available_rows": 1267,
+      "available_scenes": 256,
+      "matches_48h": {
+        "rows": 175,
+        "scenes": 36,
+        "surveys": 36,
+        "profiles": 5
+      },
+      "matches_36h": {
+        "rows": 112,
+        "scenes": 23,
+        "surveys": 23,
+        "profiles": 5
+      }
+    },
+    {
+      "team": "team_CASSIE",
+      "series": "S2",
+      "available_rows": 926,
+      "available_scenes": 187,
+      "matches_48h": {
+        "rows": 160,
+        "scenes": 33,
+        "surveys": 33,
+        "profiles": 5
+      },
+      "matches_36h": {
+        "rows": 111,
+        "scenes": 23,
+        "surveys": 23,
+        "profiles": 5
+      }
+    }
+  ],
+  "splits": {
+    "fit": {
+      "rows": 138,
+      "scenes": 31,
+      "surveys": 31,
+      "profiles": 5
+    },
+    "cal": {
+      "rows": 194,
+      "scenes": 45,
+      "surveys": 45,
+      "profiles": 5
+    },
+    "test": {
+      "rows": 329,
+      "scenes": 68,
+      "surveys": 49,
+      "profiles": 5
+    }
+  },
+  "feature_missing_fraction": {
+    "tide": 0.0,
+    "swh": 0.0,
+    "mwp": 0.0,
+    "pp1d": 0.0,
+    "dir_sin": 0.0,
+    "dir_cos": 0.0,
+    "month_sin": 0.0,
+    "month_cos": 0.0,
+    "setup": 0.0,
+    "slope": 0.0,
+    "sensor_L5": 0.0,
+    "sensor_L7": 0.0,
+    "sensor_L8": 0.0,
+    "sensor_S2": 0.0,
+    "disagreement": 0.5582450832072617
+  },
+  "calibration_baselines": {
+    "published": {
+      "rmse": 7.727710625352401,
+      "bias": -2.213131321010445,
+      "rows": 146,
+      "row_coverage": 0.7525773195876289,
+      "scene_coverage": 0.7111111111111111
+    },
+    "median_bias": {
+      "rmse": 7.654873380397772,
+      "bias": 1.9435856566602525,
+      "rows": 146,
+      "row_coverage": 0.7525773195876289,
+      "scene_coverage": 0.7111111111111111
+    },
+    "setup": {
+      "rmse": 7.331059759741495,
+      "bias": 2.1021431685560716,
+      "rows": 146,
+      "row_coverage": 0.7525773195876289,
+      "scene_coverage": 0.7111111111111111
+    },
+    "tide_rank": {
+      "rmse": 7.7447919463905,
+      "bias": -1.443271341703292,
+      "rows": 137,
+      "row_coverage": 0.7061855670103093,
+      "scene_coverage": 0.7111111111111111
+    },
+    "disagreement_rank": {
+      "rmse": 7.708238819536663,
+      "bias": -1.456153359852798,
+      "rows": 146,
+      "row_coverage": 0.7525773195876289,
+      "scene_coverage": 0.7111111111111111
+    }
+  },
+  "chosen_baseline": "setup",
+  "test_baselines": {
+    "published": {
+      "all": {
+        "rmse": 6.855037422878888,
+        "bias": -0.15865308791503457,
+        "rows": 329,
+        "row_coverage": 1.0,
+        "scene_coverage": 1.0
+      },
+      "retained": {
+        "rmse": 6.735115242649319,
+        "bias": -0.31213430388909613,
+        "rows": 231,
+        "row_coverage": 0.7021276595744681,
+        "scene_coverage": 0.7058823529411765
+      }
+    },
+    "median_bias": {
+      "all": {
+        "rmse": 7.934159195109034,
+        "bias": 3.998063889755663,
+        "rows": 329,
+        "row_coverage": 1.0,
+        "scene_coverage": 1.0
+      },
+      "retained": {
+        "rmse": 7.74888156082183,
+        "bias": 3.8445826737816016,
+        "rows": 231,
+        "row_coverage": 0.7021276595744681,
+        "scene_coverage": 0.7058823529411765
+      }
+    },
+    "setup": {
+      "all": {
+        "rmse": 8.2392195169859,
+        "bias": 4.5753234580230195,
+        "rows": 329,
+        "row_coverage": 1.0,
+        "scene_coverage": 1.0
+      },
+      "retained": {
+        "rmse": 8.119903332698774,
+        "bias": 4.48940827983818,
+        "rows": 231,
+        "row_coverage": 0.7021276595744681,
+        "scene_coverage": 0.7058823529411765
+      }
+    },
+    "tide_rank": {
+      "all": {
+        "rmse": 6.855037422878888,
+        "bias": -0.15865308791503457,
+        "rows": 329,
+        "row_coverage": 1.0,
+        "scene_coverage": 1.0
+      },
+      "retained": {
+        "rmse": 6.637524200068739,
+        "bias": 0.19032125131890645,
+        "rows": 234,
+        "row_coverage": 0.7112462006079028,
+        "scene_coverage": 0.7058823529411765
+      }
+    },
+    "disagreement_rank": {
+      "all": {
+        "rmse": 6.855037422878888,
+        "bias": -0.15865308791503457,
+        "rows": 329,
+        "row_coverage": 1.0,
+        "scene_coverage": 1.0
+      },
+      "retained": {
+        "rmse": 6.4850088049656005,
+        "bias": 0.30785216372843827,
+        "rows": 234,
+        "row_coverage": 0.7112462006079028,
+        "scene_coverage": 0.7058823529411765
+      }
+    }
+  },
+  "raw_uncorrected_test": {
+    "rmse": 8.800573416904417,
+    "bias": -0.6713066454190173,
+    "rows": 319,
+    "row_coverage": 0.9696048632218845,
+    "scene_coverage": 0.9705882352941176
+  },
+  "models": [
+    {
+      "mode": "metadata",
+      "seed": 0,
+      "all": {
+        "rmse": 8.826316283220555,
+        "bias": 5.203506299106117,
+        "rows": 329,
+        "row_coverage": 1.0,
+        "scene_coverage": 1.0
+      },
+      "retained": {
+        "rmse": 8.434152639179953,
+        "bias": 5.081037423612704,
+        "rows": 232,
+        "row_coverage": 0.7051671732522796,
+        "scene_coverage": 0.7058823529411765
+      },
+      "calibration_padding_m": 8.446817770913079,
+      "interval_coverage": 0.9574468085106383,
+      "interval_width_m": 35.155786193494016,
+      "raw_interval_coverage": 0.7082066869300911,
+      "retained_reduction_vs_cal_selected_baseline": -0.03870111423810907,
+      "reduction_scene_bootstrap_95CI": [
+        -0.12729472211969056,
+        0.05135974652968605
+      ],
+      "per_sensor": {
+        "L7": {
+          "rmse": 9.118646629883262,
+          "bias": 1.2418056309488754,
+          "rows": 20,
+          "row_coverage": 1.0,
+          "scene_coverage": 1.0
+        },
+        "L8": {
+          "rmse": 7.4990153407729165,
+          "bias": 2.8902078045641937,
+          "rows": 52,
+          "row_coverage": 1.0,
+          "scene_coverage": 1.0
+        },
+        "S2": {
+          "rmse": 9.048753232436214,
+          "bias": 5.979870248831117,
+          "rows": 257,
+          "row_coverage": 1.0,
+          "scene_coverage": 1.0
+        }
+      },
+      "scene_simultaneous_coverage": 0.8088235294117647,
+      "retained_interval_coverage": 0.9525862068965517,
+      "pair_metrics": {
+        "pairs": 138,
+        "claims": 1,
+        "claim_coverage": 0.007246376811594203,
+        "false_direction_rate": 0.0,
+        "interval_coverage": 1.0,
+        "note": "Correlated/exploratory pairs, not independent beach or 90% joint coverage proof."
+      }
+    },
+    {
+      "mode": "metadata",
+      "seed": 1,
+      "all": {
+        "rmse": 8.826316283220555,
+        "bias": 5.203506299106117,
+        "rows": 329,
+        "row_coverage": 1.0,
+        "scene_coverage": 1.0
+      },
+      "retained": {
+        "rmse": 8.434152639179953,
+        "bias": 5.081037423612704,
+        "rows": 232,
+        "row_coverage": 0.7051671732522796,
+        "scene_coverage": 0.7058823529411765
+      },
+      "calibration_padding_m": 8.446817770913079,
+      "interval_coverage": 0.9574468085106383,
+      "interval_width_m": 35.155786193494016,
+      "raw_interval_coverage": 0.7082066869300911,
+      "retained_reduction_vs_cal_selected_baseline": -0.03870111423810907,
+      "reduction_scene_bootstrap_95CI": [
+        -0.12729472211969056,
+        0.05135974652968605
+      ],
+      "per_sensor": {
+        "L7": {
+          "rmse": 9.118646629883262,
+          "bias": 1.2418056309488754,
+          "rows": 20,
+          "row_coverage": 1.0,
+          "scene_coverage": 1.0
+        },
+        "L8": {
+          "rmse": 7.4990153407729165,
+          "bias": 2.8902078045641937,
+          "rows": 52,
+          "row_coverage": 1.0,
+          "scene_coverage": 1.0
+        },
+        "S2": {
+          "rmse": 9.048753232436214,
+          "bias": 5.979870248831117,
+          "rows": 257,
+          "row_coverage": 1.0,
+          "scene_coverage": 1.0
+        }
+      },
+      "scene_simultaneous_coverage": 0.8088235294117647,
+      "retained_interval_coverage": 0.9525862068965517,
+      "pair_metrics": {
+        "pairs": 138,
+        "claims": 1,
+        "claim_coverage": 0.007246376811594203,
+        "false_direction_rate": 0.0,
+        "interval_coverage": 1.0,
+        "note": "Correlated/exploratory pairs, not independent beach or 90% joint coverage proof."
+      }
+    },
+    {
+      "mode": "metadata",
+      "seed": 2,
+      "all": {
+        "rmse": 8.826316283220555,
+        "bias": 5.203506299106117,
+        "rows": 329,
+        "row_coverage": 1.0,
+        "scene_coverage": 1.0
+      },
+      "retained": {
+        "rmse": 8.434152639179953,
+        "bias": 5.081037423612704,
+        "rows": 232,
+        "row_coverage": 0.7051671732522796,
+        "scene_coverage": 0.7058823529411765
+      },
+      "calibration_padding_m": 8.446817770913079,
+      "interval_coverage": 0.9574468085106383,
+      "interval_width_m": 35.155786193494016,
+      "raw_interval_coverage": 0.7082066869300911,
+      "retained_reduction_vs_cal_selected_baseline": -0.03870111423810907,
+      "reduction_scene_bootstrap_95CI": [
+        -0.12729472211969056,
+        0.05135974652968605
+      ],
+      "per_sensor": {
+        "L7": {
+          "rmse": 9.118646629883262,
+          "bias": 1.2418056309488754,
+          "rows": 20,
+          "row_coverage": 1.0,
+          "scene_coverage": 1.0
+        },
+        "L8": {
+          "rmse": 7.4990153407729165,
+          "bias": 2.8902078045641937,
+          "rows": 52,
+          "row_coverage": 1.0,
+          "scene_coverage": 1.0
+        },
+        "S2": {
+          "rmse": 9.048753232436214,
+          "bias": 5.979870248831117,
+          "rows": 257,
+          "row_coverage": 1.0,
+          "scene_coverage": 1.0
+        }
+      },
+      "scene_simultaneous_coverage": 0.8088235294117647,
+      "retained_interval_coverage": 0.9525862068965517,
+      "pair_metrics": {
+        "pairs": 138,
+        "claims": 1,
+        "claim_coverage": 0.007246376811594203,
+        "false_direction_rate": 0.0,
+        "interval_coverage": 1.0,
+        "note": "Correlated/exploratory pairs, not independent beach or 90% joint coverage proof."
+      }
+    },
+    {
+      "mode": "metadata_disagreement",
+      "seed": 0,
+      "all": {
+        "rmse": 8.837912091298051,
+        "bias": 4.973893640011142,
+        "rows": 329,
+        "row_coverage": 1.0,
+        "scene_coverage": 1.0
+      },
+      "retained": {
+        "rmse": 8.410082573743356,
+        "bias": 4.54179381406988,
+        "rows": 229,
+        "row_coverage": 0.6960486322188449,
+        "scene_coverage": 0.7058823529411765
+      },
+      "calibration_padding_m": 8.870588376828929,
+      "interval_coverage": 0.9513677811550152,
+      "interval_width_m": 36.68088273756041,
+      "raw_interval_coverage": 0.729483282674772,
+      "retained_reduction_vs_cal_selected_baseline": -0.035736785175265906,
+      "reduction_scene_bootstrap_95CI": [
+        -0.11493768044942514,
+        0.049609198361231434
+      ],
+      "per_sensor": {
+        "L7": {
+          "rmse": 9.624943088422548,
+          "bias": 1.2416318449417374,
+          "rows": 20,
+          "row_coverage": 1.0,
+          "scene_coverage": 1.0
+        },
+        "L8": {
+          "rmse": 7.487912205095634,
+          "bias": 2.3969046432253425,
+          "rows": 52,
+          "row_coverage": 1.0,
+          "scene_coverage": 1.0
+        },
+        "S2": {
+          "rmse": 9.024262442646128,
+          "bias": 5.7857561448136705,
+          "rows": 257,
+          "row_coverage": 1.0,
+          "scene_coverage": 1.0
+        }
+      },
+      "scene_simultaneous_coverage": 0.8088235294117647,
+      "retained_interval_coverage": 0.9388646288209607,
+      "pair_metrics": {
+        "pairs": 138,
+        "claims": 0,
+        "claim_coverage": 0.0,
+        "false_direction_rate": null,
+        "interval_coverage": 1.0,
+        "note": "Correlated/exploratory pairs, not independent beach or 90% joint coverage proof."
+      }
+    },
+    {
+      "mode": "metadata_disagreement",
+      "seed": 1,
+      "all": {
+        "rmse": 8.837912091298051,
+        "bias": 4.973893640011142,
+        "rows": 329,
+        "row_coverage": 1.0,
+        "scene_coverage": 1.0
+      },
+      "retained": {
+        "rmse": 8.410082573743356,
+        "bias": 4.54179381406988,
+        "rows": 229,
+        "row_coverage": 0.6960486322188449,
+        "scene_coverage": 0.7058823529411765
+      },
+      "calibration_padding_m": 8.870588376828929,
+      "interval_coverage": 0.9513677811550152,
+      "interval_width_m": 36.68088273756041,
+      "raw_interval_coverage": 0.729483282674772,
+      "retained_reduction_vs_cal_selected_baseline": -0.035736785175265906,
+      "reduction_scene_bootstrap_95CI": [
+        -0.11493768044942514,
+        0.049609198361231434
+      ],
+      "per_sensor": {
+        "L7": {
+          "rmse": 9.624943088422548,
+          "bias": 1.2416318449417374,
+          "rows": 20,
+          "row_coverage": 1.0,
+          "scene_coverage": 1.0
+        },
+        "L8": {
+          "rmse": 7.487912205095634,
+          "bias": 2.3969046432253425,
+          "rows": 52,
+          "row_coverage": 1.0,
+          "scene_coverage": 1.0
+        },
+        "S2": {
+          "rmse": 9.024262442646128,
+          "bias": 5.7857561448136705,
+          "rows": 257,
+          "row_coverage": 1.0,
+          "scene_coverage": 1.0
+        }
+      },
+      "scene_simultaneous_coverage": 0.8088235294117647,
+      "retained_interval_coverage": 0.9388646288209607,
+      "pair_metrics": {
+        "pairs": 138,
+        "claims": 0,
+        "claim_coverage": 0.0,
+        "false_direction_rate": null,
+        "interval_coverage": 1.0,
+        "note": "Correlated/exploratory pairs, not independent beach or 90% joint coverage proof."
+      }
+    },
+    {
+      "mode": "metadata_disagreement",
+      "seed": 2,
+      "all": {
+        "rmse": 8.837912091298051,
+        "bias": 4.973893640011142,
+        "rows": 329,
+        "row_coverage": 1.0,
+        "scene_coverage": 1.0
+      },
+      "retained": {
+        "rmse": 8.410082573743356,
+        "bias": 4.54179381406988,
+        "rows": 229,
+        "row_coverage": 0.6960486322188449,
+        "scene_coverage": 0.7058823529411765
+      },
+      "calibration_padding_m": 8.870588376828929,
+      "interval_coverage": 0.9513677811550152,
+      "interval_width_m": 36.68088273756041,
+      "raw_interval_coverage": 0.729483282674772,
+      "retained_reduction_vs_cal_selected_baseline": -0.035736785175265906,
+      "reduction_scene_bootstrap_95CI": [
+        -0.11493768044942514,
+        0.049609198361231434
+      ],
+      "per_sensor": {
+        "L7": {
+          "rmse": 9.624943088422548,
+          "bias": 1.2416318449417374,
+          "rows": 20,
+          "row_coverage": 1.0,
+          "scene_coverage": 1.0
+        },
+        "L8": {
+          "rmse": 7.487912205095634,
+          "bias": 2.3969046432253425,
+          "rows": 52,
+          "row_coverage": 1.0,
+          "scene_coverage": 1.0
+        },
+        "S2": {
+          "rmse": 9.024262442646128,
+          "bias": 5.7857561448136705,
+          "rows": 257,
+          "row_coverage": 1.0,
+          "scene_coverage": 1.0
+        }
+      },
+      "scene_simultaneous_coverage": 0.8088235294117647,
+      "retained_interval_coverage": 0.9388646288209607,
+      "pair_metrics": {
+        "pairs": 138,
+        "claims": 0,
+        "claim_coverage": 0.0,
+        "false_direction_rate": null,
+        "interval_coverage": 1.0,
+        "note": "Correlated/exploratory pairs, not independent beach or 90% joint coverage proof."
+      }
+    }
+  ]
+}

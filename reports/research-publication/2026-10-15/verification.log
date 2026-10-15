@@ -1,0 +1,22 @@
+Publication checks: 2026-10-15; no training, downloads or cluster work performed.
+Environment: existing repository venv for make check; existing CPU Python 3.12 research venv for historical unit tests. No dependency installation.
+PASS current navigation: relative file/directory links resolve. Historical notes retain original workspace links.
+PASS 42 byte-identical source copies; one documented presentation-only HTML edit.
+PASS original three-site archive manifest: every archived file matches its historical hash.
+PASS fold_A_fit_duck_test_narrabeen: baseline=7.210012 m, learned=6.829874 m, relative reduction=5.2724%; identical seeds
+PASS fold_B_fit_narrabeen_test_duck: baseline=6.961325 m, learned=7.960047 m, relative reduction=-14.3467%; identical seeds
+PASS aggregate arithmetic and FAIL scientific project gate preserved.
+PASS Python syntax on 10 historical script snapshots. Original formatting retained; not refitted or made portable.
+Initial static-JS attempt stopped: node was absent from PATH (FileNotFoundError). Resolved with the existing nvm Node binary; no installation or blueprint change.
+PASS offline assets and JS syntax: COASTAL_MODEL_VISUAL.html
+PASS offline assets and JS syntax: COASTAL_RESULTS_VISUAL.html
+PASS offline assets and JS syntax: EO_RESEARCH_VISUAL.html
+PASS offline assets and JS syntax: TASK_FIRST_PLAN_VISUAL.html
+No fresh browser-interaction/layout verification claimed for this publication; historical guides retain their original checks.
+PASS credential-pattern and injected-secret-value scan. No values logged.
+PASS repository-check.log: All checks passed!; Ran 24 tests in 0.017s; OK
+PASS audit-unit-tests.log: Ran 10 tests in 0.035s; OK
+PASS stage0-unit-tests.log: Ran 5 tests in 0.017s; OK
+PASS git diff --check. No new Python implementation or type-check target; historical scripts parsed, minimal project lint/compileall run by make check.
+No active .git/hooks pre-commit file or pre-commit config found; sample hooks only. No hook installed for publication.
+No model refit/clean-room reproduction or fresh UI test asserted. SHA256SUMS verification is a separate command after this log is finalised.
