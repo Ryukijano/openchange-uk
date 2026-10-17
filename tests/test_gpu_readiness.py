@@ -8,18 +8,18 @@ from unittest.mock import patch
 
 import yaml
 
-from openchange.gpu_readiness import IMAGE, execution_context, main, validate_config
+from openchange.gpu_readiness import IMAGE_2609, IMAGES, execution_context, main, validate_config
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = {
-    "job": "gpu-readiness", "seed": 0, "container": IMAGE,
+    "job": "gpu-readiness", "seed": 0, "container": IMAGE_2609,
     "expect_machine": "aarch64", "expect_device": "GH200",
 }
 ENV = {
     "SLURM_JOB_ID": "123", "SLURM_JOB_NUM_NODES": "1",
     "APPTAINER_CONTAINER": "/project/pytorch.sif",
     "OPENCHANGE_GIT_SHA": "a" * 40, "OPENCHANGE_EXPECTED_GIT_SHA": "a" * 40,
-    "OPENCHANGE_GIT_DIRTY": "0", "OPENCHANGE_IMAGE": IMAGE,
+    "OPENCHANGE_GIT_DIRTY": "0", "OPENCHANGE_IMAGE": IMAGE_2609,
     "OPENCHANGE_SIF_SHA256": "b" * 64,
 }
 
@@ -29,6 +29,11 @@ class GPUReadinessTest(unittest.TestCase):
         self.assertEqual(validate_config(CONFIG), CONFIG)
         actual = yaml.safe_load((ROOT / "configs/gpu_readiness.yaml").read_text())
         self.assertEqual(validate_config(actual), CONFIG)
+
+    def test_any_approved_image_config_accepted(self):
+        for image in IMAGES:
+            config = dict(CONFIG, container=image)
+            self.assertEqual(validate_config(config), config)
 
     def test_unknown_missing_and_unsafe_config_refused(self):
         cases = [None, [], {}, {**CONFIG, "steps": 10000}]

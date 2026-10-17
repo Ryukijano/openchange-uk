@@ -15,6 +15,8 @@ import yaml
 from openchange.provenance import start_run, summary_lines, write_json
 
 IMAGE = "nvcr.io/nvidia/pytorch:25.05-py3"
+IMAGE_2609 = "nvcr.io/nvidia/pytorch:26.09-py3"
+IMAGES = frozenset({IMAGE, IMAGE_2609})
 CONFIG_KEYS = {"job", "seed", "container", "expect_machine", "expect_device"}
 
 
@@ -22,12 +24,14 @@ def validate_config(config: object) -> dict:
     if not isinstance(config, dict) or set(config) != CONFIG_KEYS:
         raise ValueError(f"config must contain exactly {sorted(CONFIG_KEYS)}")
     expected = {
-        "job": "gpu-readiness", "container": IMAGE,
+        "job": "gpu-readiness",
         "expect_machine": "aarch64", "expect_device": "GH200",
     }
     for key, value in expected.items():
         if config[key] != value:
             raise ValueError(f"{key} must be {value!r}")
+    if config["container"] not in IMAGES:
+        raise ValueError("container must be an approved NGC PyTorch image")
     if type(config["seed"]) is not int or not 0 <= config["seed"] < 2**32:
         raise ValueError("seed must be an integer in [0, 2**32)")
     return config
@@ -45,7 +49,7 @@ def execution_context(mode: str, env: dict[str, str], machine: str) -> tuple[int
         raise ValueError("missing full git SHA")
     if env.get("OPENCHANGE_EXPECTED_GIT_SHA") != sha or env.get("OPENCHANGE_GIT_DIRTY") != "0":
         raise ValueError("requires the reviewed commit and a clean tree")
-    if env.get("OPENCHANGE_IMAGE") != IMAGE:
+    if env.get("OPENCHANGE_IMAGE") not in IMAGES:
         raise ValueError("unexpected container image label")
     if not re.fullmatch(r"[0-9a-f]{64}", env.get("OPENCHANGE_SIF_SHA256", "")):
         raise ValueError("missing actual container SHA-256")
@@ -238,6 +242,8 @@ def main(argv: list[str] | None = None) -> int:
     started = time.monotonic()
     write_json(run_dir / "readiness.json", report)
     try:
+        if os.environ.get("OPENCHANGE_IMAGE") != config["container"]:
+            raise ValueError("OPENCHANGE_IMAGE must match the reviewed config container")
         context = execution_context(args.mode, dict(os.environ), platform.machine())
         run_cuda_checks(config, args.mode, context, run_dir, report)
         expected_checks = {
