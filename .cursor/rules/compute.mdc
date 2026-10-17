@@ -1,11 +1,11 @@
 ---
-description: OpenChange-UK compute guardrails. Propose Slurm; do not submit it.
+description: OpenChange-UK compute guardrails. Bounded cluster access after human Clifton auth.
 alwaysApply: true
 ---
 
 # OpenChange-UK compute
 
-- Never execute sbatch, srun, scancel, ssh, or destructive filesystem commands.
+- After the human authenticates Clifton, ssh and Slurm commands (sbatch, srun, salloc, scancel, squeue, sacct, sinfo, scontrol) may be executed within these limits. Never run `clifton auth` or destructive filesystem commands.
 - Never change a Slurm time limit above 30 minutes unless the human explicitly asks.
 - Every training submission requires an explicit config file and a git commit hash.
 - Every job log must include config path, git SHA, seed, environment, and, once training exists, metrics and checkpoint path.
