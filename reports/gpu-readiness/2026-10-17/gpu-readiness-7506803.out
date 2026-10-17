@@ -1,0 +1,130 @@
+date_utc=2026-10-17T20:25:09Z host=nid010053 arch=aarch64
+git_sha=30d6b3d359a410f08f50278ea0c384c8e11ace2d git_dirty=0 config=configs/gpu_readiness.yaml seed=0
+config_sha256=38e7334eb42c558a68338d900b233b3954ee3ccf29f2c817bc3b454bc0d0d648
+slurm_job_id=7506803 mode=distributed gpus=2 image=nvcr.io/nvidia/pytorch:25.05-py3
+sif=/projects/u6xn/sif-images/pytorch_25.05-py3.sif sif_sha256=41bc95eb3ad44a361cfd795d03fa15a954a4afe0b924a2a69cc1c9d335c2a2a8
+apptainer=apptainer version 1.4.1-1.brics
+index, name, driver_version, memory.total [MiB]
+0, NVIDIA GH200 120GB, 580.173.02, 97871 MiB
+1, NVIDIA GH200 120GB, 580.173.02, 97871 MiB
+run_dir: outputs/gpu-readiness-distributed-rank1-slurm7506803
+config: configs/gpu_readiness.yaml sha256=38e7334eb42c
+seed: 0
+git_sha: 30d6b3d359a410f08f50278ea0c384c8e11ace2d dirty=False source=env
+machine: aarch64 python=3.12.3
+container: /projects/u6xn/sif-images/pytorch_25.05-py3.sif
+run_dir: outputs/gpu-readiness-distributed-rank0-slurm7506803
+config: configs/gpu_readiness.yaml sha256=38e7334eb42c
+seed: 0
+git_sha: 30d6b3d359a410f08f50278ea0c384c8e11ace2d dirty=False source=env
+machine: aarch64 python=3.12.3
+container: /projects/u6xn/sif-images/pytorch_25.05-py3.sif
+rank=0 check=hardware_and_runtime passed
+rank=1 check=hardware_and_runtime passed
+rank=1 check=bf16_matmul_vs_fp32 passedrank=0 check=bf16_matmul_vs_fp32 passed
+
+rank=0 check=bf16_attention_forward_backward passedrank=1 check=bf16_attention_forward_backward passed
+
+nid010053:145738:145738 [0] NCCL INFO Bootstrap: Using nmn0:10.100.1.38<0>
+nid010053:145738:145738 [0] NCCL INFO cudaDriverVersion 13000
+nid010053:145738:145738 [0] NCCL INFO NCCL version 2.26.5+cuda12.9
+nid010053:145738:145738 [0] NCCL INFO Comm config Blocking set to 1
+nid010053:145739:145739 [1] NCCL INFO cudaDriverVersion 13000
+nid010053:145739:145739 [1] NCCL INFO Bootstrap: Using nmn0:10.100.1.38<0>
+nid010053:145739:145739 [1] NCCL INFO NCCL version 2.26.5+cuda12.9
+nid010053:145739:145739 [1] NCCL INFO Comm config Blocking set to 1
+nid010053:145738:145774 [0] NCCL INFO NET/Plugin: Loaded net plugin NCCL RDMA Plugin v10 (v10)
+nid010053:145739:145775 [1] NCCL INFO NET/Plugin: Loaded net plugin NCCL RDMA Plugin v10 (v10)
+nid010053:145738:145774 [0] NCCL INFO NET/Plugin: Loaded collnet plugin NCCL RDMA Plugin v10 (v10)
+nid010053:145739:145775 [1] NCCL INFO NET/Plugin: Loaded collnet plugin NCCL RDMA Plugin v10 (v10)
+nid010053:145739:145775 [1] NCCL INFO Plugin Path : /opt/hpcx/nccl_rdma_sharp_plugin/lib/libnccl-net.so
+nid010053:145739:145775 [1] NCCL INFO P2P plugin v10 IBext_v10
+nid010053:145738:145774 [0] NCCL INFO Plugin Path : /opt/hpcx/nccl_rdma_sharp_plugin/lib/libnccl-net.so
+nid010053:145738:145774 [0] NCCL INFO P2P plugin v10 IBext_v10
+nid010053:145739:145775 [1] NCCL INFO NET/IB : No device found.
+nid010053:145738:145774 [0] NCCL INFO NET/IB : No device found.
+nid010053:145739:145775 [1] NCCL INFO NET/IB : Using [RO]; OOB nmn0:10.100.1.38<0>
+nid010053:145738:145774 [0] NCCL INFO NET/IB : Using [RO]; OOB nmn0:10.100.1.38<0>
+nid010053:145739:145775 [1] NCCL INFO NET/IB : No device found.
+nid010053:145738:145774 [0] NCCL INFO NET/IB : No device found.
+nid010053:145739:145775 [1] NCCL INFO NET/IB : Using [RO]; OOB nmn0:10.100.1.38<0>
+nid010053:145738:145774 [0] NCCL INFO NET/IB : Using [RO]; OOB nmn0:10.100.1.38<0>
+nid010053:145739:145775 [1] NCCL INFO NET/Socket : Using [0]nmn0:10.100.1.38<0> [1]hsn0:10.242.21.28<0> [2]hsn2:10.242.21.2<0> [3]hsn3:10.242.21.3<0> [4]hsn1:10.242.21.29<0>
+nid010053:145738:145774 [0] NCCL INFO NET/Socket : Using [0]nmn0:10.100.1.38<0> [1]hsn0:10.242.21.28<0> [2]hsn2:10.242.21.2<0> [3]hsn3:10.242.21.3<0> [4]hsn1:10.242.21.29<0>
+nid010053:145739:145775 [1] NCCL INFO PROFILER/Plugin: Could not find: libnccl-profiler.so. 
+nid010053:145738:145774 [0] NCCL INFO PROFILER/Plugin: Could not find: libnccl-profiler.so. 
+nid010053:145739:145775 [1] NCCL INFO Using network Socket
+nid010053:145738:145774 [0] NCCL INFO Using network Socket
+nid010053:145738:145774 [0] NCCL INFO ncclCommInitRankConfig comm 0x29475070 rank 0 nranks 2 cudaDev 0 nvmlDev 0 busId 901000 commId 0xbcf63024ad772c25 - Init START
+nid010053:145739:145775 [1] NCCL INFO ncclCommInitRankConfig comm 0x3d066020 rank 1 nranks 2 cudaDev 1 nvmlDev 1 busId 1901000 commId 0xbcf63024ad772c25 - Init START
+nid010053:145739:145775 [1] NCCL INFO RAS client listening socket at ::1<28028>
+nid010053:145738:145774 [0] NCCL INFO RAS client listening socket at ::1<28028>
+nid010053:145738:145774 [0] NCCL INFO Bootstrap timings total 0.008461 (create 0.000048, send 0.000125, recv 0.007818, ring 0.000019, delay 0.000001)
+nid010053:145739:145775 [1] NCCL INFO Bootstrap timings total 0.000697 (create 0.000038, send 0.000090, recv 0.000114, ring 0.000019, delay 0.000000)
+nid010053:145738:145774 [0] NCCL INFO Setting affinity for GPU 0 to ff,ffffffff,ffffffff
+nid010053:145738:145774 [0] NCCL INFO comm 0x29475070 rank 0 nRanks 2 nNodes 1 localRanks 2 localRank 0 MNNVL 0
+nid010053:145739:145775 [1] NCCL INFO comm 0x3d066020 rank 1 nRanks 2 nNodes 1 localRanks 2 localRank 1 MNNVL 0
+nid010053:145738:145774 [0] NCCL INFO Channel 00/08 : 0 1
+nid010053:145738:145774 [0] NCCL INFO Channel 01/08 : 0 1
+nid010053:145738:145774 [0] NCCL INFO Channel 02/08 : 0 1
+nid010053:145738:145774 [0] NCCL INFO Channel 03/08 : 0 1
+nid010053:145739:145775 [1] NCCL INFO Trees [0] -1/-1/-1->1->0 [1] -1/-1/-1->1->0 [2] 0/-1/-1->1->-1 [3] 0/-1/-1->1->-1 [4] -1/-1/-1->1->0 [5] -1/-1/-1->1->0 [6] 0/-1/-1->1->-1 [7] 0/-1/-1->1->-1
+nid010053:145738:145774 [0] NCCL INFO Channel 04/08 : 0 1
+nid010053:145739:145775 [1] NCCL INFO P2P Chunksize set to 524288
+nid010053:145738:145774 [0] NCCL INFO Channel 05/08 : 0 1
+nid010053:145738:145774 [0] NCCL INFO Channel 06/08 : 0 1
+nid010053:145738:145774 [0] NCCL INFO Channel 07/08 : 0 1
+nid010053:145738:145774 [0] NCCL INFO Trees [0] 1/-1/-1->0->-1 [1] 1/-1/-1->0->-1 [2] -1/-1/-1->0->1 [3] -1/-1/-1->0->1 [4] 1/-1/-1->0->-1 [5] 1/-1/-1->0->-1 [6] -1/-1/-1->0->1 [7] -1/-1/-1->0->1
+nid010053:145738:145774 [0] NCCL INFO P2P Chunksize set to 524288
+nid010053:145738:145774 [0] NCCL INFO Check P2P Type intraNodeP2pSupport 1 directMode 0
+nid010053:145739:145779 [1] NCCL INFO [Proxy Service] Device 1 CPU core 11
+nid010053:145738:145778 [0] NCCL INFO [Proxy Service] Device 0 CPU core 1
+nid010053:145739:145780 [1] NCCL INFO [Proxy Service UDS] Device 1 CPU core 12
+nid010053:145738:145781 [0] NCCL INFO [Proxy Service UDS] Device 0 CPU core 2
+nid010053:145739:145775 [1] NCCL INFO threadThresholds 8/8/64 | 16/8/64 | 512 | 512
+nid010053:145739:145775 [1] NCCL INFO 8 coll channels, 8 collnet channels, 0 nvls channels, 8 p2p channels, 8 p2p channels per peer
+nid010053:145738:145774 [0] NCCL INFO threadThresholds 8/8/64 | 16/8/64 | 512 | 512
+nid010053:145738:145774 [0] NCCL INFO 8 coll channels, 8 collnet channels, 0 nvls channels, 8 p2p channels, 8 p2p channels per peer
+nid010053:145738:145774 [0] NCCL INFO CC Off, workFifoBytes 1048576
+nid010053:145739:145775 [1] NCCL INFO TUNER/Plugin: Could not find: libnccl-tuner.so. Using internal tuner plugin.
+nid010053:145739:145775 [1] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v4 symbol.
+nid010053:145739:145775 [1] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v3 symbol.
+nid010053:145738:145774 [0] NCCL INFO TUNER/Plugin: Could not find: libnccl-tuner.so. Using internal tuner plugin.
+nid010053:145739:145775 [1] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v2 symbol, using internal tuner instead.
+nid010053:145738:145774 [0] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v4 symbol.
+nid010053:145739:145775 [1] NCCL INFO ncclCommInitRankConfig comm 0x3d066020 rank 1 nranks 2 cudaDev 1 nvmlDev 1 busId 1901000 commId 0xbcf63024ad772c25 - Init COMPLETE
+nid010053:145738:145774 [0] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v3 symbol.
+nid010053:145738:145774 [0] NCCL INFO TUNER/Plugin: Failed to find ncclTunerPlugin_v2 symbol, using internal tuner instead.
+nid010053:145739:145775 [1] NCCL INFO Init timings - ncclCommInitRankConfig: rank 1 nranks 2 total 0.46 (kernels 0.17, alloc 0.21, bootstrap 0.00, allgathers 0.00, topo 0.08, graphs 0.00, connections 0.00, rest 0.00)
+nid010053:145738:145774 [0] NCCL INFO ncclCommInitRankConfig comm 0x29475070 rank 0 nranks 2 cudaDev 0 nvmlDev 0 busId 901000 commId 0xbcf63024ad772c25 - Init COMPLETE
+nid010053:145738:145774 [0] NCCL INFO Init timings - ncclCommInitRankConfig: rank 0 nranks 2 total 0.47 (kernels 0.17, alloc 0.20, bootstrap 0.01, allgathers 0.00, topo 0.08, graphs 0.00, connections 0.00, rest 0.00)
+nid010053:145738:145782 [0] NCCL INFO Channel 00/0 : 0[0] -> 1[1] via P2P/CUMEM
+nid010053:145739:145783 [1] NCCL INFO Channel 00/0 : 1[1] -> 0[0] via P2P/CUMEM
+nid010053:145739:145783 [1] NCCL INFO Channel 01/0 : 1[1] -> 0[0] via P2P/CUMEM
+nid010053:145738:145782 [0] NCCL INFO Channel 01/0 : 0[0] -> 1[1] via P2P/CUMEM
+nid010053:145738:145782 [0] NCCL INFO Channel 02/0 : 0[0] -> 1[1] via P2P/CUMEM
+nid010053:145739:145783 [1] NCCL INFO Channel 02/0 : 1[1] -> 0[0] via P2P/CUMEM
+nid010053:145739:145783 [1] NCCL INFO Channel 03/0 : 1[1] -> 0[0] via P2P/CUMEM
+nid010053:145738:145782 [0] NCCL INFO Channel 03/0 : 0[0] -> 1[1] via P2P/CUMEM
+nid010053:145738:145782 [0] NCCL INFO Channel 04/0 : 0[0] -> 1[1] via P2P/CUMEM
+nid010053:145739:145783 [1] NCCL INFO Channel 04/0 : 1[1] -> 0[0] via P2P/CUMEM
+nid010053:145739:145783 [1] NCCL INFO Channel 05/0 : 1[1] -> 0[0] via P2P/CUMEM
+nid010053:145738:145782 [0] NCCL INFO Channel 05/0 : 0[0] -> 1[1] via P2P/CUMEM
+nid010053:145738:145782 [0] NCCL INFO Channel 06/0 : 0[0] -> 1[1] via P2P/CUMEM
+nid010053:145739:145783 [1] NCCL INFO Channel 06/0 : 1[1] -> 0[0] via P2P/CUMEM
+nid010053:145738:145782 [0] NCCL INFO Channel 07/0 : 0[0] -> 1[1] via P2P/CUMEM
+nid010053:145739:145783 [1] NCCL INFO Channel 07/0 : 1[1] -> 0[0] via P2P/CUMEM
+nid010053:145738:145782 [0] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+nid010053:145739:145783 [1] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+rank=1 check=nccl_all_reduce passedrank=0 check=nccl_all_reduce passed
+
+rank=0 check=synthetic_image_training passed
+rank=1 check=synthetic_image_training passed
+rank=0 check=checkpoint_write_read_continue passed
+rank=1 check=checkpoint_write_read_continue passed
+rank=0 check=ddp_parameter_consensus passed
+rank=1 check=ddp_parameter_consensus passed
+nid010053:145739:145786 [1] NCCL INFO comm 0x3d066020 rank 1 nranks 2 cudaDev 1 busId 1901000 - Destroy COMPLETE
+nid010053:145738:145787 [0] NCCL INFO comm 0x29475070 rank 0 nranks 2 cudaDev 0 busId 901000 - Destroy COMPLETE
+status=passed_synthetic_checks_only report=outputs/gpu-readiness-distributed-rank1-slurm7506803/readiness.json
+status=passed_synthetic_checks_only report=outputs/gpu-readiness-distributed-rank0-slurm7506803/readiness.json
