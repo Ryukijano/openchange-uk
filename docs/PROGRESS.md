@@ -23,6 +23,7 @@ We have not established that a new foundation model is needed.
 |---|---|---|
 | Benchmark and compute safeguards | Source-approval checks, provenance, proposed geographic/temporal splits, local checks and human-run cluster templates | In the repository; the benchmark split is still proposed |
 | Clean-JEPA engineering | Mathematical design; a separate PR contains synthetic CPU training/restart, distributed CPU evidence, metadata audit and human-provided GH200 smoke records | [PR #2](https://github.com/Ryukijano/openchange-uk/pull/2); not evidence of useful EO pretraining |
+| Training environment preparation | Bounded host-only inspector and staged one-/multi-GPU readiness checks | Prepared and tested locally; current BriCS environment and GPU readiness not verified |
 | TESSERA feature migration | Same-year old/new embeddings, spatially separated crop-parcel screen, adapters versus unchanged and refitted heads | Weak compatibility signal; low absolute task accuracy; not a validated product |
 | Problem selection | Reviewed user workflows, existing tools, data rights, novelty and Space feasibility, using independent research reviewers | Coastal measurement selected for a cheap falsifier; forecasting remains a backup |
 | Narrabeen screen | Metadata-based shoreline error prediction against surveys on later dates | Negative one-beach screen |
@@ -232,12 +233,32 @@ Per-site learning and the forecasting backup remain options, not running jobs.
 No new imagery download, weights download, coastal pretraining, deployment or
 cluster work is authorized by this publication.
 
+## 8. Training environment preparation
+
+The [host-only inspection guide](TRAINING_INSPECTION.md) provides a standard-library
+script that records the checkout SHA/dirty state, architecture, software locations,
+loaded modules, host package metadata, SIF presence and bounded storage inventories.
+It does not connect remotely, install packages, execute a container or test CUDA.
+Selected NPY files receive header-only shape/dtype checks; other formats receive
+file metadata only. A completed report explicitly does **not** mean training-ready.
+
+The separate [GPU readiness runbook](GPU_READINESS.md) starts with synthetic
+one-GH200 checks, followed by same-node two-GPU and optional four-GPU NCCL/DDP
+checks. These require a human submission, a clean reviewed checkout and pinned
+container identity. Model-specific tests remain separate: the historical
+SyncBatchNorm failure has not been resolved by preparing the generic checks.
+
+Neither the new inspection nor these readiness jobs have run on BriCS in this
+phase. The next environment step is a human-run inspection and review of its JSON,
+not a training launch or a claim of readiness.
+
 ## Where everything is
 
 - **Reading and visuals:** [research archive index](research/eo-task-research/README.md).
 - **Latest visual:** [coastal results HTML](research/eo-task-research/visuals/COASTAL_RESULTS_VISUAL.html).
   Download and open HTML locally; GitHub displays source. Older visuals also have PDFs.
 - **Coastal evidence:** [experiment index](../reports/coastal/README.md).
+- **Training setup and GPU checks:** [inspection](TRAINING_INSPECTION.md) and [GPU runbook](GPU_READINESS.md).
 - **Publication inventory, checksums and replay limits:** [bundle notes](../reports/research-publication/2026-10-15/README.md).
 - **Earlier programme designs:** [AIRR programme](research/airr-programme/README.md).
 - **Separate engineering work already pushed:** [JEPA implementation PR #2](https://github.com/Ryukijano/openchange-uk/pull/2).

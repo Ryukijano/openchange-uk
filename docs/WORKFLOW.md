@@ -1,5 +1,9 @@
 # How this repo uses Isambard
 
+Before changing the training setup, the [host-only inspection guide](TRAINING_INSPECTION.md)
+provides a bounded human-run inventory of the checkout, storage paths and software.
+It does not install packages, execute containers, submit jobs or test CUDA.
+
 For staged runtime verification (single GH200, then same-node NCCL/DDP), use the
 [GPU readiness runbook](GPU_READINESS.md). It records the unresolved historical
 model-specific failure separately; a generic CUDA pass is not model readiness.
