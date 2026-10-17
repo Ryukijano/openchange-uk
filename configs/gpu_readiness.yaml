@@ -1,0 +1,5 @@
+job: gpu-readiness
+seed: 0
+container: nvcr.io/nvidia/pytorch:26.09-py3
+expect_machine: aarch64
+expect_device: GH200

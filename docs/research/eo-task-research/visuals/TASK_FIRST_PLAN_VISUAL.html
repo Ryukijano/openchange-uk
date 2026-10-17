@@ -1,0 +1,2702 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content="Devin artifact kit" />
+    <title>Which EO model is worth training first</title>
+    <style>
+/* Devin artifact kit — self-contained styles for standalone HTML artifacts.
+   Tokens are translated from the Devin product design system. Light is the
+   default; dark is applied from `prefers-color-scheme` unless a host theme
+   signal (`?theme=`, `data-theme`, or a `devin:theme` message) says otherwise. */
+
+:root {
+  color-scheme: light;
+
+  --bg-page: 252 252 252;
+  --bg-wash: 248 248 248;
+  --bg-elevated: 255 255 255;
+  --tint-tertiary: 0 0 0 / 0.04;
+  --tint-secondary: 0 0 0 / 0.06;
+  --tint-primary: 0 0 0 / 0.08;
+  --text-primary: 25 25 25;
+  --text-secondary: 25 25 25 / 0.64;
+  --text-tertiary: 25 25 25 / 0.4;
+  --text-accent: 49 124 255;
+  --bg-accent: 49 124 255;
+  --border-secondary: 0 0 0 / 0.08;
+  --border-primary: 0 0 0 / 0.1;
+  --text-green: 0 165 88;
+  --text-orange: 245 142 58;
+  --text-red: 245 59 58;
+  --text-blue: 51 125 244;
+  --text-purple: 149 108 222;
+  --shadow-l1: 0 1px 2px rgb(0 0 0 / 0.06);
+  --shadow-l2: 0 4px 12px rgb(0 0 0 / 0.08);
+
+  --font-sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  --font-mono: "SF Mono", "Roboto Mono", ui-monospace, monospace;
+  --radius-sm: 4px;
+  --radius: 6px;
+  --radius-lg: 10px;
+  --unit: 4px;
+  --max-width: 1120px;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg-page: 20 20 20;
+  --bg-wash: 25 25 25;
+  --bg-elevated: 31 31 31;
+  --tint-tertiary: 255 255 255 / 0.03;
+  --tint-secondary: 255 255 255 / 0.05;
+  --tint-primary: 255 255 255 / 0.08;
+  --text-primary: 255 255 255 / 0.9;
+  --text-secondary: 255 255 255 / 0.52;
+  --text-tertiary: 255 255 255 / 0.4;
+  --text-accent: 73 176 255;
+  --bg-accent: 68 137 255;
+  --border-secondary: 255 255 255 / 0.04;
+  --border-primary: 255 255 255 / 0.08;
+  --text-green: 0 236 126;
+  --text-orange: 245 142 58;
+  --text-red: 255 108 107;
+  --text-blue: 92 154 255;
+  --text-purple: 178 145 240;
+  --shadow-l1: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-l2: 0 4px 12px rgb(0 0 0 / 0.5);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+
+    --bg-page: 20 20 20;
+    --bg-wash: 25 25 25;
+    --bg-elevated: 31 31 31;
+    --tint-tertiary: 255 255 255 / 0.03;
+    --tint-secondary: 255 255 255 / 0.05;
+    --tint-primary: 255 255 255 / 0.08;
+    --text-primary: 255 255 255 / 0.9;
+    --text-secondary: 255 255 255 / 0.52;
+    --text-tertiary: 255 255 255 / 0.4;
+    --text-accent: 73 176 255;
+    --bg-accent: 68 137 255;
+    --border-secondary: 255 255 255 / 0.04;
+    --border-primary: 255 255 255 / 0.08;
+    --text-green: 0 236 126;
+    --text-orange: 245 142 58;
+    --text-red: 255 108 107;
+    --text-blue: 92 154 255;
+    --text-purple: 178 145 240;
+    --shadow-l1: 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-l2: 0 4px 12px rgb(0 0 0 / 0.5);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: rgb(var(--bg-page));
+  color: rgb(var(--text-primary));
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 20px;
+  font-variant-numeric: tabular-nums;
+}
+
+:where(button, a, input, select, summary, [tabindex]):focus-visible {
+  outline: 1px solid rgb(var(--bg-accent));
+  outline-offset: 1px;
+  border-radius: var(--radius-sm);
+}
+
+/* ---------- layout ---------- */
+
+.a-shell {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: calc(var(--unit) * 8) calc(var(--unit) * 6) calc(var(--unit) * 16);
+}
+
+.a-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: calc(var(--unit) * 3);
+  padding-bottom: calc(var(--unit) * 4);
+  border-bottom: 1px solid rgb(var(--border-primary));
+}
+
+.a-header__title {
+  margin: 0;
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.a-header__subtitle {
+  margin: calc(var(--unit) * 1) 0 0;
+  color: rgb(var(--text-secondary));
+  font-size: 13px;
+  line-height: 18px;
+  max-width: 68ch;
+}
+
+.a-section {
+  margin-top: calc(var(--unit) * 9);
+}
+
+.a-section__title {
+  margin: 0 0 calc(var(--unit) * 1);
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 600;
+}
+
+.a-section__note,
+.a-prose {
+  margin: 0 0 calc(var(--unit) * 4);
+  color: rgb(var(--text-secondary));
+  font-size: 13px;
+  line-height: 20px;
+  max-width: 72ch;
+}
+
+.a-grid {
+  display: grid;
+  gap: calc(var(--unit) * 3);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.a-grid--halves {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+/* ---------- surfaces ---------- */
+
+.a-panel {
+  background: rgb(var(--bg-elevated));
+  border: 1px solid rgb(var(--border-secondary));
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-l1);
+  padding: calc(var(--unit) * 4);
+}
+
+.a-panel__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: calc(var(--unit) * 2);
+  margin-bottom: calc(var(--unit) * 3);
+}
+
+.a-panel__title {
+  margin: 0;
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 600;
+}
+
+.a-label {
+  color: rgb(var(--text-tertiary));
+  font-size: 12px;
+  line-height: 16px;
+  text-transform: none;
+}
+
+/* ---------- metrics ---------- */
+
+.a-metric {
+  background: rgb(var(--tint-tertiary));
+  border: 1px solid rgb(var(--border-secondary));
+  border-radius: var(--radius);
+  padding: calc(var(--unit) * 3);
+}
+
+.a-metric__label {
+  color: rgb(var(--text-secondary));
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.a-metric__value {
+  margin-top: calc(var(--unit) * 1);
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.a-metric__delta {
+  margin-top: calc(var(--unit) * 1);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 16px;
+  color: rgb(var(--text-secondary));
+}
+
+.a-metric__delta[data-trend="up"] {
+  color: rgb(var(--text-green));
+}
+
+.a-metric__delta[data-trend="down"] {
+  color: rgb(var(--text-red));
+}
+
+/* ---------- status ---------- */
+
+.a-status {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--unit) * 1.5);
+  font-size: 12px;
+  line-height: 16px;
+  color: rgb(var(--text-secondary));
+  white-space: nowrap;
+}
+
+.a-status::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}
+
+.a-status[data-state="done"] {
+  color: rgb(var(--text-green));
+}
+
+.a-status[data-state="active"] {
+  color: rgb(var(--text-blue));
+}
+
+.a-status[data-state="at-risk"] {
+  color: rgb(var(--text-orange));
+}
+
+.a-status[data-state="blocked"] {
+  color: rgb(var(--text-red));
+}
+
+.a-status[data-state="planned"] {
+  color: rgb(var(--text-tertiary));
+}
+
+/* ---------- tables ---------- */
+
+.a-table-scroll {
+  overflow-x: auto;
+  border: 1px solid rgb(var(--border-secondary));
+  border-radius: var(--radius);
+  background: rgb(var(--bg-elevated));
+}
+
+.a-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.a-table th,
+.a-table td {
+  text-align: left;
+  padding: calc(var(--unit) * 2) calc(var(--unit) * 3);
+  border-bottom: 1px solid rgb(var(--border-secondary));
+  vertical-align: top;
+}
+
+.a-table thead th {
+  position: sticky;
+  top: 0;
+  background: rgb(var(--bg-wash));
+  color: rgb(var(--text-secondary));
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  z-index: 1;
+}
+
+.a-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.a-table tbody tr:hover td {
+  background: rgb(var(--tint-tertiary));
+}
+
+.a-table td[data-numeric],
+.a-table th[data-numeric] {
+  text-align: right;
+  font-family: var(--font-mono);
+}
+
+/* Pinned columns: `data-a-sticky-columns="N"` keeps the first N columns in
+   view while the table scrolls sideways. CSS alone pins the first column, so
+   N=1 works without script; kit.js measures the leading columns, marks each
+   pinned cell `data-a-sticky` with its `--a-sticky-left` offset, and flags the
+   table `data-a-sticky-ready`. Pinned cells need opaque backgrounds or the
+   scrolled columns show through them. */
+.a-table[data-a-sticky-columns]:not([data-a-sticky-ready]):not([data-a-sticky-columns="0"])
+  tr
+  > :first-child,
+.a-table[data-a-sticky-ready] [data-a-sticky] {
+  position: sticky;
+  left: var(--a-sticky-left, 0);
+  z-index: 1;
+  background-color: rgb(var(--bg-elevated));
+}
+
+/* Header row above pinned body cells; the pinned corner above both. */
+.a-table[data-a-sticky-columns] thead th {
+  z-index: 2;
+}
+
+.a-table[data-a-sticky-columns]:not([data-a-sticky-ready]):not([data-a-sticky-columns="0"])
+  thead
+  tr
+  > :first-child,
+.a-table[data-a-sticky-ready] thead [data-a-sticky] {
+  z-index: 3;
+  background-color: rgb(var(--bg-wash));
+}
+
+/* The row tint is translucent, so layer it over the opaque surface. */
+.a-table[data-a-sticky-columns]:not([data-a-sticky-ready]):not([data-a-sticky-columns="0"])
+  tbody
+  tr:hover
+  > td:first-child,
+.a-table[data-a-sticky-ready] tbody tr:hover > td[data-a-sticky] {
+  background: linear-gradient(
+      rgb(var(--tint-tertiary)),
+      rgb(var(--tint-tertiary))
+    )
+    rgb(var(--bg-elevated));
+}
+
+/* Divider on the last pinned column. Table cells don't paint box-shadow when
+   borders collapse, so it is a pseudo-element. Without script there is no
+   scroll state and it is always shown; with it, only while scrolled. */
+.a-table[data-a-sticky-columns]:not([data-a-sticky-ready]):not([data-a-sticky-columns="0"])
+  tr
+  > :first-child::after,
+.a-table[data-a-sticky-ready] [data-a-sticky="edge"]::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 100%;
+  width: 8px;
+  border-left: 1px solid rgb(var(--border-primary));
+  background: linear-gradient(to right, rgb(0 0 0 / 0.08), transparent);
+  pointer-events: none;
+}
+
+.a-table-scroll:not([data-a-scrolled])
+  .a-table[data-a-sticky-ready]
+  [data-a-sticky="edge"]::after {
+  display: none;
+}
+
+/* ---------- charts (inline SVG + CSS bars) ---------- */
+
+.a-chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.a-chart__grid line {
+  stroke: rgb(var(--border-primary));
+  stroke-dasharray: 2 3;
+}
+
+.a-chart__axis text {
+  fill: rgb(var(--text-tertiary));
+  font-size: 10px;
+  font-family: var(--font-mono);
+}
+
+.a-chart__series {
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.a-chart__point {
+  stroke: rgb(var(--bg-elevated));
+  stroke-width: 1.5;
+}
+
+.a-bars {
+  display: grid;
+  gap: calc(var(--unit) * 2);
+  margin: 0;
+}
+
+.a-bars__row {
+  display: grid;
+  grid-template-columns: minmax(88px, 22%) 1fr auto;
+  align-items: center;
+  gap: calc(var(--unit) * 2);
+  font-size: 13px;
+}
+
+.a-bars__track {
+  height: 8px;
+  border-radius: 999px;
+  background: rgb(var(--tint-secondary));
+  overflow: hidden;
+}
+
+.a-bars__fill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: rgb(var(--bg-accent));
+}
+
+.a-bars__value {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: rgb(var(--text-secondary));
+}
+
+.a-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--unit) * 3);
+  margin: calc(var(--unit) * 3) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+  color: rgb(var(--text-secondary));
+}
+
+.a-legend li {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--unit) * 1.5);
+}
+
+.a-legend__swatch {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  flex: none;
+}
+
+/* Series colors stay stable across themes so legends keep meaning. */
+.a-series-1 {
+  --series: 49 124 255;
+}
+.a-series-2 {
+  --series: 0 165 88;
+}
+.a-series-3 {
+  --series: 149 108 222;
+}
+.a-series-4 {
+  --series: 245 142 58;
+}
+
+.a-chart__series.a-series-1,
+.a-chart__series.a-series-2,
+.a-chart__series.a-series-3,
+.a-chart__series.a-series-4 {
+  stroke: rgb(var(--series));
+}
+
+.a-chart__point.a-series-1,
+.a-chart__point.a-series-2,
+.a-chart__point.a-series-3,
+.a-chart__point.a-series-4 {
+  fill: rgb(var(--series));
+}
+
+.a-series-1 .a-legend__swatch,
+.a-series-2 .a-legend__swatch,
+.a-series-3 .a-legend__swatch,
+.a-series-4 .a-legend__swatch {
+  background: rgb(var(--series));
+}
+
+.a-chart__bar.a-series-1,
+.a-chart__bar.a-series-2,
+.a-chart__bar.a-series-3,
+.a-chart__bar.a-series-4 {
+  fill: rgb(var(--series));
+}
+
+/* Dimming the rest of the plot reads as "this is the value you asked for"
+   without moving anything, which keeps the highlight legible under
+   reduced motion. */
+.a-chart__bar,
+.a-chart__point,
+.a-chart__series {
+  transition: opacity 120ms ease;
+}
+
+.a-chart__plot:has([data-a-active]) .a-chart__bar:not([data-a-active]) {
+  opacity: 0.45;
+}
+
+.a-chart__point[data-a-active] {
+  r: 4.25;
+}
+
+.a-chart__crosshair {
+  stroke: rgb(var(--border-primary));
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+.a-chart__band {
+  fill: transparent;
+  /* Vertical scrolling must still work when a finger lands on the plot. */
+  touch-action: pan-y;
+}
+
+.a-chart__band[data-a-active] {
+  fill: rgb(var(--tint-secondary));
+}
+
+.a-chart__band:focus-visible {
+  outline: 1px solid rgb(var(--bg-accent));
+  outline-offset: -2px;
+}
+
+.a-chart {
+  touch-action: pan-y;
+}
+
+/* Shown in place of the plot when a filter leaves the source table empty. */
+.a-chart__empty {
+  margin: 0 0 calc(var(--unit) * 3);
+  padding: calc(var(--unit) * 6) 0;
+  border: 1px dashed rgb(var(--border-secondary));
+  border-radius: var(--radius);
+  color: rgb(var(--text-secondary));
+  font-size: 13px;
+  text-align: center;
+}
+
+/* ---------- tooltip ---------- */
+
+.a-tip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  min-width: 120px;
+  max-width: 260px;
+  padding: calc(var(--unit) * 2) calc(var(--unit) * 2.5);
+  border: 1px solid rgb(var(--border-secondary));
+  border-radius: var(--radius);
+  background: rgb(var(--bg-elevated));
+  box-shadow: var(--shadow-l2);
+  color: rgb(var(--text-primary));
+  font-size: 12px;
+  line-height: 16px;
+  pointer-events: none;
+}
+
+.a-tip__title {
+  margin-bottom: var(--unit);
+  font-weight: 600;
+  color: rgb(var(--text-primary));
+}
+
+.a-tip__text {
+  color: rgb(var(--text-secondary));
+}
+
+.a-tip__row {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--unit) * 1.5);
+  white-space: nowrap;
+}
+
+.a-tip__swatch {
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: 2px;
+  background: rgb(var(--series, var(--bg-accent)));
+}
+
+.a-tip__name {
+  color: rgb(var(--text-secondary));
+}
+
+.a-tip__value {
+  margin-left: auto;
+  padding-left: calc(var(--unit) * 2);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- controls: tabs, filters, toggles ---------- */
+
+.a-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(var(--unit) * 2);
+  margin-bottom: calc(var(--unit) * 4);
+}
+
+.a-tabs {
+  display: flex;
+  gap: calc(var(--unit) * 1);
+  padding: 2px;
+  background: rgb(var(--tint-tertiary));
+  border: 1px solid rgb(var(--border-secondary));
+  border-radius: var(--radius);
+}
+
+.a-btn {
+  appearance: none;
+  border: 1px solid transparent;
+  background: transparent;
+  color: rgb(var(--text-secondary));
+  font: inherit;
+  font-size: 13px;
+  padding: calc(var(--unit) * 1) calc(var(--unit) * 2.5);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.a-btn:hover {
+  background: rgb(var(--tint-secondary));
+  color: rgb(var(--text-primary));
+}
+
+.a-btn[aria-selected="true"],
+.a-btn[aria-pressed="true"] {
+  background: rgb(var(--bg-elevated));
+  border-color: rgb(var(--border-primary));
+  color: rgb(var(--text-primary));
+  box-shadow: var(--shadow-l1);
+}
+
+.a-btn--outline {
+  border-color: rgb(var(--border-primary));
+  background: rgb(var(--bg-elevated));
+}
+
+.a-btn--icon {
+  display: inline-grid;
+  flex: 0 0 auto;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  place-items: center;
+}
+
+.a-theme-icon {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.a-theme-icon--moon {
+  display: none;
+}
+
+:root[data-theme="dark"] .a-theme-icon--sun {
+  display: none;
+}
+
+:root[data-theme="dark"] .a-theme-icon--moon {
+  display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .a-theme-icon--sun {
+    display: none;
+  }
+
+  :root:not([data-theme]) .a-theme-icon--moon {
+    display: block;
+  }
+}
+
+.a-select {
+  appearance: none;
+  font: inherit;
+  font-size: 13px;
+  color: rgb(var(--text-primary));
+  background: rgb(var(--bg-elevated));
+  border: 1px solid rgb(var(--border-primary));
+  border-radius: var(--radius-sm);
+  padding: calc(var(--unit) * 1) calc(var(--unit) * 2);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ---------- diagram ---------- */
+
+.a-diagram {
+  position: relative;
+  background: rgb(var(--bg-wash));
+  border: 1px solid rgb(var(--border-secondary));
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.a-diagram__canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  touch-action: none;
+  cursor: grab;
+}
+
+.a-diagram__canvas:active {
+  cursor: grabbing;
+}
+
+.a-group rect {
+  fill: rgb(var(--tint-tertiary));
+  stroke: rgb(var(--border-primary));
+  stroke-dasharray: 4 4;
+  rx: 10;
+}
+
+.a-group text {
+  fill: rgb(var(--text-tertiary));
+  font-size: 10px;
+  font-family: var(--font-mono);
+}
+
+.a-node rect {
+  fill: rgb(var(--bg-elevated));
+  stroke: rgb(var(--border-primary));
+  rx: 8;
+}
+
+.a-node__title {
+  fill: rgb(var(--text-primary));
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.a-node__sub {
+  fill: rgb(var(--text-secondary));
+  font-size: 10px;
+  font-family: var(--font-mono);
+}
+
+.a-node {
+  cursor: pointer;
+}
+
+.a-node:hover rect,
+.a-node:focus-visible rect {
+  stroke: rgb(var(--bg-accent));
+}
+
+.a-node[aria-current="true"] rect {
+  stroke: rgb(var(--bg-accent));
+  stroke-width: 2;
+}
+
+.a-edge {
+  fill: none;
+  stroke: rgb(var(--text-tertiary));
+  stroke-width: 1.25;
+}
+
+.a-edge--dim {
+  stroke: rgb(var(--border-primary));
+}
+
+.a-edge__label {
+  fill: rgb(var(--text-tertiary));
+  font-size: 10px;
+  font-family: var(--font-mono);
+}
+
+.a-inspector {
+  border-top: 1px solid rgb(var(--border-secondary));
+  background: rgb(var(--bg-elevated));
+  padding: calc(var(--unit) * 3) calc(var(--unit) * 4);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.a-inspector__title {
+  margin: 0 0 calc(var(--unit) * 1);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ---------- plan / process ---------- */
+
+.a-phase {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: calc(var(--unit) * 3);
+  padding: calc(var(--unit) * 4) 0;
+  border-bottom: 1px solid rgb(var(--border-secondary));
+}
+
+.a-phase:last-child {
+  border-bottom: none;
+}
+
+.a-phase__index {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: rgb(var(--text-tertiary));
+  padding-top: 2px;
+}
+
+.a-phase__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: calc(var(--unit) * 2);
+  justify-content: space-between;
+}
+
+.a-phase__title {
+  margin: 0;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.a-meta-list {
+  display: grid;
+  gap: calc(var(--unit) * 1);
+  margin: calc(var(--unit) * 2) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  color: rgb(var(--text-secondary));
+}
+
+.a-meta-list li,
+.a-meta-list > div {
+  display: grid;
+  grid-template-columns: minmax(96px, 15%) 1fr;
+  gap: calc(var(--unit) * 2);
+}
+
+.a-meta-list dt,
+.a-meta-list .a-meta-list__key {
+  color: rgb(var(--text-tertiary));
+  font-size: 12px;
+}
+
+.a-meta-list dd {
+  margin: 0;
+}
+
+.a-timeline {
+  display: grid;
+  gap: calc(var(--unit) * 1);
+  margin: 0;
+  font-size: 12px;
+}
+
+.a-timeline__row {
+  display: grid;
+  grid-template-columns: minmax(120px, 20%) 1fr;
+  align-items: center;
+  gap: calc(var(--unit) * 2);
+}
+
+.a-timeline__track {
+  position: relative;
+  height: 10px;
+  background: rgb(var(--tint-tertiary));
+  border-radius: var(--radius-sm);
+}
+
+.a-timeline__span {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: var(--radius-sm);
+  background: rgb(var(--bg-accent) / 0.75);
+}
+
+.a-timeline__span[data-state="at-risk"] {
+  background: rgb(var(--text-orange) / 0.75);
+}
+
+.a-timeline__span[data-state="done"] {
+  background: rgb(var(--text-green) / 0.7);
+}
+
+.a-timeline__scale {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  color: rgb(var(--text-tertiary));
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.a-callout {
+  border: 1px solid rgb(var(--border-secondary));
+  border-left: 2px solid rgb(var(--text-orange));
+  border-radius: var(--radius-sm);
+  background: rgb(var(--tint-tertiary));
+  padding: calc(var(--unit) * 3);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.a-callout--decision {
+  border-left-color: rgb(var(--bg-accent));
+}
+
+.a-callout--risk {
+  border-left-color: rgb(var(--text-red));
+}
+
+.a-callout__title {
+  margin: 0 0 calc(var(--unit) * 1);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+details.a-disclosure {
+  border-top: 1px solid rgb(var(--border-secondary));
+  padding: calc(var(--unit) * 2) 0;
+}
+
+details.a-disclosure > summary {
+  cursor: pointer;
+  font-size: 13px;
+  color: rgb(var(--text-secondary));
+  list-style: none;
+}
+
+details.a-disclosure > summary::marker,
+details.a-disclosure > summary::-webkit-details-marker {
+  display: none;
+}
+
+details.a-disclosure > summary::before {
+  content: "+ ";
+  font-family: var(--font-mono);
+}
+
+details.a-disclosure[open] > summary::before {
+  content: "− ";
+}
+
+/* ---------- empty and error states ---------- */
+
+.a-empty,
+.a-error {
+  border: 1px dashed rgb(var(--border-primary));
+  border-radius: var(--radius);
+  padding: calc(var(--unit) * 6);
+  text-align: center;
+  color: rgb(var(--text-secondary));
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.a-error {
+  border-style: solid;
+  border-color: rgb(var(--text-red) / 0.4);
+  color: rgb(var(--text-primary));
+  text-align: left;
+}
+
+.a-error__title {
+  margin: 0 0 calc(var(--unit) * 1);
+  font-size: 13px;
+  font-weight: 600;
+  color: rgb(var(--text-red));
+}
+
+.a-footnote {
+  margin-top: calc(var(--unit) * 10);
+  padding-top: calc(var(--unit) * 4);
+  border-top: 1px solid rgb(var(--border-secondary));
+  color: rgb(var(--text-tertiary));
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.a-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 640px) {
+  .a-shell {
+    padding: calc(var(--unit) * 5) calc(var(--unit) * 4)
+      calc(var(--unit) * 12);
+  }
+
+  .a-header__title {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .a-bars__row,
+  .a-timeline__row,
+  .a-meta-list li,
+  .a-meta-list > div {
+    grid-template-columns: 1fr;
+    gap: calc(var(--unit) * 1);
+  }
+
+  .a-phase {
+    grid-template-columns: 1fr;
+  }
+
+  .a-phase__index {
+    padding-top: 0;
+  }
+
+  .a-toolbar {
+    align-items: stretch;
+  }
+
+  .a-tabs {
+    overflow-x: auto;
+  }
+}
+
+/* ---------- motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- print / export ---------- */
+
+@media print {
+  :root[data-theme],
+  :root:not([data-theme]) {
+    color-scheme: light only;
+    --bg-page: 252 252 252;
+    --bg-wash: 248 248 248;
+    --bg-elevated: 255 255 255;
+    --tint-tertiary: 0 0 0 / 0.04;
+    --tint-secondary: 0 0 0 / 0.06;
+    --tint-primary: 0 0 0 / 0.08;
+    --text-primary: 25 25 25;
+    --text-secondary: 25 25 25 / 0.64;
+    --text-tertiary: 25 25 25 / 0.4;
+    --text-accent: 49 124 255;
+    --bg-accent: 49 124 255;
+    --border-secondary: 0 0 0 / 0.08;
+    --border-primary: 0 0 0 / 0.1;
+    --text-green: 0 165 88;
+    --text-orange: 245 142 58;
+    --text-red: 245 59 58;
+    --text-blue: 51 125 244;
+    --text-purple: 149 108 222;
+    --shadow-l1: none;
+    --shadow-l2: none;
+  }
+
+  body {
+    background: #fff;
+    color: #111;
+  }
+
+  .a-no-print,
+  .a-toolbar,
+  .a-diagram__hint {
+    display: none !important;
+  }
+
+  .a-panel,
+  .a-table-scroll,
+  .a-diagram {
+    box-shadow: none;
+    break-inside: avoid;
+  }
+
+  .a-table[data-a-sticky-columns] tr > :first-child,
+  .a-table [data-a-sticky] {
+    position: static !important;
+  }
+
+  .a-table[data-a-sticky-columns] tr > :first-child::after,
+  .a-table [data-a-sticky]::after {
+    display: none !important;
+  }
+
+  .a-section {
+    break-inside: avoid;
+    margin-top: 24px;
+  }
+
+  [hidden].a-print-reveal {
+    display: revert !important;
+  }
+}
+    </style>
+  </head>
+  <body>
+    <main class="a-shell">
+      <header class="a-header">
+        <div>
+          <h1 class="a-header__title">Which EO model is worth training first</h1>
+          <p class="a-header__subtitle">The task-first plan after reading the two overlap papers: coastal first, forecasting second, burn search without training.</p>
+        </div>
+        <button
+          type="button"
+          class="a-btn a-btn--icon a-no-print"
+          data-a-theme-toggle
+          aria-label="Switch to dark mode"
+          title="Switch to dark mode"
+        >
+          <svg
+            class="a-theme-icon a-theme-icon--moon"
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+          >
+            <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8Z" />
+          </svg>
+          <svg
+            class="a-theme-icon a-theme-icon--sun"
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+          >
+            <circle cx="12" cy="12" r="4" />
+            <path
+              d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"
+            />
+          </svg>
+        </button>
+      </header>
+
+      <section
+        class="a-section a-error"
+        data-a-error
+        role="alert"
+        aria-live="polite"
+        hidden
+      >
+        <p class="a-error__title">Something in this artifact failed to run</p>
+        <p>
+          The content below is still readable, but an interactive control may
+          not respond.
+          <span data-a-error-detail></span>
+        </p>
+      </section>
+
+<style>
+  .v-lead { font-size:20px; line-height:1.45; font-weight:550; max-width:820px; margin:8px 0 20px; }
+  .v-rank { list-style:none; padding:0; margin:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
+  .v-rank li { border-top:3px solid rgb(var(--border-primary)); padding-top:12px; }
+  .v-rank li.v-first { border-top-color: rgb(var(--text-blue)); }
+  .v-rank svg { width:64px; height:48px; display:block; margin-bottom:8px; }
+  .v-rank strong { display:block; font-size:16px; margin-bottom:4px; }
+  .v-rank span { font-size:13px; line-height:1.55; color:rgb(var(--text-secondary)); display:block; }
+  .v-rank em { font-style:normal; font-weight:600; color:rgb(var(--text-primary)); }
+  .v-fig { margin:0; }
+  .v-fig svg { width:100%; height:auto; display:block; }
+  .v-fig figcaption { font-size:13px; line-height:1.55; color:rgb(var(--text-secondary)); margin-top:8px; max-width:780px; }
+  .v-ill text { fill:rgb(var(--text-primary)); font-family:var(--font-sans); }
+  .v-ill .v-muted { fill:rgb(var(--text-secondary)); }
+  .v-ill .v-sea { fill:rgb(var(--text-blue) / 0.18); }
+  .v-ill .v-sea-line { stroke:rgb(var(--text-blue)); stroke-width:2.5; fill:none; }
+  .v-ill .v-sand { fill:rgb(var(--text-orange) / 0.28); stroke:rgb(var(--text-orange)); stroke-width:2; }
+  .v-ill .v-survey { stroke:rgb(var(--text-green)); stroke-width:2.5; stroke-dasharray:7 5; fill:none; }
+  .v-ill .v-wl { stroke:rgb(var(--text-blue)); stroke-width:3; fill:none; }
+  .v-ill .v-err { stroke:rgb(var(--text-red)); stroke-width:2.5; fill:none; }
+  .v-ill .v-errfill { fill:rgb(var(--text-red)); }
+  .v-ill .v-axis { stroke:rgb(var(--text-tertiary)); stroke-width:1; fill:none; }
+  .v-ill .v-ink { stroke:rgb(var(--text-primary)); fill:none; stroke-width:1.6; }
+  .v-ill .v-inkfill { fill:rgb(var(--text-primary)); }
+  .v-ill .v-panel { fill:rgb(var(--bg-elevated)); stroke:rgb(var(--border-primary)); stroke-width:1.5; }
+  .v-ill .v-wash { fill:rgb(var(--tint-primary)); }
+  .v-ill .v-green { fill:rgb(var(--text-green)); }
+  .v-ill .v-greenline { stroke:rgb(var(--text-green)); fill:none; stroke-width:2.5; }
+  .v-ill .v-purple { fill:rgb(var(--text-purple)); }
+  .v-ill .v-band { fill:rgb(var(--text-purple) / 0.22); }
+  .v-ill .v-burn1 { fill:rgb(var(--text-red) / 0.75); }
+  .v-ill .v-burn2 { fill:rgb(var(--text-orange) / 0.55); }
+  .v-ill .v-burn3 { fill:rgb(var(--text-orange) / 0.25); stroke:rgb(var(--text-orange)); stroke-width:1.5; }
+  .v-controls { display:flex; flex-wrap:wrap; gap:12px 24px; align-items:center; margin:14px 0 6px; font-size:13px; }
+  .v-controls label { display:flex; gap:8px; align-items:center; }
+  .v-controls input[type=range] { width:180px; }
+  .v-readout { font-size:15px; line-height:1.55; padding:12px 14px; border-left:3px solid rgb(var(--text-red)); background:rgb(var(--tint-tertiary)); max-width:780px; }
+  .v-readout b { font-variant-numeric:tabular-nums; }
+  .v-sources { list-style:none; padding:0; margin:12px 0 0; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; }
+  .v-sources li { font-size:13px; line-height:1.5; color:rgb(var(--text-secondary)); }
+  .v-sources svg { width:100%; max-width:150px; height:auto; display:block; margin-bottom:6px; }
+  .v-sources strong { display:block; color:rgb(var(--text-primary)); font-size:14px; margin-bottom:2px; }
+  .v-two { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:28px; }
+  .v-two h3 { font-size:17px; margin:0 0 6px; }
+  .v-two .v-cite { font-size:12px; color:rgb(var(--text-secondary)); margin:0 0 10px; }
+  .v-two p, .v-two li { font-size:14px; line-height:1.6; }
+  .v-two ul { padding-left:18px; margin:8px 0; }
+  .v-change { border-left:3px solid rgb(var(--text-blue)); padding:8px 12px; background:rgb(var(--tint-tertiary)); font-size:14px; line-height:1.55; margin-top:10px; }
+  .a-node__title { font-size:15px; } .a-node__sub { font-size:11px; } .a-edge__label { font-size:12px; }
+  .v-flow-mobile { display:none; list-style:none; padding:0; margin:0; }
+  .v-flow-mobile li { padding:10px 0; border-bottom:1px solid rgb(var(--border-primary)); font-size:13px; color:rgb(var(--text-secondary)); }
+  .v-flow-mobile li strong { display:block; font-size:15px; color:rgb(var(--text-primary)); }
+  .v-pairbtns { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0; }
+  .v-pairbtns .a-btn[aria-pressed=true] { outline:2px solid rgb(var(--bg-accent)); }
+  .v-tabtitle { font-size:20px; margin:4px 0 6px; }
+  .v-q { font-size:16px; line-height:1.5; max-width:800px; margin:0 0 14px; }
+  @media(max-width:650px) {
+    .v-rank, .v-two { grid-template-columns:1fr; }
+    .v-sources { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .v-lead { font-size:18px; }
+    .v-diagram-desktop { display:none; }
+    .v-flow-mobile { display:block; }
+    .v-controls input[type=range] { width:140px; }
+  }
+  @media print {
+    .v-diagram-desktop { display:block !important; }
+    .v-flow-mobile, .v-controls, .v-pairbtns { display:none !important; }
+    [role=tabpanel][hidden] { display:block !important; }
+  }
+</style>
+
+<section class="a-section" aria-labelledby="s-verdict">
+  <h2 class="a-section__title" id="s-verdict">The plan in one line</h2>
+  <p class="v-lead">Start with coastal change. The thing worth learning is how wrong each satellite shoreline is, checked against field surveys. Forecasting comes second. Burn-scar search needs no trained model.</p>
+  <ol class="v-rank" aria-label="Ranking of the three candidates">
+    <li class="v-first">
+      <svg viewBox="0 0 64 48" class="v-ill" aria-hidden="true"><path class="v-sand" d="M0 30 Q20 22 34 30 L64 40 L64 48 L0 48Z"/><path class="v-sea-line" d="M30 30 Q40 26 48 32 T64 34"/><path class="v-sea" d="M30 31 Q40 27 48 33 T64 35 L64 48 L40 48Z"/></svg>
+      <strong>1. Coastal: is the change real?</strong>
+      <span><em>Train a small model</em> on top of existing tools (CoastSat, CoastSeg) that predicts each image's shoreline error and says when to abstain.</span>
+    </li>
+    <li>
+      <svg viewBox="0 0 64 48" class="v-ill" aria-hidden="true"><path class="v-greenline" d="M2 34 L12 28 L20 30 L30 18 L38 22"/><path class="v-band" d="M38 22 L62 10 L62 34Z"/><line x1="38" y1="4" x2="38" y2="44" class="v-axis"/></svg>
+      <strong>2. Greenness forecast</strong>
+      <span><em>Fine-tune Contextformer</em> with radar input, but only if a cheap CPU test shows radar helps. Licence (CC BY-NC-SA) still to decide.</span>
+    </li>
+    <li>
+      <svg viewBox="0 0 64 48" class="v-ill" aria-hidden="true"><path class="v-burn3" d="M8 26 C6 12 24 6 32 14 C42 6 58 14 54 28 C52 40 34 44 24 38 C14 42 8 36 8 26Z"/><path class="v-burn2" d="M18 26 C18 18 30 16 34 22 C42 18 48 26 44 32 C38 38 24 36 18 26Z"/><path class="v-burn1" d="M26 26 C28 22 34 22 36 26 C38 30 30 32 26 26Z"/></svg>
+      <strong>3. Burn-scar analogues</strong>
+      <span><em>No training.</em> Shape and severity measurements plus nearest-neighbour search. Labels from MTBS would make a trained model circular.</span>
+    </li>
+  </ol>
+</section>
+
+<section class="a-section" aria-labelledby="s-beach">
+  <h2 class="a-section__title" id="s-beach">Why coastal: the waterline moves even when the beach doesn't</h2>
+  <p class="a-section__note">A satellite sees where the water is at that moment. A survey measures a fixed height on the beach. Move the tide and see how far apart they get.</p>
+  <figure class="v-fig">
+    <svg id="beach" class="v-ill" viewBox="0 0 760 300" role="img" aria-labelledby="beach-t beach-d">
+      <title id="beach-t">Beach cross-section: tide, waves and slope move the waterline</title>
+      <desc id="beach-d">A sloping beach with a fixed surveyed contour at mean sea level and a waterline that moves with tide and wave setup. The red arrow shows the gap between them.</desc>
+      <g transform="translate(60,20)">
+        <path id="b-sea" class="v-sea" d=""/>
+        <path id="b-sand" class="v-sand" d=""/>
+        <line id="b-waterline-surface" class="v-sea-line" x1="0" y1="0" x2="0" y2="0"/>
+        <line x1="0" y1="150" x2="640" y2="150" class="v-axis" stroke-dasharray="3 4"/>
+        <text x="636" y="144" font-size="13" class="v-muted" text-anchor="end">mean sea level</text>
+        <line id="b-survey" class="v-survey" x1="300" y1="20" x2="300" y2="230"/>
+        <text x="306" y="22" font-size="14" style="fill:rgb(var(--text-green))">Survey contour (fixed)</text>
+        <line id="b-wl" class="v-wl" x1="0" y1="40" x2="0" y2="230"/>
+        <text id="b-wl-label" x="0" y="44" font-size="14" style="fill:rgb(var(--text-blue))">Satellite waterline</text>
+        <line id="b-err" class="v-err" x1="0" y1="215" x2="300" y2="215"/>
+        <path id="b-err-head" class="v-errfill" d=""/>
+        <text id="b-err-text" x="0" y="250" font-size="15" style="fill:rgb(var(--text-red))"></text>
+        <g transform="translate(560,-6)" aria-hidden="true">
+          <circle cx="14" cy="14" r="5" class="v-inkfill"/><rect x="0" y="10" width="9" height="8" class="v-ink"/><rect x="19" y="10" width="9" height="8" class="v-ink"/>
+          <line x1="14" y1="22" x2="-10" y2="80" class="v-axis" stroke-dasharray="2 4"/>
+          <text x="-8" y="18" font-size="12" class="v-muted" text-anchor="end">Landsat / Sentinel-2</text>
+        </g>
+        <text x="4" y="280" font-size="12" class="v-muted">Land</text><text x="600" y="280" font-size="12" class="v-muted">Sea</text>
+      </g>
+    </svg>
+    <div class="v-controls">
+      <label>Tide <input id="c-tide" type="range" min="-1" max="1" step="0.1" value="0.5" aria-describedby="beach-readout"/> <output id="o-tide">+0.5 m</output></label>
+      <label><input id="c-waves" type="checkbox" checked/> Waves pile water up the beach (setup, +0.3 m)</label>
+      <label>Beach slope <select id="c-slope"><option value="0.12">Steep (1 in 8)</option><option value="0.05" selected>Medium (1 in 20)</option><option value="0.025">Gentle (1 in 40)</option></select></label>
+    </div>
+    <p id="beach-readout" class="v-readout" aria-live="polite"></p>
+    <figcaption>The gap is water level divided by slope. Same physics as CoastSat's tide correction. The tide part can be corrected if you know the slope. What's left over (waves, a wrong slope, a shifted image, clouds) varies from image to image. Predicting that leftover for each image is the model. Numbers are illustrative, not measurements.</figcaption>
+  </figure>
+
+  <h3 style="font-size:16px;margin:26px 0 4px">What else makes one image wrong</h3>
+  <ul class="v-sources" aria-label="Sources of error in a satellite shoreline">
+    <li><svg viewBox="0 0 150 80" class="v-ill" aria-hidden="true"><path class="v-sand" d="M0 50 L150 30 L150 80 L0 80Z"/><path class="v-sea" d="M60 42 L150 30 L150 80 L60 80Z"/><path class="v-sea-line" d="M60 42 Q90 30 150 22"/><path class="v-sea-line" d="M90 38 Q110 30 150 24" opacity=".5"/><text x="4" y="18" font-size="12" class="v-muted">tide + runup</text></svg><strong>Tide and waves</strong>Water sits higher or lower on the beach than the survey height.</li>
+    <li><svg viewBox="0 0 150 80" class="v-ill" aria-hidden="true"><rect x="10" y="14" width="80" height="56" class="v-panel"/><rect x="34" y="8" width="80" height="56" class="v-panel" opacity=".7" stroke-dasharray="4 3"/><path d="M24 50 Q50 30 80 44" class="v-wl"/><path d="M48 44 Q74 24 104 38" class="v-err"/><text x="96" y="76" font-size="12" class="v-muted">shifted</text></svg><strong>Image shifted</strong>Images are not perfectly aligned to the ground. The RSMA paper found this part does not go away with contour tuning.</li>
+    <li><svg viewBox="0 0 150 80" class="v-ill" aria-hidden="true"><path class="v-sand" d="M0 50 L150 30 L150 80 L0 80Z"/><path d="M30 34 C30 20 50 16 58 26 C66 14 92 18 90 32 C104 32 104 48 88 48 L36 48 C22 48 20 36 30 34Z" class="v-panel"/><path d="M0 52 L40 46" class="v-wl"/><path d="M96 38 L150 30" class="v-wl"/><text x="44" y="70" font-size="12" class="v-muted">gap in line</text></svg><strong>Clouds and shadows</strong>Partly hidden coast or a bad water/sand threshold.</li>
+    <li><svg viewBox="0 0 150 80" class="v-ill" aria-hidden="true"><path d="M10 60 Q50 30 140 40" class="v-wl"/><path d="M10 54 Q55 34 140 30" class="v-err"/><path d="M10 64 Q50 44 140 46" class="v-greenline"/><text x="8" y="18" font-size="12" class="v-muted">5 methods disagree</text></svg><strong>Method disagreement</strong>The 5 SDS_Benchmark teams' lines spread apart on hard images. The spread is a useful warning sign.</li>
+  </ul>
+</section>
+
+<section class="a-section" aria-labelledby="s-stage0">
+  <h2 class="a-section__title" id="s-stage0">The first test: Stage 0, on a laptop CPU, with no imagery</h2>
+  <p class="a-section__note">It reuses shorelines already published in SDS_Benchmark. Click a step for detail.</p>
+  <div class="a-diagram v-diagram-desktop" data-a-diagram tabindex="0" aria-label="Stage 0 pipeline: published shorelines and surveys are matched, residuals computed, a quantile model trained on three sites and tested on two held-out sites against nine baselines, then scored against kill criteria">
+    <svg class="a-diagram__canvas" data-a-diagram-canvas viewBox="0 0 1060 250" role="img" aria-labelledby="st0-t"><title id="st0-t">Stage 0 pipeline</title>
+      <defs><marker id="st0-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7" fill="currentColor"/></marker></defs>
+      <g data-a-diagram-viewport>
+        <path class="a-edge" marker-end="url(#st0-arrow)" d="M190 70 H214 M190 170 H202 V100 H214 M384 85 H408 M578 85 H602 M772 85 H796 M880 120 V160"/>
+        <g class="a-node" data-a-node tabindex="0" role="button" aria-label="Published shorelines" data-a-title="Published shorelines" data-a-detail="SDS_Benchmark submissions/ folder: per-transect shoreline time series from five teams, plus tide and ERA5 wave CSVs, for Duck, Narrabeen, Torrey Pines, Truc Vert (and Waikiki where present). GPL-3.0. No imagery download."><rect x="20" y="36" width="170" height="68"/><text class="a-node__title" x="34" y="64">Published shorelines</text><text class="a-node__sub" x="34" y="86">SDS_Benchmark, 5 teams</text></g>
+        <g class="a-node" data-a-node tabindex="0" role="button" aria-label="Field surveys" data-a-title="Field surveys" data-a-detail="GNSS, lidar or jetski beach surveys measured on the ground. Narrabeen, San Diego and Truc Vert are CC0. Duck licence is still unchecked. These are the truth, independent of the satellite."><rect x="20" y="136" width="170" height="68"/><text class="a-node__title" x="34" y="164">Field surveys</text><text class="a-node__sub" x="34" y="186">Truth from the ground</text></g>
+        <g class="a-node" data-a-node tabindex="0" role="button" aria-label="Match within 48 hours" data-a-title="Match within ±48 h" data-a-detail="Pair each satellite shoreline with a survey taken within 48 hours. Count matches per site. Fewer than 100 per test site trips kill criterion K5."><rect x="214" y="50" width="170" height="70"/><text class="a-node__title" x="228" y="78">Match ±48 h</text><text class="a-node__sub" x="228" y="100">Count pairs per site</text></g>
+        <g class="a-node" data-a-node tabindex="0" role="button" aria-label="Signed error" data-a-title="Signed error per image" data-a-detail="Satellite shoreline minus surveyed contour, in metres, positive seaward. This is the target the model learns."><rect x="408" y="50" width="170" height="70"/><text class="a-node__title" x="422" y="78">Signed error</text><text class="a-node__sub" x="422" y="100">Per image, in metres</text></g>
+        <g class="a-node" data-a-node tabindex="0" role="button" aria-label="Quantile model" data-a-title="Quantile model" data-a-detail="Gradient-boosted quantile regression (LightGBM) on metadata: sensor, tide, waves, setup, slope, geometry flags, cloud, threshold, method spread. Trained on Duck, Narrabeen, Torrey Pines. Output: error interval and keep/abstain."><rect x="602" y="50" width="170" height="70"/><text class="a-node__title" x="616" y="78">Quantile model</text><text class="a-node__sub" x="616" y="100">Small, CPU, minutes</text></g>
+        <g class="a-node" data-a-node tabindex="0" role="button" aria-label="Held-out test" data-a-title="Test on unseen beaches" data-a-detail="Truc Vert and Waikiki are never seen in training. Compare against 9 baselines, including CoastSat QC, CoastSeg's learned filters, tide plus setup correction, method spread, and the RSMA 2026 per-site noise floor (baseline 9)."><rect x="796" y="50" width="170" height="70"/><text class="a-node__title" x="810" y="78">Unseen beaches</text><text class="a-node__sub" x="810" y="100">vs 9 baselines</text></g>
+        <g class="a-node" data-a-node tabindex="0" role="button" aria-label="Pass or stop" data-a-title="Pass or stop" data-a-detail="Pass: at least 15% lower RMSE on kept images at 70% coverage on both held-out sites, with honest 90% intervals. Otherwise ship a non-learned uncertainty tool, or stop. See the kill criteria table."><rect x="796" y="160" width="170" height="64"/><text class="a-node__title" x="810" y="188">Pass or stop</text><text class="a-node__sub" x="810" y="208">Kill criteria K1–K5</text></g>
+        <text class="a-edge__label" x="214" y="160">Nothing here is trained on images.</text>
+        <text class="a-edge__label" x="214" y="180">Nothing is downloaded beyond the repo.</text>
+      </g>
+    </svg>
+    <div class="a-inspector" data-a-inspector aria-live="polite"><h4 class="a-inspector__title" data-a-inspector-title>Select a step</h4><div data-a-inspector-body>Each step lists what it uses and what would stop the project.</div></div>
+    <div class="a-toolbar" style="padding:8px 16px;margin:0"><button class="a-btn" data-a-zoom="in" aria-label="Zoom in">+</button><button class="a-btn" data-a-zoom="out" aria-label="Zoom out">−</button><button class="a-btn" data-a-zoom="reset">Reset view</button></div>
+  </div>
+  <ol class="v-flow-mobile" aria-label="Stage 0 steps">
+    <li><strong>1. Published shorelines + field surveys</strong>SDS_Benchmark output from 5 teams; CC0 surveys.</li>
+    <li><strong>2. Match within ±48 h</strong>Pair each image with a survey; count pairs per site.</li>
+    <li><strong>3. Signed error per image</strong>Satellite line minus survey line, in metres.</li>
+    <li><strong>4. Quantile model</strong>LightGBM on metadata, trained on 3 beaches.</li>
+    <li><strong>5. Unseen beaches vs 9 baselines</strong>Truc Vert and Waikiki held out.</li>
+    <li><strong>6. Pass or stop</strong>Kill criteria K1–K5.</li>
+  </ol>
+
+  <div class="a-table-scroll" style="margin-top:18px">
+    <table class="a-table">
+      <caption>When to stop (coastal kill criteria)</caption>
+      <thead><tr><th scope="col">Check</th><th scope="col">Stop or change course if…</th><th scope="col">What we'd do instead</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">K1</th><td>Less than 15% lower RMSE on kept images (70% kept), on 2 or more held-out sites</td><td>Ship a non-learned uncertainty tool</td></tr>
+        <tr><th scope="row">K2</th><td>90% intervals cover the truth less than 85% of the time</td><td>The tool may only abstain, not give intervals</td></tr>
+        <tr><th scope="row">K3</th><td>Wrong direction in more than 10% of claims, or fewer than 25% of date pairs get a claim</td><td>No "real change" verdicts. RSMA 2026 makes this more likely.</td></tr>
+        <tr><th scope="row">K4</th><td>Image embeddings add less than 5% over metadata alone</td><td>Drop the image encoder</td></tr>
+        <tr><th scope="row">K5</th><td>Fewer than 100 matches within ±48 h per test site</td><td>Widen the window and use the time gap as a feature, or stop</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="a-section" aria-labelledby="s-demo">
+  <h2 class="a-section__title" id="s-demo">What the Hugging Face Space would show</h2>
+  <p class="a-section__note">A sketch, not a built app. Numbers are invented to show the layout.</p>
+  <figure class="v-fig">
+    <svg class="v-ill" viewBox="0 0 900 330" role="img" aria-labelledby="demo-t"><title id="demo-t">Mock-up of the Space: upload a transect CSV, get keep or drop per image, and a change verdict between two dates</title>
+      <rect x="10" y="10" width="880" height="310" rx="8" class="v-panel"/>
+      <rect x="10" y="10" width="880" height="32" rx="8" class="v-wash"/>
+      <circle cx="30" cy="26" r="5" class="v-wash" style="fill:rgb(var(--text-red)/.6)"/><circle cx="48" cy="26" r="5" style="fill:rgb(var(--text-orange)/.6)"/><circle cx="66" cy="26" r="5" style="fill:rgb(var(--text-green)/.6)"/>
+      <text x="90" y="31" font-size="13" class="v-muted">Shoreline check (mock-up)</text>
+      <rect x="30" y="60" width="250" height="90" rx="6" class="v-panel" stroke-dasharray="6 4"/>
+      <text x="48" y="94" font-size="15">transects.csv</text>
+      <text x="48" y="118" font-size="12" class="v-muted">CoastSat / CoastSeg output</text>
+      <text x="48" y="136" font-size="12" class="v-muted">No images uploaded</text>
+      <text x="30" y="182" font-size="13" font-weight="600">Per image</text>
+      <g font-size="12">
+        <text x="30" y="204" class="v-muted">Date</text><text x="120" y="204" class="v-muted">Sensor</text><text x="190" y="204" class="v-muted">Error ±</text><text x="250" y="204" class="v-muted">Keep?</text>
+        <text x="30" y="226">2019-03-02</text><text x="120" y="226">S2</text><text x="190" y="226">±6 m</text><text x="250" y="226" style="fill:rgb(var(--text-green))">✓ keep</text>
+        <text x="30" y="248">2019-03-18</text><text x="120" y="248">L8</text><text x="190" y="248">±21 m</text><text x="250" y="248" style="fill:rgb(var(--text-red))">✕ drop</text>
+        <text x="30" y="270">2023-02-14</text><text x="120" y="270">S2</text><text x="190" y="270">±7 m</text><text x="250" y="270" style="fill:rgb(var(--text-green))">✓ keep</text>
+        <text x="30" y="292">2023-02-26</text><text x="120" y="292">L9</text><text x="190" y="292">±18 m</text><text x="250" y="292" style="fill:rgb(var(--text-red))">✕ drop</text>
+      </g>
+      <line x1="330" y1="60" x2="330" y2="300" class="v-axis"/>
+      <text x="360" y="84" font-size="13" font-weight="600">Change between two dates, per transect</text>
+      <text x="360" y="104" font-size="12" class="v-muted">Bar = 90% interval of shoreline movement. If it crosses zero, the answer is "can't tell".</text>
+      <g id="demo-bars"></g>
+      <line x1="610" y1="120" x2="610" y2="296" class="v-axis" stroke-dasharray="3 3"/>
+      <text x="604" y="314" font-size="11" class="v-muted" text-anchor="middle">0 m</text>
+      <text x="400" y="314" font-size="11" class="v-muted">← retreat (landward)</text>
+      <text x="700" y="314" font-size="11" class="v-muted">advance (seaward) →</text>
+    </svg>
+    <figcaption>Each transect gets "retreat X ± Y m", "advance" or "can't tell". The Space runs on CPU. CoastSat/CoastSeg are GPL-3.0, so the Space code would have to be GPL-compatible. Tide grids (FES) are not redistributed.</figcaption>
+  </figure>
+</section>
+
+<section class="a-section" aria-labelledby="s-papers">
+  <h2 class="a-section__title" id="s-papers">What the two overlap papers changed</h2>
+  <p class="a-section__note">Neither kills its idea. Both narrow what we can claim as new.</p>
+  <div class="v-two">
+    <div>
+      <h3>Coastal: Aladejana et al. 2026</h3>
+      <p class="v-cite">Regional Studies in Marine Science, doi:10.1016/j.rsma.2026.105374. Abstract read; full text is closed.</p>
+      <figure class="v-fig">
+        <svg class="v-ill" viewBox="0 0 440 158" role="img" aria-labelledby="snr-t"><title id="snr-t">Signal-to-noise of five Trinidad and Tobago beaches: one robust, the rest marginal or low</title>
+          <rect x="20" y="40" width="66" height="40" style="fill:rgb(var(--text-red)/.18)"/>
+          <rect x="86" y="40" width="133" height="40" style="fill:rgb(var(--text-orange)/.2)"/>
+          <rect x="219" y="40" width="200" height="40" style="fill:rgb(var(--text-green)/.2)"/>
+          <text x="24" y="34" font-size="11" class="v-muted">low</text><text x="90" y="34" font-size="11" class="v-muted">marginal</text><text x="223" y="34" font-size="11" class="v-muted">robust</text>
+          <line x1="20" y1="80" x2="420" y2="80" class="v-axis"/>
+          <g font-size="11" class="v-muted"><text x="16" y="96">0</text><text x="80" y="96">0.5</text><text x="213" y="96">1.5</text><text x="282" y="96">2</text><text x="414" y="96">3</text></g>
+          <text x="20" y="114" font-size="11" class="v-muted">signal ÷ noise (decadal trend)</text>
+          <circle cx="385" cy="60" r="6" class="v-inkfill"/><text x="377" y="64" font-size="12" text-anchor="end">Irois 2.74</text>
+          <circle cx="80" cy="60" r="6" class="v-inkfill"/><text x="24" y="134" font-size="12">● Kilgwin 0.45 once registration noise is added</text>
+          <text x="152" y="64" font-size="12" text-anchor="middle">3 sites</text>
+          <text x="24" y="148" font-size="12">Marginal band: Turtle, Las Cuevas, Mayaro</text>
+        </svg>
+        <figcaption>Only Irois is clearly above the noise. At Turtle, 82.7% of transects flipped direction depending on the rate used. The positions of the three marginal sites inside the band aren't given in the abstract.</figcaption>
+      </figure>
+      <ul>
+        <li>They already ask our question, but per beach and per decade, using a physical noise budget.</li>
+        <li>From the abstract: no learned model, no beaches without surveys, no per-image error.</li>
+      </ul>
+      <div class="v-change"><strong>Change:</strong> our claim becomes "predict each image's error, and transfer that to beaches with no surveys." Their noise budget is added as baseline 9.</div>
+    </div>
+    <div>
+      <h3>Forecasting: Defonte et al. 2026</h3>
+      <p class="v-cite">arXiv 2605.04239 (Thales, CNES). Full text read.</p>
+      <figure class="v-fig">
+        <div data-a-chart="bar" data-a-chart-label="RMSE of generated Sentinel-2 reflectance with and without Sentinel-1" data-a-chart-height="180">
+          <table>
+            <caption>Reflectance RMSE, lower is better (paper Table III, gap-filling and forecasting pooled)</caption>
+            <thead><tr><th scope="col">Pixels</th><th scope="col">S1 + S2</th><th scope="col">S2 only</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">All pixels</th><td>0.028</td><td>0.030</td></tr>
+              <tr><th scope="row">Cropland</th><td>0.033</td><td>0.036</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <figcaption>Radar helps, but only a little, on European farmland. The comparison mixes gap-filling with forecasting, and their forecasting results have no persistence or climatology baseline.</figcaption>
+      </figure>
+      <div class="v-change"><strong>Change:</strong> "radar helps" is no longer new in general. Ours must be forecast-only, per horizon (5–30 days), against persistence and climatology, on African rangeland. Their small gain also lowers our odds of passing K1.</div>
+    </div>
+  </div>
+</section>
+
+<section class="a-section" aria-labelledby="s-others">
+  <h2 class="a-section__title" id="s-others">The other two ideas, in pictures</h2>
+  <div class="a-toolbar" data-a-tabs role="tablist" aria-label="Other candidates">
+    <button type="button" class="a-btn" role="tab" id="tab-fc" aria-controls="p-fc" aria-selected="true">Greenness forecast</button>
+    <button type="button" class="a-btn" role="tab" id="tab-burn" aria-controls="p-burn" aria-selected="false">Burn-scar analogues</button>
+  </div>
+  <div id="p-fc" role="tabpanel" aria-labelledby="tab-fc" tabindex="0" class="a-print-reveal">
+    <h3 class="v-tabtitle">Forecast greenness 5–30 days ahead, with radar filling cloud gaps</h3>
+    <p class="v-q">Clouds hide many optical images. Radar sees through clouds. Does radar history make the forecast better than just carrying the last value forward, or using the usual value for that time of year?</p>
+    <figure class="v-fig">
+      <svg class="v-ill" viewBox="0 0 900 290" role="img" aria-labelledby="fc-t"><title id="fc-t">Timeline of radar and optical observations before a cutoff, with a forecast band after it compared against two simple baselines</title>
+        <line x1="60" y1="230" x2="860" y2="230" class="v-axis"/>
+        <text x="60" y="252" font-size="12" class="v-muted">past 80 days</text><text x="640" y="252" font-size="12" class="v-muted">next 5–30 days</text>
+        <line x1="600" y1="30" x2="600" y2="236" class="v-ink" stroke-dasharray="5 4"/>
+        <text x="606" y="44" font-size="13">forecast made here</text>
+        <text x="20" y="270" font-size="12" class="v-muted">Sentinel-2 (optical)</text>
+        <text x="300" y="270" font-size="12" class="v-muted">● clear  ○ cloudy (no data)</text>
+        <text x="520" y="270" font-size="12" class="v-muted">◆ Sentinel-1 radar, every ~12 days</text>
+        <g id="fc-dots"></g>
+        <path class="v-greenline" d="M60 120 L120 110 L180 118 L300 100 L380 112 L460 140 L540 150 L600 158"/>
+        <path class="v-band" d="M600 158 L860 150 L860 228 L600 166Z"/>
+        <path d="M600 160 L860 190" stroke="rgb(var(--text-purple))" stroke-width="2.5" fill="none"/>
+        <path d="M600 158 L860 158" class="v-axis" stroke-dasharray="6 4" stroke-width="2"/>
+        <path d="M600 140 Q730 120 860 132" class="v-axis" stroke-dasharray="2 4" stroke-width="2"/>
+        <text x="866" y="194" font-size="12" style="fill:rgb(var(--text-purple))">model</text>
+        <text x="866" y="162" font-size="12" class="v-muted">last value</text>
+        <text x="866" y="134" font-size="12" class="v-muted">usual</text>
+        <text x="64" y="94" font-size="13" style="fill:rgb(var(--text-green))">greenness (NDVI)</text>
+      </svg>
+      <figcaption>Shape is illustrative. Data would be EarthNet2023-Africa (CC BY-NC-SA). The model can't see future weather. The kill test: if radar doesn't lower NDVI error by at least 0.005 when optical images are sparse, drop it.</figcaption>
+    </figure>
+  </div>
+  <div id="p-burn" role="tabpanel" aria-labelledby="tab-burn" tabindex="0" class="a-print-reveal" hidden>
+    <h3 class="v-tabtitle">Find past fires that looked like this one, or say there are none</h3>
+    <p class="v-q">Give a burn footprint and severity map. Get back verified past US fires with a similar shape and severity, from MTBS. Answering "no close match" correctly matters as much as finding one.</p>
+    <figure class="v-fig">
+      <svg class="v-ill" viewBox="0 0 900 230" role="img" aria-labelledby="burn-t"><title id="burn-t">A query burn scar compared with three past fires and a no-match result</title>
+        <g transform="translate(30,40)"><path class="v-burn3" d="M10 70 C0 20 60 0 90 30 C120 0 170 30 160 80 C150 130 90 140 60 120 C30 140 10 110 10 70Z"/><path class="v-burn2" d="M40 75 C40 45 80 40 92 60 C115 48 135 70 125 90 C110 112 60 110 40 75Z"/><path class="v-burn1" d="M70 78 C74 66 94 64 100 76 C104 88 80 94 70 78Z"/><text x="30" y="170" font-size="13">Your fire</text></g>
+        <path d="M220 110 H270" class="v-ink" marker-end="url(#st0-arrow)"/>
+        <g transform="translate(290,50)"><path class="v-burn3" d="M10 60 C0 20 50 4 76 28 C100 6 140 30 132 70 C124 110 76 116 52 100 C26 116 10 90 10 60Z"/><path class="v-burn2" d="M36 64 C36 40 70 36 80 52 C98 42 114 60 106 76 C94 94 54 92 36 64Z"/><text x="20" y="150" font-size="12">Similar · 0.91</text></g>
+        <g transform="translate(450,50)"><path class="v-burn3" d="M20 50 C14 20 60 10 80 30 C110 20 128 46 116 74 C104 100 60 104 40 90 C20 96 22 70 20 50Z"/><path class="v-burn2" d="M46 58 C50 40 76 40 84 54 C96 50 102 66 92 74 C78 86 52 80 46 58Z"/><text x="20" y="150" font-size="12">Similar · 0.84</text></g>
+        <g transform="translate(610,50)"><path class="v-burn3" d="M10 60 L70 20 L130 40 L120 100 L40 110Z"/><path class="v-burn1" d="M50 60 L80 50 L90 80 L60 86Z"/><text x="20" y="150" font-size="12" class="v-muted">Weak · 0.41</text></g>
+        <g transform="translate(770,60)"><rect x="0" y="0" width="110" height="90" rx="6" class="v-panel" stroke-dasharray="5 4"/><text x="55" y="42" font-size="13" text-anchor="middle">No close</text><text x="55" y="60" font-size="13" text-anchor="middle">match</text></g>
+      </svg>
+      <figcaption>Similarity scores are invented. The method is about 30 shape and severity measurements plus nearest neighbours, with a calibrated cut-off for "no match". First check: do two people grading pairs blind agree (kappa ≥ 0.4)? If not, stop.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="a-section" aria-labelledby="s-next">
+  <h2 class="a-section__title" id="s-next">Next decision</h2>
+  <div class="a-callout a-callout--decision"><strong>Waiting on you:</strong> approve Coastal Stage 0 (local CPU, clone SDS_Benchmark, no imagery, no GPU, no cluster). Forecasting Step A also needs a decision on whether a CC BY-NC-SA dataset is acceptable for a public Space.</div>
+</section>
+
+<script>
+(function(){
+  var X0=60, PXM=4, Z0=150, PZM=40, MSLX=75;
+  function zAt(xm, s){ var z=-s*(xm-MSLX); return Math.max(-2.2, Math.min(2.6, z)); }
+  function px(xm){ return xm*PXM; } function pz(z){ return Z0 - z*PZM; }
+  var tide=document.getElementById('c-tide'), waves=document.getElementById('c-waves'), slope=document.getElementById('c-slope');
+  function draw(){
+    var t=parseFloat(tide.value), s=parseFloat(slope.value), su=waves.checked?0.3:0, eta=t+su;
+    document.getElementById('o-tide').textContent=(t>0?'+':'')+t.toFixed(1)+' m';
+    var pts=[]; for(var xm=0; xm<=160; xm+=2){ pts.push(px(xm)+','+pz(zAt(xm,s))); }
+    document.getElementById('b-sand').setAttribute('d','M'+pts.join(' L')+' L640,'+pz(-2.6)+' L0,'+pz(-2.6)+'Z');
+    var xw=MSLX-eta/s; xw=Math.max(2,Math.min(158,xw));
+    var yw=pz(eta);
+    document.getElementById('b-sea').setAttribute('d','M'+px(xw)+','+yw+' L640,'+yw+' L640,'+pz(-2.6)+' L'+px(xw)+','+pz(-2.6)+'Z');
+    var wsl=document.getElementById('b-waterline-surface'); wsl.setAttribute('x1',px(xw)); wsl.setAttribute('x2',640); wsl.setAttribute('y1',yw); wsl.setAttribute('y2',yw);
+    var wl=document.getElementById('b-wl'); wl.setAttribute('x1',px(xw)); wl.setAttribute('x2',px(xw));
+    var lab=document.getElementById('b-wl-label'); lab.setAttribute('x', xw<MSLX ? px(xw)-150 : px(xw)+6); lab.setAttribute('y', 66);
+    var gap=MSLX-xw, ax=px(xw), sx=px(MSLX);
+    var e=document.getElementById('b-err'); e.setAttribute('x1',sx); e.setAttribute('x2',ax);
+    var dir=ax<sx?-1:1, head=Math.abs(gap)>1.5?('M'+ax+',215 L'+(ax-dir*10)+',209 L'+(ax-dir*10)+',221Z'):'';
+    document.getElementById('b-err-head').setAttribute('d',head);
+    var et=document.getElementById('b-err-text'); et.setAttribute('x', Math.min(sx,ax)); et.textContent= Math.abs(gap)<0.5 ? 'No gap' : Math.abs(gap).toFixed(1)+' m gap';
+    var r=document.getElementById('beach-readout');
+    if (Math.abs(gap)<0.5) { r.innerHTML='Water level is at mean sea level, so the waterline sits on the survey line. <b>No apparent change.</b>'; }
+    else { r.innerHTML='Water level is '+(eta>0?'+':'')+eta.toFixed(1)+' m, so the waterline sits <b>'+Math.abs(gap).toFixed(1)+' m '+(gap>0?'landward':'seaward')+'</b> of the survey line. Compared with an image at mean sea level, this looks like <b>'+Math.abs(gap).toFixed(1)+' m of '+(gap>0?'erosion':'growth')+'</b>. The beach did not move.'; }
+  }
+  [tide,waves,slope].forEach(function(el){ el.addEventListener('input',draw); el.addEventListener('change',draw); });
+  draw();
+
+  var bars=[['Transect 12','retreat 14 ± 6 m',-14,6],['Transect 13','can\u2019t tell',-3,7],['Transect 14','advance 9 ± 5 m',9,5],['Transect 15','can\u2019t tell',2,11]];
+  var g=document.getElementById('demo-bars'), ns='http://www.w3.org/2000/svg', html='';
+  bars.forEach(function(b,i){ var y=136+i*42, c=610, k=7, lo=c+(b[2]-b[3])*k, hi=c+(b[2]+b[3])*k, cross=(b[2]-b[3])<0&&(b[2]+b[3])>0;
+    var col=cross?'rgb(var(--text-tertiary))':(b[2]<0?'rgb(var(--text-red))':'rgb(var(--text-blue))');
+    html+='<text x="360" y="'+(y+4)+'" font-size="12" class="v-muted">'+b[0]+'</text>';
+    html+='<line x1="'+lo+'" y1="'+y+'" x2="'+hi+'" y2="'+y+'" stroke="'+col+'" stroke-width="8" stroke-linecap="round"/>';
+    html+='<circle cx="'+(c+b[2]*k)+'" cy="'+y+'" r="4" class="v-inkfill"/>';
+    html+='<text x="'+(Math.max(hi,c)+10)+'" y="'+(y+4)+'" font-size="13">'+b[1]+'</text>'; });
+  g.innerHTML=html;
+
+  var d=document.getElementById('fc-dots'), h='';
+  var s2=[[70,1],[110,0],[150,0],[190,1],[230,0],[270,0],[310,1],[350,0],[390,0],[430,0],[470,1],[510,0],[550,0],[590,0]];
+  s2.forEach(function(p){ h+= p[1] ? '<circle cx="'+p[0]+'" cy="215" r="6" class="v-green"/>' : '<circle cx="'+p[0]+'" cy="215" r="6" fill="none" stroke="rgb(var(--text-tertiary))" stroke-width="1.5"/>'; });
+  for (var x=80; x<=596; x+=96) { h+='<path d="M'+x+' 186 l7 7 l-7 7 l-7 -7Z" class="v-purple"/>'; }
+  d.innerHTML=h;
+})();
+</script>
+
+
+      <footer class="a-footnote">Sources: TASK_FIRST_TRAINING_PLAN.md, OVERLAP_PAPERS_REVIEW.md and the three research-session reports. RSMA 2026 numbers come from its abstract; Defonte et al. numbers come from arXiv 2605.04239 Table III. Illustrations, mock-up values and similarity scores are invented to explain the ideas and are not results. Nothing has been trained, downloaded beyond small metadata, or deployed.</footer>
+    </main>
+    <script>
+/* Devin artifact kit — self-contained behavior for standalone HTML artifacts.
+   No build step, no imports, no network calls. Every widget is progressive
+   enhancement: the markup stays readable and printable with scripting off. */
+(function () {
+  "use strict";
+
+  var root = document.documentElement;
+  var THEMES = { light: 1, dark: 1 };
+
+  function showError(message) {
+    document.querySelectorAll("[data-a-error]").forEach(function (region) {
+      region.hidden = false;
+      var detail = region.querySelector("[data-a-error-detail]");
+      if (detail && message) detail.textContent = message;
+    });
+  }
+
+  window.addEventListener("error", function (event) {
+    showError(event.message);
+  });
+  window.addEventListener("unhandledrejection", function (event) {
+    showError(String(event.reason || "An interactive control failed."));
+  });
+
+  /* ---------- theme ----------
+     Order of precedence:
+       1. an explicit host signal (`?theme=`/`#theme=`, a `devin:theme`
+          message from an embedding page, or a preset `data-theme`),
+       2. a reader's in-document choice,
+       3. the OS/browser preference via `prefers-color-scheme`.
+     Hosts that expose no signal simply fall through to step 3. */
+  function hostTheme() {
+    var search = new URLSearchParams(
+      window.location.search + "&" + window.location.hash.replace(/^#/, "")
+    );
+    var fromUrl = search.get("theme");
+    if (fromUrl && THEMES[fromUrl]) return fromUrl;
+    var preset = root.getAttribute("data-theme");
+    if (preset && THEMES[preset]) return preset;
+    return null;
+  }
+
+  function systemTheme() {
+    return window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  }
+
+  var pinned = hostTheme();
+
+  function apply(theme) {
+    root.setAttribute("data-theme", theme);
+    document.querySelectorAll("[data-a-theme-toggle]").forEach(function (el) {
+      var label =
+        theme === "dark" ? "Switch to light mode" : "Switch to dark mode";
+      el.setAttribute("aria-label", label);
+      el.setAttribute("title", label);
+    });
+  }
+
+  apply(pinned || systemTheme());
+
+  if (window.matchMedia) {
+    var media = window.matchMedia("(prefers-color-scheme: dark)");
+    var onChange = function () {
+      if (!pinned) apply(systemTheme());
+    };
+    if (media.addEventListener) media.addEventListener("change", onChange);
+    else if (media.addListener) media.addListener(onChange);
+  }
+
+  window.addEventListener("message", function (event) {
+    if (window.parent === window || event.source !== window.parent) return;
+    var data = event.data;
+    if (!data || data.type !== "devin:theme" || !THEMES[data.theme]) return;
+    pinned = data.theme;
+    apply(pinned);
+  });
+
+  document.addEventListener("click", function (event) {
+    var toggle = event.target.closest("[data-a-theme-toggle]");
+    if (!toggle) return;
+    pinned = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    apply(pinned);
+  });
+
+  /* ---------- tabs ----------
+     <div data-a-tabs role="tablist">
+       <button class="a-btn" role="tab" aria-controls="panel-id">Label</button>
+     Panels are plain elements toggled with `hidden`, so print reveals the
+     active one and `.a-print-reveal` can opt others in. */
+  function selectTab(list, tab) {
+    list.querySelectorAll('[role="tab"]').forEach(function (candidate) {
+      var selected = candidate === tab;
+      candidate.setAttribute("aria-selected", String(selected));
+      candidate.tabIndex = selected ? 0 : -1;
+      var panel = document.getElementById(
+        candidate.getAttribute("aria-controls") || ""
+      );
+      if (panel) panel.hidden = !selected;
+    });
+  }
+
+  document.querySelectorAll("[data-a-tabs]").forEach(function (list) {
+    var tabs = Array.prototype.slice.call(
+      list.querySelectorAll('[role="tab"]')
+    );
+    if (!tabs.length) return;
+    var active =
+      tabs.filter(function (t) {
+        return t.getAttribute("aria-selected") === "true";
+      })[0] || tabs[0];
+    selectTab(list, active);
+
+    list.addEventListener("click", function (event) {
+      var tab = event.target.closest('[role="tab"]');
+      if (tab) selectTab(list, tab);
+    });
+
+    list.addEventListener("keydown", function (event) {
+      var step =
+        event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
+      if (!step) return;
+      event.preventDefault();
+      var current = tabs.indexOf(document.activeElement);
+      var next = tabs[(current + step + tabs.length) % tabs.length];
+      next.focus();
+      selectTab(list, next);
+    });
+  });
+
+  /* ---------- row filters ----------
+     <select data-a-filter="#table-id" data-a-filter-key="team">
+     Rows opt in with a matching `data-team` attribute; "all" clears it. */
+  document.querySelectorAll("[data-a-filter]").forEach(function (control) {
+    var target = document.querySelector(control.getAttribute("data-a-filter"));
+    var key = control.getAttribute("data-a-filter-key") || "filter";
+    if (!target) return;
+
+    var emptySelector = control.getAttribute("data-a-filter-empty");
+    var empty = emptySelector ? document.querySelector(emptySelector) : null;
+
+    var applyFilter = function () {
+      var value = control.value;
+      var shown = 0;
+      /* Re-read the rows every time: a script may have replaced them since
+         the last pass, and those rows must obey the current selection too. */
+      target.querySelectorAll("[data-" + key + "]").forEach(function (row) {
+        var match = value === "all" || row.getAttribute("data-" + key) === value;
+        row.hidden = !match;
+        if (match) shown += 1;
+      });
+      if (empty) empty.hidden = shown !== 0;
+      target.hidden = shown === 0 && !!empty;
+    };
+
+    control.addEventListener("change", applyFilter);
+    applyFilter();
+
+    /* Rows swapped in by a script are filtered as soon as they land, so a
+       redraw never shows rows the current selection excludes. Only childList
+       is watched, so the `hidden` writes above cannot retrigger this. */
+    new MutationObserver(function () {
+      applyFilter();
+    }).observe(target, { childList: true, subtree: true });
+  });
+
+  /* ---------- pinned columns ----------
+     <table class="a-table" data-a-sticky-columns="2">
+     CSS pins the first column on its own. The kit measures the leading
+     columns so every pinned cell gets its cumulative `--a-sticky-left`, and
+     re-measures when the table resizes, its rows change, or a filter hides
+     rows. Cells spanning past the last pinned column stay unpinned. The
+     scroll wrapper carries `data-a-scrolled` while the table is scrolled
+     sideways, so the divider only shows with columns underneath it. */
+  function stickyCount(table) {
+    var count = parseInt(table.getAttribute("data-a-sticky-columns"), 10);
+    return count > 0 ? count : 0;
+  }
+
+  function layoutSticky(table) {
+    var count = stickyCount(table);
+    var pinned = [];
+    var widths = [];
+    var columns = 0;
+    /* Rows spanned into from above shift where later cells start. */
+    var carried = [];
+    Array.prototype.forEach.call(table.rows, function (row, index) {
+      var taken = carried[index] || [];
+      var column = 0;
+      Array.prototype.forEach.call(row.cells, function (cell) {
+        while (taken[column]) column += 1;
+        var end = column + Math.max(1, cell.colSpan || 1);
+        if (end <= count) {
+          pinned.push({ cell: cell, start: column, end: end });
+          /* Hidden rows measure 0, so a later visible row fills the gap. */
+          if (end === column + 1 && !widths[column]) {
+            widths[column] = cell.getBoundingClientRect().width;
+          }
+        }
+        for (var below = 1; below < (cell.rowSpan || 1); below += 1) {
+          var next = (carried[index + below] = carried[index + below] || []);
+          for (var spanned = column; spanned < end; spanned += 1) {
+            next[spanned] = true;
+          }
+        }
+        column = end;
+        columns = Math.max(columns, end);
+      });
+    });
+
+    var edge = Math.min(count, columns);
+    var offsets = [0];
+    for (var position = 1; position < edge; position += 1) {
+      /* Not rendered yet (a closed disclosure or hidden tab): keep the last
+         layout and measure again once the table has a size. */
+      if (!widths[position - 1]) return;
+      offsets[position] = offsets[position - 1] + widths[position - 1];
+    }
+
+    var keep = new Set();
+    pinned.forEach(function (entry) {
+      keep.add(entry.cell);
+      entry.cell.setAttribute("data-a-sticky", entry.end === edge ? "edge" : "");
+      entry.cell.style.setProperty(
+        "--a-sticky-left",
+        offsets[entry.start] + "px"
+      );
+    });
+    table.querySelectorAll("[data-a-sticky]").forEach(function (cell) {
+      if (keep.has(cell)) return;
+      cell.removeAttribute("data-a-sticky");
+      cell.style.removeProperty("--a-sticky-left");
+    });
+    if (count) table.setAttribute("data-a-sticky-ready", "");
+    else table.removeAttribute("data-a-sticky-ready");
+  }
+
+  document
+    .querySelectorAll(".a-table[data-a-sticky-columns]")
+    .forEach(function (table) {
+      var queued = false;
+      var schedule = function () {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(function () {
+          queued = false;
+          layoutSticky(table);
+        });
+      };
+      layoutSticky(table);
+      if (window.ResizeObserver) new ResizeObserver(schedule).observe(table);
+      /* Only structure and content are watched, so the kit's own
+         `data-a-sticky` and offset writes cannot retrigger this. */
+      new MutationObserver(schedule).observe(table, {
+        childList: true,
+        subtree: true,
+        characterData: true,
+        attributes: true,
+        attributeFilter: ["hidden", "colspan", "rowspan", "data-a-sticky-columns"]
+      });
+
+      /* The wrapper element survives a chart moving it into its "Data
+         table" disclosure, so the listener does too. */
+      var scroller = table.closest(".a-table-scroll");
+      if (!scroller) return;
+      var syncScrolled = function () {
+        scroller.toggleAttribute("data-a-scrolled", scroller.scrollLeft > 0);
+      };
+      scroller.addEventListener("scroll", syncScrolled, { passive: true });
+      syncScrolled();
+    });
+
+  /* ---------- tooltips ----------
+     One shared tooltip serves every chart and any element carrying
+     `data-a-tip`. Pointer, keyboard focus, and touch all route through the
+     same show/hide pair, so an exact value is never hover-only. */
+  var tipEl = null;
+  var tipRelease = null;
+  var tipHost = null;
+
+  function tipNode() {
+    if (tipEl) return tipEl;
+    tipEl = document.createElement("div");
+    tipEl.className = "a-tip a-no-print";
+    tipEl.setAttribute("role", "tooltip");
+    tipEl.hidden = true;
+    document.body.appendChild(tipEl);
+    return tipEl;
+  }
+
+  function hideTip() {
+    var release = tipRelease;
+    tipRelease = null;
+    tipHost = null;
+    if (release) release();
+    if (tipEl) tipEl.hidden = true;
+  }
+
+  function positionTip(anchor, pointer) {
+    var el = tipNode();
+    var width = el.offsetWidth;
+    var height = el.offsetHeight;
+    var edge = 8;
+    var x = pointer ? pointer.x + 14 : anchor.left + anchor.width / 2 - width / 2;
+    var y = pointer ? pointer.y - height - 16 : anchor.top - height - 10;
+    if (y < edge) y = pointer ? pointer.y + 22 : anchor.bottom + 10;
+    x = Math.max(edge, Math.min(x, window.innerWidth - width - edge));
+    y = Math.max(edge, Math.min(y, window.innerHeight - height - edge));
+    el.style.transform =
+      "translate(" + Math.round(x) + "px, " + Math.round(y) + "px)";
+  }
+
+  function tipRow(row) {
+    var line = document.createElement("div");
+    line.className =
+      "a-tip__row" + (row.series ? " a-series-" + row.series : "");
+    if (row.series) {
+      var swatch = document.createElement("span");
+      swatch.className = "a-tip__swatch";
+      line.appendChild(swatch);
+    }
+    var name = document.createElement("span");
+    name.className = "a-tip__name";
+    name.textContent = row.name || "";
+    line.appendChild(name);
+    var value = document.createElement("span");
+    value.className = "a-tip__value";
+    value.textContent = row.value == null || row.value === "" ? "—" : row.value;
+    line.appendChild(value);
+    return line;
+  }
+
+  /* `content` is { title, text, rows: [{ name, value, series }] }. `release`
+     runs when the tooltip is replaced or dismissed so the owner can drop its
+     highlight state. */
+  function showTip(content, host, anchor, pointer, release) {
+    if (tipRelease && tipRelease !== release) {
+      var previous = tipRelease;
+      tipRelease = null;
+      previous();
+    }
+    tipRelease = release || null;
+    tipHost = host || null;
+    var el = tipNode();
+    el.textContent = "";
+    if (content.title) {
+      var title = document.createElement("div");
+      title.className = "a-tip__title";
+      title.textContent = content.title;
+      el.appendChild(title);
+    }
+    if (content.text) {
+      var text = document.createElement("div");
+      text.className = "a-tip__text";
+      text.textContent = content.text;
+      el.appendChild(text);
+    }
+    (content.rows || []).forEach(function (row) {
+      el.appendChild(tipRow(row));
+    });
+    el.hidden = false;
+    positionTip(anchor, pointer);
+  }
+
+  /* Escape hatch for hand-authored marks: `data-a-tip` holds the value text
+     and the optional `data-a-tip-title` holds a heading. */
+  function annotatedHost(node) {
+    return node && node.closest ? node.closest("[data-a-tip]") : null;
+  }
+
+  function showAnnotatedTip(host, pointer) {
+    showTip(
+      {
+        title: host.getAttribute("data-a-tip-title") || "",
+        text: host.getAttribute("data-a-tip") || ""
+      },
+      host,
+      host.getBoundingClientRect(),
+      pointer,
+      null
+    );
+  }
+
+  document.addEventListener("pointerover", function (event) {
+    var host = annotatedHost(event.target);
+    if (!host) return;
+    showAnnotatedTip(
+      host,
+      event.pointerType === "touch" ? null : { x: event.clientX, y: event.clientY }
+    );
+  });
+
+  document.addEventListener("pointermove", function (event) {
+    if (!tipHost || event.pointerType === "touch") return;
+    if (!tipHost.hasAttribute || !tipHost.hasAttribute("data-a-tip")) return;
+    if (annotatedHost(event.target) !== tipHost) return;
+    positionTip(tipHost.getBoundingClientRect(), {
+      x: event.clientX,
+      y: event.clientY
+    });
+  });
+
+  document.addEventListener("pointerout", function (event) {
+    var host = annotatedHost(event.target);
+    if (!host || host !== tipHost) return;
+    if (event.relatedTarget && host.contains(event.relatedTarget)) return;
+    hideTip();
+  });
+
+  document.addEventListener("focusin", function (event) {
+    var host = annotatedHost(event.target);
+    if (host) showAnnotatedTip(host, null);
+  });
+
+  document.addEventListener("focusout", function (event) {
+    var host = annotatedHost(event.target);
+    if (!host || host !== tipHost) return;
+    /* A still-hovered mark keeps its tooltip; `pointerout` closes that one. */
+    if (host.matches && host.matches(":hover")) return;
+    hideTip();
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") hideTip();
+  });
+
+  window.addEventListener("scroll", hideTip, true);
+  window.addEventListener("resize", hideTip);
+
+  /* ---------- charts ----------
+     <figure class="a-figure" data-a-chart="bar|stacked-bar|line"> wrapping a
+     plain <table> of the same numbers. The table is both the data source and
+     the no-script fallback: the kit draws the chart from it and then keeps it
+     under a disclosure as the exact-value equivalent. Each category gets a
+     hover band that also takes keyboard focus, so pointer, arrow keys, and
+     tap all produce the same readout. */
+  var SVG_NS = "http://www.w3.org/2000/svg";
+  var CHART_WIDTH = 640;
+  var CHART_TYPES = { bar: 1, "stacked-bar": 1, line: 1 };
+
+  function svgNode(name, attrs) {
+    var node = document.createElementNS(SVG_NS, name);
+    Object.keys(attrs || {}).forEach(function (key) {
+      node.setAttribute(key, String(attrs[key]));
+    });
+    return node;
+  }
+
+  /* `data-value` wins so cells can stay human-readable ("1,284", "18m 24s"). */
+  function cellNumber(cell) {
+    var explicit = cell.getAttribute("data-value");
+    var text = (explicit === null ? cell.textContent : explicit) || "";
+    var match = text
+      .replace(/\u2212/g, "-")
+      .replace(/,/g, "")
+      .match(/-?\d*\.?\d+/);
+    return match ? parseFloat(match[0]) : null;
+  }
+
+  function readChartTable(table) {
+    var headCells = table.querySelectorAll("thead th");
+    if (headCells.length < 2) return null;
+    var series = [];
+    for (var column = 1; column < headCells.length; column += 1) {
+      series.push(headCells[column].textContent.trim());
+    }
+    var categories = [];
+    table.querySelectorAll("tbody tr").forEach(function (row) {
+      var cells = row.children;
+      if (cells.length < 2) return;
+      /* A hidden row is filtered out, so the chart matches what is listed. */
+      if (row.hidden || row.hasAttribute("data-a-excluded")) return;
+      var point = {
+        label: cells[0].textContent.trim(),
+        row: row,
+        values: [],
+        texts: []
+      };
+      series.forEach(function (name, position) {
+        var cell = cells[position + 1];
+        point.values.push(cell ? cellNumber(cell) : null);
+        point.texts.push(cell ? cell.textContent.trim() : "");
+      });
+      categories.push(point);
+    });
+    return categories.length
+      ? { series: series, categories: categories }
+      : null;
+  }
+
+  function niceCeil(value) {
+    if (!(value > 0)) return 1;
+    var magnitude = Math.pow(10, Math.floor(Math.log(value) / Math.LN10));
+    var steps = [1, 1.5, 2, 2.5, 3, 4, 5, 7.5, 10];
+    for (var i = 0; i < steps.length; i += 1) {
+      if (value <= steps[i] * magnitude) return steps[i] * magnitude;
+    }
+    return 10 * magnitude;
+  }
+
+  function formatTick(value) {
+    var size = Math.abs(value);
+    if (size >= 1000000) {
+      return (value / 1000000).toFixed(size % 1000000 ? 1 : 0) + "M";
+    }
+    if (size >= 1000) return (value / 1000).toFixed(size % 1000 ? 1 : 0) + "k";
+    return String(Math.round(value * 100) / 100);
+  }
+
+  /* Per-figure render state so a chart can be drawn more than once: the
+     nodes from the previous pass are thrown away and rebuilt from whatever
+     the table says now. */
+  var chartState = new WeakMap();
+
+  function chartTable(figure) {
+    var details = figure.querySelector(".a-chart__data");
+    return (details || figure).querySelector("table");
+  }
+
+  /* The table is the source of truth, so any change to it — a filter hiding
+     rows, new rows, an edited cell — redraws the chart on its own. */
+  function watchChartTable(figure, state) {
+    if (state.observer) return;
+    var queued = false;
+    state.observer = new MutationObserver(function () {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(function () {
+        queued = false;
+        renderChart(figure);
+      });
+    });
+    /* Watching the disclosure rather than the table keeps the chart live even
+       when a script replaces the whole <table>. */
+    state.observer.observe(state.details, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+      attributes: true,
+      attributeFilter: ["hidden", "data-a-excluded", "data-value"]
+    });
+  }
+
+  function renderChart(figure) {
+    var type = figure.getAttribute("data-a-chart");
+    var table = chartTable(figure);
+    if (!CHART_TYPES[type] || !table) return;
+
+    var state = chartState.get(figure);
+    if (!state) {
+      state = { nodes: [], details: null, observer: null, focused: null };
+      chartState.set(figure, state);
+    }
+
+    /* Keeping the reader's place: a re-render restores keyboard focus to the
+       same category when it survives. */
+    var hadFocus = state.nodes.some(function (node) {
+      return node.contains(document.activeElement);
+    });
+    var refocus = hadFocus ? state.focused : null;
+    if (tipHost && figure.contains(tipHost)) hideTip();
+    state.nodes.forEach(function (node) {
+      if (node.parentNode) node.parentNode.removeChild(node);
+    });
+    state.nodes = [];
+
+    if (!state.details) {
+      var source = table.closest(".a-table-scroll") || table;
+      var details = document.createElement("details");
+      details.className = "a-disclosure a-chart__data";
+      var summary = document.createElement("summary");
+      summary.textContent = "Data table";
+      details.appendChild(summary);
+      source.parentNode.insertBefore(details, source);
+      details.appendChild(source);
+      state.details = details;
+    }
+    watchChartTable(figure, state);
+
+    var data = readChartTable(table);
+    if (!data) {
+      var empty = document.createElement("p");
+      empty.className = "a-chart__empty";
+      empty.textContent =
+        figure.getAttribute("data-a-chart-empty") ||
+        "No data for this selection.";
+      figure.insertBefore(empty, state.details);
+      state.nodes.push(empty);
+      state.focused = null;
+      return;
+    }
+
+    var stacked = type === "stacked-bar";
+    var isLine = type === "line";
+    var height = parseFloat(figure.getAttribute("data-a-chart-height")) || 220;
+    var unit = figure.getAttribute("data-a-chart-unit") || "";
+    var tickUnit = unit.length <= 2 ? unit : "";
+    var pad = { top: 14, right: 14, bottom: 30, left: 46 };
+    var plotWidth = CHART_WIDTH - pad.left - pad.right;
+    var plotHeight = height - pad.top - pad.bottom;
+    var bandWidth = plotWidth / data.categories.length;
+
+    var high = 0;
+    var low = 0;
+    data.categories.forEach(function (point) {
+      var sum = 0;
+      point.values.forEach(function (value) {
+        if (value === null) return;
+        sum += value > 0 ? value : 0;
+        low = Math.min(low, value);
+        if (!stacked) high = Math.max(high, value);
+      });
+      if (stacked) high = Math.max(high, sum);
+    });
+    var declaredMax = parseFloat(figure.getAttribute("data-a-chart-max"));
+    var maxY = isFinite(declaredMax) ? declaredMax : niceCeil(high);
+    var minY = low < 0 ? -niceCeil(-low) : 0;
+    var span = maxY - minY || 1;
+
+    var scaleY = function (value) {
+      return pad.top + ((maxY - value) / span) * plotHeight;
+    };
+    var centerX = function (index) {
+      return pad.left + bandWidth * (index + 0.5);
+    };
+    var describe = function (index) {
+      var point = data.categories[index];
+      return (
+        point.label +
+        ": " +
+        data.series
+          .map(function (name, position) {
+            return name + " " + (point.texts[position] || "no value");
+          })
+          .join(", ")
+      );
+    };
+
+    var caption = figure.querySelector("figcaption");
+    var svg = svgNode("svg", {
+      class: "a-chart",
+      viewBox: "0 0 " + CHART_WIDTH + " " + height,
+      role: "group",
+      "aria-label":
+        (figure.getAttribute("data-a-chart-label") ||
+          (caption ? caption.textContent.trim() : "Chart")) +
+        ". Use the arrow keys to read each value."
+    });
+
+    var grid = svgNode("g", { class: "a-chart__grid" });
+    var axis = svgNode("g", { class: "a-chart__axis" });
+    for (var tick = 0; tick <= 4; tick += 1) {
+      var value = minY + (span * tick) / 4;
+      var y = scaleY(value);
+      grid.appendChild(
+        svgNode("line", {
+          x1: pad.left,
+          y1: y,
+          x2: CHART_WIDTH - pad.right,
+          y2: y
+        })
+      );
+      var tickLabel = svgNode("text", {
+        x: pad.left - 8,
+        y: y + 3.5,
+        "text-anchor": "end"
+      });
+      tickLabel.textContent = formatTick(value) + tickUnit;
+      axis.appendChild(tickLabel);
+    }
+
+    var labelStep = Math.ceil(data.categories.length / 8);
+    data.categories.forEach(function (point, index) {
+      if (index % labelStep) return;
+      var text = svgNode("text", {
+        x: centerX(index),
+        y: height - 10,
+        "text-anchor": "middle"
+      });
+      text.textContent = point.label;
+      axis.appendChild(text);
+    });
+
+    var plot = svgNode("g", { class: "a-chart__plot" });
+    /* Past ~30 points a marker per category reads as a scatter plot instead
+       of a line, so dense series drop to a bare stroke and only the active
+       point is drawn (CSS gives it a radius again). */
+    var pointRadius = data.categories.length > 30 ? 0 : 2.75;
+    if (isLine) {
+      data.series.forEach(function (name, position) {
+        /* A missing value breaks the line rather than bridging the gap. */
+        var segments = [[]];
+        data.categories.forEach(function (point, index) {
+          var value = point.values[position];
+          if (value === null) {
+            if (segments[segments.length - 1].length) segments.push([]);
+            return;
+          }
+          segments[segments.length - 1].push(
+            centerX(index) + "," + scaleY(value)
+          );
+          plot.appendChild(
+            svgNode("circle", {
+              class: "a-chart__point a-series-" + (position + 1),
+              cx: centerX(index),
+              cy: scaleY(value),
+              r: pointRadius,
+              "data-a-index": index
+            })
+          );
+        });
+        segments.forEach(function (coordinates) {
+          if (!coordinates.length) return;
+          plot.insertBefore(
+            svgNode("polyline", {
+              class: "a-chart__series a-series-" + (position + 1),
+              points: coordinates.join(" ")
+            }),
+            plot.firstChild
+          );
+        });
+      });
+    } else {
+      var inset = bandWidth * 0.18;
+      var slot = (bandWidth - inset * 2) / (stacked ? 1 : data.series.length);
+      var baseline = scaleY(Math.max(minY, 0));
+      data.categories.forEach(function (point, index) {
+        var stackTop = 0;
+        data.series.forEach(function (name, position) {
+          var value = point.values[position];
+          if (value === null) return;
+          var from = baseline;
+          var to;
+          if (stacked) {
+            from = scaleY(stackTop);
+            stackTop += value;
+            to = scaleY(stackTop);
+          } else {
+            to = scaleY(value);
+          }
+          plot.appendChild(
+            svgNode("rect", {
+              class: "a-chart__bar a-series-" + (position + 1),
+              x:
+                pad.left +
+                bandWidth * index +
+                inset +
+                slot * (stacked ? 0 : position),
+              y: Math.min(from, to),
+              width: Math.max(1, slot - 2),
+              height: Math.max(1, Math.abs(to - from)),
+              rx: 2,
+              "data-a-index": index
+            })
+          );
+        });
+      });
+    }
+
+    var crosshair = svgNode("line", {
+      class: "a-chart__crosshair",
+      x1: pad.left,
+      x2: pad.left,
+      y1: pad.top,
+      y2: pad.top + plotHeight,
+      hidden: "hidden"
+    });
+
+    var overlay = svgNode("g", { class: "a-chart__bands" });
+    var bands = data.categories.map(function (point, index) {
+      var band = svgNode("rect", {
+        class: "a-chart__band",
+        x: pad.left + bandWidth * index,
+        y: pad.top,
+        width: bandWidth,
+        height: plotHeight,
+        tabindex: index === 0 ? 0 : -1,
+        role: "img",
+        "aria-label": describe(index)
+      });
+      overlay.appendChild(band);
+      return band;
+    });
+
+    svg.appendChild(grid);
+    svg.appendChild(axis);
+    svg.appendChild(plot);
+    svg.appendChild(crosshair);
+    svg.appendChild(overlay);
+
+    figure.insertBefore(svg, state.details);
+    state.nodes.push(svg);
+
+    if (data.series.length > 1) {
+      var legend = document.createElement("ul");
+      legend.className = "a-legend";
+      data.series.forEach(function (name, position) {
+        var item = document.createElement("li");
+        item.className = "a-series-" + (position + 1);
+        var swatch = document.createElement("span");
+        swatch.className = "a-legend__swatch";
+        item.appendChild(swatch);
+        item.appendChild(document.createTextNode(name));
+        legend.appendChild(item);
+      });
+      figure.insertBefore(legend, state.details);
+      state.nodes.push(legend);
+    }
+
+    var readout = document.createElement("p");
+    readout.className = "a-visually-hidden";
+    readout.setAttribute("aria-live", "polite");
+    figure.appendChild(readout);
+    state.nodes.push(readout);
+
+    var clear = function () {
+      bands.forEach(function (band) {
+        band.removeAttribute("data-a-active");
+      });
+      plot.querySelectorAll("[data-a-index]").forEach(function (mark) {
+        mark.removeAttribute("data-a-active");
+      });
+      crosshair.setAttribute("hidden", "hidden");
+      readout.textContent = "";
+    };
+
+    var activate = function (index, pointer) {
+      if (index < 0 || index >= bands.length) return;
+      clear();
+      bands[index].setAttribute("data-a-active", "true");
+      plot
+        .querySelectorAll('[data-a-index="' + index + '"]')
+        .forEach(function (mark) {
+          mark.setAttribute("data-a-active", "true");
+        });
+      if (isLine) {
+        crosshair.setAttribute("x1", centerX(index));
+        crosshair.setAttribute("x2", centerX(index));
+        crosshair.removeAttribute("hidden");
+      }
+      readout.textContent = describe(index);
+      showTip(
+        {
+          title: data.categories[index].label,
+          rows: data.series.map(function (name, position) {
+            return {
+              name: name,
+              value: data.categories[index].texts[position],
+              series: position + 1
+            };
+          })
+        },
+        bands[index],
+        bands[index].getBoundingClientRect(),
+        pointer,
+        clear
+      );
+    };
+
+    /* -1 outside the plot area, so the axis and margins read as no category. */
+    var indexAt = function (clientX) {
+      var box = svg.getBoundingClientRect();
+      if (!box.width) return -1;
+      var local = ((clientX - box.left) / box.width) * CHART_WIDTH;
+      if (local < pad.left || local > pad.left + plotWidth) return -1;
+      var index = Math.floor((local - pad.left) / bandWidth);
+      return Math.max(0, Math.min(data.categories.length - 1, index));
+    };
+
+    svg.addEventListener("pointermove", function (event) {
+      if (event.pointerType === "touch") return;
+      var index = indexAt(event.clientX);
+      if (index === -1) {
+        if (bands.indexOf(document.activeElement) === -1) hideTip();
+        return;
+      }
+      activate(index, { x: event.clientX, y: event.clientY });
+    });
+
+    svg.addEventListener("pointerdown", function (event) {
+      if (event.pointerType !== "touch") return;
+      activate(indexAt(event.clientX), null);
+    });
+
+    /* Touch leaves as soon as the finger lifts, so a tap keeps its readout. */
+    svg.addEventListener("pointerleave", function (event) {
+      if (event.pointerType === "touch") return;
+      if (bands.indexOf(document.activeElement) === -1) hideTip();
+    });
+
+    bands.forEach(function (band, index) {
+      band.addEventListener("focus", function () {
+        state.focused = {
+          index: index,
+          row: data.categories[index].row,
+          label: data.categories[index].label
+        };
+        activate(index, null);
+      });
+      band.addEventListener("blur", function () {
+        if (tipHost === band) hideTip();
+      });
+    });
+
+    svg.addEventListener("keydown", function (event) {
+      var current = bands.indexOf(document.activeElement);
+      if (current === -1) return;
+      var next = current;
+      if (event.key === "ArrowRight") next = current + 1;
+      else if (event.key === "ArrowLeft") next = current - 1;
+      else if (event.key === "Home") next = 0;
+      else if (event.key === "End") next = bands.length - 1;
+      else return;
+      event.preventDefault();
+      next = Math.max(0, Math.min(bands.length - 1, next));
+      bands.forEach(function (band, position) {
+        band.setAttribute("tabindex", position === next ? "0" : "-1");
+      });
+      bands[next].focus();
+    });
+
+    if (refocus) {
+      /* The same row, not the same slot: filtering rows above the reader's
+         position must not move them onto a different bar. */
+      var target = data.categories.findIndex(function (category) {
+        return category.row === refocus.row;
+      });
+      /* Rows rebuilt wholesale lose their identity, so fall back to the label
+         and then to the old slot. */
+      if (target === -1) {
+        target = data.categories.findIndex(function (category) {
+          return category.label === refocus.label;
+        });
+      }
+      if (target === -1) target = Math.min(refocus.index, bands.length - 1);
+      bands.forEach(function (band, position) {
+        band.setAttribute("tabindex", position === target ? "0" : "-1");
+      });
+      bands[target].focus();
+    }
+  }
+
+  function renderCharts(target) {
+    if (target === undefined || target === null) {
+      document.querySelectorAll("[data-a-chart]").forEach(renderChart);
+      return;
+    }
+    var scope =
+      typeof target === "string" ? document.querySelector(target) : target;
+    if (!scope) return;
+    if (scope.matches && scope.matches("[data-a-chart]")) renderChart(scope);
+    else scope.querySelectorAll("[data-a-chart]").forEach(renderChart);
+  }
+
+  renderCharts();
+
+  /* The only public surface of the kit: artifacts that swap or filter a
+     chart's rows themselves can force a redraw, though the table observer
+     above already covers ordinary DOM edits. */
+  window.artifactKit = window.artifactKit || {};
+  window.artifactKit.renderCharts = renderCharts;
+
+  /* Print carries the numbers, not the hover: expand every chart's data
+     table before the page is rendered. */
+  var printReopened = [];
+  window.addEventListener("beforeprint", function () {
+    hideTip();
+    document.querySelectorAll(".a-chart__data").forEach(function (details) {
+      if (details.open) return;
+      printReopened.push(details);
+      details.open = true;
+    });
+  });
+
+  window.addEventListener("afterprint", function () {
+    printReopened.forEach(function (details) {
+      details.open = false;
+    });
+    printReopened = [];
+  });
+
+  /* ---------- diagram: pan, zoom, select ----------
+     Pointer drag and wheel pan/zoom the viewport group; arrow keys and
+     +/-/0 do the same from the keyboard so the diagram is operable without
+     a pointing device. Node clicks (or Enter/Space) update the inspector. */
+  document.querySelectorAll("[data-a-diagram]").forEach(function (diagram) {
+    var svg = diagram.querySelector("[data-a-diagram-canvas]");
+    var viewport = diagram.querySelector("[data-a-diagram-viewport]");
+    if (!svg || !viewport) return;
+
+    var view = { x: 0, y: 0, scale: 1 };
+    var drag = null;
+
+    var render = function () {
+      viewport.setAttribute(
+        "transform",
+        "translate(" + view.x + " " + view.y + ") scale(" + view.scale + ")"
+      );
+    };
+
+    var zoomBy = function (factor) {
+      view.scale = Math.min(2.5, Math.max(0.5, view.scale * factor));
+      render();
+    };
+
+    svg.addEventListener("pointerdown", function (event) {
+      if (event.target.closest("[data-a-node]")) return;
+      drag = { x: event.clientX, y: event.clientY };
+      svg.setPointerCapture(event.pointerId);
+    });
+
+    svg.addEventListener("pointermove", function (event) {
+      if (!drag) return;
+      view.x += event.clientX - drag.x;
+      view.y += event.clientY - drag.y;
+      drag = { x: event.clientX, y: event.clientY };
+      render();
+    });
+
+    var endDrag = function () {
+      drag = null;
+    };
+    svg.addEventListener("pointerup", endDrag);
+    svg.addEventListener("pointercancel", endDrag);
+
+    svg.addEventListener(
+      "wheel",
+      function (event) {
+        if (!event.ctrlKey && !event.metaKey) return;
+        event.preventDefault();
+        zoomBy(event.deltaY < 0 ? 1.1 : 0.9);
+      },
+      { passive: false }
+    );
+
+    diagram.addEventListener("keydown", function (event) {
+      var pan = { ArrowUp: [0, 24], ArrowDown: [0, -24], ArrowLeft: [24, 0], ArrowRight: [-24, 0] }[
+        event.key
+      ];
+      if (pan && !event.target.closest("[data-a-node]")) {
+        event.preventDefault();
+        view.x += pan[0];
+        view.y += pan[1];
+        render();
+        return;
+      }
+      if (event.key === "+" || event.key === "=") zoomBy(1.1);
+      else if (event.key === "-") zoomBy(0.9);
+      else if (event.key === "0") {
+        view = { x: 0, y: 0, scale: 1 };
+        render();
+      }
+    });
+
+    diagram.querySelectorAll("[data-a-zoom]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        var action = button.getAttribute("data-a-zoom");
+        if (action === "in") zoomBy(1.15);
+        else if (action === "out") zoomBy(0.87);
+        else {
+          view = { x: 0, y: 0, scale: 1 };
+          render();
+        }
+      });
+    });
+
+    var inspector = diagram.querySelector("[data-a-inspector]");
+    var select = function (node) {
+      diagram.querySelectorAll("[data-a-node]").forEach(function (other) {
+        other.setAttribute("aria-current", String(other === node));
+      });
+      if (!inspector) return;
+      var title = inspector.querySelector("[data-a-inspector-title]");
+      var body = inspector.querySelector("[data-a-inspector-body]");
+      if (title) title.textContent = node.getAttribute("data-a-title") || "";
+      if (body) body.textContent = node.getAttribute("data-a-detail") || "";
+    };
+
+    diagram.querySelectorAll("[data-a-node]").forEach(function (node) {
+      node.addEventListener("click", function () {
+        select(node);
+      });
+      node.addEventListener("keydown", function (event) {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        select(node);
+      });
+    });
+
+    render();
+  });
+})();
+    </script>
+  </body>
+</html>

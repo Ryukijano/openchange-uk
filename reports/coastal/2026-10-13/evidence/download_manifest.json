@@ -1,0 +1,2370 @@
+[
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2019-12-16.nc",
+    "size": 587165,
+    "url": "https://osf.io/download/t5uj9/",
+    "sha256": "2003b24c5c6f37cd9d18740e89a7c7c79aa90d3842faf419ceab4074c52b9d96",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2019-12-16.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2019-12-26.nc",
+    "size": 652405,
+    "url": "https://osf.io/download/evd7q/",
+    "sha256": "8c703ed9fa41ad51ed67b5626955daa72e2b9a072743c9166ce9ef7a67acb667",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2019-12-26.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2019-11-28.nc",
+    "size": 728733,
+    "url": "https://osf.io/download/5f7f5087a5e947018d1ba012/",
+    "sha256": "b2a1e05a47e44e8a02e393bee29c08da2b9fc17228983a5bceea0e7c8e6fa110",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2019-11-28.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2019-11-13.nc",
+    "size": 702861,
+    "url": "https://osf.io/download/txjdw/",
+    "sha256": "05848f43c4d7453b38d76c62e78667f44302841b20cd906c5d4add839377d4f5",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2019-11-13.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2019-10-28.nc",
+    "size": 858933,
+    "url": "https://osf.io/download/pvwgt/",
+    "sha256": "68ad860ab20f2fe40e7d2b12305495aa8b1de4186becbb54c9c9c2290cbb3de6",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2019-10-28.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2019-09-16.nc",
+    "size": 742005,
+    "url": "https://osf.io/download/5f7f5097a5e94701921ba36d/",
+    "sha256": "936b17d25942436c2553b9cbd6a090d9f004ec0a9b7ae2f74a1eb33b41656b88",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2019-09-16.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2019-09-03.nc",
+    "size": 730021,
+    "url": "https://osf.io/download/wdyxq/",
+    "sha256": "e89f9fac8d362229ebd81ed89b6f725c987651f5bfc66f0e798d92f505f48c39",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2019-09-03.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2019-08-14.nc",
+    "size": 502941,
+    "url": "https://osf.io/download/hv6dk/",
+    "sha256": "903ac42f24ed7741b8743bd08b7c20fdb6fe26b8aef06e7d6c5c8be09f4aff87",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2019-08-14.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2019-08-01.nc",
+    "size": 740381,
+    "url": "https://osf.io/download/5f7f50a7cc246f01dc74bd3a/",
+    "sha256": "c08f75fa35926fddf38346ef773659f94ce83fb98f90aab2de2d50d70807e60f",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2019-08-01.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2019-07-04.nc",
+    "size": 732541,
+    "url": "https://osf.io/download/5f7f50a9a5e94701921ba3ab/",
+    "sha256": "d5ea3e04478c99c8a83f2f6a0644bee7a3c8610d9998a246e2694e162283987b",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2019-07-04.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2019-06-04.nc",
+    "size": 766197,
+    "url": "https://osf.io/download/5sqrf/",
+    "sha256": "93480094198a2e21236ba761aa30a2672ba95ff00eca6062ddf0ed2173bd4ffc",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2019-06-04.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2019-06-17.nc",
+    "size": 705437,
+    "url": "https://osf.io/download/5f7f50b2cc246f01dd74be1d/",
+    "sha256": "8e990697be960f15bdaf17eae67b395bd1262778135342e25b618b90d60fab75",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2019-06-17.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2019-05-07.nc",
+    "size": 741333,
+    "url": "https://osf.io/download/5f7f50b51f65a50198ed01be/",
+    "sha256": "b235be2e62a0f3723953fe323c52cd6d0bae146af611f91b4d1958ccee69ea8c",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2019-05-07.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2019-04-05.nc",
+    "size": 681077,
+    "url": "https://osf.io/download/3gr47/",
+    "sha256": "a90fe8cf469e68a021851814f77189c87dfc97777c3cce588d856ed60b78c0e2",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2019-04-05.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2019-04-19.nc",
+    "size": 849749,
+    "url": "https://osf.io/download/nzgtf/",
+    "sha256": "c6ab3f890b1b34088d8ac303f9a0aca54a183c32931c87f5b02cf5b582daea94",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2019-04-19.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2019-03-21.nc",
+    "size": 797165,
+    "url": "https://osf.io/download/zpgxn/",
+    "sha256": "6aa2f785060378090a5ac9f427964d3559480d5767a2a2b6df0752c64ef8ae42",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2019-03-21.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2019-03-08.nc",
+    "size": 794533,
+    "url": "https://osf.io/download/m6bwx/",
+    "sha256": "ad74e39c6e67296a950787474c9324e922643ed8986780f3d14940965f8d1708",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2019-03-08.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2019-02-08.nc",
+    "size": 612981,
+    "url": "https://osf.io/download/5f7f50d3a5e94701921ba442/",
+    "sha256": "5425cad96e9dd84c90c32a44a2b6866084131158017253d864105604e93acb8b",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2019-02-08.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2019-01-07.nc",
+    "size": 664725,
+    "url": "https://osf.io/download/5p9hf/",
+    "sha256": "c35304ec6d3670593ad2529c09c800500ac14d0cc5d932ea06ce403c188c3775",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2019-01-07.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2019-02-20.nc",
+    "size": 726157,
+    "url": "https://osf.io/download/5f7f50d5a5e94701911ba2a4/",
+    "sha256": "b648a962aadc47772a406085143098a69cb41003bee8e0092a60a3075750b3c4",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2019-02-20.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2019-01-21.nc",
+    "size": 714117,
+    "url": "https://osf.io/download/5f7f50db1f65a50197ed0122/",
+    "sha256": "e41eedcb4aef4d3ecbdcf3d2b8794105aaa7b94ff290d5e9641a2eabce168e64",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2019-01-21.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2018-12-26.nc",
+    "size": 761157,
+    "url": "https://osf.io/download/5f7f50dfcc246f01e174c15b/",
+    "sha256": "767f08851d870a7e9b52a55627c346c4a6d8f6d674178e506f6514562f5f5008",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2018-12-26.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2018-10-25.nc",
+    "size": 722405,
+    "url": "https://osf.io/download/sehnm/",
+    "sha256": "b74051353868a13a6f4dca583f7b08c084e5c54ad02295feeaa7c4596613ecd7",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2018-10-25.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2018-12-07.nc",
+    "size": 717085,
+    "url": "https://osf.io/download/bm25u/",
+    "sha256": "ddd91fb3f98589e335efc5cde7f6733229f7e7b4beaff00db107c9a59ddcd47d",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2018-12-07.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2018-11-26.nc",
+    "size": 726549,
+    "url": "https://osf.io/download/5f7f50f21f65a5019ded04f2/",
+    "sha256": "dde73d76619b8db3c5ad7f2afcee1ae5c15f726163d53d2b88ecd0238d65a8eb",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2018-11-26.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2018-11-08.nc",
+    "size": 658957,
+    "url": "https://osf.io/download/4wq5m/",
+    "sha256": "86012c4531400932e9e858080a0c6d6761d2682a050a7546f507f6c60f4acb2f",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2018-11-08.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2018-10-09.nc",
+    "size": 759813,
+    "url": "https://osf.io/download/z7j6k/",
+    "sha256": "0bdcb9d7cb74f57a03fd9c9b6319ddd308087e86856a1dcf77bcc265da3b9a3e",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2018-10-09.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2018-08-28.nc",
+    "size": 447725,
+    "url": "https://osf.io/download/5f7f51031f65a50197ed0142/",
+    "sha256": "c1eb98b958ba38ec9e1c9cc43563ed2700ecaafebbad436cc5cf8ed7efd0d0e7",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2018-08-28.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2018-09-27.nc",
+    "size": 623117,
+    "url": "https://osf.io/download/5f7f5103a5e94701911ba327/",
+    "sha256": "b984234f6bd0293bb33787c7124cae3839359def24cfba40611306e46fe2ac27",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2018-09-27.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2018-09-11.nc",
+    "size": 459317,
+    "url": "https://osf.io/download/5a6mf/",
+    "sha256": "618c2f70f4295f5fb47c26307c01ddc656987f675af8174fdfbdb851460a91ac",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2018-09-11.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2018-08-13.nc",
+    "size": 498629,
+    "url": "https://osf.io/download/5f7f5106a5e94701921ba502/",
+    "sha256": "9b1a4caf59a06c026ba5b975196252f4feadcca5e443cba6f73606271b61f867",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2018-08-13.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2018-07-13.nc",
+    "size": 666181,
+    "url": "https://osf.io/download/5f7f510c1f65a5019ded055b/",
+    "sha256": "8a087ea5a244d60c10cb0166f72bb91b29af6bc709c87b197ed24b3af9b2d1b3",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2018-07-13.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2018-05-17.nc",
+    "size": 774989,
+    "url": "https://osf.io/download/5f7f511aa5e94701891b9fe1/",
+    "sha256": "d674d714473c40aaddc19233350023a95a60a0c54888f8eed3598d37c41b6977",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2018-05-17.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2018-06-28.nc",
+    "size": 675029,
+    "url": "https://osf.io/download/nxeb2/",
+    "sha256": "e604cf0283e0ce9d8d729d1db982d247750144d8acdf0647f9872440b01be749",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2018-06-28.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2018-06-14.nc",
+    "size": 685613,
+    "url": "https://osf.io/download/5f7f511f1f65a5019ded05ac/",
+    "sha256": "c447ced95714d9d665dea147ceb95200f7ebd513076ac299e9c50e21f130c85c",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2018-06-14.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2018-05-25.nc",
+    "size": 665229,
+    "url": "https://osf.io/download/twg7z/",
+    "sha256": "db0d1015245b18b3a8cbe17fad9e5736ef3383237b52fe1d0963608331587310",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2018-05-25.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2018-05-02.nc",
+    "size": 755837,
+    "url": "https://osf.io/download/x47p2/",
+    "sha256": "5341b625c18fef9d9b5c9ea096420329a084968f64d1fc13c76c43c753440f8d",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2018-05-02.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2018-04-17.nc",
+    "size": 664053,
+    "url": "https://osf.io/download/5f7f512ba5e94701891b9fe9/",
+    "sha256": "395219085531f240e5d49f75e85b8f314b3d8199b3de82dac235e5e71c8b15db",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2018-04-17.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2018-03-30.nc",
+    "size": 726045,
+    "url": "https://osf.io/download/bgp8a/",
+    "sha256": "81f63f4b00a250683e7e7d6dea6d3292b6387f8e7f91c645c20504b9c677b987",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2018-03-30.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2018-03-21.nc",
+    "size": 810045,
+    "url": "https://osf.io/download/8ysqh/",
+    "sha256": "131aafc25043dbb94004a99e5ff702484d2d5a7c86f1985585d08b3e48772792",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2018-03-21.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2018-02-19.nc",
+    "size": 705717,
+    "url": "https://osf.io/download/5f7f5137cc246f01e174c27e/",
+    "sha256": "3f64fb54e1c095b3efa692f203bb8dfeb63d2c03eb6ec443e483e9817e4aafe2",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2018-02-19.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2018-03-02.nc",
+    "size": 676261,
+    "url": "https://osf.io/download/duzkj/",
+    "sha256": "a7085e21ee1d89f91ade229ddc101bcf53a124c534d7927f2983e4abaa0ea186",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2018-03-02.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2018-02-01.nc",
+    "size": 739037,
+    "url": "https://osf.io/download/5f7f513fcc246f01d174e736/",
+    "sha256": "7e2db04204995e9e27663f4bb0a078296b681fd2675a1f028b44c6f1da1ee17e",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2018-02-01.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2018-01-18.nc",
+    "size": 696197,
+    "url": "https://osf.io/download/5f7f5144a5e94701911ba3e2/",
+    "sha256": "6837de933ce585bdae41b0d2e696a8f99e0ee9a97832673a25263898a5811ff2",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2018-01-18.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2017-12-05.nc",
+    "size": 886597,
+    "url": "https://osf.io/download/5f7f514ecc246f01e174c2e0/",
+    "sha256": "d35e67dd56518ee8250e68dec89166018c6679fbc780678dea1303e0667184b5",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2017-12-05.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2018-01-04.nc",
+    "size": 788821,
+    "url": "https://osf.io/download/ed4qf/",
+    "sha256": "642adb5257bfcefe5a7e8d23377d044abe05aec6584ec0e47056adca7d54828c",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2018-01-04.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2017-12-19.nc",
+    "size": 817549,
+    "url": "https://osf.io/download/2rfyc/",
+    "sha256": "707f9794c9ce7c49350a95c7921fd6191655988b2a574d30e8384b8669c6b9ab",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2017-12-19.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2017-11-20.nc",
+    "size": 793525,
+    "url": "https://osf.io/download/5f7f51541f65a5019ced0436/",
+    "sha256": "0350ab796140b19c4bcf43b285d2daf6ef1aaf96aa9ee4e4fa4ae8aa1f9086f5",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2017-11-20.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2017-11-06.nc",
+    "size": 698885,
+    "url": "https://osf.io/download/v5u48/",
+    "sha256": "7977e23a7fb90f500e51a118c2019e9349db3b39143e47300dd49dde607b58f7",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2017-11-06.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2017-10-09.nc",
+    "size": 798453,
+    "url": "https://osf.io/download/jmkct/",
+    "sha256": "315dae33e21e7449be10a849fb9baa5dc44f391cf5d8effaa4854bc8d097226f",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2017-10-09.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2017-09-22.nc",
+    "size": 927421,
+    "url": "https://osf.io/download/2ydge/",
+    "sha256": "b3adbaf779eebb3b6e11eb93d17037162a7b24ca4a7f782b2951b58c4ebffaba",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2017-09-22.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2017-08-22.nc",
+    "size": 661477,
+    "url": "https://osf.io/download/5f7f516ea5e94701921ba640/",
+    "sha256": "27d208bac451bf1e05fd7013e0c0922de3aef62c6c6ce1d41b1edee9929ec596",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2017-08-22.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2017-10-19.nc",
+    "size": 662709,
+    "url": "https://osf.io/download/2m84a/",
+    "sha256": "10f274c82da4f74b729f171d70ccf269f0fadaf6ff363d16dfc8f476730f72aa",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2017-10-19.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2017-08-10.nc",
+    "size": 720165,
+    "url": "https://osf.io/download/py5wg/",
+    "sha256": "5fc90b4a57d1b82ffc0ed244b1cf597e19645aaaccd981e4b7c1a5f5db212142",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2017-08-10.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2017-07-10.nc",
+    "size": 697877,
+    "url": "https://osf.io/download/5f7f517d1f65a50198ed02da/",
+    "sha256": "416acf205b5546758cd6971bd602d03ea6adb438990811fe3a5b690feba8c8b3",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2017-07-10.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2017-05-11.nc",
+    "size": 702861,
+    "url": "https://osf.io/download/5f7f517ea5e94701851b9fe5/",
+    "sha256": "28902c7d232ae2bdd82d7e4a13e623ef8777417362f762a349d9bba67edfa6be",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2017-05-11.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2017-05-29.nc",
+    "size": 765749,
+    "url": "https://osf.io/download/5f7f5181cc246f01e174c38b/",
+    "sha256": "10ea7354712102a1cb523a4fb7ded24e3711e2655cb1e14248410f17cc949e28",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2017-05-29.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2017-06-26.nc",
+    "size": 739989,
+    "url": "https://osf.io/download/x6hup/",
+    "sha256": "cee1be02d24b2c4bb6fc1a3f07e850dcbcfc34afb9586c290083e5bb41d023d0",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2017-06-26.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2017-04-28.nc",
+    "size": 724981,
+    "url": "https://osf.io/download/5f7f51881f65a50197ed01c3/",
+    "sha256": "ebfc991086396a2b55b07f807b6fa84c45a017f84026ba432be8103266b13de2",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2017-04-28.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2017-04-11.nc",
+    "size": 747717,
+    "url": "https://osf.io/download/259ey/",
+    "sha256": "698909f9e39d1f77d813d12999367b6a2af65cfce2ce2b90b3818f476f48700e",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2017-04-11.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2017-03-13.nc",
+    "size": 711541,
+    "url": "https://osf.io/download/c4vbg/",
+    "sha256": "5d2d0e57ba64758f17cc2ab65035b6a65158eabfb3bbbb828eda53119416fc8c",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2017-03-13.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2017-03-30.nc",
+    "size": 870581,
+    "url": "https://osf.io/download/pcg4r/",
+    "sha256": "d6bb2280d2008586da805f0c93d180f4bf6d5612218c03ebbf76b6d1b845abac",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2017-03-30.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2017-02-27.nc",
+    "size": 827965,
+    "url": "https://osf.io/download/z54j7/",
+    "sha256": "79c2d4317008d904eef1391caafc9cea571458670b2f6321e869de5063ee7fbb",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2017-02-27.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2017-02-14.nc",
+    "size": 767205,
+    "url": "https://osf.io/download/5f7f51a31f65a50198ed0322/",
+    "sha256": "6f6452e2232137a303a866026bb0d9a782cac7b5c4899afb31156f982ba553f1",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2017-02-14.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2017-01-13.nc",
+    "size": 402085,
+    "url": "https://osf.io/download/5f7f51a5cc246f01e074c159/",
+    "sha256": "4bdfc4d640c52b39a53f1cacaab7b6642d8aa5c411d2161975340e61005fe0df",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2017-01-13.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2016-11-14.nc",
+    "size": 413789,
+    "url": "https://osf.io/download/myuv9/",
+    "sha256": "d90672d7e5b530b8aaf5960acd9e9769770ed42d8a3db44309902c75fef7f80d",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2016-11-14.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2017-01-31.nc",
+    "size": 713893,
+    "url": "https://osf.io/download/gtp65/",
+    "sha256": "f24b8264e98f93b3cb3d5d91ca7a8fc5726c35f729a9ee75b13669b3b40314d5",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2017-01-31.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2016-10-31.nc",
+    "size": 448061,
+    "url": "https://osf.io/download/2asyx/",
+    "sha256": "eca4d173e0be5609cdd545c3919e789d3a887fb802547679c3e25a901841e1b8",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2016-10-31.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2016-10-17.nc",
+    "size": 467325,
+    "url": "https://osf.io/download/fu4nc/",
+    "sha256": "8070d6310b310b3ce2081cb9a1717a76995216b6574d7fd79e0c06bd7ea20be2",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2016-10-17.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2016-09-30.nc",
+    "size": 438709,
+    "url": "https://osf.io/download/5f7f51b1a5e947018e1ba223/",
+    "sha256": "59d804a7ba8ae351f5c007297d660b33fbaf9b41d51b68b4a45ab6939d8c6cc4",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2016-09-30.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2016-09-19.nc",
+    "size": 688917,
+    "url": "https://osf.io/download/kw2d8/",
+    "sha256": "1a19e9860b96b6253fedb6c3fb23c82439db7b3d06a3c2936e0d1801cc25fc1d",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2016-09-19.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2016-09-02.nc",
+    "size": 720949,
+    "url": "https://osf.io/download/vmdh3/",
+    "sha256": "0297a9d3db84b7f81c076a3cca8e81b2549801b8d9077e6f9b3f427504fff1a0",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2016-09-02.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2016-08-19.nc",
+    "size": 628493,
+    "url": "https://osf.io/download/ksyrw/",
+    "sha256": "a1d9953e5c73971cf18f00f5f2b4f458d13acfd1c778b57c99a083a372a66fa4",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2016-08-19.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2016-07-21.nc",
+    "size": 682925,
+    "url": "https://osf.io/download/nfp5a/",
+    "sha256": "a3888b508509228194fbb9725577620f8ae56e9e8e2c228454b167ba38e168ca",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2016-07-21.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2016-07-05.nc",
+    "size": 644117,
+    "url": "https://osf.io/download/vgcm8/",
+    "sha256": "dd3bcd043e6febcf9b5ea958e2b6435e74a927aa8d793731ab6c33c83174e3a3",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2016-07-05.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2016-06-07.nc",
+    "size": 673797,
+    "url": "https://osf.io/download/39b4k/",
+    "sha256": "996ccc2fd2246969675dc9cfa6ecc2257d02b365e5b0d506363cf33d724e0b0d",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2016-06-07.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2016-06-23.nc",
+    "size": 690765,
+    "url": "https://osf.io/download/rxp9d/",
+    "sha256": "bca936a0027ec9c8df9fb52ec6845f0b3ab0225caa09d8e8c87d47a17e1c69bf",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2016-06-23.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2016-05-24.nc",
+    "size": 682421,
+    "url": "https://osf.io/download/d9ymx/",
+    "sha256": "4dc3c6b8382111bac5cb27767e11ec7ce291877a8454a7daeed8386913b41a6d",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2016-05-24.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2016-05-06.nc",
+    "size": 635997,
+    "url": "https://osf.io/download/qz6tn/",
+    "sha256": "dcf82fb19caca2bcea8003329263314455ed67c7b106f294b39cf0f6f57b6dbd",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2016-05-06.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2016-03-25.nc",
+    "size": 817101,
+    "url": "https://osf.io/download/2th4u/",
+    "sha256": "b607ffb20f4bc6638b35ae6b695cbc7bdcc7453e6c10f3156d0004dd17a733e4",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2016-03-25.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2016-03-10.nc",
+    "size": 720557,
+    "url": "https://osf.io/download/nhqet/",
+    "sha256": "d8898f5aaa1430043b74687a247a54b47c64cc7b88c37451079458d800f9cce1",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2016-03-10.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2016-04-07.nc",
+    "size": 708461,
+    "url": "https://osf.io/download/zwv6n/",
+    "sha256": "11a44a9d5163f8dd61495bc0e88b9d275fbd2a863bc370feecdfa7e332f24fc7",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2016-04-07.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2016-02-11.nc",
+    "size": 703925,
+    "url": "https://osf.io/download/rqpuv/",
+    "sha256": "02c6d1e3999ce84ac02c77119c27bcfec2be65598ee543794ddac85ba555e222",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2016-02-11.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2016-01-12.nc",
+    "size": 407237,
+    "url": "https://osf.io/download/c7k6r/",
+    "sha256": "6b9bd131b124f33893138855789b8d65072c13e2a0600244013689d9bc31784f",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2016-01-12.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2015-12-14.nc",
+    "size": 638349,
+    "url": "https://osf.io/download/5f7f51fc1f65a50198ed03aa/",
+    "sha256": "3396ebccdbe9cb7d45c6e30af9af32c003756d9e6bc3af37013d4d0952ab7bb4",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2015-12-14.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2015-12-28.nc",
+    "size": 636109,
+    "url": "https://osf.io/download/re6yv/",
+    "sha256": "672ce237c92fd1fd0e31fdc1ca85fed086abd73f8adc67574ad24bfc179288f6",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2015-12-28.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2016-01-25.nc",
+    "size": 690877,
+    "url": "https://osf.io/download/dp9ug/",
+    "sha256": "3f5020c6a983df43d494d8c1bf26581c9d413068c537aa4b462617f5a6252221",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2016-01-25.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2015-11-12.nc",
+    "size": 687741,
+    "url": "https://osf.io/download/vdxq6/",
+    "sha256": "0b5cb66cae23aafe0c596c700363bd16dc763562c1aa3da93c26afa35273024c",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2015-11-12.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2015-11-26.nc",
+    "size": 658005,
+    "url": "https://osf.io/download/frb6e/",
+    "sha256": "2b30b46650d010d96ff03368a6249d0c305432528dd6da6d369f250425740dc6",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2015-11-26.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2015-10-29.nc",
+    "size": 673069,
+    "url": "https://osf.io/download/gxkb3/",
+    "sha256": "c04dfeef6d1f289acba737bcaded23b136891a5e0593da8abea05899840e9775",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2015-10-29.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2015-10-13.nc",
+    "size": 819061,
+    "url": "https://osf.io/download/d3hwk/",
+    "sha256": "4783b81c0af4fefc15dede20ea2f9c2f1ceb92ffa19a1eb2f0915591dea0ae8f",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2015-10-13.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2015-09-28.nc",
+    "size": 752757,
+    "url": "https://osf.io/download/wvgzs/",
+    "sha256": "0109067d66db4ae52b12bfc54858ae56c81126cdd1afd2afcd21c147b674cfc5",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2015-09-28.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2015-10-27.nc",
+    "size": 726157,
+    "url": "https://osf.io/download/5f7f5223a5e947018d1ba135/",
+    "sha256": "1baef76cf9742ccaf00571a7e535a3e02f8882505c2abc92abd60b44a9440f7b",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2015-10-27.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2015-09-15.nc",
+    "size": 675869,
+    "url": "https://osf.io/download/5f7f522bcc246f01e174c564/",
+    "sha256": "b8411e427884313449e7f0e57db07bee7bbf191ef227fbe453705fb4b1e59c45",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2015-09-15.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2015-08-17.nc",
+    "size": 664501,
+    "url": "https://osf.io/download/yb4uw/",
+    "sha256": "9fda9e4353b06c1d3543b3d564320b0837bf69ed1b00eca2dd72a2d5ff69b4e0",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2015-08-17.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2015-06-18.nc",
+    "size": 730357,
+    "url": "https://osf.io/download/5f7f523da5e94701921ba8d4/",
+    "sha256": "d042ee826d46469664488eb56d78d1c4cb73d54f2b89b40a72d9e875ae80f97a",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2015-06-18.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2015-06-05.nc",
+    "size": 859885,
+    "url": "https://osf.io/download/5f7f52411f65a50198ed03f9/",
+    "sha256": "db0321712fb3365070fa2f0bb36f676eaebdf061724493a899743ac4831d86a2",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2015-06-05.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2015-04-03.nc",
+    "size": 656381,
+    "url": "https://osf.io/download/sn5mw/",
+    "sha256": "d626dda588875e3768698c7f56f24a03b12036caee94cd5837671a6bf4d6aa72",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2015-04-03.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2015-05-18.nc",
+    "size": 443805,
+    "url": "https://osf.io/download/5f7f52441f65a5018ced29a6/",
+    "sha256": "e91f89697eb88cff10ec475af6e8a7469c441fe20487a013482404ce74f3bab9",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2015-05-18.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2015-03-05.nc",
+    "size": 681133,
+    "url": "https://osf.io/download/672d5/",
+    "sha256": "fd27ed5ab8c9e3aa381ff5a1e6970e4e9195d4f1383d23eef9eb4c13306fe492",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2015-03-05.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2015-02-05.nc",
+    "size": 664109,
+    "url": "https://osf.io/download/5f7f525acc246f01e074c2bc/",
+    "sha256": "0b6677a52e5933d414637e54c98e942069b11303c28fff8f7a6b2e18c4911048",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2015-02-05.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2015-02-20.nc",
+    "size": 733325,
+    "url": "https://osf.io/download/t8k3r/",
+    "sha256": "909f68367cb4b90193993b145d743b381d5f2cf70bd5af631d75f822b6e5ff58",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2015-02-20.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2015-03-20.nc",
+    "size": 736965,
+    "url": "https://osf.io/download/2q3wh/",
+    "sha256": "831abd0d1e28e6259249fc3b81375cff709d30e79aa9574e30b9445abc2db991",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2015-03-20.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2015-01-23.nc",
+    "size": 664109,
+    "url": "https://osf.io/download/ftu9k/",
+    "sha256": "e87ec7abdfbfa5c1ff9354ff2a7e3ce1de89675afa77d9ba97a7daa3e9afb653",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2015-01-23.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2014-12-23.nc",
+    "size": 620037,
+    "url": "https://osf.io/download/ct756/",
+    "sha256": "80a5ffca342a8c421e23ec64d606c2216b2138830bc4ff6b5950dc7b4bbfda8e",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2014-12-23.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2014-12-05.nc",
+    "size": 618469,
+    "url": "https://osf.io/download/9xjp3/",
+    "sha256": "aeb0cafe565296f5f75f8ecf15863f8dab015d8e9d83f76870def8f33867e89d",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2014-12-05.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2015-01-05.nc",
+    "size": 596853,
+    "url": "https://osf.io/download/9t8zq/",
+    "sha256": "568177b7a6ac7cc8219ca7f38dea4ff408380f49fe849dce597f5957cdc92396",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2015-01-05.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2014-10-24.nc",
+    "size": 609621,
+    "url": "https://osf.io/download/hy3w4/",
+    "sha256": "236df2792ff5e4823a50582de5369bd07aea99f9bd408b58e03b1f7a2d0dc834",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2014-10-24.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2014-11-24.nc",
+    "size": 582405,
+    "url": "https://osf.io/download/5f7f5281a5e94701911ba737/",
+    "sha256": "f835081355692dcfab977f934c0bdbf112c38c393ca31eb9036acf7b4f2aebe0",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2014-11-24.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2014-11-07.nc",
+    "size": 565045,
+    "url": "https://osf.io/download/m4p5n/",
+    "sha256": "31ab40be33eada6fdcce9d3de58ec75c474033fa5435eb42f498409629ebd6e6",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2014-11-07.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2014-10-10.nc",
+    "size": 609901,
+    "url": "https://osf.io/download/kp6u4/",
+    "sha256": "bbbc88c1b5804486fb34a6db8f7ce095d9bbf2772990d8894bb68bb84f04bbde",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2014-10-10.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2014-09-26.nc",
+    "size": 572717,
+    "url": "https://osf.io/download/jb329/",
+    "sha256": "c8ab80ed48296af18f4c74b13c49444d56dc2c39c9217558d28d0c29187cd462",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2014-09-26.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2014-09-11.nc",
+    "size": 571765,
+    "url": "https://osf.io/download/5f7f5299a5e947018d1ba180/",
+    "sha256": "be3c8397ae764634b090eb44da5ec29676f6dcac1ba0165c9aa9ad68d13d2356",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2014-09-11.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2014-07-28.nc",
+    "size": 593717,
+    "url": "https://osf.io/download/dvyba/",
+    "sha256": "29eaa3a9ff752673653796143269cfbd3390add3180e4b4982a09a332d10a04e",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2014-07-28.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2014-08-28.nc",
+    "size": 502997,
+    "url": "https://osf.io/download/jgrd4/",
+    "sha256": "922fd40cfd94bcf65f6be95ce1b7aaae114247f12aeb2590c08a8307e85953a2",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2014-08-28.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2014-07-15.nc",
+    "size": 620821,
+    "url": "https://osf.io/download/5f7f52a3cc246f01dd74c0e9/",
+    "sha256": "e7a242d0dc3ba41194f057f7a6ae98afafc94db7a7b804e49a4b5f37edf2c7f5",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2014-07-15.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2014-06-27.nc",
+    "size": 677269,
+    "url": "https://osf.io/download/nf3se/",
+    "sha256": "07acabd76c8bdad143b82057bcc6bfbeeec9d69a6a434fa4d1af8532e2205b82",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2014-06-27.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2014-05-16.nc",
+    "size": 666909,
+    "url": "https://osf.io/download/5f7f52b9a5e94701921baa54/",
+    "sha256": "54ddaebcfb6e6f3e02d143fc95a3aa0091a2cb40af8b1c11f3b9dc560a7beade",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2014-05-16.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2014-06-13.nc",
+    "size": 651957,
+    "url": "https://osf.io/download/5f7f52bca5e94701911ba7bb/",
+    "sha256": "56d096ce5e2e3e7ac0c3ee47e9a5a6827ccbb8c1738cbfd923e9c69eddc4c30b",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2014-06-13.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2014-05-27.nc",
+    "size": 661309,
+    "url": "https://osf.io/download/5f7f52c2a5e94701911ba7d5/",
+    "sha256": "c11a612e0980a4fe2e14ba463601da6a3589bc68b04f1c69d9606a68624420bf",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2014-05-27.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2014-04-17.nc",
+    "size": 716021,
+    "url": "https://osf.io/download/5f7f52d3a5e94701921baa9c/",
+    "sha256": "49b46291d985fd2258a04d1136dd3b70b737911b527086d8aa36fa9a2714db86",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2014-04-17.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2014-04-30.nc",
+    "size": 664893,
+    "url": "https://osf.io/download/5f7f52d41f65a5019ded0a39/",
+    "sha256": "74023a9e4b9d8d49068ad4b90eeffe820fde24bbf0f71f6e6661de6d4738e9e5",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2014-04-30.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2014-03-18.nc",
+    "size": 700509,
+    "url": "https://osf.io/download/pqz3c/",
+    "sha256": "b353bf47c77b208a78bf4e79e6c141ca36c29913d6398f5a22847f61acb74102",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2014-03-18.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2014-03-03.nc",
+    "size": 608893,
+    "url": "https://osf.io/download/tvz5y/",
+    "sha256": "54e3bc7f5a5f1c4d9b7e13e6b589d0b62e53f8d625795e3e4e71c54f55e275f3",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2014-03-03.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2014-03-31.nc",
+    "size": 712773,
+    "url": "https://osf.io/download/72yp5/",
+    "sha256": "8761afc27541e884c2cba5826dfa334c0765d489975eca91d39c27b91f029dcc",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2014-03-31.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2014-02-17.nc",
+    "size": 541805,
+    "url": "https://osf.io/download/5f7f5300a5e947018d1ba1b8/",
+    "sha256": "9e3e72bf3d3e8476a71ae952aae70063dc0e4c7680eb49a097a1cd32866ae49b",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2014-02-17.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2014-01-31.nc",
+    "size": 624405,
+    "url": "https://osf.io/download/5f7f5301a5e94701861ba02a/",
+    "sha256": "9baf72ae74b8d5248171ca884977ea9492ebadf8d0114cc94ed33b6ef13485a8",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2014-01-31.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2014-01-20.nc",
+    "size": 629781,
+    "url": "https://osf.io/download/5f7f53011f65a50187ed099a/",
+    "sha256": "89653609353094a94f26c516493f1c7c8293d6638137f139004c4ec75ca97fed",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2014-01-20.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2014-01-02.nc",
+    "size": 564709,
+    "url": "https://osf.io/download/4wjce/",
+    "sha256": "d558e3f3873be914be7a786738c005f1630ff459cb90e29934def8bc2f845440",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2014-01-02.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2013-12-19.nc",
+    "size": 483341,
+    "url": "https://osf.io/download/5f7f53131f65a5019ced0770/",
+    "sha256": "e8dc170d8716b30c33b5bba999578b32d7ef01cd3905e9c7f0b36fec2a618829",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2013-12-19.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2013-12-03.nc",
+    "size": 617349,
+    "url": "https://osf.io/download/5f7f5316cc246f01e174c812/",
+    "sha256": "2cf19d2d6fab5184e08c75152d606ac2b477a0bf000b2ec98a27dfa6ad5940eb",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2013-12-03.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2013-11-05.nc",
+    "size": 581565,
+    "url": "https://osf.io/download/gdeqy/",
+    "sha256": "12a2c82fd5b0dc70c5516ff2a71c1ecdb29ad28b6043f83c7aca21688de40608",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2013-11-05.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2013-11-19.nc",
+    "size": 531949,
+    "url": "https://osf.io/download/5f7f5321cc246f01e174c82f/",
+    "sha256": "4702614259f264d95e04a57379363402dbc55d3659ad043b29788da710290f10",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2013-11-19.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2013-10-18.nc",
+    "size": 585821,
+    "url": "https://osf.io/download/9t7cb/",
+    "sha256": "e83b74aa0b9138432ab34b67861836f10e7c529202fba35c1995d913c383310b",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2013-10-18.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2013-09-19.nc",
+    "size": 528813,
+    "url": "https://osf.io/download/5f7f532dcc246f01e074c44b/",
+    "sha256": "82dbf14ed47c2674dcb8bb8f03f1e7b82cc471635f41903cfc003753eefef998",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2013-09-19.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2013-10-07.nc",
+    "size": 607549,
+    "url": "https://osf.io/download/d2k7q/",
+    "sha256": "2293b267ea232dec039f0ca5face92071c1d41273e77b79befb12e1ab521cbc2",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2013-10-07.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2013-08-21.nc",
+    "size": 593493,
+    "url": "https://osf.io/download/5f7f53341f65a50193ed01e2/",
+    "sha256": "8f9ee2ce2771b4cb46541376d4519223b72928383c6800459ae72104051f5605",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2013-08-21.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2013-09-09.nc",
+    "size": 629837,
+    "url": "https://osf.io/download/kebxu/",
+    "sha256": "a0f991e1f4899e3bb7133f3008758899e90349b727f9573ccbab5f8ee720ebc8",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2013-09-09.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2013-08-08.nc",
+    "size": 740269,
+    "url": "https://osf.io/download/5f7f53491f65a50197ed031f/",
+    "sha256": "485a305c68c2caf3d1848a29103059142579d30ef1e474b114279c99412aa3fb",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2013-08-08.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2013-07-11.nc",
+    "size": 506469,
+    "url": "https://osf.io/download/5f7f53501f65a50198ed0511/",
+    "sha256": "e5052b1196f83e26c3b3801a031309b3fe93df3dcfbfcc30b1438add177658d6",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2013-07-11.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2013-07-23.nc",
+    "size": 696701,
+    "url": "https://osf.io/download/5f7f5355a5e947018e1ba42d/",
+    "sha256": "e06d613a87cdefacbae38c519a5a5e67b974b81750142469a5db888a63c6fc91",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2013-07-23.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2013-06-25.nc",
+    "size": 686397,
+    "url": "https://osf.io/download/5f7f5358a5e947018e1ba431/",
+    "sha256": "6bc16dcb9a1b54a9ba7fa865fb73112d52b78cf4c6288b4a919dabfd485f1a67",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2013-06-25.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2013-05-24.nc",
+    "size": 646077,
+    "url": "https://osf.io/download/5f7f5360a5e947018d1ba1e7/",
+    "sha256": "19774d10d6eecf524aae817972650282dfd30d0f92b963c16b923160207f34fa",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2013-05-24.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2013-06-10.nc",
+    "size": 601109,
+    "url": "https://osf.io/download/5f7f53601f65a5019ded0b97/",
+    "sha256": "4f72bbd8648a3d0228eb4b2336396ede562e024c72297fbd92451be8ed295ec5",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2013-06-10.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2013-05-14.nc",
+    "size": 529037,
+    "url": "https://osf.io/download/5f7f5369cc246f01e174c8ea/",
+    "sha256": "1ee6b8d7c119107faeb4f508acccd853ee6b72ea1989d9ac8b71b8f146818282",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2013-05-14.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2013-03-28.nc",
+    "size": 610853,
+    "url": "https://osf.io/download/ts57w/",
+    "sha256": "0b5a3d74a608f44286ab78d549dbc2666c720147eb5b42fd589e236564a78c46",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2013-03-28.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2013-03-12.nc",
+    "size": 520469,
+    "url": "https://osf.io/download/7zsdk/",
+    "sha256": "85227df297a99bd10dc1798ef93cdef9df3a6d9fe9d514c52490792ae626f70a",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2013-03-12.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2013-04-29.nc",
+    "size": 566389,
+    "url": "https://osf.io/download/5ay8x/",
+    "sha256": "219b89abcc4a9af6fa159885831500a1338af50806a88aefb47b53cd9e8e5f7e",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2013-04-29.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2013-02-12.nc",
+    "size": 562301,
+    "url": "https://osf.io/download/5f7f537dcc246f01e074c4e2/",
+    "sha256": "640c01fc15cb8272b06ac0914c7a1749766045745e7cd9057f287b7e123f99a0",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2013-02-12.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2013-01-30.nc",
+    "size": 506805,
+    "url": "https://osf.io/download/5f7f538d1f65a5019ced0839/",
+    "sha256": "5ae09aa6d19867ffad2d66bc3bc779c2b998677ce7405090dcb4d901a3e5ce22",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2013-01-30.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2013-01-14.nc",
+    "size": 550149,
+    "url": "https://osf.io/download/hqe36/",
+    "sha256": "feb3736ba348077e2d76a19de087f7bd3ae20914c085c1f3d60c18f775c26d2d",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2013-01-14.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2012-11-30.nc",
+    "size": 484293,
+    "url": "https://osf.io/download/5f7f538f1f65a5019ced083e/",
+    "sha256": "8c8025a9c347b6853c035c2042a30cd7ce8004edbe809d3ef2d10f33d45724a1",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2012-11-30.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2012-12-14.nc",
+    "size": 485861,
+    "url": "https://osf.io/download/5f7f5391cc246f01d074d8ad/",
+    "sha256": "9154b3456779f9a76f23b13b9082ece805a4f69b80c76f6c95ec97d2561200ca",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2012-12-14.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2012-10-17.nc",
+    "size": 647197,
+    "url": "https://osf.io/download/esgdk/",
+    "sha256": "1f7e4d6b33a10c827556e9c276ccccf4ef6b1f5edd5c2b5e88a09c5091549f11",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2012-10-17.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2012-10-16.nc",
+    "size": 552781,
+    "url": "https://osf.io/download/sgkm7/",
+    "sha256": "64cdf992a121009a7bb926e517fe076ad5c941283d8122904bfb4911fc9657b7",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2012-10-16.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2012-08-31.nc",
+    "size": 478469,
+    "url": "https://osf.io/download/5f7f53a7cc246f01e174c98d/",
+    "sha256": "14ca91f64995965355e3025ffcf00c30cc29da25222111fdcc033252ef27f25c",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2012-08-31.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2012-09-17.nc",
+    "size": 512909,
+    "url": "https://osf.io/download/5f7f53aba5e94701921baceb/",
+    "sha256": "9d8dc2f90a37a1a9fcfb563bf2cc859266b4c4aa534d8e69f82d73eaf72c9f81",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2012-09-17.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2012-08-03.nc",
+    "size": 501709,
+    "url": "https://osf.io/download/5f7f53b6cc246f01d174e7cc/",
+    "sha256": "7052287e56c042bc90d877fffb820e6740f1ffbe3c7091f0ad4e890288515791",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2012-08-03.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2012-10-01.nc",
+    "size": 536709,
+    "url": "https://osf.io/download/rakch/",
+    "sha256": "3f736d55bb2ae561ac8893feccaf35d888474cb78782cfb915ba0e5a8490581b",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2012-10-01.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2012-07-04.nc",
+    "size": 518677,
+    "url": "https://osf.io/download/23gew/",
+    "sha256": "9ebf94962ab8bddf5532ce1e9d3f84b729301327330d57d7f1a674024e2d56de",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2012-07-04.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2012-06-22.nc",
+    "size": 282805,
+    "url": "https://osf.io/download/skcy7/",
+    "sha256": "7146fbfbd40f7173e007de2b0dccb258a19fd40ad476a0d62979676d56f54a80",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2012-06-22.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2012-07-20.nc",
+    "size": 557149,
+    "url": "https://osf.io/download/5f7f53cbcc246f01e174c9e5/",
+    "sha256": "17fddbac3e58fbdd04e54904735fc1bb7b75ef76a97312be050ca4a37fd5ae35",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2012-07-20.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2012-06-05.nc",
+    "size": 501317,
+    "url": "https://osf.io/download/5f7f53cda5e94701921bad43/",
+    "sha256": "f973235964d6789c7bfdf505f214308a65ee42a9b082e752e44968f5ddee001e",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2012-06-05.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2012-06-21.nc",
+    "size": 502493,
+    "url": "https://osf.io/download/8cfea/",
+    "sha256": "8b2ea5156910434681f9b38cd2836bb9eaa3832d2b8c80a4febe610a781cf5c7",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2012-06-21.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2012-05-09.nc",
+    "size": 551381,
+    "url": "https://osf.io/download/5f7f53e4cc246f01e174ca2c/",
+    "sha256": "b9acf8437d2111c3153ed85459b1e1261f10a0a4bc0aa1bb2d09261756f2f7dd",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2012-05-09.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2012-03-23.nc",
+    "size": 502605,
+    "url": "https://osf.io/download/etzwf/",
+    "sha256": "4faea478bf89e99188a4bb777350b02e12026ee8060571344f4fa71199cf2c89",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2012-03-23.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2012-04-20.nc",
+    "size": 454557,
+    "url": "https://osf.io/download/5f7f53eb1f65a5019ded0cfe/",
+    "sha256": "7cee7122aa06aad7a53dff0aae97b8c3c7d72e58ce5f5d6c3f5d8cc1d96c91c4",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2012-04-20.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2012-04-06.nc",
+    "size": 593437,
+    "url": "https://osf.io/download/5f7f53eccc246f01dd74c23f/",
+    "sha256": "059673abe727bd698d53263eb053890e87b565ce6b5b707e85a86836c294860d",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2012-04-06.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2012-05-21.nc",
+    "size": 533685,
+    "url": "https://osf.io/download/zcby4/",
+    "sha256": "2eac3a16c9b081ee03e8671d2fb17f29a10ae5b10e5f2f6dc60075ad1c048374",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2012-05-21.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2012-03-09.nc",
+    "size": 283757,
+    "url": "https://osf.io/download/g54ew/",
+    "sha256": "feb7877908232c2eb0fd68a1337a8c05b2d8bb28e600860dfb0eed3c2c953b0e",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2012-03-09.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2012-02-08.nc",
+    "size": 394413,
+    "url": "https://osf.io/download/c279t/",
+    "sha256": "5bb0061f2e55316470e0c65a23ab601899f26d18c53c664530fe2d33dd9e0646",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2012-02-08.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2012-01-25.nc",
+    "size": 537885,
+    "url": "https://osf.io/download/5f7f53fea5e94701921badb6/",
+    "sha256": "9e8bebd14d0d4cf9bb417185e511a667d30408bb76472ca28a8cd609df4d2b76",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2012-01-25.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2012-01-12.nc",
+    "size": 525677,
+    "url": "https://osf.io/download/wxtb4/",
+    "sha256": "81ad9da996131ed5d151c9ae2c655235bd53cb93cf3d81d73a1838c59db344ba",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2012-01-12.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2011-11-25.nc",
+    "size": 470573,
+    "url": "https://osf.io/download/5f7f5408a5e947018d1ba235/",
+    "sha256": "80ade6b4842dace69627437ebe18648ee2ac93eb0a8ec151c29e0cc35391c383",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2011-11-25.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2011-12-12.nc",
+    "size": 555749,
+    "url": "https://osf.io/download/5f7f540a1f65a5019ded0d3a/",
+    "sha256": "26f7c231d3c933dca48c16624eef64530ec53bba62aaaa59973ee8fab495cb21",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2011-12-12.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2011-10-26.nc",
+    "size": 455509,
+    "url": "https://osf.io/download/p6tz7/",
+    "sha256": "9172f5773dea85ac375581143a37bfb89053eeba6ec919a1c3084a27d7a22336",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2011-10-26.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2011-11-09.nc",
+    "size": 488157,
+    "url": "https://osf.io/download/knepd/",
+    "sha256": "4a21cd4f24fbd1e6be5e7635f02a20f6fb446a273b7aa4bc5784d61aa630d37f",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2011-11-09.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2011-10-13.nc",
+    "size": 383381,
+    "url": "https://osf.io/download/5vfje/",
+    "sha256": "9db717733d79eea56c1f410260bf958da10c438746b1da55152737b67d448a00",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2011-10-13.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2011-09-14.nc",
+    "size": 480317,
+    "url": "https://osf.io/download/tpnyk/",
+    "sha256": "16c4a1d5e6d0fe722b00beb8b46790f430de5b3dc6425bb9afe2e6861e446e94",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2011-09-14.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2011-09-27.nc",
+    "size": 523269,
+    "url": "https://osf.io/download/gcrpj/",
+    "sha256": "a80b504f168b0f015e841517a30a0277a238c4583972e7c2b064b3dab200b84a",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2011-09-27.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2011-07-12.nc",
+    "size": 456573,
+    "url": "https://osf.io/download/5f7f542bcc246f01e074c631/",
+    "sha256": "6992329e912e3bffc9807854b5d67499b03823a0f311484d5ac07e00bf2811ac",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2011-07-12.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2011-07-04.nc",
+    "size": 467661,
+    "url": "https://osf.io/download/5f7f5431cc246f01e174cb09/",
+    "sha256": "0a56ee7503645995476119fef2847bd5d59e8fac1ff047d135b7a5e2956d163b",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2011-07-04.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2011-06-17.nc",
+    "size": 571821,
+    "url": "https://osf.io/download/5f7f54361f65a5019ded0da7/",
+    "sha256": "70d21a4300712207c4e7cecec5653a6d798220bac19e27428fdb99bb8c982429",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2011-06-17.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2011-08-02.nc",
+    "size": 538109,
+    "url": "https://osf.io/download/5f7f543e1f65a50187ed09b4/",
+    "sha256": "081d6b07480658e6ae95df5db773bf980dcdb686c6ac19827080414903122a42",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2011-08-02.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2011-05-18.nc",
+    "size": 560509,
+    "url": "https://osf.io/download/5f7f5440a5e94701891ba06b/",
+    "sha256": "75463949c7368cd1816d11027e70472b4e081323ec6b2eb712099823d2ab7f06",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2011-05-18.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2011-06-01.nc",
+    "size": 462005,
+    "url": "https://osf.io/download/5f7f5441a5e94701921bae7c/",
+    "sha256": "43fcea81fa984622f8197ab064fe6b2ab9416a433276706b12205e22b20171ee",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2011-06-01.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2011-05-04.nc",
+    "size": 551101,
+    "url": "https://osf.io/download/5f7f544fa5e94701911baada/",
+    "sha256": "cf5d127f9e3c5807144c2a58bf39a2ea0b704df2edcfe2e5a34963aace3afdd7",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2011-05-04.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2011-04-18.nc",
+    "size": 534301,
+    "url": "https://osf.io/download/5f7f544fa5e94701851ba03d/",
+    "sha256": "40c0a5c3d2d1c29df46f0066285e8e2a1f02e57b83e9e223d72be910f1f6f327",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2011-04-18.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2011-04-07.nc",
+    "size": 585709,
+    "url": "https://osf.io/download/vh8zx/",
+    "sha256": "4baefc12e96cfa491f9f9e0ac402d24cfea22ec42d1a87039b3fe3d806875cd9",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2011-04-07.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2011-03-07.nc",
+    "size": 506021,
+    "url": "https://osf.io/download/e8kga/",
+    "sha256": "5800b5a816d98ad31c5fd2528a15a6883fb5793c67bf2ec39d456bfe5033ce1b",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2011-03-07.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2011-03-21.nc",
+    "size": 605477,
+    "url": "https://osf.io/download/u8vsr/",
+    "sha256": "b78c8acfd7f1515966d729deeb27a616ff4898b889a03394510f5f0e5c76615c",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2011-03-21.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2011-02-04.nc",
+    "size": 527973,
+    "url": "https://osf.io/download/gqt5y/",
+    "sha256": "3985bdab7a99c8ecb93cb0870815778a3cbc9cc1cf31af5d3092680084c4a10f",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2011-02-04.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2011-02-21.nc",
+    "size": 486869,
+    "url": "https://osf.io/download/5f7f5464a5e94701911bab03/",
+    "sha256": "623243e21e6e1abbc32a85423ac0bf1949bc1d78563d90ce4bdb115175c9c70d",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2011-02-21.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2011-01-21.nc",
+    "size": 509101,
+    "url": "https://osf.io/download/5f7f5468cc246f01e174cb94/",
+    "sha256": "0f0df9608a9cf795d5c93154154147362c191df61eaae82941f3c5e923fbd778",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2011-01-21.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2010-12-23.nc",
+    "size": 494037,
+    "url": "https://osf.io/download/by37z/",
+    "sha256": "b05e236e446e04777a909b484cab5f57e5ab794ea4002a1b4849809d049c7f38",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2010-12-23.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2011-01-05.nc",
+    "size": 502661,
+    "url": "https://osf.io/download/uetn5/",
+    "sha256": "4bb676c45156baaafb06e887ea913c2ba82abfa60943917133c64b6ef2aec2d3",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2011-01-05.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2010-12-06.nc",
+    "size": 497789,
+    "url": "https://osf.io/download/xkyme/",
+    "sha256": "3ec884b921d4430f1512234eb836ea299cf1a24873f189219c0f512c4e87675f",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2010-12-06.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2010-11-23.nc",
+    "size": 494989,
+    "url": "https://osf.io/download/7v4rj/",
+    "sha256": "039645c2a4bcd770644596a6ec5a54034488137060a67bb5ee8f8955e6a382e0",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2010-11-23.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2010-10-08.nc",
+    "size": 456853,
+    "url": "https://osf.io/download/ab5jr/",
+    "sha256": "7f793e16e80d3fb032e2aab076f67421c9cf48cf8f7429103447679dc3330c11",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2010-10-08.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2010-10-24.nc",
+    "size": 491293,
+    "url": "https://osf.io/download/xfmcv/",
+    "sha256": "697b09ae9ca158c1431008c2bc29ac00a536f3d6061ba369cafb1e2615a54627",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2010-10-24.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2010-09-23.nc",
+    "size": 512965,
+    "url": "https://osf.io/download/qusr3/",
+    "sha256": "9ac76aebcb951fe4260a8174291f74476c983e5eb29643c664729e46bd66409e",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2010-09-23.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2010-09-09.nc",
+    "size": 493589,
+    "url": "https://osf.io/download/cd9g7/",
+    "sha256": "e1ad11e1b06a8c1feeb723a16555b2544fd02eff83164a6e42976ddaaece8f62",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2010-09-09.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2010-06-14.nc",
+    "size": 518733,
+    "url": "https://osf.io/download/ksyrf/",
+    "sha256": "c76d92a4ffb90623ce63fe3795d3ad118239b7d8f04fcf59eed7f6ff3126dc32",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2010-06-14.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2010-08-13.nc",
+    "size": 538949,
+    "url": "https://osf.io/download/udv5b/",
+    "sha256": "4f55425de1a1511cd409782511211252bad8b4a55326efcc337d60803aa507b8",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2010-08-13.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2010-06-28.nc",
+    "size": 517389,
+    "url": "https://osf.io/download/gkb6a/",
+    "sha256": "a71f30f81fc7cfd6f92da50b749b1e9a7ce98cc79e5c4c699b4ed2c248db19c0",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2010-06-28.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2010-05-28.nc",
+    "size": 444365,
+    "url": "https://osf.io/download/umxvb/",
+    "sha256": "dc8a15fbdb193a1be46aae35961691caa738e9e040f534860071094c145398f0",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2010-05-28.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2010-04-28.nc",
+    "size": 507645,
+    "url": "https://osf.io/download/5c7m4/",
+    "sha256": "1e6946bc4ad2889c1678af49eae35f3a5498687de5555075a32fa4599f1dd7f3",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2010-04-28.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2010-05-17.nc",
+    "size": 476845,
+    "url": "https://osf.io/download/sytr4/",
+    "sha256": "9ad59f3d7c09db6072bb210bae5599de300d57107e25d9da72a9b5340fbd5739",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2010-05-17.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2010-04-15.nc",
+    "size": 487205,
+    "url": "https://osf.io/download/76b2u/",
+    "sha256": "e42908750901ed6e60e68572ba35fad341c45091f3e62ed2a1109bd4bfaa3ac0",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2010-04-15.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2010-03-31.nc",
+    "size": 472309,
+    "url": "https://osf.io/download/j26mw/",
+    "sha256": "723a149da80f5d84a8cee7c509f438ccee74a01bb1c5e919ccacb0f6b5bab637",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2010-03-31.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2010-03-17.nc",
+    "size": 517109,
+    "url": "https://osf.io/download/dv93m/",
+    "sha256": "761a5974b03d818ac335470d894d41ef03ef20ce75534f2e1871056e0748abf5",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2010-03-17.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2010-02-16.nc",
+    "size": 466989,
+    "url": "https://osf.io/download/tae2k/",
+    "sha256": "65af2b7614702a4d0f67f6f9d51bfeff8d01534603c58c3491b65d3b991e7cf3",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2010-02-16.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2010-02-02.nc",
+    "size": 537549,
+    "url": "https://osf.io/download/tvmz8/",
+    "sha256": "2bf008aafee937d79066042148fd368a9986d1585d0b8a0659d076bc34d2956b",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2010-02-02.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2010-03-01.nc",
+    "size": 498909,
+    "url": "https://osf.io/download/x9p8z/",
+    "sha256": "aa19901b5387fe044c73566d18d30bb2dc8752bd4f1be5cbbc2a6aced38b6247",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2010-03-01.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2010-01-18.nc",
+    "size": 507253,
+    "url": "https://osf.io/download/72qf6/",
+    "sha256": "083d993d8050880fc76f2421821ff850cbdb203852a4877daeffb4ea6de8c4e2",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2010-01-18.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2010-01-04.nc",
+    "size": 532957,
+    "url": "https://osf.io/download/5h4n3/",
+    "sha256": "f1323a18ec6d9a57d76ea726837a4711ba44ae6a21d2a7bd5510839814ac9a9a",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2010-01-04.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2009-12-17.nc",
+    "size": 497901,
+    "url": "https://osf.io/download/zkpsf/",
+    "sha256": "bd8f767fc7a00d1220b828591ac0a69bd8326c4375c028d518aa8cc47cad2a1b",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2009-12-17.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2009-12-03.nc",
+    "size": 441621,
+    "url": "https://osf.io/download/5f7f54c9cc246f01e174cc6b/",
+    "sha256": "b67435e551a4ec45816fbf285d5c388f8de53b5a4c7972ddafe2871d845edc24",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2009-12-03.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2009-11-17.nc",
+    "size": 440893,
+    "url": "https://osf.io/download/97268/",
+    "sha256": "8d7b58336bf6417b450567fb84d7c723a6b5d239e7192dd1daeda9b0162c2e5b",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2009-11-17.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2009-10-19.nc",
+    "size": 461725,
+    "url": "https://osf.io/download/yvpj8/",
+    "sha256": "4ff6042ede12a53f9bb38bd329e69bc2806b822ba5b8909e16ad6ca45c7aaa14",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2009-10-19.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2009-10-05.nc",
+    "size": 473541,
+    "url": "https://osf.io/download/cx4jz/",
+    "sha256": "f42a1414193019505b6b82b7aa3ccddec0755df9a6feff8ce61f58b85fb7bce0",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2009-10-05.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2009-09-21.nc",
+    "size": 537157,
+    "url": "https://osf.io/download/gbz5u/",
+    "sha256": "36d123ef912baf08b2d891fb24a917135aebf24b705cf43c77b721f229c7b652",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2009-09-21.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2009-08-20.nc",
+    "size": 448845,
+    "url": "https://osf.io/download/5f7f54db1f65a50198ed0691/",
+    "sha256": "822d5c42e13df895710b6635500cf77e719511954519085203535fec420f3f64",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2009-08-20.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2009-09-07.nc",
+    "size": 499525,
+    "url": "https://osf.io/download/5f7f54ddcc246f01dd74c32f/",
+    "sha256": "9c3ebe9b71fd26bd71648a4adb3fab1551f68c7baf2eab567e6a676d7ccd4878",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2009-09-07.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2009-08-06.nc",
+    "size": 447445,
+    "url": "https://osf.io/download/5f7f54e3a5e94701921bb030/",
+    "sha256": "4780c3201f89b20a37aa3f7b44cdbe30cd38b5b822113cb7ff17e0348c9549b0",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2009-08-06.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2009-07-24.nc",
+    "size": 493421,
+    "url": "https://osf.io/download/spukq/",
+    "sha256": "1ec2c340a91204ac81361a3de4bbdb0cde1bd8e1233424b024afcb486bd7297f",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2009-07-24.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2009-07-06.nc",
+    "size": 428181,
+    "url": "https://osf.io/download/xshrc/",
+    "sha256": "d50640d387f298d4c1d96d2eb2ee4ab46d337b1b2838204442b8e3c2269b230c",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2009-07-06.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2009-06-24.nc",
+    "size": 488829,
+    "url": "https://osf.io/download/vqhgf/",
+    "sha256": "c1709c1358b008c3e4d2a76f3e6a7034b500a9884643ca9e59fb31038deed610",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2009-06-24.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2009-05-07.nc",
+    "size": 390493,
+    "url": "https://osf.io/download/5f7f54f0cc246f01e074c765/",
+    "sha256": "7c3c4144aa2d247e55afc12120c336184793255c858ce0593473fc174e012f89",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2009-05-07.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2009-05-25.nc",
+    "size": 569301,
+    "url": "https://osf.io/download/5f7f54f2a5e947018e1ba59d/",
+    "sha256": "e572262132a00cb9d7a7fda4a378afa45114eacc23aaf6a60283b46bde3fb431",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2009-05-25.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2009-06-08.nc",
+    "size": 479365,
+    "url": "https://osf.io/download/5f7f54f4cc246f01e174cd02/",
+    "sha256": "477e7a2746b08a06637b74ff568de4bc8ded995771292516b7fb05104a1ac66b",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2009-06-08.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2009-02-25.nc",
+    "size": 338637,
+    "url": "https://osf.io/download/2f7gx/",
+    "sha256": "037238704a5973806e73128defff90e538ee5db992c1983185de7722f492198e",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2009-02-25.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2009-02-09.nc",
+    "size": 405669,
+    "url": "https://osf.io/download/3fj5d/",
+    "sha256": "b7f5eab7e860d1dbab24aa70d7a8e0de13a1bce081cdf80a4933f18ba5e34873",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2009-02-09.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2007-11-09.nc",
+    "size": 379237,
+    "url": "https://osf.io/download/7zu8f/",
+    "sha256": "2fdeec2c0157cc21cf0ad989cdfe447711f1b55c9b25939384c0a3be9192dd92",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2007-11-09.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2007-12-11.nc",
+    "size": 367421,
+    "url": "https://osf.io/download/6vcsj/",
+    "sha256": "9b7b71644f95fb4240f773f13db8c38b7a154d03190ac7f4f95d425b8ed63a24",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2007-12-11.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2008-01-11.nc",
+    "size": 356053,
+    "url": "https://osf.io/download/5f7f5537a5e947018d1ba2c4/",
+    "sha256": "d617622015592bbb77f3cbd09d1edeb34adbd9af8ddbee3abd9d08c2937cd7c0",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2008-01-11.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2007-10-25.nc",
+    "size": 689029,
+    "url": "https://osf.io/download/m8q9f/",
+    "sha256": "d241ed2c42d307d9a3b5f87b69a84ccdb2fc09a2780891ff99e98ce4da09ae32",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2007-10-25.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2007-10-11.nc",
+    "size": 545557,
+    "url": "https://osf.io/download/at296/",
+    "sha256": "78ab3f470d93852f9699cf078f87b943a1d4296a328c360267aa1eab5ddbacfe",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2007-10-11.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2007-08-31.nc",
+    "size": 595845,
+    "url": "https://osf.io/download/8vwdg/",
+    "sha256": "b946a7a4c0d7901ecc264faf2952049fe2db5e4d081e6cb2c2fa20dc3ce4510b",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2007-08-31.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2007-07-03.nc",
+    "size": 443749,
+    "url": "https://osf.io/download/rkjg9/",
+    "sha256": "6f64186e7abd8042f3ed63a5e73bca82fcef8563b029b3c754fe38af08690b73",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2007-07-03.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2007-06-01.nc",
+    "size": 450357,
+    "url": "https://osf.io/download/5f7f5568a5e947018a1ba157/",
+    "sha256": "776426e136b94b3b0d2c503e3c84bbfc02de177d9edb374d85d95212d1855510",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2007-06-01.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2007-04-03.nc",
+    "size": 449125,
+    "url": "https://osf.io/download/c2zy9/",
+    "sha256": "b7c0fbfe867998e1627618685c219ea6fdb8295bcb89a113dc0b3c480161d0cf",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2007-04-03.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2006-12-04.nc",
+    "size": 292213,
+    "url": "https://osf.io/download/5f7f556c1f65a5019ced0b7b/",
+    "sha256": "80b9c54299ffa578b5bab20b19ca03e1ba5d886abbd7ce9843fe9f8969681ec5",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2006-12-04.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2007-05-04.nc",
+    "size": 544325,
+    "url": "https://osf.io/download/5f7f556c1f65a5019ded1121/",
+    "sha256": "e60eb559f7939156832112efad3937ffe35df43e20f0d0ff70dbfd35a6648c2f",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2007-05-04.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2007-02-05.nc",
+    "size": 444981,
+    "url": "https://osf.io/download/jn7qt/",
+    "sha256": "3cedf40e9897a281475e4c0f4eb81aaea4bc1ec2219dc40afb6acabe119de7a6",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2007-02-05.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2006-10-09.nc",
+    "size": 312485,
+    "url": "https://osf.io/download/yqe8t/",
+    "sha256": "0f4af8ca1a26155c42a6c1c183cd70c567557afa00dc740fba984016fe5fe9ec",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2006-10-09.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2006-09-22.nc",
+    "size": 314501,
+    "url": "https://osf.io/download/hm3ur/",
+    "sha256": "402d83de8485dddda6c452c86e8e3d518277913f09c4136ae7e6350f577a0e97",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2006-09-22.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2006-07-31.nc",
+    "size": 320437,
+    "url": "https://osf.io/download/5f7f556f1f65a5019ded1135/",
+    "sha256": "87f3be94c014a6321db39bc00ecde9decb2b123de6c720ca559d5104ee4022a0",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2006-07-31.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2006-04-28.nc",
+    "size": 302293,
+    "url": "https://osf.io/download/c8djt/",
+    "sha256": "773170b43d1e1d013e694d4dd2e86b9bfb48e75289796f8eb459c8176fb88090",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2006-04-28.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2006-06-27.nc",
+    "size": 299829,
+    "url": "https://osf.io/download/7jcqw/",
+    "sha256": "00d839114ed6bf7086d8a4d3d16993d45047bacfa086d43fd2dcdf940ab79696",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2006-06-27.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2006-05-10.nc",
+    "size": 355269,
+    "url": "https://osf.io/download/5f7f55721f65a50188ed115f/",
+    "sha256": "7c915af85e4b0107da9c1c4f0dc7ecdcbbf684e410a76539d1552f32eb6e5029",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2006-05-10.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2006-03-30.nc",
+    "size": 299493,
+    "url": "https://osf.io/download/pd645/",
+    "sha256": "fcd657399533f5802b5b46a4afaa0f8bb5fe895d71d4e3bfba94b99b02e7b0f5",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2006-03-30.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2006-03-01.nc",
+    "size": 308677,
+    "url": "https://osf.io/download/83h29/",
+    "sha256": "36fecc9684ea75ff79054797acff9cea91dd1df49cd5e8bf89eef4cc5c599cc6",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2006-03-01.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2006-01-31.nc",
+    "size": 314837,
+    "url": "https://osf.io/download/5f7f5577cc246f01e174ce6e/",
+    "sha256": "0f2efed21b60b824ca645e4d6db45d7a0b5d940a28283975022034b09751572f",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2006-01-31.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2005-10-04.nc",
+    "size": 331301,
+    "url": "https://osf.io/download/dw5pj/",
+    "sha256": "9c6b63f5c0269a083ca14eac8ebaa0d048bcdd9240c5f37c7105af5fa636dbe5",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2005-10-04.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2005-12-02.nc",
+    "size": 302517,
+    "url": "https://osf.io/download/5f7f5578cc246f01e174ce72/",
+    "sha256": "b106d722269d6f2c0b1a4c4cb17df121a0df6667561cdf22f739e87879ffe6eb",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2005-12-02.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2005-09-19.nc",
+    "size": 322453,
+    "url": "https://osf.io/download/zuw7m/",
+    "sha256": "43e817bd270dd6edb29fe76d2436f3e316a3d9ce501fd9885c8b0dc73927931b",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2005-09-19.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2005-09-05.nc",
+    "size": 326485,
+    "url": "https://osf.io/download/g4hce/",
+    "sha256": "8ccc45679c55e7a571d637237885eb3ccd00daec9e90aa0baaeada74a3cc8297",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2005-09-05.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2005-07-22.nc",
+    "size": 303525,
+    "url": "https://osf.io/download/5f7f557ba5e947018a1ba163/",
+    "sha256": "e9354268ef8de5bd210d2c0be17982fb5ed409c7257400dd875eaad654ddedef",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2005-07-22.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2005-06-06.nc",
+    "size": 281797,
+    "url": "https://osf.io/download/w63pn/",
+    "sha256": "4e4e05664b698b90a5a6a9c44aa3b9414abcd62b84af03ce47aae9be34f05dd5",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2005-06-06.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2005-05-23.nc",
+    "size": 318309,
+    "url": "https://osf.io/download/b845u/",
+    "sha256": "f540cb45efbca2b535a5e4c1a3574a372acd6b9342f77f7151680b24503b81cd",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2005-05-23.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2005-05-09.nc",
+    "size": 306997,
+    "url": "https://osf.io/download/5f7f557da5e94701911bacfd/",
+    "sha256": "e612fe625bfd8f29c503930c9f492006ee681659412f78b7d0cd30cec8c823d2",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2005-05-09.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2005-04-08.nc",
+    "size": 306437,
+    "url": "https://osf.io/download/ncb3x/",
+    "sha256": "732ee04cca88a4552a3bcb0c8e7960f9787cb0bb056a9fe188edfaa3c4e5e3f8",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2005-04-08.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2005-04-25.nc",
+    "size": 313717,
+    "url": "https://osf.io/download/5f7f5580a5e94701911bad06/",
+    "sha256": "e218693ccf0ad1ed13e386ef2bf27af04e3e0f351a6d8cc3a7957c686b40a489",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2005-04-25.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2005-03-25.nc",
+    "size": 288349,
+    "url": "https://osf.io/download/khyf9/",
+    "sha256": "431c149a0f421b3a0abb692755f12e24947f903d2f2342d5af58813a2007494d",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2005-03-25.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2005-02-25.nc",
+    "size": 288629,
+    "url": "https://osf.io/download/zcmh6/",
+    "sha256": "b09d86870e5bf9512206a5400ef5e62d91fe272a7c8ca8d6db660c366210b445",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2005-02-25.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2005-02-10.nc",
+    "size": 285997,
+    "url": "https://osf.io/download/5f7f55821f65a50198ed077c/",
+    "sha256": "bce3c2aa52205c70c60c7bf63fbbf6f94852baad67a1900a0c7ce28bcfac0e7e",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2005-02-10.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2005-01-28.nc",
+    "size": 292605,
+    "url": "https://osf.io/download/vfwqz/",
+    "sha256": "9f186b8895457064b8e42139cf592113d81ca89e6420ebc4acb8ba5fb611a842",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2005-01-28.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2005-01-12.nc",
+    "size": 287957,
+    "url": "https://osf.io/download/y2xcj/",
+    "sha256": "11fa7d4e25d6b957854068ef96fb148bec5bc483a9242013e4e75877e298a203",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2005-01-12.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2004-12-13.nc",
+    "size": 286501,
+    "url": "https://osf.io/download/sg8k4/",
+    "sha256": "0fd6cdf81fe4b73235693284b1498b596064d821c208dc36b1f3b60c29bb0ec7",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2004-12-13.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2004-11-26.nc",
+    "size": 289245,
+    "url": "https://osf.io/download/5f7f5588cc246f01e174cea6/",
+    "sha256": "3192244bb5c774d11b7be52408894fb6e714516c7742309332b971d995fcce8a",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2004-11-26.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2004-11-12.nc",
+    "size": 285101,
+    "url": "https://osf.io/download/6bvz8/",
+    "sha256": "d2a64b560a0043ad75a4215e3cc2e09a198485a3fe43744dfae854e1a0ef2ac2",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2004-11-12.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2004-10-14.nc",
+    "size": 287621,
+    "url": "https://osf.io/download/svyef/",
+    "sha256": "3d74bd2ffa2aba85aac4adf0557a55343c5c15147138ce5588cb8ec8dabf6a9b",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2004-10-14.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2004-09-16.nc",
+    "size": 286221,
+    "url": "https://osf.io/download/xzmnt/",
+    "sha256": "4e454636cd3f91e2c760c682679fe89fc39b3ff80263c9062d302ac1366f6856",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2004-09-16.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2004-09-29.nc",
+    "size": 292773,
+    "url": "https://osf.io/download/bdn2t/",
+    "sha256": "f902d6fb7757c98ccdab3d125f18df984e1311a40148e029e06c511e21fa3b41",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2004-09-29.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2004-08-31.nc",
+    "size": 285997,
+    "url": "https://osf.io/download/8zkar/",
+    "sha256": "8e44e430a21690924c77c14ed24d32ef7051cd55701fb81c302446fcd840b5e6",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2004-08-31.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2004-07-20.nc",
+    "size": 285661,
+    "url": "https://osf.io/download/bu5gm/",
+    "sha256": "1a82f126be933621f2ca6e5961dc1bc3f9b1e8ac97d0c14a692f2bcc80b420d4",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2004-07-20.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2004-04-19.nc",
+    "size": 283365,
+    "url": "https://osf.io/download/5f7f5593cc246f01e174cec5/",
+    "sha256": "cc50c42af795a42435b67ecb7d03128742df8953f927fb254b557482e140b3bf",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2004-04-19.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2004-05-05.nc",
+    "size": 282917,
+    "url": "https://osf.io/download/5f7f5593cc246f01dd74c40c/",
+    "sha256": "f2e368f85fe808e14e9958fbed9e10598955204e9f617905a09c3f4495e66bda",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2004-05-05.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2004-04-06.nc",
+    "size": 286445,
+    "url": "https://osf.io/download/z2btg/",
+    "sha256": "1996d657edb8d339aa52510b60349d57863bffdb1ec405b2e6d323b9cb69bed8",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2004-04-06.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2004-05-18.nc",
+    "size": 285325,
+    "url": "https://osf.io/download/7vm6s/",
+    "sha256": "a01b9ff461e2023a868d41d470dac699c49e99c6d2bd360d88d6fcb2a656a624",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2004-05-18.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2004-07-02.nc",
+    "size": 288853,
+    "url": "https://osf.io/download/axr86/",
+    "sha256": "9ed3722c35bfafbfad6113ecc43f082bef2589c4f84e5530b531796070e92d2d",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2004-07-02.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2004-03-09.nc",
+    "size": 292381,
+    "url": "https://osf.io/download/fxkcw/",
+    "sha256": "01670314b3f975b13990b346682dfb2cb5372a8bec670514eef81354ed1213fc",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2004-03-09.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2004-02-20.nc",
+    "size": 288685,
+    "url": "https://osf.io/download/u4xqg/",
+    "sha256": "1089cd1079f4721ea54d5075b47793acc1b93305ace049ec979e6427dd906eb6",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2004-02-20.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2004-03-22.nc",
+    "size": 279445,
+    "url": "https://osf.io/download/v7czb/",
+    "sha256": "5bd7ce13162d0c8e071a8be018b9a13a8b610dd411ed41561633ec05e369e681",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2004-03-22.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2004-02-09.nc",
+    "size": 292829,
+    "url": "https://osf.io/download/kqse9/",
+    "sha256": "42c68bcd2e57a4f7ef9132749630bc24b3c661d536b2d7f052e41c2215433b85",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2004-02-09.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2003-12-09.nc",
+    "size": 328221,
+    "url": "https://osf.io/download/5f7f559a1f65a5018bed1dfc/",
+    "sha256": "2b3bd1bfc9e0f1cc1fe16f4664645175801034930f36fd23258b75eefe255e7c",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2003-12-09.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2004-01-22.nc",
+    "size": 291933,
+    "url": "https://osf.io/download/5f7f559a1f65a50194ed01af/",
+    "sha256": "a8f93f52bd891e7e6e3db3cb7d27eb0856a813ccababc0bcc5b02e0af2595284",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2004-01-22.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2003-12-08.nc",
+    "size": 328221,
+    "url": "https://osf.io/download/g37ys/",
+    "sha256": "3b216a42da704accc710668759711c56f39378f4c295ad5c903521b0cc7262fa",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2003-12-08.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2003-11-24.nc",
+    "size": 327941,
+    "url": "https://osf.io/download/5f7f559da5e947018d1ba31b/",
+    "sha256": "5948d23767c878e855aa56cee14b8a7d98f8909101566084179fa5a148b832a2",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2003-11-24.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2003-10-28.nc",
+    "size": 289469,
+    "url": "https://osf.io/download/dywct/",
+    "sha256": "6af6c88c8f02e09cffa1c3700b5b7d7602e377b18cfd2a2be8d562eac5fccfea",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2003-10-28.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2003-10-10.nc",
+    "size": 283701,
+    "url": "https://osf.io/download/68mkz/",
+    "sha256": "4a54725649280a4af0a7b11950bd6f89be79bc775eba55e517db7140eb7eaea1",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2003-10-10.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2003-09-26.nc",
+    "size": 283365,
+    "url": "https://osf.io/download/fp6sr/",
+    "sha256": "3a737a43db64c405573e7001a0a0f5f5a8ec1aa551fabdd3d0f5a8458fe23d86",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2003-09-26.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Monitoring_TrucVert_2003-09-10.nc",
+    "size": 278829,
+    "url": "https://osf.io/download/qrs8b/",
+    "sha256": "eeb1f394b8418faee7aee672ea3dc97efe2ecf7238e2504a04f36b802ff78df6",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Monitoring_TrucVert_2003-09-10.nc"
+  },
+  {
+    "source": "trucvert-monitoring",
+    "name": "Grids.nc",
+    "size": 1498168,
+    "url": "https://osf.io/download/ubsyk/",
+    "sha256": "20ed47a07fb1ebb9b58fe2a39fccc7dc35b1bd06afdbe8f477e35afec8d27e6b",
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/TRUCVERT/Grids.nc"
+  },
+  {
+    "source": "torrey-mapped",
+    "name": "torrey_mapped_sand_elevations.zip",
+    "size": 115224176,
+    "url": "https://datadryad.org/api/v2/files/105140/download",
+    "sha256": null,
+    "destination": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/raw/torrey_mapped_sand_elevations.zip"
+  }
+]

@@ -1,0 +1,190 @@
+date_utc=2026-10-17T21:30:48Z host=nid010756 arch=aarch64
+git_sha=9b162a78f259e07f89c4721c46c9bed50cbebb6f git_dirty=0 config=configs/gpu_readiness.yaml seed=0
+config_sha256=228149230fdd71960e9f45d9b5ac7c9038d19dce5e8357ebbfb627a8c85034b2
+slurm_job_id=7508395 mode=distributed gpus=2 image=nvcr.io/nvidia/pytorch:26.09-py3
+sif=/projects/u6xn/sif-images/pytorch_26.09-py3.sif sif_sha256=f5a41e030ff3d44936faa521480ea9164d095270d7d5bd999621579f3e400ec6
+apptainer=apptainer version 1.5.3-150600.4.43.1
+index, name, driver_version, memory.total [MiB]
+0, NVIDIA GH200 120GB, 580.178.04, 97871 MiB
+1, NVIDIA GH200 120GB, 580.178.04, 97871 MiB
+run_dir: outputs/gpu-readiness-distributed-rank1-slurm7508395
+config: configs/gpu_readiness.yaml sha256=228149230fdd
+seed: 0
+git_sha: 9b162a78f259e07f89c4721c46c9bed50cbebb6f dirty=False source=env
+machine: aarch64 python=3.12.3
+container: /projects/u6xn/sif-images/pytorch_26.09-py3.sif
+run_dir: outputs/gpu-readiness-distributed-rank0-slurm7508395
+config: configs/gpu_readiness.yaml sha256=228149230fdd
+seed: 0
+git_sha: 9b162a78f259e07f89c4721c46c9bed50cbebb6f dirty=False source=env
+machine: aarch64 python=3.12.3
+container: /projects/u6xn/sif-images/pytorch_26.09-py3.sif
+rank=1 check=hardware_and_runtime passed
+rank=0 check=hardware_and_runtime passed
+rank=1 check=bf16_matmul_vs_fp32 passed
+rank=1 check=bf16_attention_forward_backward passed
+rank=0 check=bf16_matmul_vs_fp32 passed
+rank=0 check=bf16_attention_forward_backward passed
+nid010756:9690:9690 [0] NCCL INFO ENV/Plugin: Could not find: libnccl-env.so
+nid010756:9690:9690 [0] NCCL INFO Stack size limit (unlimited) is unsafe; will use 8192KB for newly launched threads
+nid010756:9690:9690 [0] NCCL INFO Bootstrap: Using nmn0:10.100.27.110<0>
+nid010756:9690:9856 [0] NCCL INFO Socket handshake magic 0x564ab9f2fc4b9d6c (built-in default)
+nid010756:9690:9690 [0] NCCL INFO cudaDriverVersion 13040
+nid010756:9690:9690 [0] NCCL INFO NCCL version 2.31.2+cuda13.4
+nid010756:9690:9690 [0] NCCL INFO NCCL git version unknown unknown
+nid010756:9690:9690 [0] NCCL INFO Comm config Blocking set to 1
+nid010756:9690:9690 [0] NCCL INFO Comm config Comm name set to default_pg:0
+nid010756:9691:9691 [1] NCCL INFO ENV/Plugin: Could not find: libnccl-env.so
+nid010756:9691:9691 [1] NCCL INFO cudaDriverVersion 13040
+nid010756:9691:9691 [1] NCCL INFO Stack size limit (unlimited) is unsafe; will use 8192KB for newly launched threads
+nid010756:9691:9691 [1] NCCL INFO Bootstrap: Using nmn0:10.100.27.110<0>
+nid010756:9691:9691 [1] NCCL INFO NCCL version 2.31.2+cuda13.4
+nid010756:9691:9691 [1] NCCL INFO NCCL git version unknown unknown
+nid010756:9691:9691 [1] NCCL INFO Comm config Blocking set to 1
+nid010756:9691:9691 [1] NCCL INFO Comm config Comm name set to default_pg:0
+nid010756:9690:9690 [0] NCCL INFO NET/Plugin: Loaded net plugin SPCX (v12)
+nid010756:9691:9691 [1] NCCL INFO NET/Plugin: Loaded net plugin SPCX (v12)
+nid010756:9690:9690 [0] NCCL INFO NET/Plugin: Loaded collnet plugin SPCX (v12)
+nid010756:9691:9691 [1] NCCL INFO NET/Plugin: Loaded collnet plugin SPCX (v12)
+nid010756:9690:9690 [0] NCCL INFO Successfully loaded external network plugin /opt/hpcx/nccl_spectrum-x_plugin/lib/libnccl-net.snid010756:9691:9691 [1] NCCL INFO Successfully loaded external network plugin /opt/hpcx/nccl_spectrum-x_plugin/lib/libnccl-net.so
+o
+nid010756:9691:9691 [1] NCCL INFO Plugin Path : /opt/hpcx/nccl_spectrum-x_plugin/lib/libnccl-net.so (SPCX Ver. 1.5-0)
+nid010756:9690:9690 [0] NCCL INFO Plugin Path : /opt/hpcx/nccl_spectrum-x_plugin/lib/libnccl-net.so (SPCX Ver. 1.5-0)
+nid010756:9690:9690 [0] NCCL INFO NET/IB : No device found.
+nid010756:9691:9691 [1] NCCL INFO NET/IB : No device found.
+nid010756:9690:9690 [0] NCCL INFO NET/IB : Using [RO]; OOB nmn0:10.100.27.110<0>
+nid010756:9691:9691 [1] NCCL INFO NET/IB : Using [RO]; OOB nmn0:10.100.27.110<0>
+nid010756:9690:9690 [0] NCCL INFO Failed to initialize NET plugin SPCX
+nid010756:9691:9691 [1] NCCL INFO Failed to initialize NET plugin SPCX
+nid010756:9690:9690 [0] NCCL INFO NET/IB : No device found.
+nid010756:9691:9691 [1] NCCL INFO NET/IB : No device found.
+nid010756:9690:9690 [0] NCCL INFO NET/IB : Using [RO]; OOB nmn0:10.100.27.110<0>
+nid010756:9691:9691 [1] NCCL INFO NET/IB : Using [RO]; OOB nmn0:10.100.27.110<0>
+nid010756:9690:9690 [0] NCCL INFO Failed to initialize NET plugin IB
+nid010756:9691:9691 [1] NCCL INFO Failed to initialize NET plugin IB
+nid010756:9690:9690 [0] NCCL INFO NET/Socket : Using [0]nmn0:10.100.27.110<0> [1]hsn0:10.242.12.241<0> [2]hsn2:10.242.14.3<0> [3nid010756:9691:9691 [1] NCCL INFO NET/Socket : Using [0]nmn0:10.100.27.110<0> [1]hsn0:10.242.12.241<0> [2]hsn2:10.242.14.3<0> [3]hsn3:10.242.14.2<0> [4]hsn1:10.242.12.240<0>
+]hsn3:10.242.14.2<0> [4]hsn1:10.242.12.240<0>
+nid010756:9690:9690 [0] NCCL INFO Initialized NET plugin Socket
+nid010756:9691:9691 [1] NCCL INFO Initialized NET plugin Socket
+nid010756:9691:9691 [1] NCCL INFO Assigned NET plugin Socket to comm
+nid010756:9690:9690 [0] NCCL INFO Assigned NET plugin Socket to comm
+nid010756:9690:9690 [0] NCCL INFO RMA/Plugin: Could not find: libnccl-rma.so
+nid010756:9691:9691 [1] NCCL INFO RMA/Plugin: Could not find: libnccl-rma.so
+nid010756:9690:9690 [0] NCCL INFO RMA/Plugin: Loaded rma plugin SPCX_RMA (v14)
+nid010756:9691:9691 [1] NCCL INFO RMA/Plugin: Loaded rma plugin SPCX_RMA (v14)
+nid010756:9690:9690 [0] NCCL INFO RMA/Plugin: Successfully loaded external plugin /opt/hpcx/nccl_spectrum-x_plugin/lib/libnccl-nnid010756:9691:9691 [1] NCCL INFO RMA/Plugin: Successfully loaded external plugin /opt/hpcx/nccl_spectrum-x_plugin/lib/libnccl-net.so
+et.so
+nid010756:9690:9690 [0] NCCL INFO Plugin Path : /opt/hpcx/nccl_spectrum-x_plugin/lib/libnccl-net.so (SPCX Ver. 1.5-0)
+nid010756:9691:9691 [1] NCCL INFO Plugin Path : /opt/hpcx/nccl_spectrum-x_plugin/lib/libnccl-net.so (SPCX Ver. 1.5-0)
+nid010756:9690:9690 [0] NCCL INFO RMA/Plugin: Failed to initialize any plugin
+nid010756:9691:9691 [1] NCCL INFO RMA/Plugin: Failed to initialize any plugin
+nid010756:9690:9690 [0] NCCL INFO GIN/Plugin: Could not find: libnccl-gin.so
+nid010756:9690:9690 [0] NCCL INFO GIN/Plugin: Loaded gin plugin SPCX_GIN (v14)
+nid010756:9691:9691 [1] NCCL INFO GIN/Plugin: Could not find: libnccl-gin.so
+nid010756:9690:9690 [0] NCCL INFO GIN/Plugin: Successfully loaded external plugin /opt/hpcx/nccl_spectrum-x_plugin/lib/libnccl-net.so
+nid010756:9691:9691 [1] NCCL INFO GIN/Plugin: Loaded gin plugin SPCX_GIN (v14)
+nid010756:9691:9691 [1] NCCL INFO GIN/Plugin: Successfully loaded external plugin /opt/hpcx/nccl_spectrum-x_plugin/lib/libnccl-net.so
+nid010756:9690:9690 [0] NCCL INFO Plugin Path : /opt/hpcx/nccl_spectrum-x_plugin/lib/libnccl-net.so (SPCX Ver. 1.5-0)
+nid010756:9690:9690 [0] NCCL INFO GIN/Plugin: Failed to initialize any GIN plugin
+nid010756:9691:9691 [1] NCCL INFO Plugin Path : /opt/hpcx/nccl_spectrum-x_plugin/lib/libnccl-net.so (SPCX Ver. 1.5-0)
+nid010756:9690:9690 [0] NCCL INFO Using network Socket
+nid010756:9691:9691 [1] NCCL INFO GIN/Plugin: Failed to initialize any GIN plugin
+nid010756:9691:9691 [1] NCCL INFO Using network Socket
+nid010756:9691:9691 [1] NCCL INFO Loaded NVML from libnvidia-ml.so.1
+nid010756:9690:9690 [0] NCCL INFO Loaded NVML from libnvidia-ml.so.1
+nid010756:9691:9691 [1] NCCL INFO [Rank 1] ncclCommInitRankConfig comm 0x4f9e08f0 rank 1 nranks 2 cudaDev 1 nvmlDev 1 busId 3901000 commId 0x895d6e18638bc748 - Init START
+nid010756:9691:9691 [1] NCCL INFO Socket handshake magic 0x564ab9f2fc4b9d6c (built-in default)
+nid010756:9690:9690 [0] NCCL INFO [Rank 0] ncclCommInitRankConfig comm 0x2dc90830 rank 0 nranks 2 cudaDev 0 nvmlDev 0 busId 2901000 commId 0x895d6e18638bc748 - Init START
+nid010756:9690:9690 [0] NCCL INFO RAS client listening socket at ::1<28028>
+nid010756:9691:9691 [1] NCCL INFO RAS client listening socket at ::1<28028>
+nid010756:9690:9690 [0] NCCL INFO Bootstrap timings total 0.054781 (create 0.000028, send 0.000078, recv 0.000116, ring 0.000038, delay 0.000001)
+nid010756:9691:9691 [1] NCCL INFO Bootstrap timings total 0.083600 (create 0.000037, send 0.000101, recv 0.007607, ring 0.000015, delay 0.000001)
+nid010756:9690:9690 [0] NCCL INFO ncclTopoGetCpuAffinity: Affinity for GPU 0 is 144-215. (GPU affinity = 144-215 ; CPU affinity nid010756:9691:9691 [1] NCCL INFO ncclTopoGetCpuAffinity: Affinity for GPU 1 is 216-287. (GPU affinity = 216-287 ; CPU affinity = 144-287).
+= 144-287).
+nid010756:9690:9690 [0] NCCL INFO NVLS multicast support is not available on dev 0
+nid010756:9691:9691 [1] NCCL INFO NVLS multicast support is not available on dev 1
+nid010756:9690:9690 [0] NCCL INFO Rank 0: 5 Net devices
+nid010756:9690:9690 [0] NCCL INFO Rank 0: 0 CollNet devices
+nid010756:9691:9691 [1] NCCL INFO Rank 1: 5 Net devices
+nid010756:9691:9691 [1] NCCL INFO Rank 1: 0 CollNet devices
+nid010756:9690:9690 [0] NCCL INFO Local Net device counts across ranks: min 5 max 5
+nid010756:9690:9690 [0] NCCL INFO Local CollNet device counts across ranks: min 0 max 0
+nid010756:9691:9691 [1] NCCL INFO comm 0x4f9e08f0 rank 1 nRanks 2 nNodes 1 localRanks 2 localRank 1 MNNVL 0
+nid010756:9690:9690 [0] NCCL INFO comm 0x2dc90830 rank 0 nRanks 2 nNodes 1 localRanks 2 localRank 0 MNNVL 0
+nid010756:9690:9690 [0] NCCL INFO Channel 00/08 : 0 1
+nid010756:9690:9690 [0] NCCL INFO Channel 01/08 : 0 1
+nid010756:9690:9690 [0] NCCL INFO Channel 02/08 : 0 1
+nid010756:9690:9690 [0] NCCL INFO Channel 03/08 : 0 1
+nid010756:9691:9691 [1] NCCL INFO Trees [0] -1/-1/-1->1->0 [1] -1/-1/-1->1->0 [2] 0/-1/-1->1->-1 [3] 0/-1/-1->1->-1 [4] -1/-1/-1nid010756:9690:9690 [0] NCCL INFO Channel 04/08 : 0 1
+->1->0 [5] -1/-1/-1->1->0 [6] 0/-1/-1->1->-1 [7] 0/-1/-1->1->-1
+nid010756:9690:9690 [0] NCCL INFO Channel 05/08 : 0 1
+nid010756:9691:9691 [1] NCCL INFO P2P Chunksize set to 524288
+nid010756:9690:9690 [0] NCCL INFO Channel 06/08 : 0 1
+nid010756:9690:9690 [0] NCCL INFO Channel 07/08 : 0 1
+nid010756:9690:9690 [0] NCCL INFO Trees [0] 1/-1/-1->0->-1 [1] 1/-1/-1->0->-1 [2] -1/-1/-1->0->1 [3] -1/-1/-1->0->1 [4] 1/-1/-1->0->-1 [5] 1/-1/-1->0->-1 [6] -1/-1/-1->0->1 [7] -1/-1/-1->0->1
+nid010756:9690:9690 [0] NCCL INFO P2P Chunksize set to 524288
+nid010756:9691:9691 [1] NCCL INFO PROFILER/Plugin: Could not find: libnccl-profiler.so
+nid010756:9690:9690 [0] NCCL INFO PROFILER/Plugin: Could not find: libnccl-profiler.so
+nid010756:9691:9691 [1] NCCL INFO Check P2P Type isAllDirectP2p 1 directMode 0 isAllCudaP2p 1
+nid010756:9690:9690 [0] NCCL INFO Check P2P Type isAllDirectP2p 1 directMode 0 isAllCudaP2p 1
+nid010756:9690:9862 [0] NCCL INFO [Proxy Service] Device 0 CPU core 165
+nid010756:9690:9864 [0] NCCL INFO [Proxy Service UDS] Device 0 CPU core 166
+nid010756:9690:9862 [0] NCCL INFO proxy listening socket at 10.100.27.110<56217>
+nid010756:9691:9863 [0] NCCL INFO [Proxy Service] Device 1 CPU core 221
+nid010756:9691:9865 [0] NCCL INFO [Proxy Service UDS] Device 1 CPU core 222
+nid010756:9691:9863 [1] NCCL INFO proxy listening socket at 10.100.27.110<47529>
+nid010756:9690:9690 [0] NCCL INFO TUNER/Plugin: Could not find: libnccl-tuner.so
+nid010756:9691:9691 [1] NCCL INFO TUNER/Plugin: Could not find: libnccl-tuner.so
+nid010756:9690:9690 [0] NCCL INFO TUNER/Plugin: Using SPCX (v6)
+nid010756:9691:9691 [1] NCCL INFO TUNER/Plugin: Using SPCX (v6)
+nid010756:9690:9690 [0] NCCL INFO NCCL_ALGO set by environment to ^NVLS
+nid010756:9691:9691 [1] NCCL INFO NCCL_ALGO set by environment to ^NVLS
+nid010756:9690:9690 [0] NCCL INFO Enabled NCCL Func/Proto/Algo Matrix:
+     Function |       LL     LL128    Simple   |          Tree           Ring  CollNetDirect   CollNetChain           NVLS       NVLSTree            PAT   | AllReduce_AGxLL_R  AllReduce_AGxLLMC_R  AllReduce_RSxTmaLD_AGxTmaST  AllReduce_RSxLD_AGxST  AllReduce_RSxLDMC_AGxSTMC   AllGather_LL  AllGather_LLMC  AllGather_TmaST   AllGather_ST  AllGather_TmaSTMC  AllGather_STMC  AllGather_RailRing_LsaSTMC  ReduceScatter_LL  ReduceScatter_TmaLD  ReduceScatter_LD  ReduceScatter_LDMC  ReduceScatter_RailA2A_LsaLD  ReduceScatter_RailA2A_LsaLDMC  
+    Broadcast |        1         2         1   |             1              1              1              1              0              1              1   |             0              0              0              0              0              0              0              0              0              0              0              0              0              0              0              0              0              0  
+       Reduce |        1         2         1   |             1              1              1              1              0              1              1   |             0              0              0              0              0              0              0              0              0              0              0              0              0              0              0              0              0              0  
+    AllGather |        1         2         1   |             1              1              1              1              0              1              1   |             0              0            nid010756:9691:9691 [1] NCCL INFO threadThresholds 8/8/64 | 16/8/64 | 512 | 512
+  0              0              0              0              0              0              0              0              0              0              0              0              0              0              0              0  
+ReduceScatter |        1 nid010756:9691:9691 [1] NCCL INFO 8 coll channels, 8 collnet channels, 0 nvls channels, 8 p2p channels, 8 p2p channels per peer
+        2         1   |             1              1              1              1              0              1              1   |             0              0              0              0              0              0              0              0              0              0              0              0              0              0              0              0              0              0  
+    AllReduce |        1         2         1   |             1              1              1              1  nid010756:9691:9691 [1] NCCL INFO symmetricSupport 1, cuMemEnable 1, globalGinSupport 0, cuMemGdrSupport 1, contiguousRanksPerHo            0              1              1   |             0              0              0              0              0              0              0              0              0              0              0              0              0              0st 2, crossNicSupport 1
+              0              0              0              0  
+
+nid010756:9690:9690 [0] NCCL INFO threadThresholds 8/8/64 | 16/8/64 | 512 | 512
+nid010756:9690:9690 [0] NCCL INFO 8 coll channels, 8 collnet channels, 0 nvls channels, 8 p2p channels, 8 p2p channels per peer
+nid010756:9690:9690 [0] NCCL INFO symmetricSupport 1, cuMemEnable 1, globalGinSupport 0, cuMemGdrSupport 1, contiguousRanksPerHost 2, crossNicSupport 1
+nid010756:9690:9690 [0] NCCL INFO CC Off, workFifoBytes 1048576
+nid010756:9690:9690 [0] NCCL INFO ncclCommInitRankConfig comm 0x2dc90830 rank 0 nranks 2 cudaDev 0 nvmlDev 0 busId 2901000 commId 0x895d6e18638bc748 - Init COMPLETE
+nid010756:9690:9690 [0] NCCL INFO Init timings - ncclCommInitRankConfig: rank 0 nranks 2 total 0.53 (kernels 0.19, alloc 0.24, bootstrap 0.05, allgathers 0.02, topo 0.01, graphs 0.00, connections 0.01, rest 0.00)
+nid010756:9691:9691 [1] NCCL INFO ncclCommInitRankConfig comm 0x4f9e08f0 rank 1 nranks 2 cudaDev 1 nvmlDev 1 busId 3901000 commId 0x895d6e18638bc748 - Init COMPLETE
+nid010756:9691:9691 [1] NCCL INFO Init timings - ncclCommInitRankConfig: rank 1 nranks 2 total 0.53 (kernels 0.19, alloc 0.23, bootstrap 0.08, allgathers 0.00, topo 0.01, graphs 0.00, connections 0.01, rest 0.00)
+nid010756:9690:9690 [0] NCCL INFO Symmetric VA size=96GB
+nid010756:9691:9691 [1] NCCL INFO Symmetric VA size=96GB
+nid010756:9690:9690 [0] NCCL INFO Channel 00/0 : 0[0] -> 1[1] via P2P/CUMEM
+nid010756:9690:9690 [0] NCCL INFO Channel 01/0 : 0[0] -> 1[1] via P2P/CUMEM
+nid010756:9690:9690 [0] NCCL INFO Channel 02/0 : 0[0] -> 1[1] via P2P/CUMEM
+nid010756:9690:9690 [0] NCCL INFO Channel 03/0 : 0[0] -> 1[1] via P2P/CUMEM
+nid010756:9690:9690 [0] NCCL INFO Channel 04/0 : 0[0] -> 1[1] via P2P/CUMEM
+nid010756:9690:9690 [0] NCCL INFO Channel 05/0 : 0[0] -> 1[1] via P2P/CUMEM
+nid010756:9690:9690 [0] NCCL INFO Channel 06/0 : 0[0] -> 1[1] via P2P/CUMEM
+nid010756:9690:9690 [0] NCCL INFO Channel 07/0 : 0[0] -> 1[1] via P2P/CUMEM
+nid010756:9691:9691 [1] NCCL INFO Channel 00/0 : 1[1] -> 0[0] via P2P/CUMEM
+nid010756:9691:9691 [1] NCCL INFO Channel 01/0 : 1[1] -> 0[0] via P2P/CUMEM
+nid010756:9691:9691 [1] NCCL INFO Channel 02/0 : 1[1] -> 0[0] via P2P/CUMEM
+nid010756:9691:9691 [1] NCCL INFO Channel 03/0 : 1[1] -> 0[0] via P2P/CUMEM
+nid010756:9691:9691 [1] NCCL INFO Channel 04/0 : 1[1] -> 0[0] via P2P/CUMEM
+nid010756:9691:9691 [1] NCCL INFO Channel 05/0 : 1[1] -> 0[0] via P2P/CUMEM
+nid010756:9691:9691 [1] NCCL INFO Channel 06/0 : 1[1] -> 0[0] via P2P/CUMEM
+nid010756:9691:9691 [1] NCCL INFO Channel 07/0 : 1[1] -> 0[0] via P2P/CUMEM
+nid010756:9690:9690 [0] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+nid010756:9691:9691 [1] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+rank=0 check=nccl_all_reduce passed
+rank=1 check=nccl_all_reduce passed
+rank=1 check=synthetic_image_training passed
+rank=0 check=synthetic_image_training passed
+rank=1 check=checkpoint_write_read_continue passed
+rank=0 check=checkpoint_write_read_continue passed
+rank=1 check=ddp_parameter_consensus passedrank=0 check=ddp_parameter_consensus passed
+
+status=passed_synthetic_checks_only report=outputs/gpu-readiness-distributed-rank1-slurm7508395/readiness.json
+status=passed_synthetic_checks_only report=outputs/gpu-readiness-distributed-rank0-slurm7508395/readiness.json

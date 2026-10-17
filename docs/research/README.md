@@ -1,6 +1,17 @@
-# Research notes: EO clean-JEPA study and earlier explorations
+# Research notes and experiments
 
-The current research direction is the [clean-JEPA EO pilot](clean-jepa/README.md): selected design, exact formulation, implementation gates, sources and a standalone training diagram. This is a gated pretraining/representation study beside the OpenChange-UK benchmark, not a change to its held-out specification. No JEPA training is implemented or run yet.
+**Current entry point: [progress summary](../PROGRESS.md)** and
+[task-first research archive](eo-task-research/README.md). These cover problem
+selection, independent reviews, visual guides, the stopped three-site audit and
+the negative Narrabeen + Duck metadata-head experiment. A new foundation model
+is not yet justified by these results.
+
+The [clean-JEPA EO design](clean-jepa/README.md) contains the earlier selected
+pilot design, exact formulation, implementation gates, sources and standalone
+training diagram. The separate [implementation PR #2](https://github.com/Ryukijano/openchange-uk/pull/2)
+contains later synthetic CPU/distributed validation and metadata audits; these
+are engineering evidence, not coastal/EO task performance. Neither track changes
+the benchmark's held-out specification or authorizes data/compute access.
 
 The older predictive-model/planning explorations below are retained for provenance. They are superseded as the next project direction, and their budgets/claims are not implementation instructions. The wider AIRR programme planning (masterplan, execution plan, world-action-model bridge and their reviews) is archived in [airr-programme](airr-programme/).
 

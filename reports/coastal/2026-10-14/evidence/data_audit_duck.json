@@ -1,0 +1,55 @@
+{
+  "DUCK": {
+    "files": 169,
+    "rejected_profile_dates": 115,
+    "profile_dates_checked": 676,
+    "survey_rows": 561,
+    "counts": {
+      "available_rows": 3487,
+      "available_scenes": 918,
+      "matched_48h_rows": 679,
+      "matched_48h_scenes": 204,
+      "matched_36h_rows": 519,
+      "matched_36h_scenes": 158,
+      "periods": {
+        "cal": {
+          "rows": 79,
+          "scenes": 22,
+          "survey_dates": 20,
+          "sensors": [
+            "L5",
+            "L7",
+            "L8",
+            "S2"
+          ]
+        },
+        "fit": {
+          "rows": 252,
+          "scenes": 77,
+          "survey_dates": 74,
+          "sensors": [
+            "L5",
+            "L7"
+          ]
+        },
+        "test": {
+          "rows": 348,
+          "scenes": 105,
+          "survey_dates": 68,
+          "sensors": [
+            "L7",
+            "L8",
+            "S2"
+          ]
+        }
+      },
+      "metadata_missing_fraction": {
+        "tide": 0.0,
+        "swh": 0.0,
+        "mwp": 0.0,
+        "pp1d": 0.0,
+        "disagreement": 0.2916053019145803
+      }
+    }
+  }
+}

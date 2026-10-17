@@ -25,8 +25,8 @@ WRAPPERS = {"sudo", "env", "command", "exec", "nohup", "time", "nice", "builtin"
 ASSIGN_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*=")
 CONTEXT = (
     "Isambard-AI Phase 2 (project u6xn) is aarch64 GH200. One GPU request is one GH200. "
-    "Login nodes have no GPUs. Do not ssh, sbatch, srun, scancel, or run Clifton. "
-    "Propose commands; the human runs them after https://docs.isambard.ac.uk . "
+    "Login nodes have no GPUs. The human runs clifton auth; afterwards bounded ssh/Slurm "
+    "is allowed under AGENTS.md. Docs: https://docs.isambard.ac.uk . "
     "Order: make check, 10-minute 1-GPU smoke, then a dry-run. Cap suggested --time at "
     "00:30:00. Container: nvcr.io/nvidia/pytorch:25.05-py3 with apptainer exec --nv. "
     "Never pip-install an x86 torch wheel. Workflow: docs/WORKFLOW.md."
@@ -48,12 +48,8 @@ def decide(command: str) -> str | None:
         token, rest = first_command(segment)
         if not token:
             continue
-        if SLURM_RE.match(token):
-            return f"Slurm command '{token}' is for you to run on Isambard, not for the agent."
         if re.match(r"^clifton(\.exe)?$", token):
-            return "Clifton auth stays in your terminal. The agent must not see the credentials."
-        if REMOTE_RE.match(token) and re.search(r"isambard|aip2|bristol\.ac\.uk", rest, re.I):
-            return "SSH to Isambard stays in your terminal. The agent proposes commands only."
+            return "Clifton auth is interactive SSO and stays with the human. The agent must not run it."
     return None
 
 

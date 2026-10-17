@@ -1,0 +1,20 @@
+date_utc=2026-10-17T21:30:47Z host=nid010756 arch=aarch64
+git_sha=9b162a78f259e07f89c4721c46c9bed50cbebb6f git_dirty=0 config=configs/gpu_readiness.yaml seed=0
+config_sha256=228149230fdd71960e9f45d9b5ac7c9038d19dce5e8357ebbfb627a8c85034b2
+slurm_job_id=7508394 mode=single gpus=1 image=nvcr.io/nvidia/pytorch:26.09-py3
+sif=/projects/u6xn/sif-images/pytorch_26.09-py3.sif sif_sha256=f5a41e030ff3d44936faa521480ea9164d095270d7d5bd999621579f3e400ec6
+apptainer=apptainer version 1.5.3-150600.4.43.1
+index, name, driver_version, memory.total [MiB]
+0, NVIDIA GH200 120GB, 580.178.04, 97871 MiB
+run_dir: outputs/gpu-readiness-single-rank0-slurm7508394
+config: configs/gpu_readiness.yaml sha256=228149230fdd
+seed: 0
+git_sha: 9b162a78f259e07f89c4721c46c9bed50cbebb6f dirty=False source=env
+machine: aarch64 python=3.12.3
+container: /projects/u6xn/sif-images/pytorch_26.09-py3.sif
+rank=0 check=hardware_and_runtime passed
+rank=0 check=bf16_matmul_vs_fp32 passed
+rank=0 check=bf16_attention_forward_backward passed
+rank=0 check=synthetic_image_training passed
+rank=0 check=checkpoint_write_read_continue passed
+status=passed_synthetic_checks_only report=outputs/gpu-readiness-single-rank0-slurm7508394/readiness.json

@@ -1,0 +1,112 @@
+{
+  "active_check": null,
+  "checks": [
+    {
+      "details": {
+        "capability": [
+          9,
+          0
+        ],
+        "cuda_runtime": "13.4",
+        "cudnn": 92600,
+        "device": "NVIDIA GH200 120GB",
+        "local_rank": 0,
+        "nccl": [
+          2,
+          31,
+          2
+        ],
+        "torch": "2.14.0a0+b2c75dd062.nv26.09",
+        "total_memory_bytes": 102005473280,
+        "visible_gpus": 2
+      },
+      "name": "hardware_and_runtime",
+      "status": "passed"
+    },
+    {
+      "details": {
+        "atol": 0.002,
+        "dtype": "bfloat16",
+        "rtol": 0.03,
+        "shape": [
+          512,
+          512
+        ]
+      },
+      "name": "bf16_matmul_vs_fp32",
+      "status": "passed"
+    },
+    {
+      "details": {
+        "api": "scaled_dot_product_attention",
+        "backend": "PyTorch-selected; not certified FlashAttention"
+      },
+      "name": "bf16_attention_forward_backward",
+      "status": "passed"
+    },
+    {
+      "details": {
+        "backend": "nccl",
+        "scope": "single_node_only",
+        "world_size": 2
+      },
+      "name": "nccl_all_reduce",
+      "status": "passed"
+    },
+    {
+      "details": {
+        "losses": [
+          0.031968459486961365,
+          0.030937999486923218
+        ],
+        "precision": "BF16 autocast / FP32 parameters",
+        "synthetic_only": true
+      },
+      "name": "synthetic_image_training",
+      "status": "passed"
+    },
+    {
+      "details": {
+        "bitwise_model_continuation": true,
+        "scope": "same_job_fixed_inputs_no_stochastic_layers"
+      },
+      "name": "checkpoint_write_read_continue",
+      "status": "passed"
+    },
+    {
+      "details": {
+        "parameters_equal_across_ranks": true
+      },
+      "name": "ddp_parameter_consensus",
+      "status": "passed"
+    }
+  ],
+  "dataset_downloaded": false,
+  "elapsed_seconds": 5.4738103459999365,
+  "mode": "distributed",
+  "model_readiness": "not_tested",
+  "multi_node_readiness": "not_tested",
+  "peak_allocated_bytes": 67506176,
+  "rank": 0,
+  "runtime": {
+    "capability": [
+      9,
+      0
+    ],
+    "cuda_runtime": "13.4",
+    "cudnn": 92600,
+    "device": "NVIDIA GH200 120GB",
+    "local_rank": 0,
+    "nccl": [
+      2,
+      31,
+      2
+    ],
+    "torch": "2.14.0a0+b2c75dd062.nv26.09",
+    "total_memory_bytes": 102005473280,
+    "visible_gpus": 2
+  },
+  "status": "passed_synthetic_checks_only",
+  "syncbn_parity": "not_tested_use_existing_model_specific_suite",
+  "weights_downloaded": false
+}

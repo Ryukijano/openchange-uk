@@ -1,0 +1,12 @@
+{
+  "job": "training-setup-inspection",
+  "seed": 0,
+  "repo_path": ".",
+  "expected_git_sha": null,
+  "sif_path": "${PROJECTDIR}/sif-images/pytorch_25.05-py3.sif",
+  "data_roots": [],
+  "max_depth": 2,
+  "max_entries": 500,
+  "max_files": 100,
+  "deadline_seconds": 45
+}

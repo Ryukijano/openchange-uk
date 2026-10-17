@@ -1,0 +1,26 @@
+{
+  "snapshot_date_utc": "2026-10-15",
+  "purpose": "Publication-time snapshot of preserved local inputs, not the original-run manifest. Data tables deliberately not distributed. No model refit performed.",
+  "original_result_protocol": "narrabeen-duck-20261014",
+  "sds_benchmark_git_sha": "c0747c52b310433411fc4ab96822ee67441a8d2e",
+  "files": {
+    "matched_observations.csv": {
+      "sha256": "85178c492b51e8922e66ea157a40d6c3d6a57b53532aac73ce66d551a868d73a",
+      "bytes": 280875,
+      "source_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/matched_observations.csv",
+      "published": false
+    },
+    "matched_observations_DUCK.csv": {
+      "sha256": "234c785abd96e58064c14cebf8445a25ae143a4ce9501114d85d546efd8aac82",
+      "bytes": 284022,
+      "source_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/matched_observations_DUCK.csv",
+      "published": false
+    },
+    "run_folds.py": {
+      "sha256": "69b5d466662712f3cd99bd73597a1d0aff9765cbfbf60f7807bd5ed5596c19a1",
+      "bytes": 5564,
+      "source_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/run_folds.py",
+      "published": true
+    }
+  }
+}

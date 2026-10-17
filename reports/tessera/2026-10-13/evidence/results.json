@@ -1,0 +1,318 @@
+{
+  "task": "austria_crops_polygon_mean_feature_migration",
+  "year": 2024,
+  "n_sites": 348,
+  "n_train": 174,
+  "n_test": 174,
+  "split_rule": "representative-point longitude below/above median",
+  "classes": [
+    "Beet",
+    "Corn",
+    "Fallow",
+    "Grass",
+    "Legume",
+    "Other (Plants)",
+    "Soy",
+    "Summer Grain",
+    "Sunflower",
+    "Winter Grain"
+  ],
+  "old": {
+    "requested_version": "v1",
+    "store_url": "https://data.source.coop/tessera/tessera/zarr/v1",
+    "dataset_version": "1.0",
+    "dataset_variant": "vultr",
+    "seconds": 1.5179150104522705,
+    "mosaic_shape": [
+      538,
+      382,
+      128
+    ],
+    "crs": "EPSG:32633",
+    "labelled_pixels_min": 0,
+    "labelled_pixels_median": 158.0,
+    "labelled_pixels_total": 76004,
+    "finite_rows": 348,
+    "nonfinite_rows": 1
+  },
+  "new": {
+    "requested_version": "v1.1",
+    "store_url": "https://data.source.coop/tessera/tessera/zarr/v1.1-dclimate",
+    "dataset_version": "1.1",
+    "dataset_variant": "dclimate",
+    "seconds": 1.5663747787475586,
+    "mosaic_shape": [
+      538,
+      382,
+      128
+    ],
+    "crs": "EPSG:32633",
+    "labelled_pixels_min": 0,
+    "labelled_pixels_median": 158.0,
+    "labelled_pixels_total": 76004,
+    "finite_rows": 348,
+    "nonfinite_rows": 1
+  },
+  "alignment_train_rows": 174,
+  "alignment_rank": 128,
+  "procrustes_singular_values_top16": [
+    3508.587890625,
+    2152.853759765625,
+    1278.8458251953125,
+    755.83642578125,
+    678.8250122070312,
+    469.0384826660156,
+    384.19818115234375,
+    279.1057434082031,
+    225.30984497070312,
+    205.7192840576172,
+    168.40309143066406,
+    140.734375,
+    129.0503692626953,
+    115.604736328125,
+    99.803955078125,
+    84.21656799316406
+  ],
+  "ridge_alpha": 1.0,
+  "runs": {
+    "logreg_balanced": {
+      "old_features": {
+        "accuracy": 0.3333333333333333,
+        "balanced_accuracy": 0.1838360723944248,
+        "macro_f1": 0.16440919540229887,
+        "weighted_f1": 0.3517133042674065,
+        "ece10": 0.35537166705076717,
+        "decision_churn_vs_old_features": 0.0,
+        "per_class_f1": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.4827586206896552,
+          "3": 0.0,
+          "4": 0.3,
+          "5": 0.3333333333333333,
+          "6": 0.0,
+          "7": 0.0,
+          "8": 0.0,
+          "9": 0.528
+        }
+      },
+      "new_unmapped": {
+        "accuracy": 0.14367816091954022,
+        "balanced_accuracy": 0.10657894736842106,
+        "macro_f1": 0.03333540256999193,
+        "weighted_f1": 0.07447824911183368,
+        "ece10": 0.6896495897879547,
+        "decision_churn_vs_old_features": 0.9310344827586207,
+        "per_class_f1": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.0,
+          "3": 0.0,
+          "4": 0.0,
+          "5": 0.22099447513812154,
+          "6": 0.0,
+          "7": 0.0,
+          "8": 0.0,
+          "9": 0.11235955056179775
+        }
+      },
+      "new_procrustes": {
+        "accuracy": 0.42528735632183906,
+        "balanced_accuracy": 0.12902353049950305,
+        "macro_f1": 0.1157237626714371,
+        "weighted_f1": 0.32313621066628284,
+        "ece10": 0.14159008021327268,
+        "decision_churn_vs_old_features": 0.603448275862069,
+        "per_class_f1": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.08333333333333333,
+          "3": 0.0,
+          "4": 0.1,
+          "5": 0.1875,
+          "6": 0.0,
+          "7": 0.15384615384615385,
+          "8": 0.0,
+          "9": 0.6325581395348837
+        }
+      },
+      "new_ridge": {
+        "accuracy": 0.27586206896551724,
+        "balanced_accuracy": 0.15079155398377367,
+        "macro_f1": 0.1358725196789971,
+        "weighted_f1": 0.2928386523017636,
+        "ece10": 0.33233199508368283,
+        "decision_churn_vs_old_features": 0.3218390804597701,
+        "per_class_f1": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.5555555555555556,
+          "3": 0.0,
+          "4": 0.1951219512195122,
+          "5": 0.18181818181818182,
+          "6": 0.0,
+          "7": 0.0,
+          "8": 0.0,
+          "9": 0.4262295081967213
+        }
+      },
+      "new_head_refit": {
+        "accuracy": 0.20689655172413793,
+        "balanced_accuracy": 0.18099791639837406,
+        "macro_f1": 0.14216708972940303,
+        "weighted_f1": 0.22333567455335007,
+        "ece10": 0.2711814880028538,
+        "decision_churn_vs_old_features": 0.47126436781609193,
+        "per_class_f1": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.49122807017543857,
+          "3": 0.18181818181818182,
+          "4": 0.08695652173913043,
+          "5": 0.16216216216216217,
+          "6": 0.0,
+          "7": 0.11764705882352941,
+          "8": 0.10526315789473684,
+          "9": 0.2765957446808511
+        }
+      }
+    },
+    "rf_balanced": {
+      "old_features": {
+        "accuracy": 0.47126436781609193,
+        "balanced_accuracy": 0.16009153318077804,
+        "macro_f1": 0.1266100303359216,
+        "weighted_f1": 0.36098387170557106,
+        "ece10": 0.10417624521072803,
+        "decision_churn_vs_old_features": 0.0,
+        "per_class_f1": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.5423728813559322,
+          "3": 0.0,
+          "4": 0.0,
+          "5": 0.08333333333333333,
+          "6": 0.0,
+          "7": 0.0,
+          "8": 0.0,
+          "9": 0.6403940886699507
+        }
+      },
+      "new_unmapped": {
+        "accuracy": 0.4367816091954023,
+        "balanced_accuracy": 0.1,
+        "macro_f1": 0.0608,
+        "weighted_f1": 0.2655632183908046,
+        "ece10": 0.18040229885057465,
+        "decision_churn_vs_old_features": 0.27011494252873564,
+        "per_class_f1": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.0,
+          "3": 0.0,
+          "4": 0.0,
+          "5": 0.0,
+          "6": 0.0,
+          "7": 0.0,
+          "8": 0.0,
+          "9": 0.608
+        }
+      },
+      "new_procrustes": {
+        "accuracy": 0.43103448275862066,
+        "balanced_accuracy": 0.09868421052631579,
+        "macro_f1": 0.06024096385542169,
+        "weighted_f1": 0.2631214513225315,
+        "ece10": 0.053084291187739475,
+        "decision_churn_vs_old_features": 0.26436781609195403,
+        "per_class_f1": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.0,
+          "3": 0.0,
+          "4": 0.0,
+          "5": 0.0,
+          "6": 0.0,
+          "7": 0.0,
+          "8": 0.0,
+          "9": 0.6024096385542169
+        }
+      },
+      "new_ridge": {
+        "accuracy": 0.4540229885057471,
+        "balanced_accuracy": 0.15008009153318078,
+        "macro_f1": 0.1239086200517943,
+        "weighted_f1": 0.35347060099251154,
+        "ece10": 0.1282375478927203,
+        "decision_churn_vs_old_features": 0.09770114942528736,
+        "per_class_f1": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.5283018867924528,
+          "3": 0.0,
+          "4": 0.0,
+          "5": 0.08333333333333333,
+          "6": 0.0,
+          "7": 0.0,
+          "8": 0.0,
+          "9": 0.6274509803921569
+        }
+      },
+      "new_head_refit": {
+        "accuracy": 0.4425287356321839,
+        "balanced_accuracy": 0.14679633867276887,
+        "macro_f1": 0.11075083926963072,
+        "weighted_f1": 0.32885911093417514,
+        "ece10": 0.11141762452107275,
+        "decision_churn_vs_old_features": 0.1781609195402299,
+        "per_class_f1": {
+          "0": 0.0,
+          "1": 0.0,
+          "2": 0.5084745762711864,
+          "3": 0.0,
+          "4": 0.0,
+          "5": 0.0,
+          "6": 0.0,
+          "7": 0.0,
+          "8": 0.0,
+          "9": 0.5990338164251208
+        }
+      }
+    }
+  },
+  "rf_macro_f1_bootstrap": {
+    "new_ridge": [
+      0.12540594577489736,
+      0.1009289518081599,
+      0.1534067186741591
+    ],
+    "new_procrustes": [
+      0.06149436185628206,
+      0.05316455696202531,
+      0.07265521335288777
+    ],
+    "old_features": [
+      0.12816176038329644,
+      0.10418951858638041,
+      0.1558760387458573
+    ],
+    "new_unmapped": [
+      0.06206161425441026,
+      0.05378151260504201,
+      0.0730564187881261
+    ],
+    "new_head_refit": [
+      0.11193211115597781,
+      0.08960932992147713,
+      0.133408841737802
+    ]
+  },
+  "provenance": {
+    "label_path": "/home/ubuntu/airr-masterplan/eo-task-research/tessera-eval-src/examples/austria_crops.geojson",
+    "label_sha256": "c681225b32ca89d9f533fd4efbbdd239faf7ddaf249e1bf7db46f92ddb66d743",
+    "geotessera_version": "0.11.0",
+    "geotessera_git_sha": "2814c5b3d967e0247f50e7b8d825efdf4fd606a6",
+    "tessera_eval_git_sha": "927440551fdd4b13efe7ebbfc91e356ff41a8177",
+    "created_unix": 1791899086
+  }
+}

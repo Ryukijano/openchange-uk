@@ -1,5 +1,21 @@
 # OpenChange-UK
 
+## Current progress — 15 October 2026
+
+**[What we have done so far](docs/PROGRESS.md)** is the current entry point:
+research decisions, completed experiments, negative results and what remains
+unbuilt. [Research notes and visual guides](docs/research/eo-task-research/README.md)
+include downloadable offline HTML and PDFs.
+
+The latest [Narrabeen + Duck coastal experiment](reports/coastal/2026-10-14/README.md)
+passes its data gate but the learned metadata head **fails** the required 15%
+improvement on both held-out beaches. No coastal foundation model or Hugging Face
+Space has been trained/deployed. Imagery-aware features are an untested next
+hypothesis, not a proven remedy. Separate JEPA engineering is in
+[PR #2](https://github.com/Ryukijano/openchange-uk/pull/2), not merged by this archive.
+
+## Original benchmark and engineering context
+
 Open benchmark for geographic and temporal transfer in UK environmental change detection. The first task is coastal shoreline and land-cover change. Flood mapping, urban heat, and V-JEPA 2.1 are later experiments inside the same benchmark harness.
 
 The [clean-JEPA Sentinel-1/2 research track](docs/research/clean-jepa/README.md) adds a selected pilot design, [mathematical formulation](docs/research/clean-jepa/FORMULATION.md), [implementation runbook](docs/research/clean-jepa/IMPLEMENTATION.md) and [training diagram](docs/research/clean-jepa/training-diagram.html) for a separate gated representation/pretraining study. It is documentation, not an implemented trainer or permission to fetch data/use the allocation. The benchmark's proposed split remains unaccepted.

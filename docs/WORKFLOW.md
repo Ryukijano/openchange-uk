@@ -1,14 +1,24 @@
 # How this repo uses Isambard
 
-Agents (Cursor on your machine, or a cloud agent) edit code and run local checks only. The cluster is reached only by a person, after Clifton auth. Official sources: [Using AI agents with Isambard](https://docs.isambard.ac.uk/user-documentation/guides/using_ai_agents/), [Login](https://docs.isambard.ac.uk/user-documentation/guides/login/), [Slurm](https://docs.isambard.ac.uk/user-documentation/guides/slurm/), [Containers](https://docs.isambard.ac.uk/user-documentation/guides/containers/), [ML packages](https://docs.isambard.ac.uk/user-documentation/applications/ML-packages/), [Storage](https://docs.isambard.ac.uk/user-documentation/information/system-storage/). If this page and the docs disagree, the docs win.
+Before changing the training setup, the [host-only inspection guide](TRAINING_INSPECTION.md)
+provides a bounded human-run inventory of the checkout, storage paths and software.
+It does not install packages, execute containers, submit jobs or test CUDA.
+
+For staged runtime verification (single GH200, then same-node NCCL/DDP), use the
+[GPU readiness runbook](GPU_READINESS.md). It records the unresolved historical
+model-specific failure separately; a generic CUDA pass is not model readiness.
+
+The human authenticates Clifton (`clifton auth`, interactive SSO — the agent never runs it). Once a valid certificate exists, the agent may ssh, submit and monitor bounded Slurm jobs, and inspect files on the cluster under AGENTS.md limits. Official sources: [Using AI agents with Isambard](https://docs.isambard.ac.uk/user-documentation/guides/using_ai_agents/), [Login](https://docs.isambard.ac.uk/user-documentation/guides/login/), [Slurm](https://docs.isambard.ac.uk/user-documentation/guides/slurm/), [Containers](https://docs.isambard.ac.uk/user-documentation/guides/containers/), [ML packages](https://docs.isambard.ac.uk/user-documentation/applications/ML-packages/), [Storage](https://docs.isambard.ac.uk/user-documentation/information/system-storage/). If this page and the docs disagree, the docs win.
 
 ```text
 agent or you, locally
   -> make check
   -> commit
-you, on your machine
-  -> clifton auth, ssh u6xn.aip2.isambard
-you, on the login node
+you (SSO only)
+  -> clifton auth
+agent or you
+  -> ssh u6xn.aip2.isambard
+on the login node
   -> git pull, apptainer pull (once), sbatch
   -> squeue --me, sacct -j <id>
   -> commit the log and manifest, paste the log back
@@ -42,9 +52,9 @@ The run id is `slurm<SLURM_JOB_ID>` in a job and `local<UTC time>-<pid>` otherwi
 
 `logs/` and `outputs/` are gitignored. To keep a smoke record: `git add -f logs/airr-smoke-<jobid>.out outputs/smoke-slurm<jobid>/`.
 
-## Your Linux machine: Clifton and SSH
+## Clifton and SSH
 
-You run these. The agent never does. From the [login guide](https://docs.isambard.ac.uk/user-documentation/guides/login/):
+The human runs `clifton auth` (interactive SSO). The agent may then use the resulting certificate for ssh and Slurm within AGENTS.md limits. From the [login guide](https://docs.isambard.ac.uk/user-documentation/guides/login/):
 
 ```bash
 # Use clifton-linux-musl-aarch64 on an Arm laptop.
@@ -90,7 +100,7 @@ Batch scripts use `#SBATCH --nodes=1`, `--gpus=`, and `--time=`. They leave the 
 
 `.cursor/hooks.json` calls `.cursor/hooks/hooks.py` (Python, so it runs on Linux, macOS, and Windows; the old `.ps1` files are kept for reference):
 
-- `beforeShellExecution` denies `sbatch`, `srun`, `salloc`, `scancel`, `squeue`, `sinfo`, `sacct`, `scontrol`, `sacctmgr`, `clifton`, and `ssh`/`scp`/`sftp`/`rsync` to an Isambard host, including after `sudo`, `env`, `VAR=`, pipes, and `$(...)`. The agent can still write the script.
+- `beforeShellExecution` denies only `clifton` (SSO stays with the human). Slurm and SSH commands are allowed after human authentication, within AGENTS.md limits.
 - `sessionStart` reminds the session that Phase 2 is aarch64 GH200, one GPU is one superchip, and smoke comes before training.
 - `postToolUse` runs `scripts/check_sbatch.py` after an edit under `slurm/` and feeds any failure back to the agent.
 
