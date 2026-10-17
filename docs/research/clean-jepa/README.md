@@ -11,6 +11,10 @@ Updating these documents is not approval to fetch a dataset or use an allocation
 1. This page: decisions and boundaries.
 2. [Formulation](FORMULATION.md): notation, exact losses, gradients and distributed convention.
 3. [Implementation runbook](IMPLEMENTATION.md): work packages, interfaces, tests and exit gates.
+   [Data audit and next handoff](DATA_PLAN.md): pinned releases, access granularity,
+   metadata-first curation and real-loader gates.
+   [Multi-GPU pilot](MULTIGPU.md): offline data boundary, torchrun/DDP semantics,
+   GH200 profiling/restart gates and the later temporal/decision sequence.
 4. [Sources and corrections](SOURCES.md): primary links, provenance and errors in earlier reviews.
 5. [Training diagram](training-diagram.html): self-contained HTML with selectable nodes.
    GitHub shows HTML source; download the file and open it locally to use the diagram.
@@ -75,11 +79,20 @@ mid-grid and present the runs as one method.
 
 - Existing: source approval validation, provisional geographic/temporal split contract,
   run manifests, local checks and capped Slurm scaffolds.
-- Missing: JEPA encoder/loss, view loader, distributed equivalence tests, checkpointing,
-  benchmark adapters, selection/Procrustes experiments and measured throughput.
-- No dataset entry has been approved by this update. `configs/sources.yaml` remains empty.
+- P1 synthetic code (offline, CPU, optional torch extra): src/openchange/jepa
+  (losses, distributed, model, views, checkpoints, config), scripts/train_jepa.py and
+  configs/jepa/p1_synthetic.yaml. make test-jepa covers loss algebra, Monte Carlo null,
+  1-rank vs 2-rank Gloo gradients/updates, bucketing, token counts and exact resume.
+  The original entry point remains synthetic-only. A separate offline local-array
+  pilot loader and torchrun runtime are described in [MULTIGPU.md](MULTIGPU.md).
+  Real views require an explicit opt-in after loader approval; defaults still refuse them.
+- Missing: raw approved-shard extraction, benchmark adapters, selection/Procrustes
+  experiments and measured throughput.
+- Only the two pinned SSL4EO metadata tables have human approval. Imagery and
+  training-source use remain unapproved; see [the measured metadata audit](../../../reports/jepa/metadata/README.md).
 - `make train-small` is still a dry-run, and `make evaluate` is still a stub. Neither
-  trains/evaluates JEPA. No new runnable training command is advertised here.
+  trains/evaluates JEPA. make jepa-synthetic-fit runs at most 50 CPU steps on
+  synthetic tensors; it is a plumbing check, not representation learning or a result.
 - These documents report no new research result. Archived synthetic checks are
   reviewer observations, not an EO training run or an Isambard smoke pass.
 

@@ -1,4 +1,4 @@
-.PHONY: lint test dry-run smoke train-small evaluate reproduce-table-1 check-sbatch validate-sources env-info check
+.PHONY: lint test test-jepa jepa-dry-run jepa-synthetic-fit jepa-distributed-dry-run dry-run smoke train-small evaluate reproduce-table-1 check-sbatch validate-sources env-info check
 
 export PYTHONPATH := src
 PYTHON ?= python3
@@ -9,6 +9,19 @@ lint:
 
 test:
 	$(PYTHON) -m unittest discover -s tests -v
+
+# Requires .venv-jepa with CPU torch from the PyTorch CPU index (uv --torch-backend=cpu); on Isambard use NGC container torch, never x86 wheels.
+test-jepa:
+	$(PYTHON) -m unittest discover -s tests -p "test_jepa_*.py" -v
+
+jepa-dry-run:
+	$(PYTHON) scripts/train_jepa.py --config configs/jepa/p1_synthetic.yaml --dry-run --output-root outputs
+
+jepa-synthetic-fit:
+	$(PYTHON) scripts/train_jepa.py --config configs/jepa/p1_synthetic.yaml --synthetic-fit --output-root outputs
+
+jepa-distributed-dry-run:
+	$(PYTHON) scripts/train_jepa_distributed.py --config configs/jepa/p1_synthetic.yaml --dry-run
 
 check-sbatch:
 	$(PYTHON) scripts/check_sbatch.py
@@ -26,7 +39,7 @@ env-info:
 	$(PYTHON) -m openchange.provenance
 
 # Everything that runs without Isambard, GPUs, or network access.
-check: lint test check-sbatch validate-sources dry-run evaluate
+check: lint test check-sbatch validate-sources dry-run evaluate jepa-dry-run
 
 train-small: dry-run
 

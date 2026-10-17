@@ -17,4 +17,30 @@
 #     notes: "optional"
 #     checksum_sha256: "optional, 64 hex"
 #     manifest: "optional, path to a manifest file"
-approved_public_sources: []
+approved_public_sources:
+  - id: ssl4eo-v11-train-metadata
+    url: https://huggingface.co/datasets/embed2scale/SSL4EO-S12-v1.1/resolve/97a91733db962222e1e6b40a836845ddbbb16b86/train_metadata.parquet
+    license: CC-BY-4.0
+    license_url: https://creativecommons.org/licenses/by/4.0/
+    attribution: "Blumenstiel, Ait Ali Braham, Albrecht, Maurogiovanni and Fraccaro (2025), SSL4EO-S12 v1.1, arXiv:2503.00168."
+    expected_size_bytes: 37358291
+    use: auxiliary
+    splits: [pilot]
+    redistribution: manifest-only
+    approved_by: Gyanateet Dutta (Ryukijano)
+    approved_on: 2026-10-11
+    checksum_sha256: 1a9f413e3b442f01e736bf96edf69a9ae6b08cff1ef611b47ee6cac5a3cec1b1
+    notes: "User selected 'Approve metadata only' in this session. Two metadata tables only, combined payload <=40,000,000 bytes; no imagery or shard approval. No training split accepted."
+  - id: ssl4eo-v11-val-metadata
+    url: https://huggingface.co/datasets/embed2scale/SSL4EO-S12-v1.1/resolve/97a91733db962222e1e6b40a836845ddbbb16b86/val_metadata.parquet
+    license: CC-BY-4.0
+    license_url: https://creativecommons.org/licenses/by/4.0/
+    attribution: "Blumenstiel, Ait Ali Braham, Albrecht, Maurogiovanni and Fraccaro (2025), SSL4EO-S12 v1.1, arXiv:2503.00168."
+    expected_size_bytes: 465458
+    use: auxiliary
+    splits: [pilot]
+    redistribution: manifest-only
+    approved_by: Gyanateet Dutta (Ryukijano)
+    approved_on: 2026-10-11
+    checksum_sha256: e563236c577667ecf62d0f1ea5f4afaf5d7de958ecc65a1f76d37692d3676069
+    notes: "User selected 'Approve metadata only' in this session. Two metadata tables only, combined payload <=40,000,000 bytes; no imagery or shard approval. No training split accepted."
