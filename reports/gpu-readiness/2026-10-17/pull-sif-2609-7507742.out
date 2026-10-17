@@ -1,0 +1,12 @@
+=== PROVENANCE ===
+date_utc=2026-10-17T21:11:42Z
+host=nid010025
+arch=aarch64
+git_sha=30d6b3d359a410f08f50278ea0c384c8e11ace2d
+config=containers/apptainer.def
+slurm_job_id=7507742
+image=docker://nvcr.io/nvidia/pytorch:26.09-py3
+sif=/projects/u6xn/sif-images/pytorch_26.09-py3.sif
+apptainer=apptainer version 1.4.1-1.brics
+-rwxr-xr-x 1 ryukijano.u6xn brics.u6xn 11G Oct 17 21:22 /projects/u6xn/sif-images/pytorch_26.09-py3.sif
+f5a41e030ff3d44936faa521480ea9164d095270d7d5bd999621579f3e400ec6  /projects/u6xn/sif-images/pytorch_26.09-py3.sif

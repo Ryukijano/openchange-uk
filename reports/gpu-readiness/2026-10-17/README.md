@@ -34,6 +34,26 @@ healthy. It is **not** model readiness: the historical JEPA SyncBatchNorm
 mismatch (job 7365198, tolerance exceeded 18.8% of elements) is model-specific
 and must be re-tested separately.
 
+## Follow-up: NGC 26.09 image (same day)
+
+Job 7507742 pulled `nvcr.io/nvidia/pytorch:26.09-py3` to
+`/projects/u6xn/sif-images/pytorch_26.09-py3.sif` (11 GB, SHA-256
+`f5a41e030ff3d44936faa521480ea9164d095270d7d5bd999621579f3e400ec6`).
+Checkout: detached `9b162a7`, clean tree.
+
+| Job | Mode | GPUs | State | Outcome |
+|---|---|---|---|---|
+| 7508394 | single | 1 | COMPLETED (55s, exit 0) | `passed_synthetic_checks_only` |
+| 7508395 | distributed | 2 | COMPLETED (60s, exit 0) | `passed_synthetic_checks_only` on both ranks |
+
+Runtime inside 26.09: torch `2.14.0a0+b2c75dd062.nv26.09`, CUDA 13.4,
+cuDNN 9.26.0, NCCL 2.31.2 — the frontier-version stack on GH200 (sm_90).
+
+Evidence: `gpu-readiness-7508394.out` / `.err`, `gpu-readiness-7508395.out` /
+`.err`, `readiness-single-7508394.json`,
+`readiness-distributed-rank0-7508395.json`,
+`readiness-distributed-rank1-7508395.json`, `pull-sif-2609-7507742.out`.
+
 ## Evidence
 
 - `gpu-readiness-7506782.out` / `.err` — single-GPU job log

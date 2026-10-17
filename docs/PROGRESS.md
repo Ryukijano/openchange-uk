@@ -23,7 +23,7 @@ We have not established that a new foundation model is needed.
 |---|---|---|
 | Benchmark and compute safeguards | Source-approval checks, provenance, proposed geographic/temporal splits, local checks and human-run cluster templates | In the repository; the benchmark split is still proposed |
 | Clean-JEPA engineering | Mathematical design; a separate PR contains synthetic CPU training/restart, distributed CPU evidence, metadata audit and human-provided GH200 smoke records | [PR #2](https://github.com/Ryukijano/openchange-uk/pull/2); not evidence of useful EO pretraining |
-| Training environment preparation | Bounded host-only inspector and staged one-/multi-GPU readiness checks | Prepared and tested locally; current BriCS environment and GPU readiness not verified |
+| Training environment preparation | Bounded host-only inspector and staged one-/multi-GPU readiness checks | Ran on BriCS: 1- and 2-GPU synthetic checks passed on GH200 under NGC 25.05 and 26.09 (torch 2.14, CUDA 13.4, NCCL 2.31); JEPA SyncBatchNorm still unresolved |
 | TESSERA feature migration | Same-year old/new embeddings, spatially separated crop-parcel screen, adapters versus unchanged and refitted heads | Weak compatibility signal; low absolute task accuracy; not a validated product |
 | Problem selection | Reviewed user workflows, existing tools, data rights, novelty and Space feasibility, using independent research reviewers | Coastal measurement selected for a cheap falsifier; forecasting remains a backup |
 | Narrabeen screen | Metadata-based shoreline error prediction against surveys on later dates | Negative one-beach screen |
@@ -248,9 +248,13 @@ checks. These require a human submission, a clean reviewed checkout and pinned
 container identity. Model-specific tests remain separate: the historical
 SyncBatchNorm failure has not been resolved by preparing the generic checks.
 
-Neither the new inspection nor these readiness jobs have run on BriCS in this
-phase. The next environment step is a human-run inspection and review of its JSON,
-not a training launch or a claim of readiness.
+These jobs have since run on BriCS (agent-operated ssh/Slurm after a human
+`clifton auth`, per the updated compute rules). One-GPU and two-GPU synthetic
+checks passed on real GH200 hardware against **both** staged NGC images:
+25.05 (torch 2.8/CUDA 12.9) and the newly staged 26.09 (torch 2.14, CUDA 13.4,
+cuDNN 9.26, NCCL 2.31.2 — the frontier-version stack for sm_90). Evidence:
+[reports/gpu-readiness/2026-10-17](../reports/gpu-readiness/2026-10-17/README.md).
+The model-specific JEPA SyncBatchNorm failure remains unresolved.
 
 ## Where everything is
 
