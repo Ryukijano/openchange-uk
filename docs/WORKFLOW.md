@@ -1,5 +1,9 @@
 # How this repo uses Isambard
 
+For staged runtime verification (single GH200, then same-node NCCL/DDP), use the
+[GPU readiness runbook](GPU_READINESS.md). It records the unresolved historical
+model-specific failure separately; a generic CUDA pass is not model readiness.
+
 Agents (Cursor on your machine, or a cloud agent) edit code and run local checks only. The cluster is reached only by a person, after Clifton auth. Official sources: [Using AI agents with Isambard](https://docs.isambard.ac.uk/user-documentation/guides/using_ai_agents/), [Login](https://docs.isambard.ac.uk/user-documentation/guides/login/), [Slurm](https://docs.isambard.ac.uk/user-documentation/guides/slurm/), [Containers](https://docs.isambard.ac.uk/user-documentation/guides/containers/), [ML packages](https://docs.isambard.ac.uk/user-documentation/applications/ML-packages/), [Storage](https://docs.isambard.ac.uk/user-documentation/information/system-storage/). If this page and the docs disagree, the docs win.
 
 ```text
