@@ -1,6 +1,6 @@
 # What we have done so far
 
-Updated 15 October 2026. This is the current summary; older proposals are retained
+Updated 18 October 2026. This is the current summary; older proposals are retained
 as history, not as instructions to train or deploy.
 
 ## The goal
@@ -289,11 +289,17 @@ Following the negative CPU coastal screen, the repository's active code tracks i
      reduction per megabyte.
 3. **Track C Operational Guarantees (`src/openchange/jepa/guarantees.py`, `tests/test_jepa_guarantees.py`):**
    - `rankme_score`, `lidar_score`, and `selection_spearman` (Q1 checkpoint selection),
-     `fit_orthogonal_procrustes` and `evaluate_version_upgrade` (Q2 zero-re-embedding
-     upgrades), `cross_unit_distance_ratio` (Q3/Q4 sensor swap), and
+     `fit_orthogonal_procrustes`, `fit_subspace_procrustes`, `apply_subspace_procrustes`,
+     `evaluate_matryoshka_prefixes`, and `evaluate_version_upgrade` (Q2 zero-re-embedding
+     upgrades and prefix compression), `cross_unit_distance_ratio` (Q3/Q4 sensor swap), and
      `StratifiedConformalAlertCalibrator`.
+4. **Defensive Formulation, Real-Data Pathology Audit & Hybrid JEPA / Flow-Matching (`docs/research/clean-jepa/DEFENSIVE_FORMULATION_AND_AUDIT_2026-10-18.md`):**
+   - **First 4×GH200 Real-Data Pilot (`job 7527080`, 18 Oct 2026):** Ran 50 steps of distributed Clean-JEPA (`pytorch_26.09-py3.sif`, `torch 2.14.0a0+nv26.09`, `bf16`) on 480 approved `SSL4EO-S12 v1.1` S1+S2 pairs (`pilot_v1`) in `00:01:35` (`~30.2k tokens/s`, `471 MB/rank`; see [`reports/jepa-pilot/2026-10-18/README.md`](../reports/jepa-pilot/2026-10-18/README.md)).
+   - **Multi-Sensor Bayes-Risk Resolution (`src/openchange/jepa/losses.py`):** Added `weighted_invariance_loss` ($\Delta t$-attenuated alignment for pairs up to 27.3 days apart), `split_subspace_jepa_loss` (partitioning $z = [z_{\text{sh}}, z_{s1}, z_{s2}]$ so single-sensor strata do not force `SIGReg` unit variance on unidentifiable missing-sensor private coordinates), distributed-exact `barlow_twins_loss` and `vicreg_loss` (`TESSERA v2` Q1 comparators), and Optimal-Transport Conditional Flow Matching (`conditional_flow_matching_loss`, `sample_conditional_flow`, `ConditionalFlowBridge`) for multimodal cross-sensor synthesis without $L_2$ mean collapse.
+   - **Real-Data Pathology Instrumentation (`src/openchange/jepa/views.py`, `src/openchange/jepa/data.py`):** Added `pair_gap_seconds` to `Observation`/`ViewBatch` and `audit_observation_batch_pathologies` (quantifying $\Delta t$ drift, $3.5\sigma$ S1 speckle/S2 outliers, and 8-connected cloud-edge halo boundary fractions).
+   - **Hybrid Flow-Matching WAM & 7 Audit Fixes (`src/openchange/jepa/wam.py`):** Fixed `HistoryStratifiedSIGReg` CUDA device handling and `LeRobotWindowDataset` anchor/history/action alignment bugs; added `robometer_preference_loss`, `action_contrastive_loss` (counterfactual Action-InfoNCE + `action_elasticity`), and `FlowMatchingWAMHead`.
 
-All modules above pass the local 150-test unit suite (`make check`) and are wired
+All modules above pass the local 191-test unit suite (`make check`) and are wired
 to `slurm/06_wam_and_science_gpu.sbatch` (`--nodes=1`, `--gpus=4`, `--time=00:25:00`).
 No real-data training or empirical benchmark claims are made until those jobs run
 on approved datasets.

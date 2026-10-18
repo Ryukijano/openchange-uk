@@ -72,15 +72,22 @@ class DocumentTest(unittest.TestCase):
 
     def test_repo_metadata_approval_does_not_approve_imagery_or_training(self) -> None:
         sources = load_sources(DEFAULT_PATH)
-        self.assertEqual(len(sources), 2)
-        self.assertLessEqual(sum(s.expected_size_bytes for s in sources), 40_000_000)
-        for source in sources:
+        aux_sources = [s for s in sources if s.use == "auxiliary"]
+        img_sources = [s for s in sources if s.use == "imagery"]
+        self.assertEqual(len(aux_sources), 2)
+        self.assertEqual(len(img_sources), 2)
+        self.assertLessEqual(sum(s.expected_size_bytes for s in aux_sources), 40_000_000)
+        for source in aux_sources:
             self.assertEqual(source.use, "auxiliary")
             self.assertEqual(source.splits, ("pilot",))
             self.assertEqual(source.redistribution, "manifest-only")
             self.assertTrue(source.url.endswith("metadata.parquet"))
             self.assertIn("/97a91733db962222e1e6b40a836845ddbbb16b86/", source.url)
             self.assertTrue(source.checksum_sha256)
+        for source in sources:
+            self.assertEqual(source.splits, ("pilot",))
+            self.assertEqual(source.redistribution, "manifest-only")
+            self.assertIn("/97a91733db962222e1e6b40a836845ddbbb16b86/", source.url)
             with self.assertRaises(SourceNotApproved):
                 require_approved(source.id, "train")
         with self.assertRaises(SourceNotApproved):

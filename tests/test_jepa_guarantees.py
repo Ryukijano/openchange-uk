@@ -12,9 +12,12 @@ import torch
 from openchange.jepa.guarantees import (
     StratifiedConformalAlertCalibrator,
     apply_orthogonal_procrustes,
+    apply_subspace_procrustes,
     cross_unit_distance_ratio,
+    evaluate_matryoshka_prefixes,
     evaluate_version_upgrade,
     fit_orthogonal_procrustes,
+    fit_subspace_procrustes,
     latent_forecast_residuals,
     lidar_score,
     rankme_score,
@@ -262,6 +265,53 @@ class TestJEPAGuarantees(unittest.TestCase):
         self.assertLess(voi["mean_loss"], scored["always_s2"]["mean_loss"])
         self.assertGreater(voi["net_value"], scored["always_s1"]["net_value"])
         self.assertGreater(voi["net_value"], scored["always_s2"]["net_value"])
+
+    def test_q2_subspace_procrustes_vs_full_procrustes_with_unaligned_private_blocks(self) -> None:
+        gen = torch.Generator().manual_seed(301)
+        n_samples = 96
+        k_sh, k_s1, k_s2 = 8, 4, 4
+
+        q_sh, _ = torch.linalg.qr(torch.randn((k_sh, k_sh), generator=gen, dtype=torch.float64))
+        z_sh = torch.randn((n_samples, k_sh), generator=gen, dtype=torch.float64)
+        # Private dimensions are independent nuisance/sensor-specific noise across versions
+        priv_src = torch.randn((n_samples, k_s1 + k_s2), generator=gen, dtype=torch.float64)
+        priv_tgt = torch.randn((n_samples, k_s1 + k_s2), generator=gen, dtype=torch.float64)
+
+        anchor_src = torch.cat((z_sh @ q_sh.T, priv_src), dim=1)
+        anchor_tgt = torch.cat((z_sh, priv_tgt), dim=1)
+
+        sub_fit = fit_subspace_procrustes(
+            anchor_src,
+            anchor_tgt,
+            shared_dim=k_sh,
+            s1_private_dim=k_s1,
+            s2_private_dim=k_s2,
+        )
+        self.assertLess(sub_fit["shared_relative_residual"], 1e-12)
+        self.assertGreater(sub_fit["full_relative_residual"], 0.35)
+        self.assertAlmostEqual(sub_fit["theoretical_full_floor"], 2.0 * 8.0 / 16.0, places=12)
+
+        aligned_s1_only = apply_subspace_procrustes(
+            anchor_src, sub_fit, zero_inactive_private="s2"
+        )
+        torch.testing.assert_close(aligned_s1_only[:, :k_sh], z_sh, atol=1e-10, rtol=1e-10)
+        self.assertEqual(float(aligned_s1_only[:, k_sh + k_s1 :].abs().max()), 0.0)
+
+    def test_matryoshka_prefix_evaluation(self) -> None:
+        gen = torch.Generator().manual_seed(302)
+        dim = 16
+        prototypes = torch.randn((4, dim), generator=gen, dtype=torch.float64) * 3.0
+        train_labels = torch.arange(4, dtype=torch.int64).repeat_interleave(20)
+        eval_labels = torch.arange(4, dtype=torch.int64).repeat_interleave(15)
+        train_x = prototypes[train_labels] + 0.2 * torch.randn((80, dim), generator=gen, dtype=torch.float64)
+        eval_x = prototypes[eval_labels] + 0.2 * torch.randn((60, dim), generator=gen, dtype=torch.float64)
+
+        report = evaluate_matryoshka_prefixes(
+            train_x, train_labels, eval_x, eval_labels, prefixes=(4, 8, 16)
+        )
+        self.assertEqual(report["prefixes"], [4, 8, 16])
+        self.assertGreaterEqual(report["full_accuracy"], 0.95)
+        self.assertGreaterEqual(report["prefix_retention"][8], 0.85)
 
 
 if __name__ == "__main__":

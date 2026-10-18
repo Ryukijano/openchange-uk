@@ -10,6 +10,8 @@ import numpy as np
 import torch
 
 from openchange.jepa.losses import (
+    ConditionalFlowBridge,
+    barlow_twins_loss,
     direction_seed,
     ep_null_expectation,
     ep_per_view_stratum,
@@ -17,7 +19,11 @@ from openchange.jepa.losses import (
     jepa_loss,
     mean_penalty,
     quadrature,
+    sample_conditional_flow,
     sigreg_directions,
+    split_subspace_jepa_loss,
+    vicreg_loss,
+    weighted_invariance_loss,
 )
 
 torch.set_num_threads(min(torch.get_num_threads(), 4))
@@ -516,6 +522,186 @@ class EppsPulleyTests(unittest.TestCase):
             jepa_loss(z, torch.tensor([0] * 4 + [1] * 4), **{**good, "weights": [0.4, 0.4]})
         with self.assertRaises(ValueError):
             jepa_loss(z, torch.tensor([0] * 4 + [1] * 4), **{**good, "n_global": 0})
+
+    def test_weighted_invariance_attenuates_large_acquisition_gaps(self) -> None:
+        gen = torch.Generator().manual_seed(201)
+        z = torch.randn((4, 6, 8), generator=gen, dtype=torch.float64, requires_grad=True)
+        unweighted = weighted_invariance_loss(z, n_global=2)
+        torch.testing.assert_close(unweighted, invariance_loss(z, n_global=2), atol=1e-12, rtol=1e-12)
+
+        gaps = torch.tensor([0.0, 86400.0, 7 * 86400.0, 14 * 86400.0, 21 * 86400.0, 27 * 86400.0], dtype=torch.float64)
+        tau = 7.0 * 86400.0
+        weighted = weighted_invariance_loss(z, n_global=2, pair_gap_seconds=gaps, gap_tau_seconds=tau)
+        self.assertLess(float(weighted.detach()), float(unweighted.detach()))
+        self.assertTrue(
+            torch.autograd.gradcheck(
+                lambda val: weighted_invariance_loss(
+                    val, n_global=2, pair_gap_seconds=gaps, gap_tau_seconds=tau
+                ),
+                (z.detach().requires_grad_(),),
+                eps=1e-6,
+                atol=1e-7,
+                rtol=1e-5,
+            )
+        )
+
+    def test_split_subspace_resolves_bayes_risk_conflict_and_gradcheck(self) -> None:
+        gen = torch.Generator().manual_seed(202)
+        n_views, n_samples = 4, 256
+        k_sh, k_s1, k_s2 = 4, 2, 2
+        k_total = k_sh + k_s1 + k_s2
+        strata = torch.tensor([0] * 64 + [1] * 64 + [2] * 64 + [3] * 64, dtype=torch.int64)
+
+        # Construct embeddings where S1-only (stratum 2) has shrunk/zero S2-private energy
+        # and S2-only (stratum 3) has shrunk/zero S1-private energy
+        z = torch.randn((n_views, n_samples, k_total), generator=gen, dtype=torch.float64)
+        z[:, strata == 2, k_sh + k_s1 :] = 0.0
+        z[:, strata == 3, k_sh : k_sh + k_s1] = 0.0
+
+        dir_full = _directions(k_total, 64)
+        dir_sh = _directions(k_sh, 64, step=1)
+        dir_s1 = _directions(k_s1, 32, step=2)
+        dir_s2 = _directions(k_s2, 32, step=3)
+
+        conflicted = jepa_loss(
+            z,
+            strata,
+            n_global=2,
+            n_strata=4,
+            weights=[0.25] * 4,
+            lam=0.1,
+            lam_mu=0.0,
+            directions=dir_full,
+            mode="stratified",
+        )
+        z_req = z.detach().clone().requires_grad_(True)
+        split_out = split_subspace_jepa_loss(
+            z_req,
+            strata,
+            n_global=2,
+            shared_dim=k_sh,
+            s1_private_dim=k_s1,
+            s2_private_dim=k_s2,
+            directions_shared=dir_sh,
+            directions_s1=dir_s1,
+            directions_s2=dir_s2,
+            lam=0.1,
+            lam_priv_inactive=0.1,
+        )
+        self.assertAlmostEqual(float(split_out["inactive_private_penalty"].detach()), 0.0, places=12)
+        self.assertLess(float(split_out["sigreg"].detach()), float(conflicted["sigreg"].detach()))
+
+        # Verify SIGReg gradient on inactive private coordinates is identically zero
+        sig_grad = torch.autograd.grad(split_out["sigreg"], z_req)[0]
+        self.assertEqual(float(sig_grad[:, strata == 2, k_sh + k_s1 :].abs().max()), 0.0)
+        self.assertEqual(float(sig_grad[:, strata == 3, k_sh : k_sh + k_s1].abs().max()), 0.0)
+
+        z_small = torch.randn((3, 8, 6), generator=gen, dtype=torch.float64, requires_grad=True)
+        strata_small = torch.tensor([0, 0, 1, 1, 2, 2, 3, 3], dtype=torch.int64)
+        d_sh = _directions(2, 6, step=4)
+        d_1 = _directions(2, 6, step=5)
+        d_2 = _directions(2, 6, step=6)
+        self.assertTrue(
+            torch.autograd.gradcheck(
+                lambda val: split_subspace_jepa_loss(
+                    val,
+                    strata_small,
+                    n_global=2,
+                    shared_dim=2,
+                    s1_private_dim=2,
+                    s2_private_dim=2,
+                    directions_shared=d_sh,
+                    directions_s1=d_1,
+                    directions_s2=d_2,
+                    lam=0.2,
+                )["loss"],
+                (z_small,),
+                eps=1e-6,
+                atol=1e-7,
+                rtol=1e-5,
+            )
+        )
+
+    def test_barlow_twins_and_vicreg_comparators_and_gradcheck(self) -> None:
+        gen = torch.Generator().manual_seed(203)
+        z = torch.randn((3, 10, 5), generator=gen, dtype=torch.float64, requires_grad=True)
+        bt = barlow_twins_loss(z, lam_bt=0.05)
+        vr = vicreg_loss(z)
+        self.assertEqual(bt["cross_correlation"].shape, (5, 5))
+        self.assertTrue(torch.isfinite(bt["loss"]))
+        self.assertTrue(torch.isfinite(vr["loss"]))
+
+        # Identical whitened global views yield near-zero Barlow Twins invariance term
+        base = torch.randn((16, 4), generator=gen, dtype=torch.float64)
+        base = (base - base.mean(dim=0)) / base.std(dim=0, unbiased=False)
+        u, _, vh = torch.linalg.svd(base, full_matrices=False)
+        whitened = u @ vh * math.sqrt(16.0)
+        z_ident = torch.stack((whitened, whitened), dim=0)
+        bt_ident = barlow_twins_loss(z_ident, lam_bt=0.05, eps=1e-12)
+        self.assertLess(float(bt_ident["loss"]), 1e-8)
+
+        self.assertTrue(
+            torch.autograd.gradcheck(
+                lambda val: barlow_twins_loss(val, lam_bt=0.05)["loss"],
+                (z.detach().requires_grad_(),),
+                eps=1e-6,
+                atol=1e-7,
+                rtol=1e-5,
+            )
+        )
+        self.assertTrue(
+            torch.autograd.gradcheck(
+                lambda val: vicreg_loss(val)["loss"],
+                (z.detach().requires_grad_(),),
+                eps=1e-6,
+                atol=1e-7,
+                rtol=1e-5,
+            )
+        )
+
+    def test_conditional_flow_matching_multimodal_bridge_beats_l2_mean_collapse(self) -> None:
+        torch.manual_seed(204)
+        # Analytic velocity field for a symmetric bimodal target x1 in {+m, -m}
+        # L2 regression optimal predictor is E[x1 | cond] = 0 (collapses onto the origin!)
+        mode_vec = torch.tensor([3.0, -3.0], dtype=torch.float64)
+        cond = torch.ones((32, 4), dtype=torch.float64)
+        signs = torch.cat((torch.ones(16, 1), -torch.ones(16, 1)), dim=0).to(torch.float64)
+        x1 = signs * mode_vec.unsqueeze(0)
+
+        l2_mean_prediction = x1.mean(dim=0, keepdim=True).expand_as(x1)
+        l2_distance_to_closest_mode = torch.minimum(
+            torch.linalg.vector_norm(l2_mean_prediction - mode_vec, dim=-1),
+            torch.linalg.vector_norm(l2_mean_prediction + mode_vec, dim=-1),
+        ).mean()
+        self.assertGreater(float(l2_distance_to_closest_mode), 4.0)
+
+        bridge = ConditionalFlowBridge(target_dim=2, cond_dim=4, hidden_dim=32, time_dim=8, seed=9).double()
+        cfm_out = bridge.loss(x1, cond)
+        self.assertTrue(torch.isfinite(cfm_out["loss"]))
+        cfm_out["loss"].backward()
+        grad_norm = sum(float(p.grad.abs().sum()) for p in bridge.parameters() if p.grad is not None)
+        self.assertGreater(grad_norm, 0.0)
+
+        # Verify ODE integration with an exact bimodal bifurcating velocity field
+        def exact_bimodal_velocity(x_tau: torch.Tensor, t: torch.Tensor, c: torch.Tensor) -> torch.Tensor:
+            proj = (x_tau * mode_vec).sum(dim=-1, keepdim=True)
+            branch = torch.where(proj >= 0.0, 1.0, -1.0)
+            target = branch * mode_vec.unsqueeze(0)
+            denom = (1.0 - t.unsqueeze(-1)).clamp_min(1e-3)
+            return (target - x_tau) / denom
+
+        sampled = sample_conditional_flow(
+            exact_bimodal_velocity, cond, dim=2, steps=20, solver="heun", seed=42
+        )
+        dist_to_modes = torch.minimum(
+            torch.linalg.vector_norm(sampled - mode_vec, dim=-1),
+            torch.linalg.vector_norm(sampled + mode_vec, dim=-1),
+        ).mean()
+        self.assertLess(float(dist_to_modes), 0.05)
+        pos_count = int(((sampled * mode_vec).sum(dim=-1) > 0).sum().item())
+        neg_count = int(((sampled * mode_vec).sum(dim=-1) < 0).sum().item())
+        self.assertGreater(pos_count, 5)
+        self.assertGreater(neg_count, 5)
 
 
 if __name__ == "__main__":

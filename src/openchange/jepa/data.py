@@ -436,11 +436,15 @@ class LocalObservationDataset:
         valid = None if stratum == 2 else np.array(self._load(index, "s2_valid"), copy=True)
         s2 = None if stratum == 2 else _normalise(self._load(index, "s2"), self._constants["s2"], valid)
         record = self._records[index]
+        s1_time = _timestamp(record["s1_timestamp"], "s1_timestamp")
+        s2_time = _timestamp(record["s2_timestamp"], "s2_timestamp")
+        pair_gap = abs((s1_time - s2_time).total_seconds())
         return Observation(
             sample_id=record["sample_id"], stratum=stratum, s1=s1, s2=s2, s2_valid=valid,
             synthetic_data=False, synthetic_condition=stratum in (2, 3),
             intervention=("withhold_s2" if stratum == 2 else "withhold_s1" if stratum == 3 else "none"),
             mask_fraction=record["cloud_fraction"],
+            pair_gap_seconds=pair_gap,
         )
 
 

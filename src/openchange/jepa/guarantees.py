@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import math
 from collections.abc import Callable, Sequence
-from typing import Any
+from typing import Any, Literal
 
 import numpy as np
 import torch
@@ -258,6 +258,154 @@ def evaluate_version_upgrade(
         "unaligned_retained_accuracy_fraction": unaligned_retained_fraction,
         "eval_relative_residual": eval_rel_residual,
         "transform": transform,
+    }
+
+
+def fit_subspace_procrustes(
+    anchor_source: Tensor,
+    anchor_target: Tensor,
+    *,
+    shared_dim: int,
+    s1_private_dim: int = 0,
+    s2_private_dim: int = 0,
+) -> dict[str, Any]:
+    """Fit block-wise Orthogonal Procrustes alignment on shared vs. sensor-private subspaces.
+
+    Under partial multi-sensor identifiability (``z = [z_shared, z_s1_priv, z_s2_priv]``),
+    only ``z_shared`` is identifiable across sensors; fitting a single full-K orthogonal
+    matrix mixes aligned shared directions with unalignable private subspaces (which have
+    theoretical orthogonal residual floor ``2 * (K - K_sh) / K``).
+    """
+    if anchor_source.ndim != 2 or anchor_target.ndim != 2 or anchor_source.shape != anchor_target.shape:
+        raise ValueError("anchor_source and anchor_target must share 2D shape [N, K]")
+    samples, total_dim = anchor_source.shape
+    if shared_dim <= 0 or s1_private_dim < 0 or s2_private_dim < 0:
+        raise ValueError("shared_dim > 0 and private dims >= 0 required")
+    if shared_dim + s1_private_dim + s2_private_dim != total_dim:
+        raise ValueError("shared_dim + s1_private_dim + s2_private_dim must equal K")
+
+    full_transform = fit_orthogonal_procrustes(anchor_source, anchor_target)
+    shared_transform = fit_orthogonal_procrustes(
+        anchor_source[:, :shared_dim], anchor_target[:, :shared_dim]
+    )
+
+    s1_transform = None
+    if s1_private_dim > 0:
+        s1_slice = slice(shared_dim, shared_dim + s1_private_dim)
+        s1_transform = fit_orthogonal_procrustes(anchor_source[:, s1_slice], anchor_target[:, s1_slice])
+
+    s2_transform = None
+    if s2_private_dim > 0:
+        s2_slice = slice(shared_dim + s1_private_dim, total_dim)
+        s2_transform = fit_orthogonal_procrustes(anchor_source[:, s2_slice], anchor_target[:, s2_slice])
+
+    theoretical_private_noise_floor = 2.0 * float(total_dim - shared_dim) / float(total_dim)
+    return {
+        "shared_dim": shared_dim,
+        "s1_private_dim": s1_private_dim,
+        "s2_private_dim": s2_private_dim,
+        "shared_transform": shared_transform,
+        "s1_transform": s1_transform,
+        "s2_transform": s2_transform,
+        "full_transform": full_transform,
+        "shared_relative_residual": shared_transform["anchor_relative_residual"],
+        "full_relative_residual": full_transform["anchor_relative_residual"],
+        "theoretical_full_floor": theoretical_private_noise_floor,
+    }
+
+
+def apply_subspace_procrustes(
+    features: Tensor,
+    subspace_transform: dict[str, Any],
+    *,
+    zero_inactive_private: Literal["none", "s1", "s2", "both"] = "none",
+) -> Tensor:
+    """Apply block-wise Orthogonal Procrustes alignment to ``[z_shared, z_s1_priv, z_s2_priv]``."""
+    if features.ndim != 2:
+        raise ValueError("features must be 2D [N, K]")
+    sh_dim = int(subspace_transform["shared_dim"])
+    s1_dim = int(subspace_transform["s1_private_dim"])
+    s2_dim = int(subspace_transform["s2_private_dim"])
+    if features.shape[1] != sh_dim + s1_dim + s2_dim:
+        raise ValueError("features width does not match subspace_transform")
+    if zero_inactive_private not in ("none", "s1", "s2", "both"):
+        raise ValueError("zero_inactive_private must be 'none', 's1', 's2', or 'both'")
+
+    parts: list[Tensor] = [
+        apply_orthogonal_procrustes(features[:, :sh_dim], subspace_transform["shared_transform"])
+    ]
+    if s1_dim > 0:
+        s1_feat = features[:, sh_dim : sh_dim + s1_dim]
+        if zero_inactive_private in ("s1", "both"):
+            parts.append(torch.zeros_like(s1_feat))
+        else:
+            parts.append(apply_orthogonal_procrustes(s1_feat, subspace_transform["s1_transform"]))
+    if s2_dim > 0:
+        s2_feat = features[:, sh_dim + s1_dim :]
+        if zero_inactive_private in ("s2", "both"):
+            parts.append(torch.zeros_like(s2_feat))
+        else:
+            parts.append(apply_orthogonal_procrustes(s2_feat, subspace_transform["s2_transform"]))
+    return torch.cat(parts, dim=1)
+
+
+def evaluate_matryoshka_prefixes(
+    train_features: Tensor,
+    train_labels: Tensor,
+    eval_features: Tensor,
+    eval_labels: Tensor,
+    *,
+    prefixes: Sequence[int] = (16, 32, 64, 128),
+) -> dict[str, Any]:
+    """Evaluate nested Matryoshka prefix representations (TESSERA v2 / Clean-JEPA prefix test).
+
+    Fits a parameter-free nearest-class-centroid classifier on ``train_features[:, :k]``
+    for each prefix ``k`` in ``prefixes`` and reports held-out accuracy and retention
+    fraction relative to the full embedding width ``D``.
+    """
+    if train_features.ndim != 2 or eval_features.ndim != 2:
+        raise ValueError("train_features and eval_features must be 2D tensors")
+    if train_features.shape[1] != eval_features.shape[1]:
+        raise ValueError("train and eval feature dimensions must match")
+    dim = train_features.shape[1]
+    valid_prefixes = sorted({int(k) for k in prefixes if 1 <= int(k) <= dim})
+    if not valid_prefixes:
+        raise ValueError("at least one prefix in [1, D] is required")
+    if valid_prefixes[-1] != dim:
+        valid_prefixes.append(dim)
+
+    y_train = train_labels.to(device=train_features.device, dtype=torch.int64)
+    y_eval = eval_labels.to(device=eval_features.device, dtype=torch.int64)
+    classes = torch.unique(y_train, sorted=True)
+    if classes.numel() < 2:
+        raise ValueError("at least two classes are required in train_labels")
+
+    prefix_accuracies: dict[int, float] = {}
+    with torch.autocast(device_type=train_features.device.type, enabled=False):
+        x_tr = train_features.detach().to(dtype=torch.float64)
+        x_ev = eval_features.detach().to(device=x_tr.device, dtype=torch.float64)
+        for k in valid_prefixes:
+            tr_k = functional.normalize(x_tr[:, :k], dim=-1, eps=1e-12)
+            ev_k = functional.normalize(x_ev[:, :k], dim=-1, eps=1e-12)
+            centroids = torch.stack(
+                [tr_k[y_train == c].mean(dim=0) for c in classes], dim=0
+            )
+            centroids = functional.normalize(centroids, dim=-1, eps=1e-12)
+            sims = ev_k @ centroids.T
+            preds = classes[sims.argmax(dim=-1)]
+            acc = float((preds == y_eval).to(dtype=torch.float64).mean().item())
+            prefix_accuracies[k] = acc
+
+    full_acc = prefix_accuracies[dim]
+    retention = {
+        k: (acc / full_acc if full_acc > 0.0 else 0.0) for k, acc in prefix_accuracies.items()
+    }
+    return {
+        "prefixes": valid_prefixes,
+        "prefix_accuracies": prefix_accuracies,
+        "prefix_retention": retention,
+        "full_dim": dim,
+        "full_accuracy": full_acc,
     }
 
 

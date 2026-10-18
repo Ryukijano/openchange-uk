@@ -14,13 +14,16 @@ from openchange.jepa.wam import (
     HISTORY_STRATA_SECONDS,
     CausalPatchJEPAWorldModel,
     EndToEndPixelWAM,
+    FlowMatchingWAMHead,
     HistoryStratifiedSIGReg,
     LeRobotWindowDataset,
     LeWMPixelPatchEncoder,
+    action_contrastive_loss,
     bidirectional_neighborhood_mask,
     causal_neighborhood_mask,
     compute_reachable_error_and_factorial,
     diffusion_steered_plan,
+    robometer_preference_loss,
 )
 
 torch.set_num_threads(min(torch.get_num_threads(), 4))
@@ -359,6 +362,95 @@ class WorldModelTests(unittest.TestCase):
         losses["loss"].backward()
         stem_grad = float(enc.stem.weight.grad.abs().sum())
         self.assertGreater(stem_grad, 0.0)
+
+    def test_unconfounded_anchor_zero_history_and_action_alignment(self) -> None:
+        # 20 frames at 20 fps -> max span is 17/20 = 0.85s
+        ep = {
+            "frames": torch.arange(20 * 3 * 16 * 16, dtype=torch.float32).reshape(20, 3, 16, 16) / 1000.0,
+            "actions": torch.arange(20 * 2, dtype=torch.float32).reshape(20, 2),
+            "proprio": torch.arange(20 * 2, dtype=torch.float32).reshape(20, 2),
+            "fps": 20.0,
+        }
+        ds = LeRobotWindowDataset(
+            [ep],
+            context_frames=4,
+            horizon_frames=3,
+            strata_seconds=(0.0, 0.4, 38.4),
+        )
+        s0, s1, s2 = ds[0], ds[1], ds[2]
+        # 1. Fixed prediction anchor across all history strata (unconfounded H intervention)
+        self.assertEqual(int(s0["anchor_index"]), 17)
+        self.assertEqual(int(s1["anchor_index"]), 17)
+        self.assertEqual(int(s2["anchor_index"]), 17)
+        self.assertTrue(torch.equal(s0["frames_future"], s1["frames_future"]))
+        self.assertTrue(torch.equal(s1["frames_future"], s2["frames_future"]))
+
+        # 2. H = 0.0 genuinely repeats only anchor - 1 (realized_hist_s == 0.0)
+        self.assertAlmostEqual(float(s0["history_seconds"]), 0.0, places=6)
+        self.assertFalse(bool(s0["history_truncated"]))
+        self.assertTrue(torch.equal(s0["frames_context"][0], s0["frames_context"][-1]))
+
+        # 3. Truncated history reports true realized_hist_s (0.80s), not 38.4s
+        self.assertAlmostEqual(float(s2["history_seconds"]), 16.0 / 20.0, places=5)
+        self.assertAlmostEqual(float(s2["requested_history_seconds"]), 38.4, places=4)
+        self.assertTrue(bool(s2["history_truncated"]))
+
+        # 4. Actions align with transitions from anchor - 1 (index 16, 17, 18)
+        expected_actions = ep["actions"][16:19]
+        torch.testing.assert_close(s0["actions"], expected_actions, atol=0, rtol=0)
+
+    def test_robometer_preference_and_failure_margin_loss(self) -> None:
+        target = torch.tensor([[0.25, 0.50, 0.75, 1.00], [0.25, 0.50, 0.75, 1.00]], dtype=torch.float64)
+        monotone_pred = torch.tensor([[0.20, 0.45, 0.70, 0.95], [0.10, 0.15, 0.12, 0.10]], dtype=torch.float64)
+        reversed_pred = torch.tensor([[0.95, 0.70, 0.45, 0.20], [0.90, 0.92, 0.95, 0.98]], dtype=torch.float64)
+        failed = torch.tensor([False, True])
+
+        good = robometer_preference_loss(monotone_pred, target, failed_mask=failed, margin=0.1)
+        bad = robometer_preference_loss(reversed_pred, target, failed_mask=failed, margin=0.1)
+        self.assertLess(float(good["ranking_loss"]), float(bad["ranking_loss"]))
+        self.assertAlmostEqual(float(good["failure_margin_loss"]), 0.0, places=12)
+        self.assertGreater(float(bad["failure_margin_loss"]), 0.5)
+
+    def test_action_contrastive_loss_and_flow_matching_wam_head(self) -> None:
+        torch.manual_seed(305)
+        out_ac = action_contrastive_loss(
+            self.model, self.z_context, self.actions, self.proprio,
+            self.model(self.z_context, self.actions, self.proprio).z_hat,
+            temperature=0.05,
+        )
+        self.assertTrue(torch.isfinite(out_ac["loss"]))
+        self.assertGreater(float(out_ac["action_elasticity"].detach()), 0.0)
+        self.assertAlmostEqual(float(out_ac["action_identification_accuracy"]), 1.0, places=6)
+
+        # Frame-mean and context+pred SIGReg pooling modes
+        directions = sigreg_directions(8, 8, seed=7, step=0, device="cpu", dtype=torch.float64)
+        reg2 = HistoryStratifiedSIGReg((0.0, 38.4))
+        for pool_mode in ("frame_mean", "context_and_pred"):
+            res = self.model.wam_loss(
+                self.z_context,
+                self.actions,
+                self.proprio,
+                torch.randn(2, 4, 4, 8, dtype=torch.float64),
+                history_seconds=torch.tensor([0.0, 38.4]),
+                directions=directions,
+                sigreg=reg2,
+                sigreg_pool=pool_mode,
+            )
+            self.assertTrue(torch.isfinite(res["loss"]))
+            self.assertGreaterEqual(float(res["effective_rank"]), 1.0)
+
+        # FlowMatchingWAMHead dynamics + action generation
+        cfm_head = FlowMatchingWAMHead(dim=8, action_dim=3, horizon=4, hidden_dim=32, time_dim=8, seed=11).double()
+        ctx_summary = self.z_context.mean(dim=(1, 2))
+        fut_summary = torch.randn(2, 4, 8, dtype=torch.float64)
+        cfm_losses = cfm_head.cfm_loss(ctx_summary, self.actions, fut_summary)
+        self.assertTrue(torch.isfinite(cfm_losses["loss"]))
+        cfm_losses["loss"].backward()
+
+        sampled_fut = cfm_head.sample_future(ctx_summary, self.actions, steps=8, solver="heun", seed=3)
+        sampled_act = cfm_head.sample_actions(ctx_summary, fut_summary[:, -1, :], steps=8, solver="heun", seed=3)
+        self.assertEqual(sampled_fut.shape, (2, 4, 8))
+        self.assertEqual(sampled_act.shape, (2, 4, 3))
 
 
 if __name__ == "__main__":

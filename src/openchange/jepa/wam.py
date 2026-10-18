@@ -20,7 +20,12 @@ import torch.nn as nn
 import torch.nn.functional as functional
 from torch import Tensor
 
-from openchange.jepa.losses import ep_null_expectation, ep_per_view_stratum
+from openchange.jepa.losses import (
+    conditional_flow_matching_loss,
+    ep_null_expectation,
+    ep_per_view_stratum,
+    sample_conditional_flow,
+)
 from openchange.jepa.model import sincos_pos_embed
 
 HISTORY_STRATA_SECONDS: tuple[float, ...] = (0.0, 2.4, 9.6, 19.2, 38.4)
@@ -156,7 +161,8 @@ class HistoryStratifiedSIGReg(nn.Module):
             raise ValueError("history_seconds must have shape [N]")
         if not torch.isfinite(history).all() or bool((history < 0).any()):
             raise ValueError("history_seconds must be finite and nonnegative")
-        distances = (history.to(torch.float64)[:, None] - self.boundaries.cpu()[None, :]).abs()
+        boundaries = self.boundaries.to(device=history.device, dtype=torch.float64)
+        distances = (history.to(torch.float64)[:, None] - boundaries[None, :]).abs()
         return distances.argmin(dim=1).to(dtype=torch.int64, device=history.device)
 
     def forward(
@@ -417,10 +423,13 @@ class CausalPatchJEPAWorldModel(nn.Module):
         weights: Tensor | list[float] | tuple[float, ...] | None = None,
         chunk: int | None = None,
         checkpoint: bool = False,
+        sigreg_pool: Literal["patch_flat", "frame_mean", "context_and_pred"] = "patch_flat",
     ) -> dict[str, Tensor]:
-        """Multi-step latent prediction loss + history-stratified SIGReg."""
+        """Multi-step latent prediction loss + history-stratified SIGReg + rank/elasticity diagnostics."""
         if target_mode not in ("live", "stop_grad"):
             raise ValueError("target_mode must be 'live' or 'stop_grad'")
+        if sigreg_pool not in ("patch_flat", "frame_mean", "context_and_pred"):
+            raise ValueError("sigreg_pool must be 'patch_flat', 'frame_mean', or 'context_and_pred'")
         if lam < 0:
             raise ValueError("lam must be nonnegative")
         output = self.forward(z_context, actions, proprio)
@@ -430,19 +439,57 @@ class CausalPatchJEPAWorldModel(nn.Module):
         prediction = (output.z_hat - target).square().sum() / output.z_hat.numel()
 
         batch, horizon, n_patches, dim = output.z_hat.shape
-        flat = output.z_hat.reshape(batch * horizon * n_patches, dim)
         history = torch.as_tensor(history_seconds, device=z_future.device)
         if history.ndim != 1 or history.shape[0] != batch:
             raise ValueError("history_seconds must have shape [B]")
-        repeated_history = history.repeat_interleave(horizon * n_patches)
-        reg = sigreg(
-            flat,
-            repeated_history,
-            directions,
-            weights=weights,
-            chunk=chunk,
-            checkpoint=checkpoint,
-        )
+
+        if sigreg_pool == "frame_mean":
+            pooled_frames = output.z_hat.mean(dim=2).reshape(batch * horizon, dim)
+            repeated_history = history.repeat_interleave(horizon)
+            reg = sigreg(
+                pooled_frames,
+                repeated_history,
+                directions,
+                weights=weights,
+                chunk=chunk,
+                checkpoint=checkpoint,
+            )
+        elif sigreg_pool == "context_and_pred":
+            ctx_frames = z_context.mean(dim=2)
+            pred_frames = output.z_hat.mean(dim=2)
+            all_frames = torch.cat((ctx_frames, pred_frames), dim=1)
+            n_total_frames = all_frames.shape[1]
+            repeated_history = history.repeat_interleave(n_total_frames)
+            reg = sigreg(
+                all_frames.reshape(batch * n_total_frames, dim),
+                repeated_history,
+                directions,
+                weights=weights,
+                chunk=chunk,
+                checkpoint=checkpoint,
+            )
+        else:
+            flat = output.z_hat.reshape(batch * horizon * n_patches, dim)
+            repeated_history = history.repeat_interleave(horizon * n_patches)
+            reg = sigreg(
+                flat,
+                repeated_history,
+                directions,
+                weights=weights,
+                chunk=chunk,
+                checkpoint=checkpoint,
+            )
+
+        with torch.no_grad():
+            frame_latents = output.z_hat.detach().mean(dim=2).reshape(batch * horizon, dim).to(torch.float64)
+            svals = torch.linalg.svdvals(frame_latents)
+            sval_sum = svals.sum()
+            if float(sval_sum.item()) > 1e-12:
+                probs = (svals / sval_sum).clamp_min(1e-12)
+                eff_rank = torch.exp(-(probs * torch.log(probs)).sum()).to(dtype=prediction.dtype)
+            else:
+                eff_rank = torch.ones((), dtype=prediction.dtype, device=prediction.device)
+
         loss = prediction + lam * reg["sigreg"]
         return {
             "loss": loss,
@@ -452,6 +499,7 @@ class CausalPatchJEPAWorldModel(nn.Module):
             "ep_over_n": reg["ep_over_n"],
             "counts": reg["counts"],
             "null": reg["null"],
+            "effective_rank": eff_rank,
         }
 
 
@@ -675,6 +723,289 @@ class LeWMPixelPatchEncoder(nn.Module):
         return tokens.reshape(batch, timesteps, self.n_patches, self.dim)
 
 
+def robometer_preference_loss(
+    progress_pred: Tensor,
+    target_progress: Tensor,
+    *,
+    failed_mask: Tensor | None = None,
+    margin: float = 0.05,
+    temperature: float = 0.1,
+    rank_weight: float = 0.5,
+) -> dict[str, Tensor]:
+    """Robometer-style hybrid progress supervision (arXiv:2603.02115).
+
+    Combines:
+      1. Scalar calibration MSE on valid trajectories.
+      2. Bradley-Terry pairwise temporal ordering preference ``-log sigmoid((s_{t2} - s_{t1}) / tau)``
+         for ordered step pairs ``t2 > t1`` where ``target_progress[:, t2] > target_progress[:, t1]``.
+      3. Failure/stalled trajectory margin penalty ensuring failed/reversed rollouts score below
+         successful completions.
+    """
+    if progress_pred.ndim != 2 or target_progress.shape != progress_pred.shape:
+        raise ValueError("progress_pred and target_progress must share 2D shape [B, K]")
+    if temperature <= 0.0 or margin < 0.0 or rank_weight < 0.0:
+        raise ValueError("temperature > 0, margin >= 0, and rank_weight >= 0 required")
+
+    batch, horizon = progress_pred.shape
+    target = target_progress.to(dtype=progress_pred.dtype, device=progress_pred.device)
+
+    if failed_mask is not None:
+        fail_bool = failed_mask.to(device=progress_pred.device, dtype=torch.bool)
+        if fail_bool.shape != (batch,):
+            raise ValueError("failed_mask must have shape [B]")
+    else:
+        fail_bool = torch.zeros((batch,), dtype=torch.bool, device=progress_pred.device)
+
+    valid_mask = ~fail_bool
+    if bool(valid_mask.any()):
+        mse_term = functional.mse_loss(progress_pred[valid_mask], target[valid_mask])
+    else:
+        mse_term = functional.mse_loss(progress_pred, target)
+
+    if horizon >= 2 and bool(valid_mask.any()):
+        valid_pred = progress_pred[valid_mask]
+        valid_targ = target[valid_mask]
+        diff_pred = valid_pred.unsqueeze(2) - valid_pred.unsqueeze(1)  # [B_v, t1, t2] -> s_{t1} - s_{t2}
+        diff_targ = valid_targ.unsqueeze(2) - valid_targ.unsqueeze(1)
+        # Pairs where step j > step i has strictly higher target progress
+        ordered_pairs = diff_targ < -1e-6
+        if bool(ordered_pairs.any()):
+            # We want s_j - s_i > 0, i.e. -diff_pred[ordered_pairs] > 0
+            bt_loss = functional.softplus(diff_pred[ordered_pairs] / float(temperature)).mean()
+        else:
+            bt_loss = torch.zeros((), dtype=progress_pred.dtype, device=progress_pred.device)
+    else:
+        bt_loss = torch.zeros((), dtype=progress_pred.dtype, device=progress_pred.device)
+
+    if bool(fail_bool.any()) and bool(valid_mask.any()):
+        valid_final = progress_pred[valid_mask, -1].mean()
+        failed_final = progress_pred[fail_bool, -1]
+        fail_penalty = functional.relu(failed_final - valid_final + float(margin)).mean()
+    else:
+        fail_penalty = torch.zeros((), dtype=progress_pred.dtype, device=progress_pred.device)
+
+    total = mse_term + float(rank_weight) * (bt_loss + fail_penalty)
+    return {
+        "loss": total,
+        "mse_loss": mse_term,
+        "ranking_loss": bt_loss,
+        "failure_margin_loss": fail_penalty,
+    }
+
+
+def action_contrastive_loss(
+    world_model: CausalPatchJEPAWorldModel,
+    z_context: Tensor,
+    actions: Tensor,
+    proprio: Tensor,
+    z_future: Tensor,
+    *,
+    temperature: float = 0.1,
+) -> dict[str, Tensor]:
+    """Counterfactual Action-InfoNCE & Elasticity loss (FLEX-WAM / OpenWAM action responsiveness).
+
+    Prevents the 'action blindness' shortcut (where ``d z_hat / d a -> 0`` because ``z_context``
+    alone predicts most of ``z_future``) by evaluating every batch context ``b`` under all
+    candidate action sequences ``b'`` in the batch and requiring the true action ``b' = b`` to
+    produce the rollout closest to ``z_future[b]``.
+    """
+    if temperature <= 0.0:
+        raise ValueError("temperature must be positive")
+    batch = z_context.shape[0]
+    if batch < 2:
+        raise ValueError("action_contrastive_loss requires batch size B >= 2")
+
+    target_flat = z_future.detach().reshape(batch, -1)
+    # Compute predicted rollouts for all (context_b, action_b') pairs
+    ctx_rep = z_context.unsqueeze(1).expand(batch, batch, *z_context.shape[1:]).reshape(
+        batch * batch, *z_context.shape[1:]
+    )
+    prop_rep = proprio.unsqueeze(1).expand(batch, batch, *proprio.shape[1:]).reshape(
+        batch * batch, *proprio.shape[1:]
+    )
+    act_rep = actions.unsqueeze(0).expand(batch, batch, *actions.shape[1:]).reshape(
+        batch * batch, *actions.shape[1:]
+    )
+    pred_all = world_model(ctx_rep, act_rep, prop_rep).z_hat.reshape(batch, batch, -1)
+
+    # Squared L2 distance matrix D[b, b'] = mean((z_hat(ctx_b, act_b') - z_future_b)^2)
+    diffs = pred_all - target_flat.unsqueeze(1)
+    dist_matrix = diffs.square().mean(dim=-1)
+    logits = -dist_matrix / float(temperature)
+    labels = torch.arange(batch, dtype=torch.long, device=z_context.device)
+    nce_loss = functional.cross_entropy(logits, labels)
+
+    # Action elasticity: mean L2 shift between true action (diag) and counterfactual actions (off-diag)
+    true_preds = pred_all[labels, labels].unsqueeze(1)
+    off_diag_mask = ~torch.eye(batch, dtype=torch.bool, device=z_context.device)
+    cf_shifts = (pred_all - true_preds).square().mean(dim=-1)[off_diag_mask].sqrt()
+    elasticity = cf_shifts.mean()
+    with torch.no_grad():
+        acc = (logits.argmax(dim=-1) == labels).to(dtype=z_context.dtype).mean()
+
+    return {
+        "loss": nce_loss,
+        "action_elasticity": elasticity,
+        "action_identification_accuracy": acc,
+        "distance_matrix": dist_matrix.detach(),
+    }
+
+
+class FlowMatchingWAMHead(nn.Module):
+    """Conditional Flow Matching (CFM / Diffusion) World-Action Model head (OpenWAM / FLEX-WAM).
+
+    Addresses the two core limitations of pure L2 JEPA world models:
+      1. Multimodal dynamics ``v_dyn(z_tau, tau | h_ctx, a)``: learns the full conditional
+         distribution ``p(z_{t+1:t+K} | z_{<=t}, a_{t:t+K-1})`` so bifurcating trajectories
+         (e.g., going left vs. right around an obstacle) do not collapse to an off-manifold mean.
+      2. Multimodal action policy ``v_act(a_tau, tau | h_ctx, g)``: generates horizon action
+         chunks conditioned on causal context and goal latent ``g``, providing a learned
+         ``denoise`` operator for ``diffusion_steered_plan``.
+    """
+
+    def __init__(
+        self,
+        *,
+        dim: int,
+        action_dim: int,
+        horizon: int,
+        hidden_dim: int = 128,
+        time_dim: int = 32,
+        seed: int = 0,
+    ) -> None:
+        super().__init__()
+        if dim <= 0 or action_dim <= 0 or horizon <= 0 or hidden_dim <= 0 or time_dim <= 0 or time_dim % 2 != 0:
+            raise ValueError("positive dimensions and even time_dim required")
+        torch.manual_seed(seed)
+        self.dim = dim
+        self.action_dim = action_dim
+        self.horizon = horizon
+        self.time_dim = time_dim
+        self.latent_chunk_dim = horizon * dim
+        self.action_chunk_dim = horizon * action_dim
+
+        # Velocity field for future pooled latents [B, K*D] given (context [B, D], actions [B, K*A])
+        self.dyn_net = nn.Sequential(
+            nn.Linear(self.latent_chunk_dim + dim + self.action_chunk_dim + time_dim, hidden_dim),
+            nn.SiLU(),
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.SiLU(),
+            nn.Linear(hidden_dim, self.latent_chunk_dim),
+        )
+        # Velocity field for action chunk [B, K*A] given (context [B, D], goal [B, D])
+        self.act_net = nn.Sequential(
+            nn.Linear(self.action_chunk_dim + 2 * dim + time_dim, hidden_dim),
+            nn.SiLU(),
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.SiLU(),
+            nn.Linear(hidden_dim, self.action_chunk_dim),
+        )
+
+    def _time_embed(self, t: Tensor) -> Tensor:
+        half = self.time_dim // 2
+        freqs = torch.exp(
+            -torch.log(torch.tensor(10000.0, dtype=t.dtype, device=t.device))
+            * torch.arange(half, dtype=t.dtype, device=t.device)
+            / max(half - 1, 1)
+        )
+        angles = t.unsqueeze(-1) * freqs.unsqueeze(0)
+        return torch.cat((angles.sin(), angles.cos()), dim=-1)
+
+    def velocity_dynamics(self, z_tau: Tensor, t: Tensor, cond: Tensor) -> Tensor:
+        t_emb = self._time_embed(t.to(dtype=z_tau.dtype, device=z_tau.device))
+        return self.dyn_net(torch.cat((z_tau, cond, t_emb), dim=-1))
+
+    def velocity_actions(self, a_tau: Tensor, t: Tensor, cond: Tensor) -> Tensor:
+        t_emb = self._time_embed(t.to(dtype=a_tau.dtype, device=a_tau.device))
+        return self.act_net(torch.cat((a_tau, cond, t_emb), dim=-1))
+
+    def cfm_loss(
+        self,
+        context_summary: Tensor,
+        actions: Tensor,
+        target_future_summary: Tensor,
+        *,
+        goal_summary: Tensor | None = None,
+        sigma_min: float = 1e-4,
+    ) -> dict[str, Tensor]:
+        """Compute joint dynamics CFM + action-policy CFM losses."""
+        if context_summary.ndim != 2 or context_summary.shape[1] != self.dim:
+            raise ValueError("context_summary must have shape [B, dim]")
+        batch = context_summary.shape[0]
+        if actions.shape != (batch, self.horizon, self.action_dim):
+            raise ValueError("actions must have shape [B, K, action_dim]")
+        if target_future_summary.shape != (batch, self.horizon, self.dim):
+            raise ValueError("target_future_summary must have shape [B, K, dim]")
+
+        act_flat = actions.reshape(batch, self.action_chunk_dim)
+        fut_flat = target_future_summary.reshape(batch, self.latent_chunk_dim)
+        dyn_cond = torch.cat((context_summary, act_flat), dim=-1)
+        dyn_out = conditional_flow_matching_loss(
+            self.velocity_dynamics, fut_flat, dyn_cond, sigma_min=sigma_min
+        )
+
+        goal = target_future_summary[:, -1, :] if goal_summary is None else goal_summary
+        if goal.shape != (batch, self.dim):
+            raise ValueError("goal_summary must have shape [B, dim]")
+        act_cond = torch.cat((context_summary, goal), dim=-1)
+        act_out = conditional_flow_matching_loss(
+            self.velocity_actions, act_flat, act_cond, sigma_min=sigma_min
+        )
+
+        total = dyn_out["loss"] + act_out["loss"]
+        return {
+            "loss": total,
+            "dynamics_cfm_loss": dyn_out["loss"],
+            "action_cfm_loss": act_out["loss"],
+        }
+
+    def sample_future(
+        self,
+        context_summary: Tensor,
+        actions: Tensor,
+        *,
+        steps: int = 16,
+        solver: Literal["euler", "heun"] = "heun",
+        x0: Tensor | None = None,
+        seed: int | None = None,
+    ) -> Tensor:
+        batch = context_summary.shape[0]
+        dyn_cond = torch.cat((context_summary, actions.reshape(batch, self.action_chunk_dim)), dim=-1)
+        flat = sample_conditional_flow(
+            self.velocity_dynamics,
+            dyn_cond,
+            dim=self.latent_chunk_dim,
+            steps=steps,
+            solver=solver,
+            x0=x0,
+            seed=seed,
+        )
+        return flat.reshape(batch, self.horizon, self.dim)
+
+    def sample_actions(
+        self,
+        context_summary: Tensor,
+        goal_summary: Tensor,
+        *,
+        steps: int = 16,
+        solver: Literal["euler", "heun"] = "heun",
+        x0: Tensor | None = None,
+        seed: int | None = None,
+    ) -> Tensor:
+        batch = context_summary.shape[0]
+        act_cond = torch.cat((context_summary, goal_summary), dim=-1)
+        flat = sample_conditional_flow(
+            self.velocity_actions,
+            act_cond,
+            dim=self.action_chunk_dim,
+            steps=steps,
+            solver=solver,
+            x0=x0,
+            seed=seed,
+        )
+        return flat.reshape(batch, self.horizon, self.action_dim)
+
+
 class EndToEndPixelWAM(nn.Module):
     """End-to-end GPU pixel World-Action Model combining LeWMPixelPatchEncoder,
     CausalPatchJEPAWorldModel, HistoryStratifiedSIGReg, and a Robometer-style
@@ -722,6 +1053,7 @@ class EndToEndPixelWAM(nn.Module):
         history_seconds: Tensor,
         directions: Tensor,
         target_progress: Tensor | None = None,
+        failed_mask: Tensor | None = None,
         target_mode: Literal["live", "stop_grad"] = "live",
         lam: float = 0.05,
         progress_weight: float = 0.2,
@@ -745,9 +1077,10 @@ class EndToEndPixelWAM(nn.Module):
         if target_progress is not None:
             if target_progress.shape != progress_pred.shape:
                 raise ValueError("target_progress must have shape [B,K]")
-            prog_loss = functional.mse_loss(
-                progress_pred, target_progress.to(dtype=progress_pred.dtype)
+            prog_details = robometer_preference_loss(
+                progress_pred, target_progress, failed_mask=failed_mask
             )
+            prog_loss = prog_details["loss"]
         else:
             prog_loss = torch.zeros((), dtype=base["loss"].dtype, device=base["loss"].device)
         total = base["loss"] + progress_weight * prog_loss
@@ -763,12 +1096,13 @@ class LeRobotWindowDataset(torch.utils.data.Dataset):
     """History-stratified window sampler compatible with LeRobot v3.0 / RoboCasa365
     episodes (``ember-lab-berkeley/robocasa365-*``).
 
-    Each episode dict contains:
-      * ``frames``: float32/uint8 tensor ``[T_ep, C, H, W]``
-      * ``actions``: float32 tensor ``[T_ep, A]``
-      * ``proprio``: float32 tensor ``[T_ep, P]``
-      * ``fps``: float (default 20.0 for RoboCasa365)
-      * optional ``subtask_id``: int tensor ``[T_ep]``
+    Fixes the three experimental confounds identified in the scientific audit:
+      1. Fixed prediction origin (``anchor``) per episode across all history strata so
+         history length ``H`` is not confounded with episode stage ``t_anchor``.
+      2. True ``realized_hist_s`` reported in ``history_seconds`` (with ``H = 0.0`` genuinely
+         repeating only ``anchor - 1`` so its span is 0.0 s), plus ``history_truncated`` flag.
+      3. Transition-aligned actions ``actions[anchor - 1 : anchor - 1 + horizon_frames]``
+         matching ``o_{t+1} = T(o_t, a_t)``.
     """
 
     def __init__(
@@ -811,15 +1145,21 @@ class LeRobotWindowDataset(torch.utils.data.Dataset):
         fps = float(ep.get("fps", 20.0))
         target_hist_s = float(self.strata_seconds[stratum_idx])
 
-        # Span of context in raw frames determined by target_hist_s
-        span_frames = max(self.context_frames, int(round(target_hist_s * fps)) + 1)
-        max_anchor = total_t - self.horizon_frames
-        anchor = min(max_anchor, max(self.context_frames, span_frames))
-        start = max(0, anchor - span_frames)
-        ctx_indices = torch.linspace(
-            start, anchor - 1, steps=self.context_frames, dtype=torch.float64
-        ).round().to(torch.int64)
+        # Fixed prediction origin per episode across all history strata (unconfounded H test)
+        anchor = total_t - self.horizon_frames
+        last_ctx = anchor - 1
+        if target_hist_s <= 0.0:
+            ctx_indices = torch.full((self.context_frames,), last_ctx, dtype=torch.int64)
+        else:
+            requested_span_frames = max(1, int(round(target_hist_s * fps)))
+            start = max(0, last_ctx - requested_span_frames)
+            ctx_indices = (
+                torch.linspace(start, last_ctx, steps=self.context_frames, dtype=torch.float64)
+                .round()
+                .to(torch.int64)
+            )
         fut_indices = torch.arange(anchor, anchor + self.horizon_frames, dtype=torch.int64)
+        act_indices = torch.arange(last_ctx, last_ctx + self.horizon_frames, dtype=torch.int64)
 
         f_ctx = frames[ctx_indices].to(dtype=torch.float32)
         f_fut = frames[fut_indices].to(dtype=torch.float32)
@@ -827,16 +1167,18 @@ class LeRobotWindowDataset(torch.utils.data.Dataset):
             f_ctx = f_ctx / 255.0
             f_fut = f_fut / 255.0
         p_ctx = proprio[ctx_indices].to(dtype=torch.float32)
-        a_fut = actions[fut_indices].to(dtype=torch.float32)
+        a_fut = actions[act_indices].to(dtype=torch.float32)
         progress = (fut_indices.to(dtype=torch.float32) + 1.0) / float(total_t)
         realized_hist_s = float(ctx_indices[-1].item() - ctx_indices[0].item()) / max(fps, 1e-6)
+        truncated = realized_hist_s + 1e-6 < target_hist_s
         return {
             "frames_context": f_ctx,
             "frames_future": f_fut,
             "proprio": p_ctx,
             "actions": a_fut,
-            "history_seconds": torch.tensor(
-                max(target_hist_s, realized_hist_s), dtype=torch.float32
-            ),
+            "history_seconds": torch.tensor(realized_hist_s, dtype=torch.float32),
+            "requested_history_seconds": torch.tensor(target_hist_s, dtype=torch.float32),
+            "history_truncated": torch.tensor(truncated, dtype=torch.bool),
+            "anchor_index": torch.tensor(anchor, dtype=torch.int64),
             "target_progress": progress.clamp(0.0, 1.0),
         }

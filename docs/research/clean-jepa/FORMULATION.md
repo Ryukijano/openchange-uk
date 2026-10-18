@@ -17,14 +17,14 @@ Do not invent high-resolution information for 20/60 m bands. S1 is in dB; check 
 source representation before applying any conversion. Normalization constants are
 versioned from the approved provider recipe or train-only statistics, never held-out data.
 
-The four **sample-level** strata are:
+The four **sample-level** strata are (numbered `1..4` in mathematical prose below and `0..3` in `src/openchange/jepa/{views,data,losses}.py`):
 
-| m | Input condition for this item | Pilot construction |
+| m (prose) | Code index (`0..3`) | Input condition for this item | Pilot construction |
 |---|---|---|
-| 1 | Joint S1+S2 with clear optical data | Metadata/mask-based clear subset |
-| 2 | Joint S1+S2 with degraded optical data | Real cloud observations when available; synthetic mask occlusion reported separately |
-| 3 | S1 only, S2 withheld | Synthetic dropout on a paired observation |
-| 4 | S2 only, S1 withheld | Synthetic dropout on a paired observation |
+| 1 | `0` | Joint S1+S2 with clear optical data | Metadata/mask-based clear subset |
+| 2 | `1` | Joint S1+S2 with degraded optical data | Real cloud observations when available; synthetic mask occlusion reported separately |
+| 3 | `2` | S1 only, S2 withheld | Synthetic dropout on a paired observation |
+| 4 | `3` | S2 only, S1 withheld | Synthetic dropout on a paired observation |
 
 Define mask thresholds in the manifest before looking at task results. A pasted cloud
 mask with constant fill is **occlusion**, not realistic cloudy radiometry. Donors must

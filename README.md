@@ -1,18 +1,19 @@
 # OpenChange-UK
 
-## Current progress — 15 October 2026
+## Current progress — 18 October 2026
 
 **[What we have done so far](docs/PROGRESS.md)** is the current entry point:
-research decisions, completed experiments, negative results and what remains
-unbuilt. [Research notes and visual guides](docs/research/eo-task-research/README.md)
+research decisions, completed experiments, negative results, the first 4×GH200
+real-data `SSL4EO-S12` pilot ([job 7527080](reports/jepa-pilot/2026-10-18/README.md)),
+and the [18 October 2026 defensive mathematical formulation, data-pathology audit, and hybrid JEPA / Flow-Matching engineering report](docs/research/clean-jepa/DEFENSIVE_FORMULATION_AND_AUDIT_2026-10-18.md).
+[Research notes and visual guides](docs/research/eo-task-research/README.md)
 include downloadable offline HTML and PDFs.
 
-The latest [Narrabeen + Duck coastal experiment](reports/coastal/2026-10-14/README.md)
+The earlier [Narrabeen + Duck coastal experiment](reports/coastal/2026-10-14/README.md)
 passes its data gate but the learned metadata head **fails** the required 15%
-improvement on both held-out beaches. No coastal foundation model or Hugging Face
-Space has been trained/deployed. Imagery-aware features are an untested next
-hypothesis, not a proven remedy. Separate JEPA engineering is in
-[PR #2](https://github.com/Ryukijano/openchange-uk/pull/2), not merged by this archive.
+improvement on both held-out beaches. Separate clean-JEPA and hybrid Flow-Matching
+engineering in `src/openchange/jepa/` is verified by 191 unit tests (`make check`)
+and a 50-step 4×GH200 pilot run on 480 approved `SSL4EO-S12 v1.1` pairs.
 
 ## Original benchmark and engineering context
 

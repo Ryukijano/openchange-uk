@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib.util
+import math
 import unittest
 from pathlib import Path
 
@@ -14,6 +15,7 @@ from openchange.jepa.config import keep_count, load_config
 from openchange.jepa.views import (
     Observation,
     _local_sensor_subset,
+    audit_observation_batch_pathologies,
     make_views,
     synthetic_batch,
     synthetic_observation,
@@ -259,6 +261,30 @@ class TestJEPAViews(unittest.TestCase):
             self.assertEqual(torch.bincount(labels[rank::2], minlength=4).tolist(), [4, 4, 4, 4])
         with self.assertRaisesRegex(ValueError, "divisible"):
             synthetic_batch(4, 2, {**cfg, "global_quotas": [7, 8, 8, 8]}, layout_world_size=2)
+
+    def test_pair_gap_and_batch_pathology_audit(self) -> None:
+        cfg = _config()
+        obs0, _ = synthetic_observation(0, 0, 2, cfg)
+        obs1, _ = synthetic_observation(1, 1, 2, cfg)
+        obs2, _ = synthetic_observation(2, 2, 2, cfg)
+        obs_with_gap = Observation(
+            **{**obs0.__dict__, "pair_gap_seconds": 14.0 * 86400.0}
+        )
+        with self.assertRaisesRegex(ValueError, "pair_gap_seconds"):
+            Observation(**{**obs0.__dict__, "pair_gap_seconds": -1.0})
+
+        batch = make_views([obs_with_gap, obs1, obs2], 2, 0, cfg)
+        self.assertIsNotNone(batch.pair_gap_seconds)
+        self.assertAlmostEqual(float(batch.pair_gap_seconds[0]), 14.0 * 86400.0, places=1)
+
+        report = audit_observation_batch_pathologies(
+            [obs_with_gap, obs1, obs2], speckle_z_threshold=2.5, gap_tau_days=7.0
+        )
+        self.assertEqual(report["n_observations"], 3)
+        self.assertAlmostEqual(report["pair_gap_days_max"], 14.0, places=6)
+        self.assertAlmostEqual(float(report["pair_gap_weights"][0]), math.exp(-2.0), places=5)
+        self.assertAlmostEqual(float(report["pair_gap_weights"][1]), 1.0, places=6)
+        self.assertGreater(report["cloud_halo_boundary_fraction"], 0.0)
 
 if __name__ == "__main__":
     unittest.main()

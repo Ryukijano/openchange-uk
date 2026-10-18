@@ -5,7 +5,7 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass
 from functools import lru_cache
-from typing import Sequence
+from typing import Any, Sequence
 
 import numpy as np
 import torch
@@ -27,6 +27,7 @@ class Observation:
     synthetic_condition: bool
     intervention: str
     mask_fraction: float
+    pair_gap_seconds: float = 0.0
 
     def __post_init__(self) -> None:
         if self.stratum not in range(4):
@@ -60,6 +61,8 @@ class Observation:
             raise ValueError("s2_valid must be bool [H,W] when S2 is present")
         if not 0.0 <= self.mask_fraction <= 1.0:
             raise ValueError("mask_fraction must be in [0, 1]")
+        if not math.isfinite(self.pair_gap_seconds) or self.pair_gap_seconds < 0.0:
+            raise ValueError("pair_gap_seconds must be a finite nonnegative number")
 
 
 @dataclass
@@ -87,9 +90,12 @@ class ViewBatch:
     flip_rot: Tensor
     tokens: Tensor
     s2_valid_fraction: Tensor
+    pair_gap_seconds: Tensor | None = None
 
     def pin_memory(self) -> ViewBatch:
         self.strata = self.strata.pin_memory()
+        if self.pair_gap_seconds is not None:
+            self.pair_gap_seconds = self.pair_gap_seconds.pin_memory()
         for bucket in self.buckets:
             bucket.pixels = {key: value.pin_memory() for key, value in bucket.pixels.items()}
             for key in ("keep_idx", "view_idx", "sample_idx"):
@@ -418,4 +424,79 @@ def make_views(
         flip_rot=flip_rot,
         tokens=tokens,
         s2_valid_fraction=s2_valid_fraction,
+        pair_gap_seconds=torch.tensor(
+            [observation.pair_gap_seconds for observation in observations], dtype=torch.float32
+        ),
     )
+
+
+def audit_observation_batch_pathologies(
+    observations: Sequence[Observation],
+    *,
+    speckle_z_threshold: float = 3.5,
+    gap_tau_days: float = 7.0,
+) -> dict[str, Any]:
+    """Quantify multi-sensor data pathologies on a batch of S1/S2 Observations.
+
+    Reports:
+      * ``pair_gap_days_*`` and ``pair_gap_weights`` ``exp(-Delta_t / tau)`` to capture
+        phenological/moisture drift across up to 27-day S1-S2 acquisition gaps.
+      * ``s1_speckle_outlier_fraction`` and ``s2_valid_outlier_fraction`` above
+        ``speckle_z_threshold`` standard deviations.
+      * ``cloud_halo_boundary_fraction``: fraction of valid S2 pixels within a 1-pixel
+        neighborhood of a cloud mask edge (unmasked cloud-halo / shadow contamination).
+    """
+    if not observations:
+        raise ValueError("observations must not be empty")
+    if speckle_z_threshold <= 0.0 or gap_tau_days <= 0.0:
+        raise ValueError("speckle_z_threshold and gap_tau_days must be positive")
+
+    gaps_days = np.array(
+        [obs.pair_gap_seconds / 86400.0 for obs in observations], dtype=np.float64
+    )
+    gap_weights = np.exp(-gaps_days / float(gap_tau_days))
+    stratum_counts = [sum(1 for obs in observations if obs.stratum == m) for m in range(4)]
+
+    s1_outliers: list[float] = []
+    s2_outliers: list[float] = []
+    halo_fractions: list[float] = []
+
+    for obs in observations:
+        if obs.s1 is not None:
+            s1_outliers.append(float((np.abs(obs.s1) > speckle_z_threshold).mean()))
+        if obs.s2 is not None and obs.s2_valid is not None:
+            valid = obs.s2_valid
+            if valid.any():
+                s2_outliers.append(
+                    float((np.abs(obs.s2[:, valid]) > speckle_z_threshold).mean())
+                )
+                cloud = ~valid
+                if cloud.any():
+                    padded = np.pad(cloud, 1, mode="constant", constant_values=False)
+                    dilated = (
+                        padded[:-2, 1:-1]
+                        | padded[2:, 1:-1]
+                        | padded[1:-1, :-2]
+                        | padded[1:-1, 2:]
+                        | padded[:-2, :-2]
+                        | padded[:-2, 2:]
+                        | padded[2:, :-2]
+                        | padded[2:, 2:]
+                    )
+                    halo_on_valid = dilated & valid
+                    halo_fractions.append(float(halo_on_valid.sum() / max(int(valid.sum()), 1)))
+                else:
+                    halo_fractions.append(0.0)
+
+    return {
+        "n_observations": len(observations),
+        "stratum_counts": stratum_counts,
+        "pair_gap_days_min": float(gaps_days.min()),
+        "pair_gap_days_median": float(np.median(gaps_days)),
+        "pair_gap_days_max": float(gaps_days.max()),
+        "pair_gap_weights": torch.from_numpy(gap_weights.astype(np.float32)),
+        "s1_speckle_outlier_fraction": float(np.mean(s1_outliers)) if s1_outliers else 0.0,
+        "s2_valid_outlier_fraction": float(np.mean(s2_outliers)) if s2_outliers else 0.0,
+        "cloud_halo_boundary_fraction": float(np.mean(halo_fractions)) if halo_fractions else 0.0,
+    }
+

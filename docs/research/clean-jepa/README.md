@@ -10,6 +10,10 @@ Updating these documents is not approval to fetch a dataset or use an allocation
 
 1. This page: decisions and boundaries.
 2. [Formulation](FORMULATION.md): notation, exact losses, gradients and distributed convention.
+   [Defensive Formulation, Data Pathology Audit & Hybrid JEPA / Flow-Matching Report (18 Oct 2026)](DEFENSIVE_FORMULATION_AND_AUDIT_2026-10-18.md):
+   multi-sensor Bayes-risk conflict proof, split-subspace JEPA loss, distributed Barlow Twins / VICReg comparators,
+   Optimal-Transport Conditional Flow Matching vs. $L_2$ mean collapse, `pilot_v1` real-data pathology measurements,
+   and all 7 `wam.py` audit fixes.
 3. [Implementation runbook](IMPLEMENTATION.md): work packages, interfaces, tests and exit gates.
    [Data audit and next handoff](DATA_PLAN.md): pinned releases, access granularity,
    metadata-first curation and real-loader gates.
@@ -80,25 +84,35 @@ mid-grid and present the runs as one method.
 - Existing: source approval validation, provisional geographic/temporal split contract,
   run manifests, local checks and capped Slurm scaffolds.
 - P1 and multi-GPU code (`src/openchange/jepa/`):
-  - Core encoder, losses, data, and runtime: `losses.py`, `distributed.py`, `model.py`,
-    `views.py`, `checkpoints.py`, `config.py`, `data.py`, `runtime.py` (including
+  - Core encoder, losses, data, and runtime: `losses.py` (including `weighted_invariance_loss`,
+    `split_subspace_jepa_loss`, distributed `barlow_twins_loss` and `vicreg_loss`, and
+    Optimal-Transport Conditional Flow Matching `conditional_flow_matching_loss`,
+    `sample_conditional_flow`, `ConditionalFlowBridge`), `distributed.py`, `model.py`,
+    `views.py` (including `pair_gap_seconds` and `audit_observation_batch_pathologies`),
+    `checkpoints.py`, `config.py`, `data.py`, `runtime.py` (including
     `configure_precision_and_determinism` disabling TF32 in FP32 mode on Hopper GH200),
     `scripts/train_jepa.py`, and `scripts/train_jepa_distributed.py`.
   - Operational guarantees (`guarantees.py`, `tests/test_jepa_guarantees.py`):
     `rankme_score`, `lidar_score`, `selection_spearman` (Q1), `fit_orthogonal_procrustes`,
+    `fit_subspace_procrustes`, `apply_subspace_procrustes`, `evaluate_matryoshka_prefixes`,
     `evaluate_version_upgrade` (Q2), `cross_unit_distance_ratio` (Q3/Q4), and
     `StratifiedConformalAlertCalibrator`.
   - GPU-native World-Action Model (`wam.py`, `tests/test_jepa_wam.py`):
     `causal_neighborhood_mask`, `bidirectional_neighborhood_mask`, `HistoryStratifiedSIGReg`,
     `CausalPatchJEPAWorldModel`, `LeWMPixelPatchEncoder`, `EndToEndPixelWAM`,
+    `robometer_preference_loss`, `action_contrastive_loss`, `FlowMatchingWAMHead`,
     `LeRobotWindowDataset`, `compute_reachable_error_and_factorial`, and
     `diffusion_steered_plan`.
   - GPU-native Spatiotemporal Science World Model (`science_wm.py`, `tests/test_jepa_science_wm.py`):
     `PhysicalForcingEncoder`, `MultiSensorContinuumPatchStem`,
     `FactorizedSpatiotemporalJEPAWorldModel`, and `gpu_counterfactual_observation_value`,
     paired with `slurm/06_wam_and_science_gpu.sbatch`.
-  - `make check` runs 150 unit tests covering all modules above. Defaults still
-    refuse unapproved real imagery.
+  - `make check` runs 191 unit tests covering all modules above. Defaults still
+    refuse unapproved real imagery outside approved splits.
+- First 4×GH200 real-data local-fit pilot (`job 7527080`, 18 Oct 2026) completed 50 steps on
+  480 approved `SSL4EO-S12 v1.1` pairs (`pilot_v1`) in `00:01:35` (`~30.2k tokens/s`); see
+  [reports/jepa-pilot/2026-10-18](../../../reports/jepa-pilot/2026-10-18/README.md) and
+  [DEFENSIVE_FORMULATION_AND_AUDIT_2026-10-18.md](DEFENSIVE_FORMULATION_AND_AUDIT_2026-10-18.md).
 - Missing: raw approved-shard extraction, benchmark adapters, selection/Procrustes
   experiments and measured throughput.
 - Only the two pinned SSL4EO metadata tables have human approval. Imagery and
