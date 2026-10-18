@@ -1,0 +1,140 @@
+{
+  "job": "training-setup-inspection",
+  "seed": 0,
+  "status": "inspection_complete_not_training_ready",
+  "created_utc": "2026-10-17T20:18:16.829841+00:00",
+  "config_path": "/scratch/u6xn/ryukijano.u6xn/inspection-kit/configs/training_inspection.json",
+  "config_sha256": "e60580978c6ac90007deca6eba74adae1794dab5bfe2b1a469f8847f9cc69455",
+  "script_sha256": "be56bc0914f01656a5382acd7364fb063ed1e2c535108967822023a87d7bfab5",
+  "gpu_readiness": "not_tested",
+  "training_readiness": "not_tested",
+  "container_execution": "not_tested",
+  "quota_and_allocation": "not_checked",
+  "host": {
+    "machine": "aarch64",
+    "system": "Linux",
+    "python": "3.11.15",
+    "python_executable": "/usr/bin/python3.11"
+  },
+  "tools": {
+    "git": "/usr/bin/git",
+    "apptainer": "/usr/bin/apptainer",
+    "python3": "/usr/bin/python3",
+    "nvcc": null,
+    "gcc": "/usr/bin/gcc",
+    "lfs": "/usr/bin/lfs"
+  },
+  "loaded_modules": [
+    "brics/userenv/2.7",
+    "brics/default/1.0"
+  ],
+  "host_packages": {
+    "PyYAML": null,
+    "torch": null,
+    "numpy": null,
+    "timm": null,
+    "transformers": null,
+    "rasterio": null,
+    "xarray": null,
+    "netCDF4": null
+  },
+  "repository": {
+    "status": "inspected",
+    "sha": "66eb56cdcc080118da66d3ebeac3334dde4cdbc7",
+    "dirty": false,
+    "expected_sha": null,
+    "matches_expected": null
+  },
+  "checkout_files": {
+    "pyproject.toml": {
+      "regular_file": true,
+      "bytes": 728
+    },
+    "configs/gpu_readiness.yaml": {
+      "status": "missing_or_unreadable"
+    },
+    "configs/sources.yaml": {
+      "regular_file": true,
+      "bytes": 2824
+    },
+    "slurm/06_gpu_readiness.sbatch": {
+      "status": "missing_or_unreadable"
+    },
+    "scripts/check_gpu_env.py": {
+      "status": "missing_or_unreadable"
+    },
+    "scripts/train.py": {
+      "regular_file": true,
+      "bytes": 1938
+    }
+  },
+  "sif": {
+    "path": "/projects/u6xn/sif-images/pytorch_25.05-py3.sif",
+    "status": "present",
+    "regular_file": true,
+    "bytes": 11460313088,
+    "readable_hint": true,
+    "sha256": "not_verified"
+  },
+  "storage": {
+    "PROJECTDIR": {
+      "path": "/projects/u6xn",
+      "status": "present",
+      "filesystem_free_bytes": 219890865221632,
+      "writable_hint": true,
+      "project_quota": "not_checked",
+      "top_level_sample": {
+        "status": "sample_only",
+        "entries_seen": 2,
+        "entries": [
+          {
+            "name": "sif-images",
+            "directory": true
+          }
+        ]
+      }
+    },
+    "SCRATCHDIR": {
+      "path": "/scratch/u6xn/ryukijano.u6xn",
+      "status": "present",
+      "filesystem_free_bytes": 5497558102016,
+      "writable_hint": true,
+      "project_quota": "not_checked",
+      "top_level_sample": {
+        "status": "sample_only",
+        "entries_seen": 2,
+        "entries": [
+          {
+            "name": "inspection-kit",
+            "directory": true
+          },
+          {
+            "name": "inspection-20261017T201816Z.json",
+            "directory": false
+          }
+        ]
+      }
+    },
+    "LOCALDIR": {
+      "path": "/local/user/1483808137",
+      "status": "present",
+      "filesystem_free_bytes": 3582542360576,
+      "writable_hint": true,
+      "project_quota": "not_checked",
+      "top_level_sample": {
+        "status": "sample_only",
+        "entries_seen": 0,
+        "entries": []
+      }
+    }
+  },
+  "data": [],
+  "next_actions": [
+    "No data roots selected: data files were not inspected.",
+    "Review paths and filenames before sharing this report.",
+    "Verify staged Arm64 SIF identity and SHA-256 separately on a compute allocation.",
+    "Run the pinned one-GH200 readiness job, then review its logs before multi-GPU work.",
+    "Select an explicit model/workload config before installing task-specific dependencies."
+  ],
+  "elapsed_seconds": 0.362
+}

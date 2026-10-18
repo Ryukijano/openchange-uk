@@ -1,0 +1,232 @@
+{
+  "kind": "LOCAL_DEVELOPMENT_CHECKS_NOT_BRICS_EVIDENCE",
+  "recorded_utc": "2026-10-17T20:00:22.699687+00:00",
+  "git_sha_before_inspection_commit": "ff9a289530c1ef2e332936cfa7ad7bfecbd2c674",
+  "working_tree_dirty": true,
+  "python": "3.11.17",
+  "machine": "x86_64",
+  "new_inspector_sha256": "be56bc0914f01656a5382acd7364fb063ed1e2c535108967822023a87d7bfab5",
+  "remote_inspection": "not_run",
+  "gpu_readiness": "not_tested",
+  "checks_recorded_before_commit": true
+}
+.venv/bin/python -m ruff check src scripts tests .cursor/hooks
+All checks passed!
+.venv/bin/python -m compileall -q src scripts tests
+.venv/bin/python -m unittest discover -s tests -v
+test_bad_templates (test_check_sbatch.CheckSbatchTest.test_bad_templates) ... ok
+test_good_template (test_check_sbatch.CheckSbatchTest.test_good_template) ... ok
+test_marks (test_check_sbatch.CheckSbatchTest.test_marks) ... ok
+test_repo_templates_pass (test_check_sbatch.CheckSbatchTest.test_repo_templates_pass) ... ok
+test_budget_not_silently_truncated (test_coastal_inventory.CoastalInventoryTests.test_budget_not_silently_truncated) ... ok
+test_conflicting_scene_metadata_rejected (test_coastal_inventory.CoastalInventoryTests.test_conflicting_scene_metadata_rejected) ... ok
+test_duplicate_profile_rejected (test_coastal_inventory.CoastalInventoryTests.test_duplicate_profile_rejected) ... ok
+test_invalid_cutoff_rejected (test_coastal_inventory.CoastalInventoryTests.test_invalid_cutoff_rejected) ... ok
+test_naive_timestamp_rejected (test_coastal_inventory.CoastalInventoryTests.test_naive_timestamp_rejected) ... ok
+test_no_borrowing_other_partitions (test_coastal_inventory.CoastalInventoryTests.test_no_borrowing_other_partitions) ... ok
+test_only_metadata_exported (test_coastal_inventory.CoastalInventoryTests.test_only_metadata_exported) ... ok
+test_shortlist_is_fit_only_and_order_invariant (test_coastal_inventory.CoastalInventoryTests.test_shortlist_is_fit_only_and_order_invariant) ... ok
+test_allowed (test_cursor_hooks.DenyHookTest.test_allowed) ... ok
+test_denied (test_cursor_hooks.DenyHookTest.test_denied) ... ok
+test_distributed_bad_ranks_world_and_mode_refused (test_gpu_readiness.GPUReadinessTest.test_distributed_bad_ranks_world_and_mode_refused) ... ok
+test_distributed_contexts (test_gpu_readiness.GPUReadinessTest.test_distributed_contexts) ... ok
+test_fixed_config_and_repository_config (test_gpu_readiness.GPUReadinessTest.test_fixed_config_and_repository_config) ... ok
+test_local_refusal_writes_report_without_importing_torch (test_gpu_readiness.GPUReadinessTest.test_local_refusal_writes_report_without_importing_torch) ... run_dir: /tmp/tmpr0gipgxn/gpu-readiness-single-rank0-local20261017T200022Z-7545
+config: /tmp/tmpr0gipgxn/config.yaml sha256=3f2392428729
+seed: 0
+git_sha: ff9a289530c1ef2e332936cfa7ad7bfecbd2c674 dirty=True source=git
+machine: x86_64 python=3.11.17
+container: none
+ValueError: requires the aarch64 compute-node container; no CPU/x86 fallback
+status=failed report=/tmp/tmpr0gipgxn/gpu-readiness-single-rank0-local20261017T200022Z-7545/readiness.json
+ok
+test_missing_checks_cannot_report_a_pass (test_gpu_readiness.GPUReadinessTest.test_missing_checks_cannot_report_a_pass) ... run_dir: /tmp/tmpuztca6n5/gpu-readiness-single-rank0-slurm123
+config: /tmp/tmpuztca6n5/config.yaml sha256=3f2392428729
+seed: 0
+git_sha: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa dirty=False source=env
+machine: aarch64 python=3.11.17
+container: /project/pytorch.sif
+RuntimeError: not all required checks completed
+status=failed report=/tmp/tmpuztca6n5/gpu-readiness-single-rank0-slurm123/readiness.json
+ok
+test_noncompute_and_unpinned_contexts_refused (test_gpu_readiness.GPUReadinessTest.test_noncompute_and_unpinned_contexts_refused) ... ok
+test_single_context (test_gpu_readiness.GPUReadinessTest.test_single_context) ... ok
+test_single_refuses_accidental_torchrun (test_gpu_readiness.GPUReadinessTest.test_single_refuses_accidental_torchrun) ... ok
+test_unknown_missing_and_unsafe_config_refused (test_gpu_readiness.GPUReadinessTest.test_unknown_missing_and_unsafe_config_refused) ... ok
+test_env_git_sha_wins (test_provenance.ProvenanceTest.test_env_git_sha_wins) ... ok
+test_filtered_env_drops_secrets_and_unrelated (test_provenance.ProvenanceTest.test_filtered_env_drops_secrets_and_unrelated) ... ok
+test_run_id_uses_slurm_job (test_provenance.ProvenanceTest.test_run_id_uses_slurm_job) ... ok
+test_start_run_writes_manifest (test_provenance.ProvenanceTest.test_start_run_writes_manifest) ... ok
+test_duplicate_ids_and_unknown_keys (test_sources.DocumentTest.test_duplicate_ids_and_unknown_keys) ... ok
+test_empty_repo_config_blocks_fetch (test_sources.DocumentTest.test_empty_repo_config_blocks_fetch) ... ok
+test_invalid_file_blocks_every_source (test_sources.DocumentTest.test_invalid_file_blocks_every_source) ... ok
+test_repo_sources_file_is_valid_and_empty (test_sources.DocumentTest.test_repo_sources_file_is_valid_and_empty) ... ok
+test_require_approved (test_sources.DocumentTest.test_require_approved) ... ok
+test_complete_entry_is_valid (test_sources.EntryTest.test_complete_entry_is_valid) ... ok
+test_every_required_field_is_enforced (test_sources.EntryTest.test_every_required_field_is_enforced) ... ok
+test_rejections (test_sources.EntryTest.test_rejections) ... ok
+test_check_sample (test_splits.SplitContractTest.test_check_sample) ... ok
+test_cutoff_rules (test_splits.SplitContractTest.test_cutoff_rules) ... ok
+test_pilot_is_not_scoreable (test_splits.SplitContractTest.test_pilot_is_not_scoreable) ... ok
+test_pilot_regions_do_not_overlap (test_splits.SplitContractTest.test_pilot_regions_do_not_overlap) ... ok
+test_shared_region_is_leakage (test_splits.SplitContractTest.test_shared_region_is_leakage) ... ok
+test_validation_overlap_is_leakage (test_splits.SplitContractTest.test_validation_overlap_is_leakage) ... ok
+test_depth_limit_and_no_following_symlinked_parent (test_training_inspection.TrainingInspectionTest.test_depth_limit_and_no_following_symlinked_parent) ... ok
+test_git_queries_are_read_only_no_shell_no_remote_output (test_training_inspection.TrainingInspectionTest.test_git_queries_are_read_only_no_shell_no_remote_output) ... ok
+test_inventory_caps_entries_and_files (test_training_inspection.TrainingInspectionTest.test_inventory_caps_entries_and_files) ... ok
+test_inventory_excludes_hidden_sensitive_symlinks_and_special_files (test_training_inspection.TrainingInspectionTest.test_inventory_excludes_hidden_sensitive_symlinks_and_special_files) ... ok
+test_npy_header_without_array_loading (test_training_inspection.TrainingInspectionTest.test_npy_header_without_array_loading) ... ok
+test_npy_malformed_oversize_and_code_headers_are_not_executed (test_training_inspection.TrainingInspectionTest.test_npy_malformed_oversize_and_code_headers_are_not_executed) ... ok
+test_only_storage_environment_variables_are_expanded (test_training_inspection.TrainingInspectionTest.test_only_storage_environment_variables_are_expanded) ... ok
+test_refuses_broad_system_and_symlink_roots (test_training_inspection.TrainingInspectionTest.test_refuses_broad_system_and_symlink_roots) ... ok
+test_report_has_no_secrets_gpu_pass_or_false_quota (test_training_inspection.TrainingInspectionTest.test_report_has_no_secrets_gpu_pass_or_false_quota) ... ok
+test_repository_config_and_bounded_schema (test_training_inspection.TrainingInspectionTest.test_repository_config_and_bounded_schema) ... ok
+test_storage_sample_is_shallow_and_bounded (test_training_inspection.TrainingInspectionTest.test_storage_sample_is_shallow_and_bounded) ... ok
+test_structured_dtype_field_names_are_not_exported (test_training_inspection.TrainingInspectionTest.test_structured_dtype_field_names_are_not_exported) ... ok
+test_timeout_preserves_partial_report (test_training_inspection.TrainingInspectionTest.test_timeout_preserves_partial_report) ... ok
+
+----------------------------------------------------------------------
+Ran 54 tests in 0.043s
+
+OK
+.venv/bin/python scripts/check_sbatch.py
+ok slurm/00_pull_sif.sbatch
+ok slurm/00_smoke.sbatch
+ok slurm/01_download.sbatch
+ok slurm/02_train_1gpu.sbatch
+ok slurm/03_train_4gpu.sbatch
+ok slurm/06_gpu_readiness.sbatch
+.venv/bin/python scripts/validate_sources.py --config configs/sources.yaml
+No approved public sources. Not downloading.
+.venv/bin/python scripts/train.py --config configs/baseline.yaml --dry-run --output-root outputs
+dry-run
+run_dir: outputs/baseline-dry-run-local20261017T200023Z-7554
+config: configs/baseline.yaml sha256=dc84faa16f7c
+seed: 0
+git_sha: ff9a289530c1ef2e332936cfa7ad7bfecbd2c674 dirty=True source=git
+machine: x86_64 python=3.11.17
+container: none
+task: coastal-change
+split: {'geographic': 'held-out-regions', 'temporal': 'held-out-future', 'status': 'provisional'}
+train regions: ('holdout-unset-train',)
+validation regions: ()
+test regions: ('holdout-unset-test',)
+temporal cutoff: unset
+backbones reserved for later: prithvi, clay, tessera, satmae, vjepa2_1
+.venv/bin/python scripts/evaluate.py --config configs/baseline.yaml
+config: configs/baseline.yaml
+git_sha: ff9a289530c1ef2e332936cfa7ad7bfecbd2c674
+No scores: split status is provisional, cutoff is unset.
+metrics: pixel_iou, pixel_f1, boundary_f1, mean_iou, expected_calibration_error, uncertainty_error_correlation, per_region_variance
+earth2_context: ablation-only
+INFO add_decision: Id::<PubGrubPackage>(0) @ 0a0.dev0 without checking dependencies
+INFO add_decision: Id::<PubGrubPackage>(1) @ 1.15.0 without checking dependencies
+INFO add_decision: Id::<PubGrubPackage>(2) @ 4.16.0 without checking dependencies
+INFO add_decision: Id::<PubGrubPackage>(3) @ 1.1.0 without checking dependencies
+Success: no issues found in 1 source file
+
+Published-files-only snapshot: excludes unrelated untracked coastal preparation.
+/home/ubuntu/repos/openchange-uk/.venv/bin/python -m ruff check src scripts tests .cursor/hooks
+All checks passed!
+/home/ubuntu/repos/openchange-uk/.venv/bin/python -m compileall -q src scripts tests
+/home/ubuntu/repos/openchange-uk/.venv/bin/python -m unittest discover -s tests -v
+test_bad_templates (test_check_sbatch.CheckSbatchTest.test_bad_templates) ... ok
+test_good_template (test_check_sbatch.CheckSbatchTest.test_good_template) ... ok
+test_marks (test_check_sbatch.CheckSbatchTest.test_marks) ... ok
+test_repo_templates_pass (test_check_sbatch.CheckSbatchTest.test_repo_templates_pass) ... ok
+test_allowed (test_cursor_hooks.DenyHookTest.test_allowed) ... ok
+test_denied (test_cursor_hooks.DenyHookTest.test_denied) ... ok
+test_distributed_bad_ranks_world_and_mode_refused (test_gpu_readiness.GPUReadinessTest.test_distributed_bad_ranks_world_and_mode_refused) ... ok
+test_distributed_contexts (test_gpu_readiness.GPUReadinessTest.test_distributed_contexts) ... ok
+test_fixed_config_and_repository_config (test_gpu_readiness.GPUReadinessTest.test_fixed_config_and_repository_config) ... ok
+test_local_refusal_writes_report_without_importing_torch (test_gpu_readiness.GPUReadinessTest.test_local_refusal_writes_report_without_importing_torch) ... run_dir: /tmp/tmpuu0upk8r/gpu-readiness-single-rank0-local20261017T200107Z-8872
+config: /tmp/tmpuu0upk8r/config.yaml sha256=3f2392428729
+seed: 0
+git_sha: None dirty=None source=unavailable
+machine: x86_64 python=3.11.17
+container: none
+ValueError: requires the aarch64 compute-node container; no CPU/x86 fallback
+status=failed report=/tmp/tmpuu0upk8r/gpu-readiness-single-rank0-local20261017T200107Z-8872/readiness.json
+ok
+test_missing_checks_cannot_report_a_pass (test_gpu_readiness.GPUReadinessTest.test_missing_checks_cannot_report_a_pass) ... run_dir: /tmp/tmpukp3yawp/gpu-readiness-single-rank0-slurm123
+config: /tmp/tmpukp3yawp/config.yaml sha256=3f2392428729
+seed: 0
+git_sha: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa dirty=False source=env
+machine: aarch64 python=3.11.17
+container: /project/pytorch.sif
+RuntimeError: not all required checks completed
+status=failed report=/tmp/tmpukp3yawp/gpu-readiness-single-rank0-slurm123/readiness.json
+ok
+test_noncompute_and_unpinned_contexts_refused (test_gpu_readiness.GPUReadinessTest.test_noncompute_and_unpinned_contexts_refused) ... ok
+test_single_context (test_gpu_readiness.GPUReadinessTest.test_single_context) ... ok
+test_single_refuses_accidental_torchrun (test_gpu_readiness.GPUReadinessTest.test_single_refuses_accidental_torchrun) ... ok
+test_unknown_missing_and_unsafe_config_refused (test_gpu_readiness.GPUReadinessTest.test_unknown_missing_and_unsafe_config_refused) ... ok
+test_env_git_sha_wins (test_provenance.ProvenanceTest.test_env_git_sha_wins) ... ok
+test_filtered_env_drops_secrets_and_unrelated (test_provenance.ProvenanceTest.test_filtered_env_drops_secrets_and_unrelated) ... ok
+test_run_id_uses_slurm_job (test_provenance.ProvenanceTest.test_run_id_uses_slurm_job) ... ok
+test_start_run_writes_manifest (test_provenance.ProvenanceTest.test_start_run_writes_manifest) ... ok
+test_duplicate_ids_and_unknown_keys (test_sources.DocumentTest.test_duplicate_ids_and_unknown_keys) ... ok
+test_empty_repo_config_blocks_fetch (test_sources.DocumentTest.test_empty_repo_config_blocks_fetch) ... ok
+test_invalid_file_blocks_every_source (test_sources.DocumentTest.test_invalid_file_blocks_every_source) ... ok
+test_repo_sources_file_is_valid_and_empty (test_sources.DocumentTest.test_repo_sources_file_is_valid_and_empty) ... ok
+test_require_approved (test_sources.DocumentTest.test_require_approved) ... ok
+test_complete_entry_is_valid (test_sources.EntryTest.test_complete_entry_is_valid) ... ok
+test_every_required_field_is_enforced (test_sources.EntryTest.test_every_required_field_is_enforced) ... ok
+test_rejections (test_sources.EntryTest.test_rejections) ... ok
+test_check_sample (test_splits.SplitContractTest.test_check_sample) ... ok
+test_cutoff_rules (test_splits.SplitContractTest.test_cutoff_rules) ... ok
+test_pilot_is_not_scoreable (test_splits.SplitContractTest.test_pilot_is_not_scoreable) ... ok
+test_pilot_regions_do_not_overlap (test_splits.SplitContractTest.test_pilot_regions_do_not_overlap) ... ok
+test_shared_region_is_leakage (test_splits.SplitContractTest.test_shared_region_is_leakage) ... ok
+test_validation_overlap_is_leakage (test_splits.SplitContractTest.test_validation_overlap_is_leakage) ... ok
+test_depth_limit_and_no_following_symlinked_parent (test_training_inspection.TrainingInspectionTest.test_depth_limit_and_no_following_symlinked_parent) ... ok
+test_git_queries_are_read_only_no_shell_no_remote_output (test_training_inspection.TrainingInspectionTest.test_git_queries_are_read_only_no_shell_no_remote_output) ... ok
+test_inventory_caps_entries_and_files (test_training_inspection.TrainingInspectionTest.test_inventory_caps_entries_and_files) ... ok
+test_inventory_excludes_hidden_sensitive_symlinks_and_special_files (test_training_inspection.TrainingInspectionTest.test_inventory_excludes_hidden_sensitive_symlinks_and_special_files) ... ok
+test_npy_header_without_array_loading (test_training_inspection.TrainingInspectionTest.test_npy_header_without_array_loading) ... ok
+test_npy_malformed_oversize_and_code_headers_are_not_executed (test_training_inspection.TrainingInspectionTest.test_npy_malformed_oversize_and_code_headers_are_not_executed) ... ok
+test_only_storage_environment_variables_are_expanded (test_training_inspection.TrainingInspectionTest.test_only_storage_environment_variables_are_expanded) ... ok
+test_refuses_broad_system_and_symlink_roots (test_training_inspection.TrainingInspectionTest.test_refuses_broad_system_and_symlink_roots) ... ok
+test_report_has_no_secrets_gpu_pass_or_false_quota (test_training_inspection.TrainingInspectionTest.test_report_has_no_secrets_gpu_pass_or_false_quota) ... ok
+test_repository_config_and_bounded_schema (test_training_inspection.TrainingInspectionTest.test_repository_config_and_bounded_schema) ... ok
+test_storage_sample_is_shallow_and_bounded (test_training_inspection.TrainingInspectionTest.test_storage_sample_is_shallow_and_bounded) ... ok
+test_structured_dtype_field_names_are_not_exported (test_training_inspection.TrainingInspectionTest.test_structured_dtype_field_names_are_not_exported) ... ok
+test_timeout_preserves_partial_report (test_training_inspection.TrainingInspectionTest.test_timeout_preserves_partial_report) ... ok
+
+----------------------------------------------------------------------
+Ran 46 tests in 0.036s
+
+OK
+/home/ubuntu/repos/openchange-uk/.venv/bin/python scripts/check_sbatch.py
+ok slurm/00_pull_sif.sbatch
+ok slurm/00_smoke.sbatch
+ok slurm/01_download.sbatch
+ok slurm/02_train_1gpu.sbatch
+ok slurm/03_train_4gpu.sbatch
+ok slurm/06_gpu_readiness.sbatch
+/home/ubuntu/repos/openchange-uk/.venv/bin/python scripts/validate_sources.py --config configs/sources.yaml
+No approved public sources. Not downloading.
+/home/ubuntu/repos/openchange-uk/.venv/bin/python scripts/train.py --config configs/baseline.yaml --dry-run --output-root outputs
+dry-run
+run_dir: outputs/baseline-dry-run-local20261017T200108Z-8878
+config: configs/baseline.yaml sha256=dc84faa16f7c
+seed: 0
+git_sha: None dirty=None source=unavailable
+machine: x86_64 python=3.11.17
+container: none
+task: coastal-change
+split: {'geographic': 'held-out-regions', 'temporal': 'held-out-future', 'status': 'provisional'}
+train regions: ('holdout-unset-train',)
+validation regions: ()
+test regions: ('holdout-unset-test',)
+temporal cutoff: unset
+backbones reserved for later: prithvi, clay, tessera, satmae, vjepa2_1
+/home/ubuntu/repos/openchange-uk/.venv/bin/python scripts/evaluate.py --config configs/baseline.yaml
+config: configs/baseline.yaml
+git_sha: None
+No scores: split status is provisional, cutoff is unset.
+metrics: pixel_iou, pixel_f1, boundary_f1, mean_iou, expected_calibration_error, uncertainty_error_correlation, per_region_variance
+earth2_context: ablation-only
+All 101 research archive checksums pass.
+Credential-pattern scan: 8 staged files passed.
+No BriCS connection, container execution, download or training.

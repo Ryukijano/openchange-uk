@@ -1,0 +1,162 @@
+{
+  "purpose": "Local audit-only archive; no raw survey payloads or trained models",
+  "source_working_directory": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site",
+  "files": [
+    {
+      "path": "code/acquire_surveys.py",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/acquire_surveys.py",
+      "sha256": "00629d939ab534157d76cd737bfdfd0364912e5c4a7d1032db76541ca4fc64e9",
+      "bytes": 6808
+    },
+    {
+      "path": "code/audit_surveys.py",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/audit_surveys.py",
+      "sha256": "325d2d57706e22eba7b844a8ca6f826f2797d3d83ffac561ae26913195e1b2ee",
+      "bytes": 16414
+    },
+    {
+      "path": "code/verify_match_counts.py",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/verify_match_counts.py",
+      "sha256": "6e000dc67a789521b3fe2091b1cc630ab401e2e56e32d27e3305ae7e788e1eac",
+      "bytes": 3626
+    },
+    {
+      "path": "code/test_audit.py",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/test_audit.py",
+      "sha256": "cf89ba4b4dab80710dd597030d301e9f8cad404a172e424bc770dea7eede1b9d",
+      "bytes": 2539
+    },
+    {
+      "path": "evidence/protocol.md",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/protocol.md",
+      "sha256": "4b4dc8c35c626c4f286fb67b75a885d793e6871796640d21aacbc9559a09272c",
+      "bytes": 7994
+    },
+    {
+      "path": "evidence/sources.yaml",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/sources.yaml",
+      "sha256": "e90e8df2c48f69e236cb34a2073cce08fc7dba50a0072f3045e30e5d687b8e37",
+      "bytes": 1309
+    },
+    {
+      "path": "evidence/catalog.log",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/catalog.log",
+      "sha256": "a972d293c6f9e131c80504f00d8fd29861135377b1e09a0f3bf1db8592e317f2",
+      "bytes": 37
+    },
+    {
+      "path": "evidence/acquisition.log",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/acquisition.log",
+      "sha256": "873599e85bd08e27dc7b09d2c9ca2b28f08aa897442d0d63ea80f6e4176bd684",
+      "bytes": 16892
+    },
+    {
+      "path": "evidence/audit.log",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/audit.log",
+      "sha256": "1033c56f435e64f382098b71844969771b284f92d3da0754b71bc7e2b7b04702",
+      "bytes": 2178
+    },
+    {
+      "path": "evidence/audit_run2.log",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/audit_run2.log",
+      "sha256": "e01312b6b941f33c278d5e08de0239b660eb7fe850551ae99f097895a28f45af",
+      "bytes": 1879
+    },
+    {
+      "path": "evidence/audit_run3.log",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/audit_run3.log",
+      "sha256": "6c62fcb539afc5f3bb3386754996a513bc67d62a33c276fb85878ebc4e30c7fa",
+      "bytes": 2178
+    },
+    {
+      "path": "evidence/audit_final.log",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/audit_final.log",
+      "sha256": "4356865a0e3da12561b2563125a201da2e6a3d2c91701bd0dd0c578c98b2f228",
+      "bytes": 5074
+    },
+    {
+      "path": "evidence/independent_count_check.log",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/independent_count_check.log",
+      "sha256": "1595c6c05eaf136d5e852ce10a5fc6ff023e9dd519db2a90a6526210eeb51e71",
+      "bytes": 2484
+    },
+    {
+      "path": "evidence/data_audit.json",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/data_audit.json",
+      "sha256": "9fa371190d27b3118c2c1785aa9dba7d9bdbe4191a9716f862c76b75d922ebfd",
+      "bytes": 3377
+    },
+    {
+      "path": "evidence/independent_count_check.json",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/independent_count_check.json",
+      "sha256": "0b865011fe99ec98fd04ed5306884f5f7b1fb85d2363dbf6c7f6fb589defa2d7",
+      "bytes": 2483
+    },
+    {
+      "path": "evidence/partial_acquisition_audit.json",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/partial_acquisition_audit.json",
+      "sha256": "3a5c41f33195fe165a1479687e057659eb89f26b6cde44cb384fd52d86020753",
+      "bytes": 62145
+    },
+    {
+      "path": "evidence/download_manifest.json",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/download_manifest.json",
+      "sha256": "7632a8a9cf69912974f96fd4aa23d08616e8d651226f3d9a76ce96cc47c964a7",
+      "bytes": 113008
+    },
+    {
+      "path": "evidence/verified_downloads.jsonl",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/verified_downloads.jsonl",
+      "sha256": "31e7ac667f7b21ec257b2ab8dc1181919bec26c95c5422106954a9c4335ae1eb",
+      "bytes": 149560
+    },
+    {
+      "path": "evidence/transfer_ledger.json",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/transfer_ledger.json",
+      "sha256": "0013e1f7863faf3e57f327860da2233f9476a1a19bded6440aea8e921da7181e",
+      "bytes": 58
+    },
+    {
+      "path": "evidence/osf_license.json",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/osf_license.json",
+      "sha256": "b70da3961696a944f3c4ab0155edae0f613d21d45f5a7337ea6e30a768fbccc0",
+      "bytes": 6776
+    },
+    {
+      "path": "evidence/dryad_license.json",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/dryad_license.json",
+      "sha256": "466558f5b9fd27bc806c9b91d1257ba1553db12a936b1fc53dd0a6e9e1d2859d",
+      "bytes": 52984
+    },
+    {
+      "path": "evidence/environment.lock",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/environment.lock",
+      "sha256": "5a6ee9b14b835a3bcf50ec0b11b2bc7084a6a48ed71c603db1fd4adb2cae52b4",
+      "bytes": 601165
+    },
+    {
+      "path": "evidence/requirements.lock",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/requirements.lock",
+      "sha256": "daa8d4f6ef292fc377cbab10347257dc43a82fd397e9fa5fdb38640829f560fd",
+      "bytes": 1462
+    },
+    {
+      "path": "evidence/run_manifest.json",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/run_manifest.json",
+      "sha256": "d80d3add74ab2039383e599c0e530a74f30ee5063ee87bd86374530ba68569ae",
+      "bytes": 2444
+    },
+    {
+      "path": "evidence/repository_checks.log",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/repository_checks.log",
+      "sha256": "ad8a349b0b5031628196923a385e511c56e29b1b46affc79e85d501d3b863cbf",
+      "bytes": 7162
+    },
+    {
+      "path": "evidence/audit_code_checks.log",
+      "original_path": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/audit_code_checks.log",
+      "sha256": "591e2d5b7119e73520135ce06659580dd00bd19af833491d1c2b60616284dbdb",
+      "bytes": 128
+    }
+  ]
+}

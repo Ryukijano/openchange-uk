@@ -1,0 +1,37 @@
+approved_public_sources:
+  - id: trucvert-monitoring
+    url: https://osf.io/jftw8/
+    license: CC0-1.0
+    license_url: https://api.osf.io/v2/licenses/563c1cf88c5e4a3877f9e96c/
+    attribution: Castelle et al., METHYS Truc Vert monitoring surveys, Scientific Data 2020
+    expected_size_bytes: 162611806
+    use: labels
+    splits: [pilot]
+    redistribution: manifest-only
+    approved_by: Gyanateet Dutta, session 8371507a5420405593eda30df300d243
+    approved_on: '2026-10-13'
+    notes: User selected Approve up to 300 MB of surveys. Only 294 Monitoring_TrucVert files and Grids.nc; no ECORS, waves, imagery or model weights. Combined cap with Torrey is 300000000 bytes.
+  - id: torrey-mapped
+    url: https://datadryad.org/dataset/doi:10.5061/dryad.n5qb383
+    license: CC0-1.0
+    license_url: https://spdx.org/licenses/CC0-1.0.html
+    attribution: Ludka et al., Sixteen years of bathymetry and waves at San Diego Beaches, Dryad n5qb383
+    expected_size_bytes: 115224176
+    use: labels
+    splits: [pilot]
+    redistribution: manifest-only
+    approved_by: Gyanateet Dutta, session 8371507a5420405593eda30df300d243
+    approved_on: '2026-10-13'
+    notes: Only torrey_mapped_sand_elevations.zip; source file ID 105140. No other San Diego archives. Uncompressed size to be checked before extracting.
+  - id: duck-frf-surveys
+    url: https://chlthredds.erdc.dren.mil/thredds/fileServer/frf/geomorphology/elevationTransects/survey/data/
+    license: unrestricted-with-attribution
+    license_url: https://chlthredds.erdc.dren.mil/thredds/catalog/frf/geomorphology/elevationTransects/survey/catalog.html
+    attribution: US Army Engineer R&D Center, Coastal & Hydraulics Laboratory, Field Research Facility, Duck NC
+    expected_size_bytes: 157193250
+    use: labels
+    splits: [fit, cal, test]
+    redistribution: manifest-only
+    approved_by: Gyanateet Dutta, session 8371507a5420405593eda30df300d243
+    approved_on: '2026-10-14'
+    notes: 'Licence read verbatim from file metadata 2026-10-14: may be redistributed and used without restriction; must acknowledge USACE FRF and supporting investigators. Only catalog files matching scene dates +/-48h on transects [-91,1,1006,1097], 169 files, 157,193,250 bytes measured 2026-10-14 (initial 25 MB estimate was too low).'

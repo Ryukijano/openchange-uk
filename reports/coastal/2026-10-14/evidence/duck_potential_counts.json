@@ -1,0 +1,63 @@
+{
+  "catalog_url": "https://chlthredds.erdc.dren.mil/thredds/catalog/frf/geomorphology/elevationTransects/survey/data/catalog.html",
+  "survey_dates": 1203,
+  "first_survey": "1974-05-06T00:00:00+00:00",
+  "last_survey": "2026-09-29T00:00:00+00:00",
+  "coastsat_observations": 3487,
+  "matched_48h_upper_bound": 816,
+  "matched_48h_scenes": 212,
+  "counts": {
+    "fit": {
+      "rows": 304,
+      "scenes": 81
+    },
+    "cal": {
+      "rows": 90,
+      "scenes": 23
+    },
+    "test": {
+      "rows": 422,
+      "scenes": 108
+    }
+  },
+  "years": {
+    "1984": 16,
+    "1985": 16,
+    "1986": 24,
+    "1987": 12,
+    "1988": 1,
+    "1989": 14,
+    "1990": 8,
+    "1991": 4,
+    "1992": 12,
+    "1993": 8,
+    "1994": 14,
+    "1995": 8,
+    "1996": 12,
+    "1997": 8,
+    "1998": 6,
+    "1999": 12,
+    "2000": 16,
+    "2001": 10,
+    "2002": 21,
+    "2003": 8,
+    "2004": 16,
+    "2005": 18,
+    "2006": 8,
+    "2008": 22,
+    "2009": 10,
+    "2010": 8,
+    "2011": 4,
+    "2012": 10,
+    "2013": 4,
+    "2014": 12,
+    "2015": 28,
+    "2016": 24,
+    "2017": 28,
+    "2018": 56,
+    "2019": 97,
+    "2020": 68,
+    "2021": 173
+  },
+  "caveat": "upper bound: survey dates have no time-of-day (midnight assumed); contour-quality exclusions not applied"
+}

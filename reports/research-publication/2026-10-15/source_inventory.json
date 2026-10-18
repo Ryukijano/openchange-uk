@@ -1,0 +1,264 @@
+{
+  "assembled_utc": "2026-10-15",
+  "scope": "Authored EO research notes, reviewer reports, visuals, historical scripts and aggregate experiment evidence; no raw datasets, labels, embeddings, weights or third-party source clones.",
+  "copies": [
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/HF_DEMO_BETS.md",
+      "destination": "docs/research/eo-task-research/notes/HF_DEMO_BETS.md",
+      "bytes": 4979,
+      "source_sha256": "eeda7566fa2b7cc3868b684be943c5278f1de9e29f84ba703c8ca1bde5ab58fb"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/HF_DEMO_RECOMMENDATION.md",
+      "destination": "docs/research/eo-task-research/notes/HF_DEMO_RECOMMENDATION.md",
+      "bytes": 12998,
+      "source_sha256": "8482aeb05391c6bc646fdcf6ea13aa8c69e45c8f95dbc686b3044a9723440167"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/DEMO_BUILD_REQUIREMENTS.md",
+      "destination": "docs/research/eo-task-research/notes/DEMO_BUILD_REQUIREMENTS.md",
+      "bytes": 8554,
+      "source_sha256": "edf396e13064ef18629fa11767d2c809cc877cb29b21e56e0840ad65ccc2143a"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/HIGHER_IMPACT_SCIENTIFIC_PROBLEMS.md",
+      "destination": "docs/research/eo-task-research/notes/HIGHER_IMPACT_SCIENTIFIC_PROBLEMS.md",
+      "bytes": 19541,
+      "source_sha256": "f508b1a62363140ce8ea92ec26fb6688902b3c04f082c10a40d77663536372ca"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/TASK_FIRST_TRAINING_PLAN.md",
+      "destination": "docs/research/eo-task-research/notes/TASK_FIRST_TRAINING_PLAN.md",
+      "bytes": 7925,
+      "source_sha256": "75190279d0e651b3082638f61d11e7d63c3792153c3aa0a6c748e833cb0e5743"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/OVERLAP_PAPERS_REVIEW.md",
+      "destination": "docs/research/eo-task-research/notes/OVERLAP_PAPERS_REVIEW.md",
+      "bytes": 6134,
+      "source_sha256": "93678863d004871c3f0770656d4ee5584da47a86d25d5e913bad459e6c5a093c"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/COASTAL_MODEL_PLAN_AND_SCREEN.md",
+      "destination": "docs/research/eo-task-research/notes/COASTAL_MODEL_PLAN_AND_SCREEN.md",
+      "bytes": 16031,
+      "source_sha256": "bf8870be822558620e01e5c7b36d8e9fde8fb513f2a9569ef672fb04dc113939"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/topic_dossier.md",
+      "destination": "docs/research/eo-task-research/notes/topic_dossier.md",
+      "bytes": 20895,
+      "source_sha256": "a0fcafbd2bce5887eea9a3994daa686ee75e8f56db4b271dd4fa57ba2e7f62a3"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/coastal_change_training_plan.md",
+      "destination": "docs/research/eo-task-research/notes/coastal_change_training_plan.md",
+      "bytes": 17533,
+      "source_sha256": "68dc89070f653a37bd38c11a3e02473865b52c1454cf4e46ec582dc645ce9e3e"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/forecast_observe_training_plan.md",
+      "destination": "docs/research/eo-task-research/notes/forecast_observe_training_plan.md",
+      "bytes": 18451,
+      "source_sha256": "616b134b0affa139cbd681d8efd72428787a058a8aedebad1e785d90bc976f3a"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/event_search_training_plan.md",
+      "destination": "docs/research/eo-task-research/notes/event_search_training_plan.md",
+      "bytes": 19127,
+      "source_sha256": "162f7f2d9e563d5f05c01697c86a23f67104e187f9cab7cacd1c2f1a1cbc2086"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/COASTAL_MODEL_VISUAL.html",
+      "destination": "docs/research/eo-task-research/visuals/COASTAL_MODEL_VISUAL.html",
+      "bytes": 74378,
+      "source_sha256": "09d16a81fcdc210c5199344699d21cafe4bab0e8aaadaad5bfe04c21392a6015"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/COASTAL_RESULTS_VISUAL.html",
+      "destination": "docs/research/eo-task-research/visuals/COASTAL_RESULTS_VISUAL.html",
+      "bytes": 73868,
+      "source_sha256": "2e2e851b6f371ef02b9567e6c1184b9cd5ce959946f056fd84d091e4d2c4ad39"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/EO_RESEARCH_VISUAL.html",
+      "destination": "docs/research/eo-task-research/visuals/EO_RESEARCH_VISUAL.html",
+      "bytes": 102774,
+      "source_sha256": "314cd0daa62defffb7539157cfa4ffe6224d9ef0c29c271954f6d9403ba410fa"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/TASK_FIRST_PLAN_VISUAL.html",
+      "destination": "docs/research/eo-task-research/visuals/TASK_FIRST_PLAN_VISUAL.html",
+      "bytes": 101769,
+      "source_sha256": "e731a82d4755e55c9fa312bf2bbea473ba5e003b14e20a51724aa43ec1aff402"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/COASTAL_MODEL_VISUAL.pdf",
+      "destination": "docs/research/eo-task-research/visuals/COASTAL_MODEL_VISUAL.pdf",
+      "bytes": 105485,
+      "source_sha256": "59b43e29cdb6a0a5d12c5539fc85a63801e6d4897cccb318516f8713eeaed853"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/EO_RESEARCH_VISUAL.pdf",
+      "destination": "docs/research/eo-task-research/visuals/EO_RESEARCH_VISUAL.pdf",
+      "bytes": 179655,
+      "source_sha256": "300e430776ae2a4d3c4f2570150eb13c5a698761bd42d01407723590046367c8"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/TASK_FIRST_PLAN_VISUAL.pdf",
+      "destination": "docs/research/eo-task-research/visuals/TASK_FIRST_PLAN_VISUAL.pdf",
+      "bytes": 139352,
+      "source_sha256": "5365dd182093ac637a55aeed11d3dee24bde5a23a4f3315ef6f4b1837d19002b"
+    },
+    {
+      "source": "/home/ubuntu/attachments/c8caa9b5-04ef-4568-a384-9cdc2807e825/clean-jepa-operational-workflows.md",
+      "destination": "docs/research/eo-task-research/reviews/early-costly-workflows.md",
+      "bytes": 11801,
+      "source_sha256": "2df069a9246b7323b280de39d9dcffd9e1f864705e9c6bb2e434919a5b7953ef"
+    },
+    {
+      "source": "/home/ubuntu/attachments/e6bde0df-f8ed-46c4-adb8-845f06766c9a/topic_dossier.md",
+      "destination": "docs/research/eo-task-research/reviews/early-novelty-audit.md",
+      "bytes": 14661,
+      "source_sha256": "9997521de29c6480542439ed8f9ef013223239a3c3be70d9d4752944fd726f63"
+    },
+    {
+      "source": "/home/ubuntu/attachments/ec4ce9a8-e40a-4d83-a6eb-9a94532caf9e/openchange-product-workflow-scout.md",
+      "destination": "docs/research/eo-task-research/reviews/demo-product-workflows.md",
+      "bytes": 23952,
+      "source_sha256": "a5c9f894093eb38f197caec31361f585b93ba3a989ba97b21e1c6926fd46219b"
+    },
+    {
+      "source": "/home/ubuntu/attachments/9a230b18-6e80-4759-8fcf-05cf3d182540/openchange-data-model-feasibility-2026-10-13.md",
+      "destination": "docs/research/eo-task-research/reviews/demo-data-model-feasibility.md",
+      "bytes": 24394,
+      "source_sha256": "a45b81374e650d77f713a5d4d2cd1b7e3cf15833a5b68899030829163ba43f61"
+    },
+    {
+      "source": "/home/ubuntu/attachments/a56a4183-67d1-4f3e-971b-8a2bbae735f4/sceptical-review.md",
+      "destination": "docs/research/eo-task-research/reviews/demo-sceptical-review.md",
+      "bytes": 21854,
+      "source_sha256": "33ea8031c58bd19e82bde9b194ed9c3be486810355df2676e38c35bbb08ac686"
+    },
+    {
+      "source": "/home/ubuntu/attachments/53395f8e-05cf-41a5-8831-3fcce14dc2fe/dossier.md",
+      "destination": "docs/research/eo-task-research/reviews/impact-forecasting.md",
+      "bytes": 12850,
+      "source_sha256": "b377bf51611797ab111a68fab74ac8b31ff9060a8f92df8cafd37a0b5420f190"
+    },
+    {
+      "source": "/home/ubuntu/attachments/f4ed2321-dd03-4e14-ac43-ac484253fb1e/coastal_change_dossier.md",
+      "destination": "docs/research/eo-task-research/reviews/impact-coastal-change.md",
+      "bytes": 13416,
+      "source_sha256": "304bbdcbb54f23d9a3489d2229f4d728fce210d81339ab001f0113ae9606e65d"
+    },
+    {
+      "source": "/home/ubuntu/attachments/c1191e55-c7bb-49ed-aa14-95cecef6722b/disaster_transfer_dossier.md",
+      "destination": "docs/research/eo-task-research/reviews/impact-disaster-transfer.md",
+      "bytes": 12970,
+      "source_sha256": "1d36e23dd1828556afb514cd2fe2bddf5a74b239746100afb8561952f7308d4a"
+    },
+    {
+      "source": "/home/ubuntu/attachments/ccb01265-3174-43a5-8e22-0d19e4cb8031/restoration_effect_dossier.md",
+      "destination": "docs/research/eo-task-research/reviews/impact-restoration.md",
+      "bytes": 11350,
+      "source_sha256": "f7d202974b49e88d09decd4eabb8150b544ebcf24fca9bbbb26be1fc2cf0ea0d"
+    },
+    {
+      "source": "/home/ubuntu/attachments/0c16f6c6-7dae-4627-a8ce-dd0e994fc9df/event-search-dossier.md",
+      "destination": "docs/research/eo-task-research/reviews/impact-event-search.md",
+      "bytes": 12875,
+      "source_sha256": "eba38046c13d43b6073ebf5a96069c0a9fa2313412eec4c555d93d4ecd501a25"
+    },
+    {
+      "source": "/home/ubuntu/attachments/2c4ab26f-5c50-4427-97cd-3bc21d9a36fe/coastal_red_team.md",
+      "destination": "docs/research/eo-task-research/reviews/impact-red-team.md",
+      "bytes": 16302,
+      "source_sha256": "e4c536306ccb0c4594471de22c8f6869fed3414eecafccdbd06610705295f6e6"
+    },
+    {
+      "source": "/home/ubuntu/attachments/edb4e459-bf47-491d-9b34-f2307d7cbe63/coastal-model-red-team.md",
+      "destination": "docs/research/eo-task-research/reviews/coastal-pretraining-red-team.md",
+      "bytes": 25246,
+      "source_sha256": "e58fe081f830e22da01109152f0912c4bee0438c9d9696280efc41423aca58bd"
+    },
+    {
+      "source": "/home/ubuntu/attachments/1ad175da-44a3-4609-8097-042769fe6444/coastal-data-feasibility.md",
+      "destination": "docs/research/eo-task-research/reviews/coastal-data-feasibility.md",
+      "bytes": 26894,
+      "source_sha256": "c24e726d653452d7d7e5364505d5964e3cdd65226e02707d2f036d5532822ce9"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-stage0/run_stage0.py",
+      "destination": "reports/coastal/2026-10-13-stage0/code/run_stage0.py",
+      "bytes": 16969,
+      "source_sha256": "28cf44a364755eeebfeb58aafbef57c6bcc09248b2121b1e1cdec903a0240012"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-stage0/test_stage0.py",
+      "destination": "reports/coastal/2026-10-13-stage0/code/test_stage0.py",
+      "bytes": 1576,
+      "source_sha256": "4d4cb43ddee435543295e68ed23f1a0dc61740684b7dcf44db3ac30deb41b0cb"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-stage0/protocol.md",
+      "destination": "reports/coastal/2026-10-13-stage0/evidence/protocol.md",
+      "bytes": 5993,
+      "source_sha256": "1e78418c5ade8161dce3251f20daed54e83be2c5a5668fbbb240f974ebc006c8"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-stage0/results.json",
+      "destination": "reports/coastal/2026-10-13-stage0/evidence/results.json",
+      "bytes": 16980,
+      "source_sha256": "706201bdcd671ac76312b602ededae70d1980741e9f875dfe3aa7070d085bfce"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-stage0/run.log",
+      "destination": "reports/coastal/2026-10-13-stage0/evidence/run.log",
+      "bytes": 10816,
+      "source_sha256": "c9cd8bde7be4c63906d847c3f4b48edccbc4b06aa788a5832a6313d7824bf95f"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-stage0/environment.lock",
+      "destination": "reports/coastal/2026-10-13-stage0/evidence/environment.lock",
+      "bytes": 18424,
+      "source_sha256": "bcae5c7d8e131e01452019f7cc6cffcd56a03a2f04c199150c4eeaaa94b51354"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-stage0/openchange_make_check.log",
+      "destination": "reports/coastal/2026-10-13-stage0/evidence/openchange_make_check.log",
+      "bytes": 7162,
+      "source_sha256": "dff13c3e4f5d594e77eea98270dd23c5c99333e63a9c495f0f212feecd0393fb"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-stage0/visual_check.log",
+      "destination": "reports/coastal/2026-10-13-stage0/evidence/visual_check.log",
+      "bytes": 191,
+      "source_sha256": "7fb7016691cfb2af0f543885e2f819be227d3bf8a24f9ee226cc16f8e348ac75"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/tessera_pilot.py",
+      "destination": "reports/tessera/2026-10-13/code/tessera_pilot.py",
+      "bytes": 8025,
+      "source_sha256": "05b2f62d455ae32eb0ea3b1d929dc8935a5a0fb6f71dcd516a6c9dd4a4ffb863"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/pilot-v1-v11-2024-mean/results.json",
+      "destination": "reports/tessera/2026-10-13/evidence/results.json",
+      "bytes": 8645,
+      "source_sha256": "cdcd6dd9b6b2793475bcd769b30415003f8bd43dd379f013dd19f7220ba214a1"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/pilot-v1-v11-2024-mean/report.md",
+      "destination": "reports/tessera/2026-10-13/evidence/report.md",
+      "bytes": 1131,
+      "source_sha256": "4dbfc38c0e40b8f64e607893c02d29c43ae2db2dce2f3c5850716f5e4eec4c70"
+    },
+    {
+      "source": "/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/requirements.lock",
+      "destination": "reports/coastal/2026-10-14/evidence/requirements.lock",
+      "bytes": 1462,
+      "source_sha256": "daa8d4f6ef292fc377cbab10347257dc43a82fd397e9fa5fdb38640829f560fd"
+    }
+  ]
+}

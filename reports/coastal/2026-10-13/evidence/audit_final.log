@@ -1,0 +1,117 @@
+
+COMMAND ['/home/ubuntu/airr-masterplan/eo-task-research/.venv312/bin/python', '/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/audit_surveys.py'] START 2026-10-13T23:06:07.084067+00:00
+NARRABEEN {"rejected_profile_dates": 14, "survey_rows": 3227, "counts": {"available_rows": 4147, "available_scenes": 891, "matched_48h_rows": 661, "matched_48h_scenes": 144, "matched_36h_rows": 550, "matched_36h_scenes": 119, "periods": {"cal": {"rows": 194, "scenes": 45, "survey_dates": 45, "sensors": ["L5", "L7", "L8", "S2"]}, "fit": {"rows": 138, "scenes": 31, "survey_dates": 31, "sensors": ["L5", "L7"]}, "test": {"rows": 329, "scenes": 68, "survey_dates": 49, "sensors": ["L7", "L8", "S2"]}}, "metadata_missing_fraction": {"tide": 0.0, "swh": 0.0, "mwp": 0.0, "pp1d": 0.0, "disagreement": 0.5582450832072617}}}
+TRUCVERT {"files": 294, "rejected_profile_dates": 144, "geometry": [{"site": "TRUCVERT", "profile": "-400", "grid_first_x": 20.0, "projected_first_chainage": 5.706185220488245e-11, "max_off_axis_m": 9.851325415160904e-05, "grid_minus_chainage_min_m": 19.99999999994294, "grid_minus_chainage_max_m": 20.149998968756563}, {"site": "TRUCVERT", "profile": "-300", "grid_first_x": 20.0, "projected_first_chainage": 0.0, "max_off_axis_m": 9.85132240236719e-05, "grid_minus_chainage_min_m": 20.0, "grid_minus_chainage_max_m": 20.149767440113067}, {"site": "TRUCVERT", "profile": "-200", "grid_first_x": 20.0, "projected_first_chainage": 0.0, "max_off_axis_m": 9.851378774413756e-05, "grid_minus_chainage_min_m": 20.0, "grid_minus_chainage_max_m": 20.14953591397625}, {"site": "TRUCVERT", "profile": "-100", "grid_first_x": 20.0, "projected_first_chainage": -5.706184850777709e-11, "max_off_axis_m": 9.851400500122152e-05, "grid_minus_chainage_min_m": 20.00000000005706, "grid_minus_chainage_max_m": 20.14930439230534}], "survey_rows": 1032, "counts": {"available_rows": 442, "available_scenes": 133, "matched_48h_rows": 10, "matched_48h_scenes": 5, "matched_36h_rows": 1, "matched_36h_scenes": 1, "periods": {"cal": {"rows": 2, "scenes": 1, "survey_dates": 1, "sensors": ["L7"]}, "fit": {"rows": 1, "scenes": 1, "survey_dates": 1, "sensors": ["L7"]}, "test": {"rows": 7, "scenes": 3, "survey_dates": 3, "sensors": ["L7", "S2"]}}, "metadata_missing_fraction": {"tide": 0.0, "swh": 0.0, "mwp": 0.0, "pp1d": 0.0, "disagreement": 0.1}}}
+Audit complete; no model fitted.
+
+COMMAND ['/home/ubuntu/airr-masterplan/eo-task-research/.venv312/bin/python', '/home/ubuntu/airr-masterplan/eo-task-research/coastal-three-site/verify_match_counts.py'] START 2026-10-13T23:06:35.863728+00:00
+{
+  "independent_implementation": "csv+datetime; no pandas/merge_asof",
+  "potential_rows_before_contour_quality": 14,
+  "potential_scene_groups_before_contour_quality": 5,
+  "matched_rows": [
+    {
+      "date": "2004-06-30T10:43:24+00:00",
+      "sensor": "L7",
+      "profile": "-400",
+      "gap_hours": 37.276666666666664,
+      "period": "fit"
+    },
+    {
+      "date": "2015-09-26T10:48:10+00:00",
+      "sensor": "L7",
+      "profile": "-200",
+      "gap_hours": 37.19722222222222,
+      "period": "cal"
+    },
+    {
+      "date": "2015-09-26T10:48:10+00:00",
+      "sensor": "L7",
+      "profile": "-400",
+      "gap_hours": 37.19722222222222,
+      "period": "cal"
+    },
+    {
+      "date": "2017-10-17T10:50:50+00:00",
+      "sensor": "L7",
+      "profile": "-100",
+      "gap_hours": 37.15277777777778,
+      "period": "test"
+    },
+    {
+      "date": "2017-10-17T10:50:50+00:00",
+      "sensor": "L7",
+      "profile": "-200",
+      "gap_hours": 37.15277777777778,
+      "period": "test"
+    },
+    {
+      "date": "2018-05-24T11:00:36+00:00",
+      "sensor": "S2",
+      "profile": "-400",
+      "gap_hours": 12.99,
+      "period": "test"
+    },
+    {
+      "date": "2019-08-12T11:08:54+00:00",
+      "sensor": "S2",
+      "profile": "-100",
+      "gap_hours": 36.85166666666667,
+      "period": "test"
+    },
+    {
+      "date": "2019-08-12T11:08:54+00:00",
+      "sensor": "S2",
+      "profile": "-200",
+      "gap_hours": 36.85166666666667,
+      "period": "test"
+    },
+    {
+      "date": "2019-08-12T11:08:54+00:00",
+      "sensor": "S2",
+      "profile": "-300",
+      "gap_hours": 36.85166666666667,
+      "period": "test"
+    },
+    {
+      "date": "2019-08-12T11:08:54+00:00",
+      "sensor": "S2",
+      "profile": "-400",
+      "gap_hours": 36.85166666666667,
+      "period": "test"
+    }
+  ],
+  "counts": {
+    "fit": {
+      "rows": 1,
+      "scenes": 1
+    },
+    "cal": {
+      "rows": 2,
+      "scenes": 1
+    },
+    "test": {
+      "rows": 7,
+      "scenes": 3
+    }
+  },
+  "agrees_with_primary_audit": true,
+  "registered_folds": [
+    {
+      "test_site": "NARRABEEN",
+      "blocking_truc_partition": "cal",
+      "eligible": false
+    },
+    {
+      "test_site": "TRUCVERT",
+      "blocking_truc_partition": "test",
+      "eligible": false
+    },
+    {
+      "test_site": "TORREYPINES",
+      "blocking_truc_partition": "fit",
+      "eligible": false
+    }
+  ],
+  "status": "insufficient data; no model comparison or primary outcome computed"
+}

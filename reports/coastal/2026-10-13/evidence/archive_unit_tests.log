@@ -1,0 +1,15 @@
+test_datum_shift (test_audit.ContourTests.test_datum_shift) ... ok
+test_exact_hours (test_audit.ContourTests.test_exact_hours) ... ok
+test_linear (test_audit.ContourTests.test_linear) ... ok
+test_missing_cells_not_bridged (test_audit.ContourTests.test_missing_cells_not_bridged) ... ok
+test_missing_submission_preserves_datetime_dtype (test_audit.ContourTests.test_missing_submission_preserves_datetime_dtype) ... ok
+test_mixed_timestamp_resolutions (test_audit.ContourTests.test_mixed_timestamp_resolutions) ... ok
+test_multiple_crossings (test_audit.ContourTests.test_multiple_crossings) ... ok
+test_projection_origin (test_audit.ContourTests.test_projection_origin) ... ok
+test_reverse_order (test_audit.ContourTests.test_reverse_order) ... ok
+test_upward_then_downward_is_ambiguous (test_audit.ContourTests.test_upward_then_downward_is_ambiguous) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.038s
+
+OK
