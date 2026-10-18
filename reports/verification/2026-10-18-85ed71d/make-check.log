@@ -1,0 +1,251 @@
+/home/ubuntu/repos/openchange-uk/.venv-jepa/bin/python -m ruff check src scripts tests .cursor/hooks
+All checks passed!
+/home/ubuntu/repos/openchange-uk/.venv-jepa/bin/python -m compileall -q src scripts tests
+/home/ubuntu/repos/openchange-uk/.venv-jepa/bin/python -m unittest discover -s tests -v
+test_bad_templates (test_check_sbatch.CheckSbatchTest.test_bad_templates) ... ok
+test_good_template (test_check_sbatch.CheckSbatchTest.test_good_template) ... ok
+test_marks (test_check_sbatch.CheckSbatchTest.test_marks) ... ok
+test_repo_templates_pass (test_check_sbatch.CheckSbatchTest.test_repo_templates_pass) ... ok
+test_allowed (test_cursor_hooks.DenyHookTest.test_allowed) ... ok
+test_denied (test_cursor_hooks.DenyHookTest.test_denied) ... ok
+test_any_approved_image_config_accepted (test_gpu_readiness.GPUReadinessTest.test_any_approved_image_config_accepted) ... ok
+test_distributed_bad_ranks_world_and_mode_refused (test_gpu_readiness.GPUReadinessTest.test_distributed_bad_ranks_world_and_mode_refused) ... ok
+test_distributed_contexts (test_gpu_readiness.GPUReadinessTest.test_distributed_contexts) ... ok
+test_fixed_config_and_repository_config (test_gpu_readiness.GPUReadinessTest.test_fixed_config_and_repository_config) ... ok
+test_local_refusal_writes_report_without_importing_torch (test_gpu_readiness.GPUReadinessTest.test_local_refusal_writes_report_without_importing_torch) ... run_dir: /tmp/tmp5rysmw9k/gpu-readiness-single-rank0-local20261018T235759Z-175144
+config: /tmp/tmp5rysmw9k/config.yaml sha256=c01d1f3626b8
+seed: 0
+git_sha: 85ed71d2a6e0439769944d396547a0d0d36f896d dirty=False source=git
+machine: x86_64 python=3.11.17
+container: none
+ValueError: OPENCHANGE_IMAGE must match the reviewed config container
+status=failed report=/tmp/tmp5rysmw9k/gpu-readiness-single-rank0-local20261018T235759Z-175144/readiness.json
+ok
+test_missing_checks_cannot_report_a_pass (test_gpu_readiness.GPUReadinessTest.test_missing_checks_cannot_report_a_pass) ... run_dir: /tmp/tmp738tppk4/gpu-readiness-single-rank0-slurm123
+config: /tmp/tmp738tppk4/config.yaml sha256=c01d1f3626b8
+seed: 0
+git_sha: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa dirty=False source=env
+machine: aarch64 python=3.11.17
+container: /project/pytorch.sif
+RuntimeError: not all required checks completed
+status=failed report=/tmp/tmp738tppk4/gpu-readiness-single-rank0-slurm123/readiness.json
+ok
+test_noncompute_and_unpinned_contexts_refused (test_gpu_readiness.GPUReadinessTest.test_noncompute_and_unpinned_contexts_refused) ... ok
+test_single_context (test_gpu_readiness.GPUReadinessTest.test_single_context) ... ok
+test_single_refuses_accidental_torchrun (test_gpu_readiness.GPUReadinessTest.test_single_refuses_accidental_torchrun) ... ok
+test_unknown_missing_and_unsafe_config_refused (test_gpu_readiness.GPUReadinessTest.test_unknown_missing_and_unsafe_config_refused) ... ok
+test_resume_matches_continuous_training_bitwise (test_jepa_checkpoints.TestJEPACheckpoints.test_resume_matches_continuous_training_bitwise) ... ok
+test_cosine_schedule_exact_points_and_monotonic_tail (test_jepa_config.TestJEPAConfig.test_cosine_schedule_exact_points_and_monotonic_tail) ... ok
+test_every_required_key_is_checked (test_jepa_config.TestJEPAConfig.test_every_required_key_is_checked) ... ok
+test_example_config_is_torch_free_and_valid (test_jepa_config.TestJEPAConfig.test_example_config_is_torch_free_and_valid) ... ok
+test_expected_tokens_match_the_view_mixture (test_jepa_config.TestJEPAConfig.test_expected_tokens_match_the_view_mixture) ... ok
+test_hash_is_stable_under_key_reordering (test_jepa_config.TestJEPAConfig.test_hash_is_stable_under_key_reordering) ... ok
+test_keep_count_uses_exact_half_up_rounding (test_jepa_config.TestJEPAConfig.test_keep_count_uses_exact_half_up_rounding) ... ok
+test_noncanonical_quadrature_is_rejected (test_jepa_config.TestJEPAConfig.test_noncanonical_quadrature_is_rejected) ... ok
+test_size_and_band_validation (test_jepa_config.TestJEPAConfig.test_size_and_band_validation) ... ok
+test_synthetic_contract_validation (test_jepa_config.TestJEPAConfig.test_synthetic_contract_validation) ... ok
+test_unknown_and_forbidden_keys_are_rejected_even_when_null (test_jepa_config.TestJEPAConfig.test_unknown_and_forbidden_keys_are_rejected_even_when_null) ... ok
+test_constrained_inventory_chosen_before_single_sensor_dropout (test_jepa_data.BalancedSamplerTest.test_constrained_inventory_chosen_before_single_sensor_dropout) ... ok
+test_deterministic_stratum_blocks_distinct_locations_and_step_seed (test_jepa_data.BalancedSamplerTest.test_deterministic_stratum_blocks_distinct_locations_and_step_seed) ... ok
+test_insufficient_pilot_cannot_fake_n1024_or_oversubscribe_strata (test_jepa_data.BalancedSamplerTest.test_insufficient_pilot_cannot_fake_n1024_or_oversubscribe_strata) ... ok
+test_invalid_eligibility_pools_refused (test_jepa_data.BalancedSamplerTest.test_invalid_eligibility_pools_refused) ... ok
+test_multi_rank_layout_reconstructs_global_and_equal_local_quotas (test_jepa_data.BalancedSamplerTest.test_multi_rank_layout_reconstructs_global_and_equal_local_quotas) ... ok
+test_resume_has_same_step_batches_and_empty_tail (test_jepa_data.BalancedSamplerTest.test_resume_has_same_step_batches_and_empty_tail) ... ok
+test_sampler_argument_rejections (test_jepa_data.BalancedSamplerTest.test_sampler_argument_rejections) ... ok
+test_actual_repo_metadata_sources_do_not_authorize_arrays (test_jepa_data.LocalDatasetTest.test_actual_repo_metadata_sources_do_not_authorize_arrays) ... ok
+test_all_declared_sources_checked_before_any_array (test_jepa_data.LocalDatasetTest.test_all_declared_sources_checked_before_any_array) ... ok
+test_auxiliary_approval_never_authorizes_arrays (test_jepa_data.LocalDatasetTest.test_auxiliary_approval_never_authorizes_arrays) ... ok
+test_changed_payloads_refused_after_construction (test_jepa_data.LocalDatasetTest.test_changed_payloads_refused_after_construction) ... ok
+test_cloud_fraction_must_match_real_mask_and_no_synthetic_occlusion (test_jepa_data.LocalDatasetTest.test_cloud_fraction_must_match_real_mask_and_no_synthetic_occlusion) ... ok
+test_cloud_thresholds_are_disjoint_and_grey_zone_only_withheld (test_jepa_data.LocalDatasetTest.test_cloud_thresholds_are_disjoint_and_grey_zone_only_withheld) ... ok
+test_dtype_shape_finite_mask_and_pickle_rejections (test_jepa_data.LocalDatasetTest.test_dtype_shape_finite_mask_and_pickle_rejections) ... ok
+test_explicit_approved_local_arrays_and_provenance (test_jepa_data.LocalDatasetTest.test_explicit_approved_local_arrays_and_provenance) ... ok
+test_geographic_and_location_role_leakage_refused (test_jepa_data.LocalDatasetTest.test_geographic_and_location_role_leakage_refused) ... ok
+test_invalid_dataset_keys_refused (test_jepa_data.LocalDatasetTest.test_invalid_dataset_keys_refused) ... ok
+test_manifest_and_records_train_only (test_jepa_data.LocalDatasetTest.test_manifest_and_records_train_only) ... ok
+test_missing_or_nonpilot_approval_is_refused (test_jepa_data.LocalDatasetTest.test_missing_or_nonpilot_approval_is_refused) ... ok
+test_missing_payloads_refused_even_when_sensor_would_be_withheld (test_jepa_data.LocalDatasetTest.test_missing_payloads_refused_even_when_sensor_would_be_withheld) ... ok
+test_normalization_and_invalid_optical_pixels_zeroed (test_jepa_data.LocalDatasetTest.test_normalization_and_invalid_optical_pixels_zeroed) ... ok
+test_normalization_overflow_refused (test_jepa_data.LocalDatasetTest.test_normalization_overflow_refused) ... ok
+test_normalization_schema_and_train_only_hash (test_jepa_data.LocalDatasetTest.test_normalization_schema_and_train_only_hash) ... ok
+test_numpy_loading_is_readonly_and_disallows_pickle (test_jepa_data.LocalDatasetTest.test_numpy_loading_is_readonly_and_disallows_pickle) ... ok
+test_one_pair_per_location_and_unique_sample_ids (test_jepa_data.LocalDatasetTest.test_one_pair_per_location_and_unique_sample_ids) ... ok
+test_pair_gap_boundaries_timezone_and_cutoff (test_jepa_data.LocalDatasetTest.test_pair_gap_boundaries_timezone_and_cutoff) ... ok
+test_path_traversal_absolute_and_windows_paths_refused (test_jepa_data.LocalDatasetTest.test_path_traversal_absolute_and_windows_paths_refused) ... ok
+test_payload_checksum_checked_before_numpy_load (test_jepa_data.LocalDatasetTest.test_payload_checksum_checked_before_numpy_load) ... ok
+test_payload_revision_grid_and_footprint_validated (test_jepa_data.LocalDatasetTest.test_payload_revision_grid_and_footprint_validated) ... ok
+test_pilot_item_and_location_caps (test_jepa_data.LocalDatasetTest.test_pilot_item_and_location_caps) ... ok
+test_revision_matches_immutable_approved_source_url (test_jepa_data.LocalDatasetTest.test_revision_matches_immutable_approved_source_url) ... ok
+test_samples_do_not_mutate_source_arrays_or_each_other (test_jepa_data.LocalDatasetTest.test_samples_do_not_mutate_source_arrays_or_each_other) ... ok
+test_split_hash_and_normalization_hash_checked_before_arrays (test_jepa_data.LocalDatasetTest.test_split_hash_and_normalization_hash_checked_before_arrays) ... ok
+test_symlink_escape_and_symlink_parent_refused (test_jepa_data.LocalDatasetTest.test_symlink_escape_and_symlink_parent_refused) ... ok
+test_symlink_replacement_after_validation_is_refused (test_jepa_data.LocalDatasetTest.test_symlink_replacement_after_validation_is_refused) ... ok
+test_unaccepted_or_mutable_or_unsigned_split_refused (test_jepa_data.LocalDatasetTest.test_unaccepted_or_mutable_or_unsigned_split_refused) ... ok
+test_unknown_missing_duplicate_keys_and_invalid_version_refused (test_jepa_data.LocalDatasetTest.test_unknown_missing_duplicate_keys_and_invalid_version_refused) ... ok
+test_unknown_payload_source_refused_before_first_array (test_jepa_data.LocalDatasetTest.test_unknown_payload_source_refused_before_first_array) ... ok
+test_withheld_sensors_are_absent_not_invented (test_jepa_data.LocalDatasetTest.test_withheld_sensors_are_absent_not_invented) ... ok
+test_accumulation_and_ddp_conventions (test_jepa_distributed.DistributedHelperTests.test_accumulation_and_ddp_conventions) ... ok
+test_non_distributed_context_and_logging_mean (test_jepa_distributed.DistributedHelperTests.test_non_distributed_context_and_logging_mean) ... ok
+test_stratum_blocks_shard_evenly_and_bad_layout_is_rejected (test_jepa_distributed.DistributedHelperTests.test_stratum_blocks_shard_evenly_and_bad_layout_is_rejected) ... ok
+test_spawned_gloo_matches_single_process_for_world_one_and_two (test_jepa_distributed.SpawnedGlooTests.test_spawned_gloo_matches_single_process_for_world_one_and_two) ... /home/ubuntu/repos/openchange-validation/tests/test_jepa_distributed.py:103: FutureWarning: torch.distributed.nn.functional.all_reduce is deprecated, use torch.distributed._functional_collectives.all_reduce instead.
+  reference_sum = torch_dist_nn.all_reduce(reference, op=torch_dist.ReduceOp.SUM)
+/home/ubuntu/repos/openchange-validation/tests/test_jepa_distributed.py:103: FutureWarning: torch.distributed.nn.functional.all_reduce is deprecated, use torch.distributed._functional_collectives.all_reduce instead.
+  reference_sum = torch_dist_nn.all_reduce(reference, op=torch_dist.ReduceOp.SUM)
+/home/ubuntu/repos/openchange-validation/tests/test_jepa_distributed.py:103: FutureWarning: torch.distributed.nn.functional.all_reduce is deprecated, use torch.distributed._functional_collectives.all_reduce instead.
+  reference_sum = torch_dist_nn.all_reduce(reference, op=torch_dist.ReduceOp.SUM)
+ok
+test_klindt_lejepa_approximate_identifiability_bound (test_jepa_guarantees.TestJEPAGuarantees.test_klindt_lejepa_approximate_identifiability_bound) ... ok
+test_matryoshka_prefix_evaluation (test_jepa_guarantees.TestJEPAGuarantees.test_matryoshka_prefix_evaluation) ... ok
+test_part2_observation_reveal_policies_under_budget (test_jepa_guarantees.TestJEPAGuarantees.test_part2_observation_reveal_policies_under_budget) ... ok
+test_part2_stratified_conformal_alerts_and_s1_lead_time (test_jepa_guarantees.TestJEPAGuarantees.test_part2_stratified_conformal_alerts_and_s1_lead_time) ... ok
+test_q1_rankme_and_lidar_scores (test_jepa_guarantees.TestJEPAGuarantees.test_q1_rankme_and_lidar_scores) ... ok
+test_q1_selection_spearman_and_regret (test_jepa_guarantees.TestJEPAGuarantees.test_q1_selection_spearman_and_regret) ... ok
+test_q2_orthogonal_procrustes_zero_reembedding_upgrade (test_jepa_guarantees.TestJEPAGuarantees.test_q2_orthogonal_procrustes_zero_reembedding_upgrade) ... ok
+test_q2_subspace_procrustes_vs_full_procrustes_with_unaligned_private_blocks (test_jepa_guarantees.TestJEPAGuarantees.test_q2_subspace_procrustes_vs_full_procrustes_with_unaligned_private_blocks) ... ok
+test_q3_q4_cross_unit_distance_ratio (test_jepa_guarantees.TestJEPAGuarantees.test_q3_q4_cross_unit_distance_ratio) ... ok
+test_autocast_disables_reduced_precision_loss_math (test_jepa_losses.EppsPulleyTests.test_autocast_disables_reduced_precision_loss_math) ... ok
+test_barlow_twins_and_vicreg_comparators_and_gradcheck (test_jepa_losses.EppsPulleyTests.test_barlow_twins_and_vicreg_comparators_and_gradcheck) ... ok
+test_chunking_and_checkpoint_preserve_values_and_gradients (test_jepa_losses.EppsPulleyTests.test_chunking_and_checkpoint_preserve_values_and_gradients) ... ok
+test_collapsed_embedding_has_expected_value_and_zero_gradient (test_jepa_losses.EppsPulleyTests.test_collapsed_embedding_has_expected_value_and_zero_gradient) ... ok
+test_conditional_flow_matching_multimodal_bridge_beats_l2_mean_collapse (test_jepa_losses.EppsPulleyTests.test_conditional_flow_matching_multimodal_bridge_beats_l2_mean_collapse) ... ok
+test_direction_seed_and_generator_determinism (test_jepa_losses.EppsPulleyTests.test_direction_seed_and_generator_determinism) ... ok
+test_ep_counts_weights_and_mean_penalty_are_applied_once (test_jepa_losses.EppsPulleyTests.test_ep_counts_weights_and_mean_penalty_are_applied_once) ... ok
+test_ep_gradient_formula_and_gradcheck (test_jepa_losses.EppsPulleyTests.test_ep_gradient_formula_and_gradcheck) ... ok
+test_ep_matches_numpy_complex_characteristic_function (test_jepa_losses.EppsPulleyTests.test_ep_matches_numpy_complex_characteristic_function) ... ok
+test_input_validation_errors (test_jepa_losses.EppsPulleyTests.test_input_validation_errors) ... ok
+test_isotropic_scale_matches_analytic_expectation_with_four_se (test_jepa_losses.EppsPulleyTests.test_isotropic_scale_matches_analytic_expectation_with_four_se) ... ok
+test_mean_penalty_null_and_gradient (test_jepa_losses.EppsPulleyTests.test_mean_penalty_null_and_gradient) ... ok
+test_one_coordinate_gap_is_detected_but_random_slices_are_near_null (test_jepa_losses.EppsPulleyTests.test_one_coordinate_gap_is_detected_but_random_slices_are_near_null) ... ok
+test_pooled_and_stratified_objectives_and_mean_penalty (test_jepa_losses.EppsPulleyTests.test_pooled_and_stratified_objectives_and_mean_penalty) ... ok
+test_rotation_invariance (test_jepa_losses.EppsPulleyTests.test_rotation_invariance) ... ok
+test_split_subspace_resolves_bayes_risk_conflict_and_gradcheck (test_jepa_losses.EppsPulleyTests.test_split_subspace_resolves_bayes_risk_conflict_and_gradcheck) ... ok
+test_standard_normal_sampling_null_with_four_se (test_jepa_losses.EppsPulleyTests.test_standard_normal_sampling_null_with_four_se) ... ok
+test_total_loss_gradcheck (test_jepa_losses.EppsPulleyTests.test_total_loss_gradcheck) ... ok
+test_view_averaging_and_stratified_weighting (test_jepa_losses.EppsPulleyTests.test_view_averaging_and_stratified_weighting) ... ok
+test_weighted_invariance_attenuates_large_acquisition_gaps (test_jepa_losses.EppsPulleyTests.test_weighted_invariance_attenuates_large_acquisition_gaps) ... ok
+test_gradient_formula_gradcheck_and_translation_invariance (test_jepa_losses.InvarianceTests.test_gradient_formula_gradcheck_and_translation_invariance) ... ok
+test_quadrature_constants_and_null (test_jepa_losses.QuadratureTests.test_quadrature_constants_and_null) ... ok
+test_bucketed_forward_matches_one_view_at_a_time (test_jepa_model.TestJEPAModel.test_bucketed_forward_matches_one_view_at_a_time) ... ok
+test_embedding_layout_and_attention_set_equivariance (test_jepa_model.TestJEPAModel.test_embedding_layout_and_attention_set_equivariance) ... ok
+test_invalid_bucket_shapes_missing_pairs_and_gradients (test_jepa_model.TestJEPAModel.test_invalid_bucket_shapes_missing_pairs_and_gradients) ... ok
+test_position_table_projector_and_block_sequence (test_jepa_model.TestJEPAModel.test_position_table_projector_and_block_sequence) ... ok
+test_projector_norm_modes_and_batch_state (test_jepa_model.TestJEPAModel.test_projector_norm_modes_and_batch_state) ... ok
+test_approved_local_array_adapter_runs_two_rank_fit (test_jepa_runtime.TestDistributedRuntime.test_approved_local_array_adapter_runs_two_rank_fit) ... ok
+test_configure_precision_and_determinism_disables_tf32_in_fp32 (test_jepa_runtime.TestDistributedRuntime.test_configure_precision_and_determinism_disables_tf32_in_fp32) ... ok
+test_cuda_bf16_training_and_restart (test_jepa_runtime.TestDistributedRuntime.test_cuda_bf16_training_and_restart) ... skipped 'requires two real CUDA GPUs; bf16 restart is not CPU evidence'
+test_cuda_syncbn_single_vs_two_rank (test_jepa_runtime.TestDistributedRuntime.test_cuda_syncbn_single_vs_two_rank) ... skipped 'requires two real CUDA GPUs; CPU is not SyncBN evidence'
+test_one_vs_two_rank_updates_and_exact_restart (test_jepa_runtime.TestDistributedRuntime.test_one_vs_two_rank_updates_and_exact_restart) ... ok
+test_pilot_and_precision_boundaries_are_explicit (test_jepa_runtime.TestDistributedRuntime.test_pilot_and_precision_boundaries_are_explicit) ... ok
+test_provenance_rng_preservation (test_jepa_runtime.TestDistributedRuntime.test_provenance_rng_preservation) ... ok
+test_stop_consensus_rank_rng_and_checkpoint_failure (test_jepa_runtime.TestDistributedRuntime.test_stop_consensus_rank_rng_and_checkpoint_failure) ... ok
+test_workers_are_deterministic (test_jepa_runtime.TestDistributedRuntime.test_workers_are_deterministic) ... ok
+test_factorized_spatiotemporal_world_model_loss_and_gradients (test_jepa_science_wm.ScienceWorldModelTests.test_factorized_spatiotemporal_world_model_loss_and_gradients) ... ok
+test_gpu_counterfactual_observation_value_ranking (test_jepa_science_wm.ScienceWorldModelTests.test_gpu_counterfactual_observation_value_ranking) ... ok
+test_multisensor_and_continuum_stem_omits_missing_sensors (test_jepa_science_wm.ScienceWorldModelTests.test_multisensor_and_continuum_stem_omits_missing_sensors) ... ok
+test_physical_forcing_encoder_accumulates_stress (test_jepa_science_wm.ScienceWorldModelTests.test_physical_forcing_encoder_accumulates_stress) ... ok
+test_cap_on_periodic_boundary_writes_one_checkpoint (test_jepa_train_script.TestJEPATrainCLI.test_cap_on_periodic_boundary_writes_one_checkpoint) ... ok
+test_cli_refusals_exit_two (test_jepa_train_script.TestJEPATrainCLI.test_cli_refusals_exit_two) ... ok
+test_dry_run_writes_provisional_manifest_and_model_check (test_jepa_train_script.TestJEPATrainCLI.test_dry_run_writes_provisional_manifest_and_model_check) ... ok
+test_synthetic_fit_writes_finite_metrics_and_checkpoint (test_jepa_train_script.TestJEPATrainCLI.test_synthetic_fit_writes_finite_metrics_and_checkpoint) ... ok
+test_zero_wall_cap_exits_three_and_saves_checkpoint (test_jepa_train_script.TestJEPATrainCLI.test_zero_wall_cap_exits_three_and_saves_checkpoint) ... ok
+test_generator_intervention_and_occlusion_metadata (test_jepa_views.TestJEPAViews.test_generator_intervention_and_occlusion_metadata) ... ok
+test_local_sensor_frequencies_match_configured_probabilities (test_jepa_views.TestJEPAViews.test_local_sensor_frequencies_match_configured_probabilities) ... ok
+test_observation_and_real_data_refusals (test_jepa_views.TestJEPAViews.test_observation_and_real_data_refusals) ... ok
+test_pair_gap_and_batch_pathology_audit (test_jepa_views.TestJEPAViews.test_pair_gap_and_batch_pathology_audit) ... ok
+test_sample_views_are_independent_of_batch_neighbors (test_jepa_views.TestJEPAViews.test_sample_views_are_independent_of_batch_neighbors) ... ok
+test_sampler_uses_stratum_blocks_that_shard_evenly (test_jepa_views.TestJEPAViews.test_sampler_uses_stratum_blocks_that_shard_evenly) ... ok
+test_sampling_is_repeatable_and_step_dependent (test_jepa_views.TestJEPAViews.test_sampling_is_repeatable_and_step_dependent) ... ok
+test_sensor_layout_shapes_and_global_views (test_jepa_views.TestJEPAViews.test_sensor_layout_shapes_and_global_views) ... ok
+test_shared_geometry_and_paired_sensor_pixels (test_jepa_views.TestJEPAViews.test_shared_geometry_and_paired_sensor_pixels) ... ok
+test_no_cls_and_validation (test_jepa_wam.CausalMaskTests.test_no_cls_and_validation) ... ok
+test_output_equals_truncated_past_attention (test_jepa_wam.CausalMaskTests.test_output_equals_truncated_past_attention) ... ok
+test_spatiotemporal_allow_block_pattern (test_jepa_wam.CausalMaskTests.test_spatiotemporal_allow_block_pattern) ... ok
+test_zero_future_gradient_leakage (test_jepa_wam.CausalMaskTests.test_zero_future_gradient_leakage) ... ok
+test_empty_stratum_raises (test_jepa_wam.HistoryStratifiedSIGRegTests.test_empty_stratum_raises) ... ok
+test_fp32_exactness_under_autocast (test_jepa_wam.HistoryStratifiedSIGRegTests.test_fp32_exactness_under_autocast) ... ok
+test_gaussian_inputs_near_null (test_jepa_wam.HistoryStratifiedSIGRegTests.test_gaussian_inputs_near_null) ... ok
+test_matches_ep_per_view_stratum_fp32_and_fp64 (test_jepa_wam.HistoryStratifiedSIGRegTests.test_matches_ep_per_view_stratum_fp32_and_fp64) ... ok
+test_stratum_assignment (test_jepa_wam.HistoryStratifiedSIGRegTests.test_stratum_assignment) ... ok
+test_action_contrastive_loss_and_flow_matching_wam_head (test_jepa_wam.WorldModelTests.test_action_contrastive_loss_and_flow_matching_wam_head) ... ok
+test_causal_vs_bidirectional_ablation_arm (test_jepa_wam.WorldModelTests.test_causal_vs_bidirectional_ablation_arm) ... ok
+test_diffusion_steered_plan_stays_on_manifold (test_jepa_wam.WorldModelTests.test_diffusion_steered_plan_stays_on_manifold) ... ok
+test_film_action_responsiveness (test_jepa_wam.WorldModelTests.test_film_action_responsiveness) ... ok
+test_forward_shape_and_causal_consistency (test_jepa_wam.WorldModelTests.test_forward_shape_and_causal_consistency) ... ok
+test_lewam_mot_mask_grad_planning_flex_wam_and_stride (test_jepa_wam.WorldModelTests.test_lewam_mot_mask_grad_planning_flex_wam_and_stride) ... ok
+test_pixel_encoder_end_to_end_wam_and_lerobot_dataset (test_jepa_wam.WorldModelTests.test_pixel_encoder_end_to_end_wam_and_lerobot_dataset) ... ok
+test_reachable_error_and_oracle_factorial (test_jepa_wam.WorldModelTests.test_reachable_error_and_oracle_factorial) ... ok
+test_robometer_preference_and_failure_margin_loss (test_jepa_wam.WorldModelTests.test_robometer_preference_and_failure_margin_loss) ... ok
+test_stop_grad_vs_live_target_modes (test_jepa_wam.WorldModelTests.test_stop_grad_vs_live_target_modes) ... ok
+test_unconfounded_anchor_zero_history_and_action_alignment (test_jepa_wam.WorldModelTests.test_unconfounded_anchor_zero_history_and_action_alignment) ... ok
+test_env_git_sha_wins (test_provenance.ProvenanceTest.test_env_git_sha_wins) ... ok
+test_filtered_env_drops_secrets_and_unrelated (test_provenance.ProvenanceTest.test_filtered_env_drops_secrets_and_unrelated) ... ok
+test_run_id_uses_slurm_job (test_provenance.ProvenanceTest.test_run_id_uses_slurm_job) ... ok
+test_start_run_writes_manifest (test_provenance.ProvenanceTest.test_start_run_writes_manifest) ... ok
+test_duplicate_ids_and_unknown_keys (test_sources.DocumentTest.test_duplicate_ids_and_unknown_keys) ... ok
+test_invalid_file_blocks_every_source (test_sources.DocumentTest.test_invalid_file_blocks_every_source) ... ok
+test_repo_metadata_approval_does_not_approve_imagery_or_training (test_sources.DocumentTest.test_repo_metadata_approval_does_not_approve_imagery_or_training) ... ok
+test_repo_sources_file_is_valid (test_sources.DocumentTest.test_repo_sources_file_is_valid) ... ok
+test_require_approved (test_sources.DocumentTest.test_require_approved) ... ok
+test_unlisted_repo_source_blocks_fetch (test_sources.DocumentTest.test_unlisted_repo_source_blocks_fetch) ... ok
+test_complete_entry_is_valid (test_sources.EntryTest.test_complete_entry_is_valid) ... ok
+test_every_required_field_is_enforced (test_sources.EntryTest.test_every_required_field_is_enforced) ... ok
+test_rejections (test_sources.EntryTest.test_rejections) ... ok
+test_check_sample (test_splits.SplitContractTest.test_check_sample) ... ok
+test_cutoff_rules (test_splits.SplitContractTest.test_cutoff_rules) ... ok
+test_pilot_is_not_scoreable (test_splits.SplitContractTest.test_pilot_is_not_scoreable) ... ok
+test_pilot_regions_do_not_overlap (test_splits.SplitContractTest.test_pilot_regions_do_not_overlap) ... ok
+test_shared_region_is_leakage (test_splits.SplitContractTest.test_shared_region_is_leakage) ... ok
+test_validation_overlap_is_leakage (test_splits.SplitContractTest.test_validation_overlap_is_leakage) ... ok
+test_depth_limit_and_no_following_symlinked_parent (test_training_inspection.TrainingInspectionTest.test_depth_limit_and_no_following_symlinked_parent) ... ok
+test_git_queries_are_read_only_no_shell_no_remote_output (test_training_inspection.TrainingInspectionTest.test_git_queries_are_read_only_no_shell_no_remote_output) ... ok
+test_inventory_caps_entries_and_files (test_training_inspection.TrainingInspectionTest.test_inventory_caps_entries_and_files) ... ok
+test_inventory_excludes_hidden_sensitive_symlinks_and_special_files (test_training_inspection.TrainingInspectionTest.test_inventory_excludes_hidden_sensitive_symlinks_and_special_files) ... ok
+test_npy_header_without_array_loading (test_training_inspection.TrainingInspectionTest.test_npy_header_without_array_loading) ... ok
+test_npy_malformed_oversize_and_code_headers_are_not_executed (test_training_inspection.TrainingInspectionTest.test_npy_malformed_oversize_and_code_headers_are_not_executed) ... ok
+test_only_storage_environment_variables_are_expanded (test_training_inspection.TrainingInspectionTest.test_only_storage_environment_variables_are_expanded) ... ok
+test_refuses_broad_system_and_symlink_roots (test_training_inspection.TrainingInspectionTest.test_refuses_broad_system_and_symlink_roots) ... ok
+test_report_has_no_secrets_gpu_pass_or_false_quota (test_training_inspection.TrainingInspectionTest.test_report_has_no_secrets_gpu_pass_or_false_quota) ... ok
+test_repository_config_and_bounded_schema (test_training_inspection.TrainingInspectionTest.test_repository_config_and_bounded_schema) ... ok
+test_storage_sample_is_shallow_and_bounded (test_training_inspection.TrainingInspectionTest.test_storage_sample_is_shallow_and_bounded) ... ok
+test_structured_dtype_field_names_are_not_exported (test_training_inspection.TrainingInspectionTest.test_structured_dtype_field_names_are_not_exported) ... ok
+test_timeout_preserves_partial_report (test_training_inspection.TrainingInspectionTest.test_timeout_preserves_partial_report) ... ok
+
+----------------------------------------------------------------------
+Ran 185 tests in 40.566s
+
+OK (skipped=2)
+/home/ubuntu/repos/openchange-uk/.venv-jepa/bin/python scripts/check_sbatch.py
+ok slurm/00_pull_sif.sbatch
+ok slurm/00_smoke.sbatch
+ok slurm/01_download.sbatch
+ok slurm/02_train_1gpu.sbatch
+ok slurm/03_train_4gpu.sbatch
+ok slurm/04_jepa_pilot_4gpu.sbatch
+ok slurm/05_jepa_cuda_checks.sbatch
+ok slurm/06_gpu_readiness.sbatch
+ok slurm/06_wam_and_science_gpu.sbatch
+/home/ubuntu/repos/openchange-uk/.venv-jepa/bin/python scripts/validate_sources.py --config configs/sources.yaml
+4 approved source(s) are valid. Fetch logic is not implemented.
+/home/ubuntu/repos/openchange-uk/.venv-jepa/bin/python scripts/train.py --config configs/baseline.yaml --dry-run --output-root outputs
+dry-run
+run_dir: outputs/baseline-dry-run-local20261018T235840Z-177695
+config: configs/baseline.yaml sha256=dc84faa16f7c
+seed: 0
+git_sha: 85ed71d2a6e0439769944d396547a0d0d36f896d dirty=False source=git
+machine: x86_64 python=3.11.17
+container: none
+task: coastal-change
+split: {'geographic': 'held-out-regions', 'temporal': 'held-out-future', 'status': 'provisional'}
+train regions: ('holdout-unset-train',)
+validation regions: ()
+test regions: ('holdout-unset-test',)
+temporal cutoff: unset
+backbones reserved for later: prithvi, clay, tessera, satmae, vjepa2_1
+/home/ubuntu/repos/openchange-uk/.venv-jepa/bin/python scripts/evaluate.py --config configs/baseline.yaml
+config: configs/baseline.yaml
+git_sha: 85ed71d2a6e0439769944d396547a0d0d36f896d
+No scores: split status is provisional, cutoff is unset.
+metrics: pixel_iou, pixel_f1, boundary_f1, mean_iou, expected_calibration_error, uncertainty_error_correlation, per_region_variance
+earth2_context: ablation-only
+/home/ubuntu/repos/openchange-uk/.venv-jepa/bin/python scripts/train_jepa.py --config configs/jepa/p1_synthetic.yaml --dry-run --output-root outputs
+{"config_hash": "0e9ebb5e112bf6aec107b3d8935d3ba1e73a1015d627c7ad3568ca9c70688930", "model_check": "ok", "note": "plumbing check, not a result", "output_shapes": {"b": [8, 4, 192], "z": [8, 4, 128]}, "parameter_count_actual": 10889920, "parameter_count_formula": 10889920, "run_dir": "outputs/jepa-p1-synthetic-local20261018T235840Z-177709", "status": "dry-run", "token_table": {"expected_per_item": {"both_sensors": 207.6, "one_sensor": 148.0, "quota_weighted": 177.8}, "per_view": {"224": {"1": 20, "2": 39}, "96": {"1": 18, "2": 36}}}}
