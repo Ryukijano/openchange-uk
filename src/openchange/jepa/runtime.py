@@ -81,6 +81,21 @@ def reduce(value: torch.Tensor, ctx: DistContext, op: Any = distributed.ReduceOp
     return result
 
 
+def configure_precision_and_determinism(
+    cfg: dict, device: torch.device | str | None = None
+) -> None:
+    del device
+    runtime_cfg = cfg.get("runtime", {})
+    if "cpu_threads" in runtime_cfg:
+        torch.set_num_threads(runtime_cfg["cpu_threads"])
+    if "deterministic" in runtime_cfg:
+        torch.use_deterministic_algorithms(bool(runtime_cfg["deterministic"]))
+    if cfg.get("precision", "fp32") == "fp32":
+        torch.backends.cuda.matmul.allow_tf32 = False
+        torch.backends.cudnn.allow_tf32 = False
+        torch.set_float32_matmul_precision("highest")
+
+
 def seed_all(seed: int, device: torch.device) -> None:
     random.seed(seed)
     np.random.seed(seed)

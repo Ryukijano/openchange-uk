@@ -67,6 +67,7 @@ def run(args: argparse.Namespace) -> int:
     torch.set_num_threads(cfg["runtime"]["cpu_threads"])
     torch.use_deterministic_algorithms(cfg["runtime"]["deterministic"])
     device, ctx = runtime.initialize(args.device)
+    runtime.configure_precision_and_determinism(cfg, device)
     if any(q % ctx.world_size for q in cfg["global_quotas"]):
         raise ConfigError("each global stratum quota must be divisible by world size")
     if ctx.world_size > 1 and device.type == "cpu" and cfg["projector_norm"] == "batch":
@@ -100,6 +101,9 @@ def run(args: argparse.Namespace) -> int:
                     "data",
                     "checkpoints",
                     "runtime",
+                    "guarantees",
+                    "wam",
+                    "science_wm",
                 )
             ]
         },

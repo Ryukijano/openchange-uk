@@ -194,6 +194,17 @@ class TestDistributedRuntime(unittest.TestCase):
             torch.manual_seed(912)
         torch.testing.assert_close(state, torch.get_rng_state(), rtol=0, atol=0)
 
+    def test_configure_precision_and_determinism_disables_tf32_in_fp32(self):
+        cfg = tiny_config()
+        cfg["precision"] = "fp32"
+        torch.backends.cuda.matmul.allow_tf32 = True
+        torch.backends.cudnn.allow_tf32 = True
+        torch.set_float32_matmul_precision("high")
+        runtime.configure_precision_and_determinism(cfg, torch.device("cpu"))
+        self.assertFalse(torch.backends.cuda.matmul.allow_tf32)
+        self.assertFalse(torch.backends.cudnn.allow_tf32)
+        self.assertEqual(torch.get_float32_matmul_precision(), "highest")
+
     def test_one_vs_two_rank_updates_and_exact_restart(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -248,7 +259,13 @@ class TestDistributedRuntime(unittest.TestCase):
             single = checkpoint(launch(config, root / "cuda_single", device="cuda"))
             multi = checkpoint(launch(config, root / "cuda_multi", ranks=2, device="cuda"))
             for key in single["model"]:
-                torch.testing.assert_close(single["model"][key], multi["model"][key], atol=2e-4, rtol=2e-4)
+                torch.testing.assert_close(
+                    single["model"][key],
+                    multi["model"][key],
+                    atol=2e-4,
+                    rtol=2e-4,
+                    msg=f"mismatch in state key {key}",
+                )
 
     @unittest.skipUnless(
         torch.cuda.device_count() >= 2, "requires two real CUDA GPUs; bf16 restart is not CPU evidence"
