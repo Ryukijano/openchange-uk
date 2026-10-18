@@ -22,6 +22,7 @@ from openchange.jepa.losses import (
     sample_conditional_flow,
     sigreg_directions,
     split_subspace_jepa_loss,
+    tessera_mixup_barlow_loss,
     vicreg_loss,
     weighted_invariance_loss,
 )
@@ -649,6 +650,29 @@ class EppsPulleyTests(unittest.TestCase):
                 rtol=1e-5,
             )
         )
+
+        # TESSERA v2 ceiling normalization and Mix-Up consistency loss (arXiv:2607.03949 App. C & T)
+        bt_ceil = barlow_twins_loss(z, lam_bt=0.05, normalize_by_ceiling=True)
+        expected_ceiling = 5.0 + 0.05 * 5.0 * 4.0
+        self.assertAlmostEqual(
+            float(bt_ceil["loss"].detach()),
+            float(bt_ceil["raw_bt_loss"].detach()) / expected_ceiling,
+            places=12,
+        )
+        perm = torch.tensor([3, 0, 1, 2, 7, 4, 5, 6, 9, 8], dtype=torch.int64)
+        alpha_mix = 0.65
+        za_in = z[0].detach()
+        zb_in = z[1].detach()
+        # Under exact linear encoder on standardized views, z_mixed = alpha * z_a + (1 - alpha) * z_b[perm]
+        zm_linear = alpha_mix * za_in + (1.0 - alpha_mix) * zb_in[perm]
+        zm_corrupted = torch.randn_like(zm_linear)
+        t_lin = tessera_mixup_barlow_loss(
+            za_in, zb_in, zm_linear, alpha_mix=alpha_mix, perm=perm, lam_bt=0.05, lam_mix=1.0
+        )
+        t_bad = tessera_mixup_barlow_loss(
+            za_in, zb_in, zm_corrupted, alpha_mix=alpha_mix, perm=perm, lam_bt=0.05, lam_mix=1.0
+        )
+        self.assertLess(float(t_lin["mix_loss"]), float(t_bad["mix_loss"]))
         self.assertTrue(
             torch.autograd.gradcheck(
                 lambda val: vicreg_loss(val)["loss"],

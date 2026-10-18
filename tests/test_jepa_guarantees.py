@@ -11,6 +11,7 @@ import torch
 
 from openchange.jepa.guarantees import (
     StratifiedConformalAlertCalibrator,
+    align_sfa_matryoshka_gauge,
     apply_orthogonal_procrustes,
     apply_subspace_procrustes,
     cross_unit_distance_ratio,
@@ -19,6 +20,7 @@ from openchange.jepa.guarantees import (
     fit_orthogonal_procrustes,
     fit_subspace_procrustes,
     latent_forecast_residuals,
+    lejepa_identifiability_bound,
     lidar_score,
     rankme_score,
     score_observation_reveal_policies,
@@ -312,6 +314,41 @@ class TestJEPAGuarantees(unittest.TestCase):
         self.assertEqual(report["prefixes"], [4, 8, 16])
         self.assertGreaterEqual(report["full_accuracy"], 0.95)
         self.assertGreaterEqual(report["prefix_retention"][8], 0.85)
+        self.assertIn("first_vs_random_gap", report)
+        self.assertIn("group_std_staircase", report)
+
+        # SFA gauge fixing orders coordinates by cross-view persistence without distorting unit variance
+        sfa = align_sfa_matryoshka_gauge(train_x, train_x * 0.9 + 0.1 * torch.randn_like(train_x))
+        self.assertEqual(sfa["rotation"].shape, (dim, dim))
+        self.assertTrue(bool((sfa["eigenvalues"][:-1] >= sfa["eigenvalues"][1:] - 1e-9).all()))
+
+    def test_klindt_lejepa_approximate_identifiability_bound(self) -> None:
+        gen = torch.Generator().manual_seed(303)
+        n_samples, dim = 256, 6
+        rho = 0.9
+        z_true = torch.randn((n_samples, dim), generator=gen, dtype=torch.float64)
+        eta = torch.randn((n_samples, dim), generator=gen, dtype=torch.float64)
+        z_next = rho * z_true + math.sqrt(1.0 - rho * rho) * eta
+
+        q_orth, _ = torch.linalg.qr(torch.randn((dim, dim), generator=gen, dtype=torch.float64))
+        h_a = z_true @ q_orth.T
+        h_b = z_next @ q_orth.T
+
+        bound_linear = lejepa_identifiability_bound(h_a, h_b, true_latents=z_true, rho=rho)
+        self.assertTrue(bound_linear["bound_satisfied"])
+        self.assertGreater(bound_linear["r2_h_to_z"], 0.999)
+        self.assertLess(bound_linear["empirical_orthogonal_error"], 1e-10)
+
+        # Nonlinearly distorted representation increases alignment gap and decreases R^2
+        h_a_nonlin = h_a + 0.35 * (h_a.square() - 1.0)
+        h_b_nonlin = h_b + 0.35 * (h_b.square() - 1.0)
+        bound_nonlin = lejepa_identifiability_bound(h_a_nonlin, h_b_nonlin, true_latents=z_true, rho=rho)
+        self.assertTrue(bound_nonlin["bound_satisfied"])
+        self.assertLess(bound_nonlin["r2_h_to_z"], bound_linear["r2_h_to_z"])
+        self.assertGreater(
+            bound_nonlin["theoretical_recovery_bound"],
+            bound_linear["theoretical_recovery_bound"],
+        )
 
 
 if __name__ == "__main__":

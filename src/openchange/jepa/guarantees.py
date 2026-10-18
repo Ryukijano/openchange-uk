@@ -356,12 +356,15 @@ def evaluate_matryoshka_prefixes(
     eval_labels: Tensor,
     *,
     prefixes: Sequence[int] = (16, 32, 64, 128),
+    seed: int = 0,
 ) -> dict[str, Any]:
-    """Evaluate nested Matryoshka prefix representations (TESSERA v2 / Clean-JEPA prefix test).
+    """Evaluate nested Matryoshka prefix representations (TESSERA v2 Appendix V & W.2).
 
     Fits a parameter-free nearest-class-centroid classifier on ``train_features[:, :k]``
-    for each prefix ``k`` in ``prefixes`` and reports held-out accuracy and retention
-    fraction relative to the full embedding width ``D``.
+    (``first_k``) and a random ``k``-coordinate subset (``random_k``, coordinate-exchangeability
+    control from TESSERA v2 Appendix W.2) for each prefix ``k`` in ``prefixes``. Also computes
+    the per-multiplicity-group stationary standard deviation staircase (TESSERA v2 Observation 1)
+    to diagnose whether naive prefix-SSL gradient multiplicity distorted early coordinates.
     """
     if train_features.ndim != 2 or eval_features.ndim != 2:
         raise ValueError("train_features and eval_features must be 2D tensors")
@@ -381,9 +384,21 @@ def evaluate_matryoshka_prefixes(
         raise ValueError("at least two classes are required in train_labels")
 
     prefix_accuracies: dict[int, float] = {}
+    random_prefix_accuracies: dict[int, float] = {}
+    first_vs_random_gap: dict[int, float] = {}
+    group_std_staircase: dict[str, float] = {}
+    gen = torch.Generator(device="cpu").manual_seed(seed)
+
     with torch.autocast(device_type=train_features.device.type, enabled=False):
         x_tr = train_features.detach().to(dtype=torch.float64)
         x_ev = eval_features.detach().to(device=x_tr.device, dtype=torch.float64)
+        coord_std = x_tr.std(dim=0, unbiased=False)
+        prev = 0
+        for k in valid_prefixes:
+            if k > prev:
+                group_std_staircase[f"dims_{prev}_{k}"] = float(coord_std[prev:k].mean().item())
+                prev = k
+
         for k in valid_prefixes:
             tr_k = functional.normalize(x_tr[:, :k], dim=-1, eps=1e-12)
             ev_k = functional.normalize(x_ev[:, :k], dim=-1, eps=1e-12)
@@ -396,6 +411,18 @@ def evaluate_matryoshka_prefixes(
             acc = float((preds == y_eval).to(dtype=torch.float64).mean().item())
             prefix_accuracies[k] = acc
 
+            perm_idx = torch.randperm(dim, generator=gen)[:k].to(device=x_tr.device)
+            tr_rand = functional.normalize(x_tr[:, perm_idx], dim=-1, eps=1e-12)
+            ev_rand = functional.normalize(x_ev[:, perm_idx], dim=-1, eps=1e-12)
+            centroids_rand = torch.stack(
+                [tr_rand[y_train == c].mean(dim=0) for c in classes], dim=0
+            )
+            centroids_rand = functional.normalize(centroids_rand, dim=-1, eps=1e-12)
+            preds_rand = classes[(ev_rand @ centroids_rand.T).argmax(dim=-1)]
+            rand_acc = float((preds_rand == y_eval).to(dtype=torch.float64).mean().item())
+            random_prefix_accuracies[k] = rand_acc
+            first_vs_random_gap[k] = acc - rand_acc
+
     full_acc = prefix_accuracies[dim]
     retention = {
         k: (acc / full_acc if full_acc > 0.0 else 0.0) for k, acc in prefix_accuracies.items()
@@ -403,10 +430,145 @@ def evaluate_matryoshka_prefixes(
     return {
         "prefixes": valid_prefixes,
         "prefix_accuracies": prefix_accuracies,
+        "random_prefix_accuracies": random_prefix_accuracies,
+        "first_vs_random_gap": first_vs_random_gap,
+        "group_std_staircase": group_std_staircase,
         "prefix_retention": retention,
         "full_dim": dim,
         "full_accuracy": full_acc,
     }
+
+
+def align_sfa_matryoshka_gauge(anchor_a: Tensor, anchor_b: Tensor) -> dict[str, Any]:
+    """Fix the O(K) rotation gauge of LeJEPA embeddings by Slow-Feature cross-view persistence.
+
+    Synthesizes Klindt, LeCun & Balestriero (arXiv:2605.26379, Theorem 5.1 & Appendix F) with
+    TESSERA v2 (arXiv:2607.03949, Appendix V Observation 1):
+      * LeJEPA recovers Gaussian latents up to an arbitrary orthogonal gauge Q in O(K), leaving
+        raw coordinate indices 1..K unordered.
+      * Naive prefix-SSL breaks O(K) symmetry via gradient multiplicity m_j, inflating variance
+        and distorting Gaussian marginals on early dims.
+      * Because Q^T N(0, I_K) = N(0, I_K) for any orthogonal Q in O(K), rotating whitened
+        embeddings onto the eigenvectors of the symmetrized cross-view covariance
+        0.5 * (Z_A^T Z_B + Z_B^T Z_A) / N ordered by descending eigenvalue rho_1 >= ... >= rho_K
+        orders coordinates strictly by temporal/cross-view predictability (slowness) with ZERO
+        gradient-multiplicity distortion and ZERO distillation retraining.
+    """
+    if anchor_a.ndim != 2 or anchor_b.ndim != 2 or anchor_a.shape != anchor_b.shape:
+        raise ValueError("anchor_a and anchor_b must share 2D shape [N, K]")
+    samples, dim = anchor_a.shape
+    if samples < 2 or dim < 1:
+        raise ValueError("align_sfa_matryoshka_gauge requires N >= 2 and K >= 1")
+
+    with torch.autocast(device_type=anchor_a.device.type, enabled=False):
+        xa = anchor_a.detach().to(dtype=torch.float64)
+        xb = anchor_b.detach().to(device=xa.device, dtype=torch.float64)
+        mu = 0.5 * (xa.mean(dim=0) + xb.mean(dim=0))
+        xa_c = xa - mu
+        xb_c = xb - mu
+        sym_cross_cov = 0.5 * (xa_c.T @ xb_c + xb_c.T @ xa_c) / float(samples)
+        evals, evecs = torch.linalg.eigh(sym_cross_cov)
+        order = torch.argsort(evals, descending=True)
+        evals_desc = evals[order]
+        gauge_q = evecs[:, order]
+
+    out_dtype = anchor_a.dtype if anchor_a.is_floating_point() else torch.float32
+    return {
+        "rotation": gauge_q.to(dtype=out_dtype),
+        "mean": mu.to(dtype=out_dtype),
+        "eigenvalues": evals_desc.to(dtype=out_dtype),
+    }
+
+
+def lejepa_identifiability_bound(
+    embeddings_a: Tensor,
+    embeddings_b: Tensor,
+    *,
+    true_latents: Tensor | None = None,
+    rho: float | None = None,
+) -> dict[str, Any]:
+    """Compute the Lean-4-verified Theorem 5.3 Approximate Identifiability Bound & Stride Diagnostics.
+
+    From Klindt, LeCun & Balestriero ('When Does LeJEPA Learn a World Model?', arXiv:2605.26379,
+    Sec. 5.3, 6.3, and Appendix H.11):
+      * Whitening error: ``epsilon = ||Cov(h(z)) - I_K||_F``
+      * Alignment loss: ``L_align = E[ ||h(z') - h(z)||_2^2 ]`` (summed over K coordinates)
+      * Alignment gap: ``delta = max(0, L_align - 2 * (1 - rho) * tr(Cov(h(z))))``
+      * Nonlinear Hermite energy bound: ``D = delta / (2 * rho * (1 - rho))``
+      * Orthogonal recovery error bound: ``bound = D + (epsilon + sqrt(D))^2``
+      * Anisotropy diagnostic: ``max_i rho_i - min_i rho_i`` across coordinate autocorrelations
+        (diagnosing the trajectory anisotropy and stride collapse of Table 2 / Fig. 12-13).
+    """
+    if embeddings_a.ndim != 2 or embeddings_b.ndim != 2 or embeddings_a.shape != embeddings_b.shape:
+        raise ValueError("embeddings_a and embeddings_b must share 2D shape [N, K]")
+    samples, dim = embeddings_a.shape
+    if samples < 3 or dim < 1:
+        raise ValueError("lejepa_identifiability_bound requires N >= 3 and K >= 1")
+
+    with torch.autocast(device_type=embeddings_a.device.type, enabled=False):
+        ha = embeddings_a.detach().to(dtype=torch.float64)
+        hb = embeddings_b.detach().to(device=ha.device, dtype=torch.float64)
+        ha_c = ha - ha.mean(dim=0, keepdim=True)
+        hb_c = hb - hb.mean(dim=0, keepdim=True)
+
+        cov_a = (ha_c.T @ ha_c) / float(samples - 1)
+        eye = torch.eye(dim, dtype=torch.float64, device=ha.device)
+        whitening_eps = float(torch.linalg.matrix_norm(cov_a - eye, ord="fro").item())
+        tr_cov = float(torch.trace(cov_a).item())
+
+        # Per-coordinate Pearson autocorrelation rho_i
+        std_a = ha_c.std(dim=0, unbiased=True).clamp_min(1e-12)
+        std_b = hb_c.std(dim=0, unbiased=True).clamp_min(1e-12)
+        coord_rhos = ((ha_c * hb_c).sum(dim=0) / float(samples - 1)) / (std_a * std_b)
+        coord_rhos = coord_rhos.clamp(-0.999999, 0.999999)
+        anisotropy = float((coord_rhos.max() - coord_rhos.min()).item())
+
+        if rho is None:
+            rho_val = float(coord_rhos.mean().clamp(0.01, 0.9999).item())
+        else:
+            if not (0.0 < float(rho) < 1.0):
+                raise ValueError("rho must be in (0, 1)")
+            rho_val = float(rho)
+
+        spectral_gap = 2.0 * rho_val * (1.0 - rho_val)
+        align_loss = float((ha_c - hb_c).square().sum(dim=-1).mean().item())
+        ideal_align = 2.0 * (1.0 - rho_val) * tr_cov
+        delta = max(0.0, align_loss - ideal_align)
+        nonlinear_energy_d = delta / max(spectral_gap, 1e-12)
+        theoretical_bound = nonlinear_energy_d + (whitening_eps + math.sqrt(nonlinear_energy_d)) ** 2
+
+        result: dict[str, Any] = {
+            "whitening_error_eps": whitening_eps,
+            "alignment_loss": align_loss,
+            "alignment_gap_delta": delta,
+            "rho": rho_val,
+            "spectral_gap": spectral_gap,
+            "anisotropy": anisotropy,
+            "nonlinear_energy_bound": nonlinear_energy_d,
+            "theoretical_recovery_bound": theoretical_bound,
+        }
+
+        if true_latents is not None:
+            z_true = true_latents.detach().to(device=ha.device, dtype=torch.float64)
+            if z_true.shape != ha.shape:
+                raise ValueError("true_latents must match embeddings_a shape [N, K]")
+            z_c = z_true - z_true.mean(dim=0, keepdim=True)
+            proc = fit_orthogonal_procrustes(ha_c, z_c)
+            aligned = (ha_c - proc["source_mean"].to(torch.float64)) @ proc["rotation"].to(torch.float64)
+            orth_mse = float((aligned - z_c).square().sum(dim=-1).mean().item())
+
+            # Linear regression R^2(h -> z)
+            w_lstsq = torch.linalg.lstsq(ha_c, z_c).solution
+            z_pred = ha_c @ w_lstsq
+            ss_res = float((z_c - z_pred).square().sum().item())
+            ss_tot = float(z_c.square().sum().clamp_min(1e-12).item())
+            r2_h_to_z = 1.0 - ss_res / ss_tot
+
+            result["empirical_orthogonal_error"] = orth_mse
+            result["r2_h_to_z"] = r2_h_to_z
+            result["bound_satisfied"] = bool(orth_mse <= theoretical_bound + 1e-6)
+
+        return result
 
 
 def cross_unit_distance_ratio(

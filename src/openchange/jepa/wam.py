@@ -130,6 +130,83 @@ def bidirectional_neighborhood_mask(
     return mask.to(device=device) if device is not None else mask
 
 
+def lewam_mot_attention_mask(
+    n_history: int,
+    n_clean_actions: int,
+    n_noisy_actions: int,
+    *,
+    include_state_query: bool = True,
+    include_goal: bool = False,
+    device: torch.device | str | None = None,
+) -> Tensor:
+    """Token-level Mixture-of-Transformers (MoT) attention mask (LeWAM, arXiv:2610.12818, Eq. 10).
+
+    Token ordering:
+      ``[z_hist (n_history), q_state? (1), A_clean (n_clean_actions), c_goal? (1), A_noisy (n_noisy_actions)]``
+
+    Enforces LeWAM's strict information firewall across layers (Appendix A, Eq. 10 & Fig. 10):
+      * ``V(z_i) = {z_hist}``: history tokens attend ONLY to history tokens (never clean actions,
+        blocking indirect multi-layer leakage of ground-truth actions into the policy branch).
+      * ``V(q_state) = {z_hist, q_state, A_clean}``: state query reads history and clean actions.
+      * ``V(a_j^clean) = {z_hist, a_{<=j}^clean}``: clean actions read history and causal prefix.
+      * ``V(c_goal) = {z_hist, c_goal}``: goal token (if present) reads history and itself.
+      * ``V(a_j^{(s)}) = {z_hist, c_goal?, a_{<=j}^{(s)}}``: noisy action-flow tokens read history,
+        optional goal context, and their own causal noisy-action prefix—NEVER ``q_state`` or ``A_clean``.
+    """
+    for name, value in (
+        ("n_history", n_history),
+        ("n_clean_actions", n_clean_actions),
+        ("n_noisy_actions", n_noisy_actions),
+    ):
+        if not isinstance(value, int) or isinstance(value, bool) or value <= 0:
+            raise ValueError(f"{name} must be a positive integer")
+
+    q_count = 1 if include_state_query else 0
+    g_count = 1 if include_goal else 0
+    total = n_history + q_count + n_clean_actions + g_count + n_noisy_actions
+    allowed = torch.zeros((total, total), dtype=torch.bool)
+
+    hist_slice = slice(0, n_history)
+    q_idx = n_history if include_state_query else None
+    clean_start = n_history + q_count
+    clean_slice = slice(clean_start, clean_start + n_clean_actions)
+    goal_idx = clean_start + n_clean_actions if include_goal else None
+    noisy_start = clean_start + n_clean_actions + g_count
+    noisy_slice = slice(noisy_start, total)
+
+    # 1. History tokens attend only to history tokens
+    allowed[hist_slice, hist_slice] = True
+
+    # 2. State query attends to history, itself, and clean actions
+    if q_idx is not None:
+        allowed[q_idx, hist_slice] = True
+        allowed[q_idx, q_idx] = True
+        allowed[q_idx, clean_slice] = True
+
+    # 3. Clean actions attend to history + causal prefix of clean actions
+    allowed[clean_slice, hist_slice] = True
+    allowed[clean_slice, clean_slice] = torch.tril(
+        torch.ones((n_clean_actions, n_clean_actions), dtype=torch.bool)
+    )
+
+    # 4. Optional goal token attends to history and itself
+    if goal_idx is not None:
+        allowed[goal_idx, hist_slice] = True
+        allowed[goal_idx, goal_idx] = True
+
+    # 5. Noisy action-flow tokens attend to history (+ goal) + causal prefix of noisy actions
+    allowed[noisy_slice, hist_slice] = True
+    if goal_idx is not None:
+        allowed[noisy_slice, goal_idx] = True
+    allowed[noisy_slice, noisy_slice] = torch.tril(
+        torch.ones((n_noisy_actions, n_noisy_actions), dtype=torch.bool)
+    )
+
+    mask = torch.zeros((total, total), dtype=torch.float32)
+    mask.masked_fill_(~allowed, _NEG_INF)
+    return mask.to(device=device) if device is not None else mask
+
+
 class HistoryStratifiedSIGReg(nn.Module):
     """FP32 Epps-Pulley Gaussian regularizer stratified by history length.
 
@@ -588,14 +665,27 @@ def diffusion_steered_plan(
     elite_frac: float = 0.1,
     sigma: float = 1.0,
     alpha: float = 0.5,
-    method: Literal["diffusion", "cem"] = "diffusion",
+    method: Literal["diffusion", "cem", "lewam_grad"] = "diffusion",
     denoise: Callable[[Tensor], Tensor] | None = None,
     action_bound: float | None = None,
+    lr_grad: float = 0.05,
+    lam_prox: float = 0.01,
+    grad_clip: float = 10.0,
     seed: int | None = None,
 ) -> tuple[Tensor, dict[str, Tensor | str]]:
-    """Trajectory optimization in policy-noise space vs. standard CEM."""
-    if method not in ("diffusion", "cem"):
-        raise ValueError("method must be 'diffusion' or 'cem'")
+    """Trajectory optimization in policy-noise space, CEM, or LeWAM gradient-refined planning.
+
+    When ``method == 'lewam_grad'`` (LeWAM Algorithm 1, arXiv:2610.12818, Appendix A.1, Eq. 7-8 & 11):
+      1. Samples ``n_samples`` initial action sequences ``A_sample`` from the learned action flow
+         policy ``denoise`` (or Gaussian prior when ``denoise`` is None).
+      2. Refines all ``n_samples`` candidates in parallel for ``n_iters`` Adam steps through the
+         differentiable ``dynamics`` minimizing the proximity-regularized objective:
+         ``J_prox(A; A_sample) = C(A) + lam_prox * ||A - A_sample||_F^2``
+         while clipping action norms to ``action_bound`` (default 3.0 in LeWAM) and retaining the
+         best iterate per candidate using the unpenalized goal cost ``C(A)``.
+    """
+    if method not in ("diffusion", "cem", "lewam_grad"):
+        raise ValueError("method must be 'diffusion', 'cem', or 'lewam_grad'")
     for name, value in (
         ("horizon", horizon),
         ("action_dim", action_dim),
@@ -606,6 +696,8 @@ def diffusion_steered_plan(
             raise ValueError(f"{name} must be a positive integer")
     if not 0 < elite_frac <= 1 or sigma <= 0 or alpha < 0:
         raise ValueError("elite_frac in (0,1], sigma > 0, alpha >= 0 required")
+    if lr_grad <= 0 or lam_prox < 0 or grad_clip <= 0:
+        raise ValueError("lr_grad > 0, lam_prox >= 0, and grad_clip > 0 required")
     elite_count = max(1, int(round(n_samples * elite_frac)))
     device = z0.device
     generator = torch.Generator(device="cpu").manual_seed(0 if seed is None else seed)
@@ -637,6 +729,35 @@ def diffusion_steered_plan(
                 best_actions = actions[order[0]].clone()
             mean = elites.mean(dim=0)
             std = elites.std(dim=0, unbiased=False) + 1e-6
+    elif method == "lewam_grad":
+        with torch.no_grad():
+            a_sample = decode(sigma * randn(n_samples, horizon, action_dim)).detach()
+            c_init = _rollout_cost(dynamics, z0, goal, a_sample)
+            a_star = a_sample.clone()
+            c_star = c_init.clone()
+
+        a_var = a_sample.clone().detach().requires_grad_(True)
+        opt = torch.optim.Adam([a_var], lr=float(lr_grad))
+        for _ in range(n_iters):
+            opt.zero_grad()
+            c_unpenalized = _rollout_cost(dynamics, z0, goal, a_var)
+            prox_term = (a_var - a_sample).square().flatten(1).sum(dim=1)
+            j_prox = (c_unpenalized + float(lam_prox) * prox_term).sum()
+            j_prox.backward()
+            torch.nn.utils.clip_grad_norm_([a_var], max_norm=float(grad_clip))
+            opt.step()
+            with torch.no_grad():
+                if action_bound is not None:
+                    a_var.clamp_(-action_bound, action_bound)
+                c_cur = _rollout_cost(dynamics, z0, goal, a_var)
+                improved = c_cur < c_star
+                if bool(improved.any()):
+                    c_star[improved] = c_cur[improved]
+                    a_star[improved] = a_var.detach()[improved]
+
+        best_idx = int(c_star.argmin().item())
+        best_cost = c_star[best_idx].detach()
+        best_actions = a_star[best_idx].detach().clone()
     else:
         noises = sigma * randn(n_samples, horizon, action_dim)
         for _ in range(n_iters):
@@ -851,16 +972,99 @@ def action_contrastive_loss(
     }
 
 
-class FlowMatchingWAMHead(nn.Module):
-    """Conditional Flow Matching (CFM / Diffusion) World-Action Model head (OpenWAM / FLEX-WAM).
+def flex_wam_fd_elasticity_and_stop_probe(
+    world_model: CausalPatchJEPAWorldModel,
+    z_context: Tensor,
+    actions: Tensor,
+    proprio: Tensor,
+    *,
+    delta: float = 1e-2,
+    n_probes: int = 4,
+    tau_state: float = 0.5,
+    tau_action: float = 0.5,
+    wm_setpoint: float | None = None,
+    seed: int = 0,
+) -> dict[str, Tensor]:
+    """FLEX-WAM Hutchinson Forward-Dynamics (FD) Elasticity, Stop Probe, and Gradient Cross-Weights.
 
-    Addresses the two core limitations of pure L2 JEPA world models:
+    Implements the three training-time and diagnostic mechanisms from FLEX-WAM (arXiv:2610.05483,
+    Sec. II-2 & III-B1, Eq. 3-4 & Fig. 2):
+      1. ``fd_elasticity``: Hutchinson directional-derivative estimator of the action Jacobian
+         ``E_{eps ~ N(0, I)}[ ||z_hat(z_{<=t}, a + delta * eps) - z_hat(z_{<=t}, a)||_2 / delta ]``.
+      2. ``stop_command_drift`` vs ``active_command_displacement``: Counterfactual stop-command probe
+         (setting ``a_stop = 0`` for relative actions and measuring distance from the last context
+         state ``z_context[:, -1]`` vs. active trajectory displacement).
+      3. ``phi_act`` and ``phi_obs`` (Eq. 4): Noise-cleanness cross-weights
+         ``Phi_act = (tau_s + eps) / (tau_s + tau_a + 2*eps)`` and
+         ``Phi_obs = (tau_a + eps) / (tau_s + tau_a + 2*eps)``, plus closed-loop ``wm_sampling_bias``
+         regulating sensitivity around ``0.9 * wm_setpoint``.
+    """
+    if delta <= 0.0 or n_probes < 1:
+        raise ValueError("delta > 0 and n_probes >= 1 required")
+    if not (0.0 <= tau_state <= 1.0 and 0.0 <= tau_action <= 1.0):
+        raise ValueError("tau_state and tau_action must be in [0, 1]")
+
+    gen = torch.Generator(device="cpu").manual_seed(seed)
+    with torch.no_grad():
+        base_pred = world_model(z_context, actions, proprio).z_hat
+        batch = z_context.shape[0]
+        base_flat = base_pred.reshape(batch, -1)
+
+        dir_norms: list[Tensor] = []
+        for _ in range(n_probes):
+            eps_a = torch.randn(actions.shape, generator=gen, dtype=actions.dtype, device="cpu").to(
+                actions.device
+            )
+            eps_a = eps_a / torch.linalg.vector_norm(
+                eps_a.reshape(batch, -1), dim=-1, keepdim=True
+            ).clamp_min(1e-12).view(batch, 1, 1)
+            pert_pred = world_model(z_context, actions + float(delta) * eps_a, proprio).z_hat.reshape(
+                batch, -1
+            )
+            dir_norms.append(torch.linalg.vector_norm(pert_pred - base_flat, dim=-1) / float(delta))
+        fd_elasticity = torch.stack(dir_norms, dim=0).mean()
+
+        # Counterfactual stop-command probe (a_stop = 0) vs active trajectory command
+        zero_actions = torch.zeros_like(actions)
+        stop_pred = world_model(z_context, zero_actions, proprio).z_hat
+        last_state = z_context[:, -1:, :, :].expand_as(stop_pred)
+        stop_drift = (stop_pred - last_state).square().mean().sqrt()
+        active_disp = (base_pred - last_state).square().mean().sqrt()
+        stop_response_gap = (base_pred - stop_pred).square().mean().sqrt()
+
+        eps_w = 1e-3
+        denom = float(tau_state) + float(tau_action) + 2.0 * eps_w
+        phi_act = torch.tensor((float(tau_state) + eps_w) / denom, dtype=z_context.dtype, device=z_context.device)
+        phi_obs = torch.tensor((float(tau_action) + eps_w) / denom, dtype=z_context.dtype, device=z_context.device)
+
+        if wm_setpoint is not None and wm_setpoint > 0.0:
+            target_setpoint = 0.9 * float(wm_setpoint)
+            deficit = max(0.0, (target_setpoint - float(fd_elasticity.item())) / target_setpoint)
+            wm_bias = min(1.0, max(0.2, 0.2 + 0.8 * deficit))
+        else:
+            wm_bias = 1.0
+
+    return {
+        "fd_elasticity": fd_elasticity,
+        "stop_command_drift": stop_drift,
+        "active_command_displacement": active_disp,
+        "stop_response_gap": stop_response_gap,
+        "phi_act": phi_act,
+        "phi_obs": phi_obs,
+        "wm_sampling_bias": torch.tensor(wm_bias, dtype=z_context.dtype, device=z_context.device),
+    }
+
+
+class FlowMatchingWAMHead(nn.Module):
+    """Conditional Flow Matching (CFM / Diffusion) World-Action Model head (OpenWAM / FLEX-WAM / Long-WAM).
+
+    Addresses the core limitations of pure L2 JEPA world models and supports Long-WAM's IDM mode:
       1. Multimodal dynamics ``v_dyn(z_tau, tau | h_ctx, a)``: learns the full conditional
          distribution ``p(z_{t+1:t+K} | z_{<=t}, a_{t:t+K-1})`` so bifurcating trajectories
-         (e.g., going left vs. right around an obstacle) do not collapse to an off-manifold mean.
-      2. Multimodal action policy ``v_act(a_tau, tau | h_ctx, g)``: generates horizon action
-         chunks conditioned on causal context and goal latent ``g``, providing a learned
-         ``denoise`` operator for ``diffusion_steered_plan``.
+         do not collapse to an off-manifold mean.
+      2. Multimodal action policy ``v_act(a_tau, tau | h_ctx, z_fut_pred_detached?, g)``: generates
+         horizon action chunks conditioned on causal context, optional detached predicted future
+         latents (Long-WAM's Predict-Then-Act / IDM mode, arXiv:2610.10528 Sec. 3.2), and goal ``g``.
     """
 
     def __init__(
@@ -871,6 +1075,7 @@ class FlowMatchingWAMHead(nn.Module):
         horizon: int,
         hidden_dim: int = 128,
         time_dim: int = 32,
+        predict_then_act: bool = False,
         seed: int = 0,
     ) -> None:
         super().__init__()
@@ -881,6 +1086,7 @@ class FlowMatchingWAMHead(nn.Module):
         self.action_dim = action_dim
         self.horizon = horizon
         self.time_dim = time_dim
+        self.predict_then_act = bool(predict_then_act)
         self.latent_chunk_dim = horizon * dim
         self.action_chunk_dim = horizon * action_dim
 
@@ -892,9 +1098,9 @@ class FlowMatchingWAMHead(nn.Module):
             nn.SiLU(),
             nn.Linear(hidden_dim, self.latent_chunk_dim),
         )
-        # Velocity field for action chunk [B, K*A] given (context [B, D], goal [B, D])
+        act_cond_dim = (2 * dim + self.latent_chunk_dim) if self.predict_then_act else (2 * dim)
         self.act_net = nn.Sequential(
-            nn.Linear(self.action_chunk_dim + 2 * dim + time_dim, hidden_dim),
+            nn.Linear(self.action_chunk_dim + act_cond_dim + time_dim, hidden_dim),
             nn.SiLU(),
             nn.Linear(hidden_dim, hidden_dim),
             nn.SiLU(),
@@ -919,6 +1125,20 @@ class FlowMatchingWAMHead(nn.Module):
         t_emb = self._time_embed(t.to(dtype=a_tau.dtype, device=a_tau.device))
         return self.act_net(torch.cat((a_tau, cond, t_emb), dim=-1))
 
+    def _build_action_cond(
+        self,
+        context_summary: Tensor,
+        goal_summary: Tensor,
+        predicted_future_summary: Tensor | None = None,
+    ) -> Tensor:
+        batch = context_summary.shape[0]
+        if not self.predict_then_act:
+            return torch.cat((context_summary, goal_summary), dim=-1)
+        if predicted_future_summary is None:
+            raise ValueError("predicted_future_summary [B, K, dim] required when predict_then_act=True")
+        fut_detached = predicted_future_summary.detach().reshape(batch, self.latent_chunk_dim)
+        return torch.cat((context_summary, goal_summary, fut_detached), dim=-1)
+
     def cfm_loss(
         self,
         context_summary: Tensor,
@@ -926,6 +1146,7 @@ class FlowMatchingWAMHead(nn.Module):
         target_future_summary: Tensor,
         *,
         goal_summary: Tensor | None = None,
+        predicted_future_summary: Tensor | None = None,
         sigma_min: float = 1e-4,
     ) -> dict[str, Tensor]:
         """Compute joint dynamics CFM + action-policy CFM losses."""
@@ -947,7 +1168,8 @@ class FlowMatchingWAMHead(nn.Module):
         goal = target_future_summary[:, -1, :] if goal_summary is None else goal_summary
         if goal.shape != (batch, self.dim):
             raise ValueError("goal_summary must have shape [B, dim]")
-        act_cond = torch.cat((context_summary, goal), dim=-1)
+        idm_future = target_future_summary if (self.predict_then_act and predicted_future_summary is None) else predicted_future_summary
+        act_cond = self._build_action_cond(context_summary, goal, idm_future)
         act_out = conditional_flow_matching_loss(
             self.velocity_actions, act_flat, act_cond, sigma_min=sigma_min
         )
@@ -987,13 +1209,14 @@ class FlowMatchingWAMHead(nn.Module):
         context_summary: Tensor,
         goal_summary: Tensor,
         *,
+        predicted_future_summary: Tensor | None = None,
         steps: int = 16,
         solver: Literal["euler", "heun"] = "heun",
         x0: Tensor | None = None,
         seed: int | None = None,
     ) -> Tensor:
         batch = context_summary.shape[0]
-        act_cond = torch.cat((context_summary, goal_summary), dim=-1)
+        act_cond = self._build_action_cond(context_summary, goal_summary, predicted_future_summary)
         flat = sample_conditional_flow(
             self.velocity_actions,
             act_cond,
@@ -1111,23 +1334,26 @@ class LeRobotWindowDataset(torch.utils.data.Dataset):
         *,
         context_frames: int = 4,
         horizon_frames: int = 4,
+        frame_stride: int = 1,
         strata_seconds: tuple[float, ...] = HISTORY_STRATA_SECONDS,
         seed: int = 0,
     ) -> None:
         super().__init__()
         if not episodes:
             raise ValueError("episodes must be non-empty")
-        if context_frames < 1 or horizon_frames < 1:
-            raise ValueError("context_frames and horizon_frames must be positive")
-        min_len = context_frames + horizon_frames
+        if context_frames < 1 or horizon_frames < 1 or frame_stride < 1:
+            raise ValueError("context_frames, horizon_frames, and frame_stride must be positive")
+        fut_span = (horizon_frames - 1) * frame_stride + 1
+        min_len = context_frames + fut_span
         for idx, ep in enumerate(episodes):
             if "frames" not in ep or "actions" not in ep or "proprio" not in ep:
                 raise ValueError(f"episode {idx} missing frames/actions/proprio")
             if int(ep["frames"].shape[0]) < min_len:
-                raise ValueError(f"episode {idx} shorter than context_frames + horizon_frames")
+                raise ValueError(f"episode {idx} shorter than required context + future span")
         self.episodes = episodes
         self.context_frames = context_frames
         self.horizon_frames = horizon_frames
+        self.frame_stride = frame_stride
         self.strata_seconds = strata_seconds
         self.seed = seed
 
@@ -1146,20 +1372,20 @@ class LeRobotWindowDataset(torch.utils.data.Dataset):
         target_hist_s = float(self.strata_seconds[stratum_idx])
 
         # Fixed prediction origin per episode across all history strata (unconfounded H test)
-        anchor = total_t - self.horizon_frames
+        fut_span = (self.horizon_frames - 1) * self.frame_stride + 1
+        anchor = total_t - fut_span
         last_ctx = anchor - 1
         if target_hist_s <= 0.0:
             ctx_indices = torch.full((self.context_frames,), last_ctx, dtype=torch.int64)
+            padding_fraction = 0.0
         else:
             requested_span_frames = max(1, int(round(target_hist_s * fps)))
-            start = max(0, last_ctx - requested_span_frames)
-            ctx_indices = (
-                torch.linspace(start, last_ctx, steps=self.context_frames, dtype=torch.float64)
-                .round()
-                .to(torch.int64)
-            )
-        fut_indices = torch.arange(anchor, anchor + self.horizon_frames, dtype=torch.int64)
-        act_indices = torch.arange(last_ctx, last_ctx + self.horizon_frames, dtype=torch.int64)
+            raw_start = last_ctx - requested_span_frames
+            unclamped = torch.linspace(raw_start, last_ctx, steps=self.context_frames, dtype=torch.float64).round()
+            padding_fraction = float((unclamped < 0).to(dtype=torch.float64).mean().item())
+            ctx_indices = unclamped.clamp(min=0, max=last_ctx).to(torch.int64)
+        fut_indices = anchor + torch.arange(self.horizon_frames, dtype=torch.int64) * self.frame_stride
+        act_indices = last_ctx + torch.arange(self.horizon_frames, dtype=torch.int64) * self.frame_stride
 
         f_ctx = frames[ctx_indices].to(dtype=torch.float32)
         f_fut = frames[fut_indices].to(dtype=torch.float32)
@@ -1179,6 +1405,7 @@ class LeRobotWindowDataset(torch.utils.data.Dataset):
             "history_seconds": torch.tensor(realized_hist_s, dtype=torch.float32),
             "requested_history_seconds": torch.tensor(target_hist_s, dtype=torch.float32),
             "history_truncated": torch.tensor(truncated, dtype=torch.bool),
+            "padding_fraction": torch.tensor(padding_fraction, dtype=torch.float32),
             "anchor_index": torch.tensor(anchor, dtype=torch.int64),
             "target_progress": progress.clamp(0.0, 1.0),
         }

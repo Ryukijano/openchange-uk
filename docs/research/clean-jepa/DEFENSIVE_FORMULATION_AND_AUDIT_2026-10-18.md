@@ -196,19 +196,79 @@ Our independent audit of [`src/openchange/jepa/wam.py`](../../../src/openchange/
 
 ---
 
-## 5. Summary of Modified Files & Verification Status
+## 5. Deep Primary-Source Audit: What X, YouTube, Upstream GitHub Repos & Oct 2026 Papers Reveal (and How We Closed the Remaining Validation Gaps)
+
+Auditing the primary papers, official GitHub repositories (`galilai-group/lejepa`, `lucas-maes/le-wm`, `ucam-eo/tessera`), author threads (`@randall_balestr`, `@lucasmaes_`, `@quentinlldc`, `@klindt_david`), and lecture material surfaced **five concrete discrepancies** between simplified summaries of `LeJEPA` / `TESSERA v2` / `LeWAM` / `Long-WAM` / `FLEX-WAM` and what the authors actually proved and implemented:
+
+### 5.1 `TESSERA v2` (`arXiv:2607.03949`, Appendix C, S.3 & T): Barlow Twins Requires Mix-Up Cross-Correlation Consistency ($\mathcal{L}_{\text{MIX}}$) & Ceiling Normalization
+- **What the primary paper & repo (`ucam-eo/tessera`) actually do**:
+  1. **Projector Ceiling Normalization (Appendix S.3, line 2869)**: When comparing runs across different projector widths $P$ in `Q1`, `TESSERA v2` normalizes converged Barlow Twins validation loss by the **projector-determined ceiling** $P + \lambda_{\text{BT}} P(P - 1)$ so loss values across widths are commensurate.
+  2. **Mix-Up Linear Consistency Regularizer ($\mathcal{L}_{\text{MIX}}$, Appendix C & T, Eq. 29–31)**: Both `TESSERA v1` and `TESSERA v2` optimize $\mathcal{L}_{\text{total}} = \mathcal{L}_{\text{BT}} + \lambda_{\text{mix}} \mathcal{L}_{\text{MIX}}$ ($\lambda_{\text{mix}} = 1.0$, Bandara et al. 2023). For $\alpha_{\text{mix}} \sim \mathcal{U}(0, 1)$, $Y_S = \text{Shuffle}(Y_B)$, and $Y_M = \alpha_{\text{mix}} Y_A + (1 - \alpha_{\text{mix}}) Y_S$, the cross-correlations $C^{MA} = \frac{1}{B} Z_M^\top Z_A$ and $C^{MS} = \frac{1}{B} Z_M^\top Z_S$ must match the convex combinations of unmixed cross-correlations:
+     $$\mathcal{L}_{\text{MIX}} = \frac{1}{2}\big\|C^{MA} - \big(\alpha_{\text{mix}} C^{AA} + (1 - \alpha_{\text{mix}}) C^{SA}\big)\big\|_F^2 + \frac{1}{2}\big\|C^{MS} - \big(\alpha_{\text{mix}} C^{AS} + (1 - \alpha_{\text{mix}}) C^{SS}\big)\big\|_F^2.$$
+     `TESSERA v2` explicitly notes (Appendix T): *"removing either mix-up or global shuffling degrades validation accuracy substantially under temporal sparsity."*
+- **Implemented in [`src/openchange/jepa/losses.py`](../../../src/openchange/jepa/losses.py)**:
+  - Added `normalize_by_ceiling: bool = False` and `ceiling_normalized_loss` to `barlow_twins_loss`, and implemented **`tessera_mixup_barlow_loss`** with unit verification in `tests/test_jepa_losses.py`.
+
+### 5.2 `TESSERA v2` (Appendix V, Observation 1) + `Klindt, LeCun & Balestriero` (`arXiv:2605.26379`, Theorem 5.1 & Appendix F): Why Naive Self-Supervised Matryoshka Fails & How Slow-Feature $O(K)$ Gauge-Fixing Solves It
+- **What `TESSERA v2` Appendix V proved**:
+  - Single-prefix `Barlow Twins` and `LeJEPA` (`SIGReg`) are **$O(K)$-rotation symmetric**: if $Z \in \mathbb{R}^{B \times K}$ is optimal, so is $Z Q$ for any orthogonal $Q \in O(K)$. Thus coordinate indices $j \in \{1, \dots, K\}$ are an arbitrary **gauge degree of freedom**.
+  - When naive self-supervised Matryoshka sums prefix losses over $\mathcal{K} = \{16, 32, 64, 128\}$, coordinate $j$ receives **gradient multiplicity** $m_j = |\{k \in \mathcal{K} : j \le k\}| \in \{4, 3, 2, 1\}$. This breaks $O(K)$ symmetry by **gradient counting rather than semantic importance**, producing a strict stationary variance staircase ($\sigma_{[1,16]} > \sigma_{[17,32]} > \sigma_{[33,64]} > \sigma_{[65,128]}$) and destroying Gaussianity on dims `0–15` (turning them heavy-tailed and bimodal).
+- **How `Klindt et al.` (`arXiv:2605.26379`) + `TESSERA v2` resolve this without distillation retraining**:
+  - `Klindt, LeCun & Balestriero` (Theorem 5.1 & Appendix F) prove that `LeJEPA` (alignment + `SIGReg`) is equivalent to simultaneous **Slow Feature Analysis (SFA)** in Hermite polynomial space, recovering the true latent up to an orthogonal transformation $Q \in O(K)$.
+  - Because $Q^\top \mathcal{N}(0, I_K) = \mathcal{N}(0, I_K)$ for any $Q \in O(K)$, post-multiplying whitened `LeJEPA` embeddings by the eigenvectors $Q_{\text{SFA}} \in O(K)$ of the symmetrized cross-view covariance $\frac{1}{2N}(\bar{Z}_A^\top \bar{Z}_B + \bar{Z}_B^\top \bar{Z}_A)$ ordered by descending persistence eigenvalue $\rho_1 \ge \rho_2 \ge \dots \ge \rho_K$ fixes the $O(K)$ gauge **strictly by temporal/cross-view predictability with zero gradient-multiplicity distortion ($\sigma_d \equiv 1$ across all coordinates) and zero distillation cost**.
+- **Implemented in [`src/openchange/jepa/guarantees.py`](../../../src/openchange/jepa/guarantees.py)**:
+  - Upgraded `evaluate_matryoshka_prefixes` with `random_prefix_accuracies`, `first_vs_random_gap` (`TESSERA v2` Appendix W.2 coordinate-exchangeability test), and `group_std_staircase` (`TESSERA v2` Observation 1 diagnostic).
+  - Added **`align_sfa_matryoshka_gauge(anchor_a, anchor_b)`** to compute the exact $O(K)$ Slow-Feature eigenbasis rotation.
+
+### 5.3 `When Does LeJEPA Learn a World Model?` (`arXiv:2605.26379`, Theorem 5.3, Sec. 6.2 & Appendix H.11): The Lean-4 Approximate Identifiability Bound & The Temporal Stride $\delta$ Goldilocks Regime
+- **What Klindt, LeCun & Balestriero proved and measured**:
+  1. **Theorem 5.3 (Approximate Identifiability Bound)**: Deviations from exact orthogonal recovery $\min_{Q \in O(K)} \mathbb{E}[\|h(z) - Qz\|_2^2]$ are bounded explicitly by the whitening error $\varepsilon = \|\mathrm{Cov}(h(z)) - I_K\|_F$ and the alignment gap $\delta = \mathcal{L}_{\text{align}}(h) - 2(1 - \rho)\,\mathrm{tr}(\mathrm{Cov}(h(z)))$ via:
+     $$B(\varepsilon, \delta) = D + \big(\varepsilon + \sqrt{D}\big)^2, \qquad D = \frac{\delta}{2\rho(1 - \rho)}.$$
+  2. **Why Real Trajectories Fail at Small Stride $\delta = 1, 2$ (`Table 2` & `Appendix H.11`, lines 3017–3059)**:
+     - On real DMC Reacher trajectories (`10,000` episodes from `LeWorldModel`), linear identifiability $R^2(h \to z)$ collapsed to **`-0.39` at stride $\delta = 1$** and **`-0.47` at $\delta = 2$** because $\rho \approx 1.0$ makes the spectral gap $2\rho(1-\rho) \to 0$ and the transition increments $z_{t+\delta} - z_t$ non-Gaussian (`SIGReg` $100\times\text{–}1000\times$ above the Gaussian floor), whereas intermediate stride **$\delta \in \{8, 16\}$** ($\rho \in [0.96, 0.99]$) simultaneously opens the spectral gap and Gaussianizes transition increments (`R^2 = 0.80–0.87`).
+- **Implemented in [`src/openchange/jepa/guarantees.py`](../../../src/openchange/jepa/guarantees.py) and [`src/openchange/jepa/wam.py`](../../../src/openchange/jepa/wam.py)**:
+  - Added **`lejepa_identifiability_bound`** computing $\varepsilon$, $\delta$, spectral gap $2\rho(1-\rho)$, coordinate autocorrelation `anisotropy` ($\max_i \rho_i - \min_i \rho_i$), `nonlinear_energy_bound` $D$, `theoretical_recovery_bound`, and empirical orthogonal error / $R^2(h \to z)$.
+  - Added **`frame_stride: int = 1`** to `LeRobotWindowDataset` so WAM training and evaluation can sample dynamics targets at `LeWAM`'s $K=5$ or `Klindt et al.`'s $\delta \in \{8, 16\}$ stride instead of degenerating at $\delta = 1$.
+
+### 5.4 `LeWAM` (`arXiv:2610.12818`, Oct 8, 2026, Fu, Siebert, Halicki & Balestriero): Token-Level MoT Information Firewall & Algorithm 1 Gradient-Refined Planning
+- **What `LeWAM` actually does to jump from `50.9%` (`LeWM` CEM) to `93.5%` across 10 tasks (`+42.7 pp`) and from `10.9%` to `46.2%` at 100 steps**:
+  1. **Strict Token-Level MoT Attention Mask (`Appendix A, Eq. 10 & Fig. 10`)**:
+     In `LeWAM`'s Mixture-of-Transformers sequence $[z_{t-\Delta}, z_t, q_{t+K}^z, A_{t,K}^{\text{clean}}, c_{\text{goal}}, A_{t,C}^{(s)\text{ noisy}}]$, history tokens attend **only to history tokens** ($\mathcal{V}(z_i) = \{z_{t-\Delta}, z_t\}$) and noisy action-flow tokens attend **only to history, goal, and their own causal noisy prefix** ($\mathcal{V}(a_j^{(s)}) = \{z_{t-\Delta}, z_t, c_{\text{goal}}, a_{\le j}^{(s)}\}$)—never to $q_{t+K}^z$ or $A_{t,K}^{\text{clean}}$. This prevents multi-layer attention from leaking ground-truth clean actions into the flow policy during joint training.
+  2. **Algorithm 1 First-Order Gradient Refinement with Proximity Prior (`Appendix A.1, Eq. 7–8 & 11`)**:
+     Instead of zero-order random resampling, `LeWAM` samples $N$ candidate action plans $A_{1:N}^{\text{sample}}$ from the learned action flow policy and refines all $N$ candidates in parallel via **Adam gradient descent through the frozen world-model dynamics** on the proximity-regularized objective:
+     $$\mathcal{J}_{\text{prox}}(A; A^{\text{sample}}) = \mathrm{MSE}\big(\hat{z}_{t+L}(A),\, z_g\big) + \lambda_{\text{prox}} \|A - A^{\text{sample}}\|_F^2 \quad (\eta = 0.05,\; \lambda_{\text{prox}} = 0.01,\; a_{\max} = 3),$$
+     retaining the best iterate per candidate using the **unpenalized** goal cost $\mathcal{C}(A) = \mathrm{MSE}(\hat{z}_{t+L}(A), z_g)$.
+- **Implemented in [`src/openchange/jepa/wam.py`](../../../src/openchange/jepa/wam.py)**:
+  - Added **`lewam_mot_attention_mask`** implementing Eq. 10 & Fig. 10 with unit verification of the multi-layer clean-action firewall.
+  - Added **`method="lewam_grad"`** to `diffusion_steered_plan` implementing `LeWAM` Algorithm 1.
+
+### 5.5 `FLEX-WAM` (`arXiv:2610.05483`, Oct 4, 2026) & `Long-WAM` (`arXiv:2610.10528`, Oct 7, 2026): Hutchinson FD Elasticity, Counterfactual Stop Probe, Predict-Then-Act (`IDM`), and the `38.4 s` Padding Trap
+- **What `FLEX-WAM` and `Long-WAM` revealed**:
+  1. **Hutchinson Forward-Dynamics (FD) Elasticity & 90%-Setpoint Feedback Regulator (`FLEX-WAM` Sec. II-2 & III-B1)**:
+     Without feedback regulation, joint WAM training causes action sensitivity to peak below a world-model-only baseline and then **decline** over training (`Fig. 2`). `FLEX-WAM` estimates directional action derivatives via Hutchinson probes $\mathbb{E}_{\epsilon \sim \mathcal{N}(0, I)}[\|\hat{z}(z_{\le t}, a + \delta \epsilon) - \hat{z}(z_{\le t}, a)\|_2 / \delta]$, validates responsiveness with a **Counterfactual Stop-Command Probe** ($a_{\text{stop}} = 0$), weights losses by complementary noise cleanness $\Phi_{\text{act}} = \frac{\tau_s + \varepsilon}{\tau_s + \tau_a + 2\varepsilon}$ and $\Phi_{\text{obs}} = \frac{\tau_a + \varepsilon}{\tau_s + \tau_a + 2\varepsilon}$, and regulates WM sampling bias around $90\%$ of the WM-only elasticity setpoint.
+  2. **Predict-Then-Act (`IDM`) Conditioning & the `38.4 s` Padding Confound (`Long-WAM` Sec. 3.2 & 5.3)**:
+     - Conditioning action flow denoising on **both observed history and detached predicted future latents** (`IDM` mode, Eq. 3) outperforms both history-only (`94.5%`) and joint co-denoising (`97.8%`), reaching **`99.5%` on LIBERO-Long**.
+     - `Long-WAM`'s drop at `38.4 s` on RoboCasa GR-1 (`78.7% -> 75.2%`, Sec. 5.3 line 648) occurs because `38.4 s` is $3\times$ the mean episode duration (`12.1 s`), so **`80.4%` of sampled history frames at `38.4 s` are initial-frame padding**.
+- **Implemented in [`src/openchange/jepa/wam.py`](../../../src/openchange/jepa/wam.py)**:
+  - Added **`flex_wam_fd_elasticity_and_stop_probe`** (Hutchinson FD elasticity estimator, counterfactual stop-command probe, $\Phi_{\text{act}} / \Phi_{\text{obs}}$ cross-weights, and closed-loop 90%-setpoint WM sampling regulator).
+  - Added **`predict_then_act: bool = False`** (`IDM` mode) to `FlowMatchingWAMHead` (conditioning $v_\theta^{\text{act}}$ on `context_summary`, `goal_summary`, and detached `predicted_future_summary`).
+  - Added **`padding_fraction`** to `LeRobotWindowDataset.__getitem__` to explicitly track the fraction of clamped initial-frame padding per sample.
+
+---
+
+## 6. Summary of Modified Files & Verification Status
 
 | File | Summary of Additions & Fixes |
 |---|---|
-| [`src/openchange/jepa/losses.py`](../../../src/openchange/jepa/losses.py) | Added `weighted_invariance_loss`, `split_subspace_jepa_loss`, `barlow_twins_loss`, `vicreg_loss`, `conditional_flow_matching_loss`, `sample_conditional_flow`, and `ConditionalFlowBridge`. |
+| [`src/openchange/jepa/losses.py`](../../../src/openchange/jepa/losses.py) | Added `weighted_invariance_loss`, `split_subspace_jepa_loss`, `barlow_twins_loss` (with `TESSERA v2` ceiling normalization), `tessera_mixup_barlow_loss` (`TESSERA v2` Eq. 29–31), `vicreg_loss`, `conditional_flow_matching_loss`, `sample_conditional_flow`, and `ConditionalFlowBridge`. |
 | [`src/openchange/jepa/views.py`](../../../src/openchange/jepa/views.py) | Added `pair_gap_seconds` to `Observation` and `ViewBatch` (with `pin_memory` support) and `audit_observation_batch_pathologies`. |
 | [`src/openchange/jepa/data.py`](../../../src/openchange/jepa/data.py) | Wired `pair_gap_seconds=float(record["pair_gap_seconds"])` into `LocalObservationDataset.__getitem__`. |
-| [`src/openchange/jepa/guarantees.py`](../../../src/openchange/jepa/guarantees.py) | Added `fit_subspace_procrustes`, `apply_subspace_procrustes`, and `evaluate_matryoshka_prefixes`. |
-| [`src/openchange/jepa/wam.py`](../../../src/openchange/jepa/wam.py) | Fixed all 7 `topic_dossier.md` issues; added `robometer_preference_loss`, `action_contrastive_loss`, and `FlowMatchingWAMHead`. |
-| [`tests/test_jepa_losses.py`](../../../tests/test_jepa_losses.py) | Added unit & `gradcheck` tests for `weighted_invariance_loss`, `split_subspace_jepa_loss`, `barlow_twins_loss`, `vicreg_loss`, and `ConditionalFlowBridge` vs. $L_2$ mean collapse. |
+| [`src/openchange/jepa/guarantees.py`](../../../src/openchange/jepa/guarantees.py) | Added `fit_subspace_procrustes`, `apply_subspace_procrustes`, `evaluate_matryoshka_prefixes` (with `first_vs_random_gap` & `group_std_staircase`), `align_sfa_matryoshka_gauge`, and `lejepa_identifiability_bound` (`Klindt et al. 2026` Theorem 5.3). |
+| [`src/openchange/jepa/wam.py`](../../../src/openchange/jepa/wam.py) | Fixed all 7 `topic_dossier.md` issues; added `lewam_mot_attention_mask`, `method="lewam_grad"` in `diffusion_steered_plan`, `robometer_preference_loss`, `action_contrastive_loss`, `flex_wam_fd_elasticity_and_stop_probe`, `FlowMatchingWAMHead` (including `predict_then_act` `IDM` mode), and `frame_stride` + `padding_fraction` in `LeRobotWindowDataset`. |
+| [`tests/test_jepa_losses.py`](../../../tests/test_jepa_losses.py) | Added unit & `gradcheck` tests for `weighted_invariance_loss`, `split_subspace_jepa_loss`, `barlow_twins_loss`, `tessera_mixup_barlow_loss`, `vicreg_loss`, and `ConditionalFlowBridge` vs. $L_2$ mean collapse. |
 | [`tests/test_jepa_views.py`](../../../tests/test_jepa_views.py) | Added tests for `pair_gap_seconds` propagation and `audit_observation_batch_pathologies`. |
-| [`tests/test_jepa_guarantees.py`](../../../tests/test_jepa_guarantees.py) | Added tests for `fit_subspace_procrustes` vs. full-space Procrustes under unaligned private blocks and `evaluate_matryoshka_prefixes`. |
-| [`tests/test_jepa_wam.py`](../../../tests/test_jepa_wam.py) | Added tests for `robometer_preference_loss`, `action_contrastive_loss`, `FlowMatchingWAMHead`, `sigreg_pool` modes, and unconfounded `LeRobotWindowDataset` anchors/actions. |
+| [`tests/test_jepa_guarantees.py`](../../../tests/test_jepa_guarantees.py) | Added tests for `fit_subspace_procrustes`, `evaluate_matryoshka_prefixes`, `align_sfa_matryoshka_gauge`, and `lejepa_identifiability_bound`. |
+| [`tests/test_jepa_wam.py`](../../../tests/test_jepa_wam.py) | Added tests for `robometer_preference_loss`, `action_contrastive_loss`, `FlowMatchingWAMHead` (`CoD` & `IDM` modes), `lewam_mot_attention_mask`, `lewam_grad` planning, `flex_wam_fd_elasticity_and_stop_probe`, `sigreg_pool` modes, and `LeRobotWindowDataset` (`frame_stride` & `padding_fraction`). |
 | [`tests/test_sources.py`](../../../tests/test_sources.py) | Updated `test_repo_metadata_approval_does_not_approve_imagery_or_training` to reflect that `ssl4eo_s12_v1_1_s1_pilot` and `ssl4eo_s12_v1_1_s2_pilot` are approved for the `pilot` split while `train`/`val`/`test` remain blocked. |
 
-All **191 unit tests** (`make check PYTHON=.venv-jepa/bin/python`: `ruff`, `compileall`, `unittest`, `check_sbatch.py`, `validate_sources.py`, `train.py --dry-run`, `evaluate.py`, and `train_jepa.py --dry-run`) pass cleanly.
+All **193 unit tests** (`make check PYTHON=.venv-jepa/bin/python`: `ruff`, `compileall`, `unittest`, `check_sbatch.py`, `validate_sources.py`, `train.py --dry-run`, `evaluate.py`, and `train_jepa.py --dry-run`) pass cleanly.

@@ -23,6 +23,8 @@ from openchange.jepa.wam import (
     causal_neighborhood_mask,
     compute_reachable_error_and_factorial,
     diffusion_steered_plan,
+    flex_wam_fd_elasticity_and_stop_probe,
+    lewam_mot_attention_mask,
     robometer_preference_loss,
 )
 
@@ -451,6 +453,92 @@ class WorldModelTests(unittest.TestCase):
         sampled_act = cfm_head.sample_actions(ctx_summary, fut_summary[:, -1, :], steps=8, solver="heun", seed=3)
         self.assertEqual(sampled_fut.shape, (2, 4, 8))
         self.assertEqual(sampled_act.shape, (2, 4, 3))
+
+        # Long-WAM Predict-Then-Act (IDM) mode conditioning on detached predicted future
+        idm_head = FlowMatchingWAMHead(
+            dim=8, action_dim=3, horizon=4, hidden_dim=32, time_dim=8, predict_then_act=True, seed=12
+        ).double()
+        idm_losses = idm_head.cfm_loss(
+            ctx_summary, self.actions, fut_summary, predicted_future_summary=sampled_fut
+        )
+        self.assertTrue(torch.isfinite(idm_losses["loss"]))
+        idm_act = idm_head.sample_actions(
+            ctx_summary, fut_summary[:, -1, :], predicted_future_summary=sampled_fut, steps=4, seed=5
+        )
+        self.assertEqual(idm_act.shape, (2, 4, 3))
+
+    def test_lewam_mot_mask_grad_planning_flex_wam_and_stride(self) -> None:
+        # 1. LeWAM MoT mask firewall: history and noisy actions never attend to clean actions
+        mask = lewam_mot_attention_mask(
+            n_history=2, n_clean_actions=5, n_noisy_actions=10, include_state_query=True, include_goal=True
+        )
+        self.assertEqual(mask.shape, (19, 19))
+        # History [0:2] cannot see state query [2], clean actions [3:8], goal [8], or noisy actions [9:19]
+        self.assertTrue(torch.isneginf(mask[0:2, 2:]).all())
+        # State query [2] sees history [0:2], itself [2], and clean actions [3:8], but NOT noisy actions [9:19]
+        self.assertEqual(float(mask[2, :8].abs().max()), 0.0)
+        self.assertTrue(torch.isneginf(mask[2, 8:]).all())
+        # Noisy actions [9:19] NEVER see state query [2] or clean actions [3:8]
+        self.assertTrue(torch.isneginf(mask[9:19, 2:8]).all())
+        # Noisy actions see history [0:2] and goal [8], and are causal within [9:19]
+        self.assertEqual(float(mask[9:19, 0:2].abs().max()), 0.0)
+        self.assertEqual(float(mask[9:19, 8].abs().max()), 0.0)
+        self.assertTrue(torch.isneginf(mask[9, 10]))
+
+        # 2. LeWAM Algorithm 1 gradient-refined planning improves over random initialization
+        z0 = torch.zeros(2, dtype=torch.float64)
+        goal = torch.tensor([2.5, -1.5], dtype=torch.float64)
+        best_grad, info_grad = diffusion_steered_plan(
+            lambda z, a: z + a,
+            z0,
+            goal,
+            horizon=4,
+            action_dim=2,
+            n_samples=16,
+            n_iters=25,
+            method="lewam_grad",
+            action_bound=1.0,
+            lr_grad=0.1,
+            lam_prox=0.005,
+            seed=21,
+        )
+        self.assertEqual(best_grad.shape, (4, 2))
+        self.assertEqual(info_grad["method"], "lewam_grad")
+        self.assertLess(float(info_grad["best_cost"]), 0.05)
+
+        # 3. FLEX-WAM Hutchinson FD Elasticity, Stop Probe, and 90%-setpoint regulator
+        probe = flex_wam_fd_elasticity_and_stop_probe(
+            self.model,
+            self.z_context,
+            self.actions,
+            self.proprio,
+            tau_state=0.8,
+            tau_action=0.2,
+            wm_setpoint=float("inf"),
+            seed=9,
+        )
+        self.assertGreater(float(probe["fd_elasticity"]), 0.0)
+        self.assertGreater(float(probe["stop_response_gap"]), 0.0)
+        self.assertGreater(float(probe["phi_act"]), float(probe["phi_obs"]))
+        self.assertAlmostEqual(float(probe["phi_act"] + probe["phi_obs"]), 1.0, places=6)
+
+        # 4. LeRobotWindowDataset frame_stride=5 (LeWAM K=5) & Long-WAM padding_fraction diagnostic
+        ep = {
+            "frames": torch.zeros(30, 3, 16, 16, dtype=torch.float32),
+            "actions": torch.arange(30 * 2, dtype=torch.float32).reshape(30, 2),
+            "proprio": torch.zeros(30, 2, dtype=torch.float32),
+            "fps": 20.0,
+        }
+        ds_stride = LeRobotWindowDataset(
+            [ep], context_frames=4, horizon_frames=3, frame_stride=5, strata_seconds=(0.0, 38.4)
+        )
+        item_long = ds_stride[1]
+        self.assertGreater(float(item_long["padding_fraction"]), 0.5)
+        # With total_t=30, horizon_frames=3, frame_stride=5 -> fut_span = 11 -> anchor = 19, last_ctx = 18
+        self.assertEqual(int(item_long["anchor_index"]), 19)
+        torch.testing.assert_close(
+            item_long["actions"], ep["actions"][torch.tensor([18, 23, 28])], atol=0, rtol=0
+        )
 
 
 if __name__ == "__main__":

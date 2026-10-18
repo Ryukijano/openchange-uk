@@ -521,6 +521,7 @@ def barlow_twins_loss(
     *,
     lam_bt: float = 5e-3,
     eps: float = 1e-5,
+    normalize_by_ceiling: bool = False,
     dist: DistContext | None = None,
 ) -> dict[str, Tensor]:
     """Distributed-exact Barlow Twins loss (TESSERA / TESSERA v2 comparator for Q1).
@@ -528,6 +529,10 @@ def barlow_twins_loss(
     Given ``z`` of shape ``[V, N, K]`` (with ``V >= 2``) or ``[2, N, K]``, normalizes the first
     two global views along the global batch dimension and computes the cross-correlation matrix
     ``C = (Z_A^T Z_B) / N_global`` in FP32/FP64 outside autocast.
+
+    Per TESSERA v2 (arXiv:2607.03949, Appendix S.3 & T, Eq. 29), ``raw_bt_loss`` is the sum over K,
+    ``loss`` is the per-coordinate mean (or ``raw_bt_loss / (K + lam_bt * K * (K - 1))`` when
+    ``normalize_by_ceiling=True`` so runs with different projector widths K are comparable).
     """
     if z.ndim != 3 or z.shape[0] < 2:
         raise ValueError("z must have shape [V, N, K] with V >= 2")
@@ -568,13 +573,111 @@ def barlow_twins_loss(
         invariance_term = (1.0 - diag).square().sum()
         off_diag_sq = cross_cov.square().sum() - diag.square().sum()
         redundancy_term = lam_bt * off_diag_sq
-        loss = (invariance_term + redundancy_term) / features
+        raw_bt = invariance_term + redundancy_term
+        ceiling = float(features) + float(lam_bt) * float(features) * float(max(features - 1, 0))
+        ceiling_norm_loss = raw_bt / max(ceiling, 1e-12)
+        loss = ceiling_norm_loss if normalize_by_ceiling else raw_bt / features
 
         return {
             "loss": loss,
+            "raw_bt_loss": raw_bt,
+            "ceiling_normalized_loss": ceiling_norm_loss,
             "invariance_term": invariance_term / features,
             "redundancy_term": redundancy_term / features,
             "cross_correlation": cross_cov.detach(),
+        }
+
+
+def tessera_mixup_barlow_loss(
+    z_a: Tensor,
+    z_b: Tensor,
+    z_mixed: Tensor,
+    *,
+    alpha_mix: float,
+    perm: Tensor,
+    lam_bt: float = 5e-3,
+    lam_mix: float = 1.0,
+    eps: float = 1e-5,
+    normalize_by_ceiling: bool = False,
+    dist: DistContext | None = None,
+) -> dict[str, Tensor]:
+    """TESSERA v1 / v2 Barlow Twins + Mix-Up linear consistency objective (arXiv:2607.03949, App. C & T).
+
+    In TESSERA and TESSERA v2 (Eq. 29-31), Barlow Twins is paired with a mix-up regularizer that
+    enforces linear consistency in cross-correlation space when input views are mixed as
+    ``Y_M = alpha_mix * Y_A + (1 - alpha_mix) * Y_B[perm]``:
+      C_target^{MA} = alpha_mix * (Z_A^T Z_A / B) + (1 - alpha_mix) * (Z_S^T Z_A / B)
+      C_target^{MS} = alpha_mix * (Z_A^T Z_S / B) + (1 - alpha_mix) * (Z_S^T Z_S / B)
+      L_MIX = 0.5 * ||C^{MA} - C_target^{MA}||_F^2 + 0.5 * ||C^{MS} - C_target^{MS}||_F^2
+      L_total = L_BT + lam_mix * L_MIX
+    """
+    if z_a.ndim != 2 or z_b.ndim != 2 or z_mixed.ndim != 2:
+        raise ValueError("z_a, z_b, and z_mixed must be 2D tensors [N, K]")
+    if z_a.shape != z_b.shape or z_a.shape != z_mixed.shape:
+        raise ValueError("z_a, z_b, and z_mixed must share shape [N, K]")
+    samples, features = z_a.shape
+    if samples < 2 or features < 1:
+        raise ValueError("tessera_mixup_barlow_loss requires N >= 2 and K >= 1")
+    if not 0.0 <= alpha_mix <= 1.0 or lam_mix < 0.0:
+        raise ValueError("alpha_mix in [0, 1] and lam_mix >= 0 required")
+    if perm.ndim != 1 or perm.shape[0] != samples:
+        raise ValueError("perm must be a 1D index tensor of length N")
+
+    bt = barlow_twins_loss(
+        torch.stack((z_a, z_b), dim=0),
+        lam_bt=lam_bt,
+        eps=eps,
+        normalize_by_ceiling=normalize_by_ceiling,
+        dist=dist,
+    )
+
+    compute_dtype = torch.float64 if z_a.dtype == torch.float64 else torch.float32
+    with torch.autocast(device_type=z_a.device.type, enabled=False):
+        za = z_a.to(dtype=compute_dtype)
+        zb = z_b.to(dtype=compute_dtype)
+        zm = z_mixed.to(dtype=compute_dtype)
+
+        def _bn(x: Tensor) -> Tensor:
+            xc = x - x.mean(dim=0, keepdim=True)
+            std = torch.sqrt(xc.square().mean(dim=0, keepdim=True) + eps)
+            return xc / std
+
+        za_n = _bn(za)
+        zb_n = _bn(zb)
+        zm_n = _bn(zm)
+        zs_n = zb_n[perm.to(device=z_a.device, dtype=torch.long)]
+
+        b_denom = float(samples)
+        c_ma = (zm_n.T @ za_n) / b_denom
+        c_ms = (zm_n.T @ zs_n) / b_denom
+        c_aa = (za_n.T @ za_n) / b_denom
+        c_sa = (zs_n.T @ za_n) / b_denom
+        c_as = (za_n.T @ zs_n) / b_denom
+        c_ss = (zs_n.T @ zs_n) / b_denom
+
+        alpha = float(alpha_mix)
+        target_ma = (alpha * c_aa + (1.0 - alpha) * c_sa).detach()
+        target_ms = (alpha * c_as + (1.0 - alpha) * c_ss).detach()
+
+        raw_mix = 0.5 * (
+            (c_ma - target_ma).square().sum() + (c_ms - target_ms).square().sum()
+        )
+        scale = (
+            float(features) + float(lam_bt) * float(features) * float(max(features - 1, 0))
+            if normalize_by_ceiling
+            else float(features)
+        )
+        mix_loss = raw_mix / max(scale, 1e-12)
+        total = bt["loss"] + float(lam_mix) * mix_loss
+
+        return {
+            "loss": total,
+            "bt_loss": bt["loss"],
+            "mix_loss": mix_loss,
+            "raw_bt_loss": bt["raw_bt_loss"],
+            "raw_mix_loss": raw_mix,
+            "ceiling_normalized_bt": bt["ceiling_normalized_loss"],
+            "cross_correlation": bt["cross_correlation"],
         }
 
 
