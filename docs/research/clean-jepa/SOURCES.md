@@ -10,6 +10,9 @@ during this update (`git ls-remote`). [Pinned MINIMAL](https://github.com/rbales
 and [pinned EP](https://github.com/rbalestr-lab/lejepa/blob/c293d291ca87cd4fddee9d3fffe4e914c7272052/lejepa/univariate/epps_pulley.py)
 anchor the code observations; other sources still need explicit pins before use.
 
+LeJEPA's code licence is CC BY-NC 4.0, not this repository's MIT licence. The P1
+implementation is written from FORMULATION.md; do not copy upstream source code.
+
 ## Primary links
 
 | Purpose | Source | What to verify before implementation |

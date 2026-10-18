@@ -1,0 +1,40 @@
+{
+  "config": {
+    "path": "configs/sources.yaml",
+    "sha256": "a1a2d4ff0ec92607617dc3ece172529972d08e2d2eb2ea317d05ef6bec3c594d"
+  },
+  "container": {
+    "image": null,
+    "inside_container": false,
+    "nvidia_pytorch_version": null,
+    "sif": null,
+    "sif_sha256": null
+  },
+  "env": {},
+  "environment": {
+    "hostname": "devin-box",
+    "machine": "x86_64",
+    "packages": {
+      "PyYAML": "6.0.3",
+      "numpy": null,
+      "openchange-uk": "0.0.1",
+      "torch": null
+    },
+    "platform": "Linux-6.8.0-1061-aws-x86_64-with-glibc2.35",
+    "python": "3.11.17",
+    "python_executable": "/home/ubuntu/repos/openchange-uk/.venv/bin/python",
+    "system": "Linux"
+  },
+  "git": {
+    "dirty": true,
+    "sha": "d75b81fdc5283d5ad5ffa27ee2a916484be95058",
+    "source": "git"
+  },
+  "job": "jepa-metadata",
+  "run_dir": "/home/ubuntu/repos/openchange-uk/outputs/jepa-metadata-local20261011T143651Z-42766",
+  "seed": 0,
+  "seeded": [
+    "random"
+  ],
+  "started_utc": "2026-10-11T14:36:51+00:00"
+}

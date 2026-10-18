@@ -1,0 +1,18 @@
+{
+  "architecture": "aarch64",
+  "cuda": "12.9",
+  "cuda_available": true,
+  "cudnn": 91001,
+  "device": "NVIDIA GH200 120GB",
+  "device_count": 1,
+  "expected_architecture": "aarch64",
+  "matmul_dtype": "torch.bfloat16",
+  "matmul_seconds_first_call": 0.0705332449870184,
+  "matmul_shape": [
+    8192,
+    8192
+  ],
+  "passed": true,
+  "seed": 0,
+  "torch": "2.8.0a0+5228986c39.nv25.05"
+}

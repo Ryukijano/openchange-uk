@@ -1,0 +1,295 @@
+{
+  "status": "descriptive_metadata_audit_not_a_training_manifest",
+  "source_revision": "97a91733db962222e1e6b40a836845ddbbb16b86",
+  "input_checksums": {
+    "train_metadata.parquet": "1a9f413e3b442f01e736bf96edf69a9ae6b08cff1ef611b47ee6cac5a3cec1b1",
+    "val_metadata.parquet": "e563236c577667ecf62d0f1ea5f4afaf5d7de958ecc65a1f76d37692d3676069"
+  },
+  "packages": {
+    "pyarrow": "23.0.1",
+    "numpy": "2.4.6",
+    "shapely": "2.2.0",
+    "pyproj": "3.7.2"
+  },
+  "columns": [
+    "tar",
+    "zarr",
+    "sample_id",
+    "split",
+    "center_lon",
+    "center_lat",
+    "crs",
+    "bounds",
+    "geometry",
+    "S2_time_0",
+    "S2_time_1",
+    "S2_time_2",
+    "S2_time_3",
+    "S1_time_0",
+    "S1_time_1",
+    "S1_time_2",
+    "S1_time_3",
+    "cloud_cover_0",
+    "cloud_cover_1",
+    "cloud_cover_2",
+    "cloud_cover_3"
+  ],
+  "null_counts": {
+    "tar": 0,
+    "zarr": 0,
+    "sample_id": 0,
+    "split": 0,
+    "center_lon": 0,
+    "center_lat": 0,
+    "crs": 0,
+    "bounds": 0,
+    "geometry": 0,
+    "S2_time_0": 0,
+    "S2_time_1": 0,
+    "S2_time_2": 0,
+    "S2_time_3": 0,
+    "S1_time_0": 0,
+    "S1_time_1": 0,
+    "S1_time_2": 0,
+    "S1_time_3": 0,
+    "cloud_cover_0": 0,
+    "cloud_cover_1": 0,
+    "cloud_cover_2": 0,
+    "cloud_cover_3": 0
+  },
+  "rows": 246144,
+  "unique_location_ids": 246144,
+  "duplicate_member_keys": 0,
+  "provider_memberships": {
+    "train": 243968,
+    "val": 2176
+  },
+  "s1_timestamp_range": [
+    "2019-12-08T02:26:01.000000000",
+    "2021-10-06T22:51:24.000000000"
+  ],
+  "s2_timestamp_range": [
+    "2019-12-02T03:21:09.000000000",
+    "2021-10-10T17:41:49.000000000"
+  ],
+  "timestamps_missing": 0,
+  "s1_nonmonotonic_locations": 0,
+  "s2_nonmonotonic_locations": 0,
+  "within_location_duplicate_s1_dates": 0,
+  "within_location_duplicate_s2_dates": 0,
+  "index_gap_days_quantiles": {
+    "0": 0.17171296296296296,
+    "0.25": 1.6372916666666666,
+    "0.5": 3.6946296296296297,
+    "0.75": 7.807488425925926,
+    "0.9": 14.800740740740741,
+    "0.95": 19.304768518518518,
+    "0.99": 25.368828125,
+    "1": 49.80186342592592
+  },
+  "gap_thresholds_days": {
+    "1": {
+      "index_pairs": 168172,
+      "locations_with_any_index_pair": 119020,
+      "outside_uk_index_pairs": 166084,
+      "outside_uk_locations_with_any_index_pair": 117393
+    },
+    "3": {
+      "index_pairs": 430355,
+      "locations_with_any_index_pair": 217969,
+      "outside_uk_index_pairs": 425439,
+      "outside_uk_locations_with_any_index_pair": 214946
+    },
+    "7": {
+      "index_pairs": 701525,
+      "locations_with_any_index_pair": 242977,
+      "outside_uk_index_pairs": 694023,
+      "outside_uk_locations_with_any_index_pair": 239328
+    },
+    "14": {
+      "index_pairs": 877320,
+      "locations_with_any_index_pair": 245961,
+      "outside_uk_index_pairs": 866354,
+      "outside_uk_locations_with_any_index_pair": 241938
+    },
+    "30": {
+      "index_pairs": 984430,
+      "locations_with_any_index_pair": 246144,
+      "outside_uk_index_pairs": 968197,
+      "outside_uk_locations_with_any_index_pair": 242085
+    }
+  },
+  "nearest_other_index_than_seasonal_index": 0,
+  "nearest_gap_days_quantiles": {
+    "0": 0.17171296296296296,
+    "0.25": 1.6372916666666666,
+    "0.5": 3.6946296296296297,
+    "0.75": 7.807488425925926,
+    "0.9": 14.800740740740741,
+    "0.95": 19.304768518518518,
+    "0.99": 25.368828125,
+    "1": 49.80186342592592
+  },
+  "nearest_mapping_reuses_s1_locations": 0,
+  "cloud_fraction_quantiles": {
+    "0": 0.0,
+    "0.25": 0.0,
+    "0.5": 0.0,
+    "0.75": 0.0,
+    "0.9": 0.1042,
+    "0.95": 0.3129,
+    "0.99": 0.9054,
+    "1": 1.0
+  },
+  "cloud_nonfinite": 0,
+  "cloud_outside_0_1": 0,
+  "cloud_exact_zero": 796799,
+  "cloud_thresholds": {
+    "0": {
+      "observations_above": 187777,
+      "locations_with_any_above": 129306,
+      "outside_uk_gap7_observations_above": 126447,
+      "outside_uk_gap7_locations_with_any_above": 97285
+    },
+    "0.01": {
+      "observations_above": 161172,
+      "locations_with_any_above": 116095,
+      "outside_uk_gap7_observations_above": 108314,
+      "outside_uk_gap7_locations_with_any_above": 86098
+    },
+    "0.05": {
+      "observations_above": 124690,
+      "locations_with_any_above": 95401,
+      "outside_uk_gap7_observations_above": 84087,
+      "outside_uk_gap7_locations_with_any_above": 69604
+    },
+    "0.1": {
+      "observations_above": 100040,
+      "locations_with_any_above": 79768,
+      "outside_uk_gap7_observations_above": 67591,
+      "outside_uk_gap7_locations_with_any_above": 57539
+    },
+    "0.5": {
+      "observations_above": 28731,
+      "locations_with_any_above": 25948,
+      "outside_uk_gap7_observations_above": 19668,
+      "outside_uk_gap7_locations_with_any_above": 18106
+    },
+    "0.8": {
+      "observations_above": 13854,
+      "locations_with_any_above": 12684,
+      "outside_uk_gap7_observations_above": 9560,
+      "outside_uk_gap7_locations_with_any_above": 8800
+    }
+  },
+  "uk_box": [
+    -11,
+    49,
+    2.5,
+    61.5
+  ],
+  "uk_box_footprint_intersections": 4059,
+  "uk_box_centers": 4039,
+  "footprint_only_uk_exclusions": 20,
+  "uk_exclusion_buffer_sensitivity_km": {
+    "0": 4059,
+    "5": 4148,
+    "10": 4235
+  },
+  "geometry_crs": "EPSG:4326",
+  "native_raster_crs_unique": 75,
+  "invalid_geometry": 0,
+  "empty_geometry": 0,
+  "centers_not_covered_by_footprint": 0,
+  "native_bbox_width_m": {
+    "0": 2640.0,
+    "0.25": 2640.0,
+    "0.5": 2640.0,
+    "0.75": 2640.0,
+    "0.9": 2640.0,
+    "0.95": 2640.0,
+    "0.99": 2640.0,
+    "1": 2640.0
+  },
+  "native_bbox_height_m": {
+    "0": 2640.0,
+    "0.25": 2640.0,
+    "0.5": 2640.0,
+    "0.75": 2640.0,
+    "0.9": 2640.0,
+    "0.95": 2640.0,
+    "0.99": 2640.0,
+    "1": 2640.0
+  },
+  "geometry_vs_native_bounds_max_error_m": 4.0745362639427185e-09,
+  "provider_train_val_footprint_intersection_pairs": 325,
+  "provider_val_locations_overlapping_train": 264,
+  "provider_train_val_positive_area_pairs": 325,
+  "provider_val_locations_positive_area_overlap": 264,
+  "overlap_smaller_footprint_fraction_quantiles": {
+    "0": 6.12511441161986e-08,
+    "0.5": 0.10160574023033889,
+    "0.95": 0.35166242494732197,
+    "1": 0.9285202457345263
+  },
+  "latitude_bands": {
+    "[-90,-60)": {
+      "all_locations": 0,
+      "outside_uk_gap7_locations": 0
+    },
+    "[-60,-30)": {
+      "all_locations": 13440,
+      "outside_uk_gap7_locations": 13330
+    },
+    "[-30,0)": {
+      "all_locations": 26007,
+      "outside_uk_gap7_locations": 25706
+    },
+    "[0,30)": {
+      "all_locations": 52619,
+      "outside_uk_gap7_locations": 52231
+    },
+    "[30,60)": {
+      "all_locations": 153964,
+      "outside_uk_gap7_locations": 147951
+    },
+    "[60,90)": {
+      "all_locations": 114,
+      "outside_uk_gap7_locations": 110
+    }
+  },
+  "tar_location_inventory": {
+    "train": {
+      "shards": 477,
+      "min_locations": 256,
+      "max_locations": 512,
+      "locations": 243968
+    },
+    "val": {
+      "shards": 5,
+      "min_locations": 128,
+      "max_locations": 512,
+      "locations": 2176
+    }
+  },
+  "exploratory_time_policy": {
+    "cutoff": "2020-12-31T23:59:59.999999999",
+    "validation_after": "2021-01-31T23:59:59.999999999",
+    "maximum_gap_days": 7,
+    "uk_buffer_km": 0,
+    "accepted": false,
+    "pre_cutoff_candidate_pairs": 440484,
+    "pre_cutoff_candidate_locations": 218366,
+    "post_embargo_candidate_pairs": 211201,
+    "post_embargo_candidate_locations": 135643,
+    "locations_with_both_eras": 115752
+  },
+  "limitations": [
+    "No imagery quality, mask polarity, spectral units or shard range access checked.",
+    "Cloud fields are provider estimates, not manually verified cloud labels.",
+    "Timestamp columns are timezone-naive; differences use full nanosecond instants as stored.",
+    "UK buffer sensitivities use densified WGS84 box projected to EPSG:3035; not a signed buffer policy.",
+    "Other benchmark footprints and geographical split buffers are not yet applied.",
+    "Counts are descriptive; no manifest, train/validation assignment or source approval for imagery."
+  ]
+}

@@ -11,6 +11,10 @@ Updating these documents is not approval to fetch a dataset or use an allocation
 1. This page: decisions and boundaries.
 2. [Formulation](FORMULATION.md): notation, exact losses, gradients and distributed convention.
 3. [Implementation runbook](IMPLEMENTATION.md): work packages, interfaces, tests and exit gates.
+   [Data audit and next handoff](DATA_PLAN.md): pinned releases, access granularity,
+   metadata-first curation and real-loader gates.
+   [Multi-GPU pilot](MULTIGPU.md): offline data boundary, torchrun/DDP semantics,
+   GH200 profiling/restart gates and the later temporal/decision sequence.
 4. [Sources and corrections](SOURCES.md): primary links, provenance and errors in earlier reviews.
 5. [Training diagram](training-diagram.html): self-contained HTML with selectable nodes.
    GitHub shows HTML source; download the file and open it locally to use the diagram.
@@ -75,11 +79,33 @@ mid-grid and present the runs as one method.
 
 - Existing: source approval validation, provisional geographic/temporal split contract,
   run manifests, local checks and capped Slurm scaffolds.
-- Missing: JEPA encoder/loss, view loader, distributed equivalence tests, checkpointing,
-  benchmark adapters, selection/Procrustes experiments and measured throughput.
-- No dataset entry has been approved by this update. `configs/sources.yaml` remains empty.
+- P1 and multi-GPU code (`src/openchange/jepa/`):
+  - Core encoder, losses, data, and runtime: `losses.py`, `distributed.py`, `model.py`,
+    `views.py`, `checkpoints.py`, `config.py`, `data.py`, `runtime.py` (including
+    `configure_precision_and_determinism` disabling TF32 in FP32 mode on Hopper GH200),
+    `scripts/train_jepa.py`, and `scripts/train_jepa_distributed.py`.
+  - Operational guarantees (`guarantees.py`, `tests/test_jepa_guarantees.py`):
+    `rankme_score`, `lidar_score`, `selection_spearman` (Q1), `fit_orthogonal_procrustes`,
+    `evaluate_version_upgrade` (Q2), `cross_unit_distance_ratio` (Q3/Q4), and
+    `StratifiedConformalAlertCalibrator`.
+  - GPU-native World-Action Model (`wam.py`, `tests/test_jepa_wam.py`):
+    `causal_neighborhood_mask`, `bidirectional_neighborhood_mask`, `HistoryStratifiedSIGReg`,
+    `CausalPatchJEPAWorldModel`, `LeWMPixelPatchEncoder`, `EndToEndPixelWAM`,
+    `LeRobotWindowDataset`, `compute_reachable_error_and_factorial`, and
+    `diffusion_steered_plan`.
+  - GPU-native Spatiotemporal Science World Model (`science_wm.py`, `tests/test_jepa_science_wm.py`):
+    `PhysicalForcingEncoder`, `MultiSensorContinuumPatchStem`,
+    `FactorizedSpatiotemporalJEPAWorldModel`, and `gpu_counterfactual_observation_value`,
+    paired with `slurm/06_wam_and_science_gpu.sbatch`.
+  - `make check` runs 150 unit tests covering all modules above. Defaults still
+    refuse unapproved real imagery.
+- Missing: raw approved-shard extraction, benchmark adapters, selection/Procrustes
+  experiments and measured throughput.
+- Only the two pinned SSL4EO metadata tables have human approval. Imagery and
+  training-source use remain unapproved; see [the measured metadata audit](../../../reports/jepa/metadata/README.md).
 - `make train-small` is still a dry-run, and `make evaluate` is still a stub. Neither
-  trains/evaluates JEPA. No new runnable training command is advertised here.
+  trains/evaluates JEPA. make jepa-synthetic-fit runs at most 50 CPU steps on
+  synthetic tensors; it is a plumbing check, not representation learning or a result.
 - These documents report no new research result. Archived synthetic checks are
   reviewer observations, not an EO training run or an Isambard smoke pass.
 

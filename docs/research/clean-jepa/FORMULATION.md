@@ -79,7 +79,9 @@ Globals feel the extra pull from locals (factor 3 at 2 globals/6 locals). The su
 embedding gradients over all views is zero: common translation is unconstrained.
 **This does not mean the global centre stays fixed**: the sum over global gradients
 alone can be nonzero. Parameter sharing further couples updates between samples.
-Invariance alone allows all views of all samples to collapse.
+Invariance alone allows all views of all samples to collapse. At exactly z=0,
+EP has nonzero value but zero gradient (all sine terms vanish). SIGReg therefore
+does not supply a gradient to escape exact collapse.
 
 ## 3. Per-view Epps–Pulley SIGReg
 
@@ -115,8 +117,10 @@ The leading N_S cancels the 1/N_S derivative of the empirical CF. Systematic
 per-sample EP gradients can be O(1) in N_S, while invariance gradients are O(1/N).
 This is why batch size changes effective regularization; lambda is not batch-free.
 
-For i.i.d. standard-normal samples, the **expected** statistic is about 1.0525 under
-this quadrature. Over the entire real line the expectation is
+For i.i.d. standard-normal samples, the **expected** statistic is exactly
+sum_l q_l(1-exp(-t_l^2)) = 1.052464154799 under this quadrature, for any N_S>=1,
+M and unit directions. Stratified weights must sum to one for the same expectation.
+Over the entire real line the expectation is
 sqrt(2*pi)-sqrt(2*pi/3)≈1.0594. This is a sampling null expectation, **not a positive
 lower bound or guaranteed training plateau**. Optimized finite batches can go below it;
 repeated locations violate the i.i.d. assumption. Population mismatch contributes
@@ -160,11 +164,15 @@ and residual optical targets against S1-only controls.
 
 ## 5. Distributed convention
 
-One global batch is generated deterministically; rank r takes [r::world_size]. Each
-rank has the same count per stratum. Generate identical directions on all ranks.
+One global batch is generated deterministically in stratum-by-stratum blocks;
+rank r takes [r::world_size]. Every quota must be divisible by world_size, giving
+equal per-rank stratum counts. Interleaved stratum labels can break this guarantee.
+Generate identical directions on all ranks.
 For each view/stratum all-reduce the **local cos/sin sums**, then divide by the
 global stratum count. Counts use ordinary no-grad SUM; CF sums use an autograd-aware
-collective. Every rank computes the same global EP scalar. L_inv is the local mean.
+collective. T_mu also uses a differentiable SUM of z per stratum divided by global
+counts. Every rank computes the same global EP scalar. L_inv is the local mean;
+the total loss can differ across ranks, so log its detached rank mean.
 
 With a differentiable SUM collective, backward sums gradients from the replicated
 losses: each local contribution receives world_size times its single-global-loss

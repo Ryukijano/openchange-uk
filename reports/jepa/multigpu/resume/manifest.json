@@ -1,0 +1,347 @@
+{
+  "config": {
+    "path": "/home/ubuntu/airr-masterplan/p1-logs/multigpu-cpu-pilot.yaml",
+    "sha256": "a54c8b88a25186215cc8592b04788aa0829c6ea80b6f9d79e66d17813f4559a7"
+  },
+  "container": {
+    "image": null,
+    "inside_container": false,
+    "nvidia_pytorch_version": null,
+    "sif": null,
+    "sif_sha256": null
+  },
+  "cuda_version": null,
+  "device_name": "CPU",
+  "env": {},
+  "environment": {
+    "hostname": "devin-box",
+    "machine": "x86_64",
+    "packages": {
+      "PyYAML": "6.0.3",
+      "numpy": "2.4.6",
+      "openchange-uk": "0.0.1",
+      "torch": "2.14.1+cpu"
+    },
+    "platform": "Linux-6.8.0-1061-aws-x86_64-with-glibc2.35",
+    "python": "3.11.17",
+    "python_executable": "/home/ubuntu/repos/openchange-uk/.venv-jepa/bin/python",
+    "system": "Linux"
+  },
+  "git": {
+    "dirty": true,
+    "sha": "52d6bf61304e4b2aaa486c003865751120579d0d",
+    "source": "git"
+  },
+  "job": "jepa-multigpu-cpu-plumbing",
+  "launch": {
+    "code_sha256": {
+      "scripts/train_jepa_distributed.py": "057981787f76b58a484b27fe3a22874d985af48c84f23d92cdf94f0320729b23",
+      "src/openchange/jepa/checkpoints.py": "4b5fa4781ebb1fec4e9fdd7aa34fb0db50b636b5710a39e8d285cf4756a921e7",
+      "src/openchange/jepa/config.py": "d029f7364ba8c1f4d87684036419719aef77f101eaf8ce433892bf809f5759f4",
+      "src/openchange/jepa/data.py": "00e07b126b4027d87b50a6f173259651f175e5cbd7832d88945befed08f7b622",
+      "src/openchange/jepa/distributed.py": "2e0b174d30028c689b5665cae00c4dff1934ce938e72b3351b292dcd0c98026d",
+      "src/openchange/jepa/losses.py": "6d82261a340724ab915176d94a4e375b9e80692cf395dced7d97757fb66bda80",
+      "src/openchange/jepa/model.py": "00cab15e9e7d022e070f102f2c195550a19118f95cf0c862de22ddc3fb496a53",
+      "src/openchange/jepa/runtime.py": "7737077f0f3be0bdfc0b92b37f82d4c3138687c91b24cb528a296c65b4e2cdf5",
+      "src/openchange/jepa/views.py": "5c1a8ac69b23ca1f7505288cd76bb81c10f3ba5c23e52a0f01866ec02bbfc014"
+    },
+    "device": "cpu",
+    "git_sha": "52d6bf61304e4b2aaa486c003865751120579d0d",
+    "manifest_sha256": null,
+    "prefetch": 2,
+    "recipe": {
+      "checkpoint": {
+        "every_steps": 5
+      },
+      "crop_log_aspect": [
+        -0.2876821,
+        0.2876821
+      ],
+      "gaussian_target": "identity",
+      "global_batch": 32,
+      "global_crop_pixels": 224,
+      "global_crop_scale": [
+        0.4,
+        1.0
+      ],
+      "global_quotas": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "global_token_drop": 0.9,
+      "global_views": 2,
+      "gradient_accumulation": 1,
+      "job": "jepa-multigpu-cpu-plumbing",
+      "lambda": 0.05,
+      "lambda_mu": 0.0,
+      "local_crop_pixels": 96,
+      "local_crop_scale": [
+        0.05,
+        0.4
+      ],
+      "local_sensor_probs": {
+        "both": 0.2,
+        "s1": 0.4,
+        "s2": 0.4
+      },
+      "local_token_drop": 0.5,
+      "local_views": 6,
+      "loss_reduction": "mean_n_v_k",
+      "model": {
+        "depth": 12,
+        "dim": 192,
+        "drop_path": 0.0,
+        "heads": 3,
+        "mlp_ratio": 4,
+        "pos_embed": "sincos2d_ref14"
+      },
+      "normalization": "synthetic_identity",
+      "optimizer": {
+        "betas": [
+          0.9,
+          0.95
+        ],
+        "eps": 1e-08,
+        "grad_clip_norm": 3.0,
+        "lr": 0.0005,
+        "lr_reference_batch": 1024,
+        "lr_scaling": "none_debug",
+        "name": "adamw",
+        "weight_decay": 0.05,
+        "weight_decay_scope": "matrices_only"
+      },
+      "patch_size": 16,
+      "precision": "fp32",
+      "projector_dim": 128,
+      "projector_hidden": [
+        2048,
+        2048
+      ],
+      "projector_norm": "frozen",
+      "runtime": {
+        "cpu_threads": 2,
+        "deterministic": true,
+        "max_wall_seconds": 600
+      },
+      "s2_gain_jitter": 0.0,
+      "schedule": {
+        "floor_ratio": 0.001,
+        "name": "cosine",
+        "total_steps": 10,
+        "warmup_steps": 2
+      },
+      "schema_version": 1,
+      "seed": 0,
+      "sensors": {
+        "s1": [
+          "VV",
+          "VH"
+        ],
+        "s2": [
+          "B01",
+          "B02",
+          "B03",
+          "B04",
+          "B05",
+          "B06",
+          "B07",
+          "B08",
+          "B8A",
+          "B09",
+          "B11",
+          "B12"
+        ]
+      },
+      "sigreg_knots": 17,
+      "sigreg_mode": "stratified",
+      "sigreg_slices": 1024,
+      "sigreg_t_max": 3.0,
+      "split": "none",
+      "status": "synthetic_debug",
+      "strata": [
+        "joint_clear",
+        "joint_occluded",
+        "s1_only",
+        "s2_only"
+      ],
+      "stratum_weights": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "synthetic": {
+        "image_pixels": 128,
+        "noise_std": 0.1,
+        "occlusion_fill": 0.0,
+        "occlusion_fraction": [
+          0.2,
+          0.6
+        ],
+        "pool_per_stratum": 64,
+        "private_s2_factors": 4,
+        "shared_factors": 4
+      },
+      "synthetic_only": true,
+      "token_keep_rounding": "half_up_exact"
+    },
+    "sigreg_chunk": 128,
+    "sources_sha256": null,
+    "workers": 2,
+    "world_size": 2
+  },
+  "launch_digest": "ade12afdc9c88d7c5306c65285e8b9f7df2c7094d3630be5c0c5282918024a8c",
+  "normalization": "frozen",
+  "note": "pilot plumbing, not an EO research result",
+  "resolved_config": {
+    "checkpoint": {
+      "every_steps": 5
+    },
+    "crop_log_aspect": [
+      -0.2876821,
+      0.2876821
+    ],
+    "gaussian_target": "identity",
+    "global_batch": 32,
+    "global_crop_pixels": 224,
+    "global_crop_scale": [
+      0.4,
+      1.0
+    ],
+    "global_quotas": [
+      8,
+      8,
+      8,
+      8
+    ],
+    "global_token_drop": 0.9,
+    "global_views": 2,
+    "gradient_accumulation": 1,
+    "job": "jepa-multigpu-cpu-plumbing",
+    "lambda": 0.05,
+    "lambda_mu": 0.0,
+    "local_crop_pixels": 96,
+    "local_crop_scale": [
+      0.05,
+      0.4
+    ],
+    "local_sensor_probs": {
+      "both": 0.2,
+      "s1": 0.4,
+      "s2": 0.4
+    },
+    "local_token_drop": 0.5,
+    "local_views": 6,
+    "loss_reduction": "mean_n_v_k",
+    "model": {
+      "depth": 12,
+      "dim": 192,
+      "drop_path": 0.0,
+      "heads": 3,
+      "mlp_ratio": 4,
+      "pos_embed": "sincos2d_ref14"
+    },
+    "normalization": "synthetic_identity",
+    "optimizer": {
+      "betas": [
+        0.9,
+        0.95
+      ],
+      "eps": 1e-08,
+      "grad_clip_norm": 3.0,
+      "lr": 0.0005,
+      "lr_reference_batch": 1024,
+      "lr_scaling": "none_debug",
+      "name": "adamw",
+      "weight_decay": 0.05,
+      "weight_decay_scope": "matrices_only"
+    },
+    "patch_size": 16,
+    "precision": "fp32",
+    "projector_dim": 128,
+    "projector_hidden": [
+      2048,
+      2048
+    ],
+    "projector_norm": "frozen",
+    "runtime": {
+      "cpu_threads": 2,
+      "deterministic": true,
+      "max_wall_seconds": 600
+    },
+    "s2_gain_jitter": 0.0,
+    "schedule": {
+      "floor_ratio": 0.001,
+      "name": "cosine",
+      "total_steps": 10,
+      "warmup_steps": 2
+    },
+    "schema_version": 1,
+    "seed": 0,
+    "sensors": {
+      "s1": [
+        "VV",
+        "VH"
+      ],
+      "s2": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B8A",
+        "B09",
+        "B11",
+        "B12"
+      ]
+    },
+    "sigreg_knots": 17,
+    "sigreg_mode": "stratified",
+    "sigreg_slices": 1024,
+    "sigreg_t_max": 3.0,
+    "split": "none",
+    "status": "synthetic_debug",
+    "strata": [
+      "joint_clear",
+      "joint_occluded",
+      "s1_only",
+      "s2_only"
+    ],
+    "stratum_weights": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ],
+    "synthetic": {
+      "image_pixels": 128,
+      "noise_std": 0.1,
+      "occlusion_fill": 0.0,
+      "occlusion_fraction": [
+        0.2,
+        0.6
+      ],
+      "pool_per_stratum": 64,
+      "private_s2_factors": 4,
+      "shared_factors": 4
+    },
+    "synthetic_only": true,
+    "token_keep_rounding": "half_up_exact"
+  },
+  "resumed_from": "/home/ubuntu/airr-masterplan/p1-logs/multigpu-fit/jepa-multigpu-cpu-plumbing-local20261012T034127Z-48397/checkpoints/step_000005.pt",
+  "run_dir": "/home/ubuntu/airr-masterplan/p1-logs/multigpu-resume/jepa-multigpu-cpu-plumbing-local20261012T034420Z-53713",
+  "seed": 0,
+  "seeded": [
+    "random",
+    "numpy",
+    "torch"
+  ],
+  "started_utc": "2026-10-12T03:44:20+00:00",
+  "synthetic_only": true,
+  "torch_version": "2.14.1+cpu"
+}

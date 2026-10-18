@@ -5,6 +5,14 @@ small reviewed changes. Do not download anything, fit EO models, submit cluster 
 or claim readiness merely because this document exists. Decisions are in [README](README.md),
 loss definitions in [FORMULATION](FORMULATION.md), source records in [SOURCES](SOURCES.md).
 
+P1 synthetic code is now implemented; its commands and limitations are recorded in
+[the evidence guide](../../../reports/jepa/p1/README.md). Real-data ingestion is not
+implemented in the original P1 entry point. The new offline paired-array/DDP pilot
+is described in [MULTIGPU.md](MULTIGPU.md); raw imagery extraction and accepted
+scientific splits remain absent. [DATA_PLAN.md](DATA_PLAN.md) records provider formats and
+the metadata-first next handoff. The layouts below remain design contracts, not a
+claim that every listed module or real-data entry point exists.
+
 ## 0. Verify the existing repository first
 
 From the repository root, use the documented development environment:
@@ -16,8 +24,10 @@ make check PYTHON=.venv/bin/python
 ```
 
 If an existing environment is present, use it rather than recreating it. Current checks
-cover the benchmark scaffolding, not JEPA. No PyTorch runtime is required for these
-checks. The source list is deliberately empty. Before any future fetch:
+cover the benchmark scaffolding and torch-free JEPA config/dry-run checks. Optional
+torch-dependent tests skip without torch; run `make test-jepa` in the separate CPU
+environment for those tests. Only the two metadata tables are approved; imagery
+and training splits remain unapproved. Before any future fetch:
 
 ```bash
 make validate-sources PYTHON=.venv/bin/python
@@ -29,7 +39,7 @@ each source access. Use `pilot` for the initial slice, not an invented split enu
 The existing schema does not independently enforce acquisition revisions or geography:
 those are additional manifest/curation requirements. Do not weaken the source gate.
 
-## 1. Implementation layout and interfaces (all proposed)
+## 1. Implementation layout and interfaces (real-data interfaces proposed)
 
 Keep `scripts/train.py`, the current benchmark config and dry-run semantics intact.
 Add training functionality behind an explicit new command only when it exists and
@@ -103,7 +113,9 @@ still inherit that location's geographic assignment if a larger slice is approve
    for the other task families. UK exclusion alone is not global benchmark decontamination.
 4. Dedupe geographic footprints/cell IDs across corpora. A 2.64 km centre-distance
    filter is a useful pilot check, not proof of no footprint overlap. Use actual footprints.
-5. Across six latitude bands consider up to 84 candidates each (504), then trim to 500
+5. Inspect the six latitude bands first; the pinned catalogue contains no samples
+   south of 60 S. Predeclare quotas over populated bands (including the sparse
+   >60 N band), rather than fabricating coverage. Trim to at most 500
    deterministically by SHA-256 sample ID. If trying to enrich cloudy observations
    (e.g. 25% above mask fraction 0.05), record feasibility; never fabricate a real stratum
    to satisfy a quota. Synthetic occlusion is separately labelled.
