@@ -252,9 +252,51 @@ These jobs have since run on BriCS (agent-operated ssh/Slurm after a human
 `clifton auth`, per the updated compute rules). One-GPU and two-GPU synthetic
 checks passed on real GH200 hardware against **both** staged NGC images:
 25.05 (torch 2.8/CUDA 12.9) and the newly staged 26.09 (torch 2.14, CUDA 13.4,
-cuDNN 9.26, NCCL 2.31.2 — the frontier-version stack for sm_90). Evidence:
+cuDNN 9.26, NCCL 2.31.2, the sm_90 software stack). Evidence:
 [reports/gpu-readiness/2026-10-17](../reports/gpu-readiness/2026-10-17/README.md).
-The model-specific JEPA SyncBatchNorm failure remains unresolved.
+The model-specific JEPA SyncBatchNorm check (`slurm/05_jepa_cuda_checks.sbatch`)
+has a committed FP32 TF32-disable fix in `src/openchange/jepa/runtime.py`
+(`configure_precision_and_determinism`), awaiting a 4-GPU GH200 verification run.
+
+## 9. GPU-native world-model and open-science modules (implemented locally, not yet trained on GH200)
+
+Following the negative CPU coastal screen, the repository's active code tracks in
+`src/openchange/jepa/` target GPU-bound workloads on Isambard-AI 4×GH200 nodes
+(documented in [AI_BUILDER_MASTER_PLAN_2026-10-16.md](research/AI_BUILDER_MASTER_PLAN_2026-10-16.md)):
+
+1. **Track A (`src/openchange/jepa/wam.py`, `tests/test_jepa_wam.py`):**
+   - `causal_neighborhood_mask` and `bidirectional_neighborhood_mask` for the
+     causal-versus-bidirectional context-scaling test across $H \in \{0.0, 2.4, 9.6, 19.2, 38.4\}\text{ s}$.
+   - `LeWMPixelPatchEncoder` and `EndToEndPixelWAM` (with a `Robometer`-style
+     progress head) to train directly from video frames `[B, T, C, H, W]` without
+     a pixel decoder or EMA teacher.
+   - `LeRobotWindowDataset` for flat LeRobot v3.0 episodes (such as the MIT-licensed
+     `ember-lab-berkeley/robocasa365-*` splits).
+2. **Track C GPU Open-Science World Model (`src/openchange/jepa/science_wm.py`, `tests/test_jepa_science_wm.py`):**
+   - `PhysicalForcingEncoder`: decomposes meteorological or boundary forcing into
+     climatological baseline, instantaneous anomaly, and a causal cumulative
+     physical stress integrator.
+   - `MultiSensorContinuumPatchStem`: encodes Sentinel-1 SAR `[B, T, 2, H, W]` and
+     Sentinel-2 Optical `[B, T, 12, H, W]` (with missing-sensor omission and cloud
+     validity weighting) or multi-field continuum PDE states `[B, T, C, H, W]`
+     (compatible with Polymathic AI's `The Well`).
+   - `FactorizedSpatiotemporalJEPAWorldModel`: alternates spatial and causal temporal
+     attention, decomposes latent transitions into intrinsic evolution plus
+     forcing-modulated response, and predicts physical observables with epistemic
+     uncertainty.
+   - `gpu_counterfactual_observation_value`: evaluates candidate sensor passes via
+     batched GPU rollouts and ranks them by expected conformal interval width
+     reduction per megabyte.
+3. **Track C Operational Guarantees (`src/openchange/jepa/guarantees.py`, `tests/test_jepa_guarantees.py`):**
+   - `rankme_score`, `lidar_score`, and `selection_spearman` (Q1 checkpoint selection),
+     `fit_orthogonal_procrustes` and `evaluate_version_upgrade` (Q2 zero-re-embedding
+     upgrades), `cross_unit_distance_ratio` (Q3/Q4 sensor swap), and
+     `StratifiedConformalAlertCalibrator`.
+
+All modules above pass the local 150-test unit suite (`make check`) and are wired
+to `slurm/06_wam_and_science_gpu.sbatch` (`--nodes=1`, `--gpus=4`, `--time=00:25:00`).
+No real-data training or empirical benchmark claims are made until those jobs run
+on approved datasets.
 
 ## Where everything is
 
