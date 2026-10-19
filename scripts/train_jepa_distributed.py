@@ -109,6 +109,9 @@ def run(args: argparse.Namespace) -> int:
                     "runtime",
                     "guarantees",
                     "wam",
+                    "coastal_physics",
+                    "stochastic_interpolant",
+                    "assimilation",
                     "science_wm",
                 )
             ]

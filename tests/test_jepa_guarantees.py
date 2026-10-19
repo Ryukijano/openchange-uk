@@ -15,10 +15,12 @@ from openchange.jepa.guarantees import (
     apply_orthogonal_procrustes,
     apply_subspace_procrustes,
     cross_unit_distance_ratio,
+    ensemble_crps,
     evaluate_matryoshka_prefixes,
     evaluate_version_upgrade,
     fit_orthogonal_procrustes,
     fit_subspace_procrustes,
+    gaussian_crps,
     latent_forecast_residuals,
     lejepa_identifiability_bound,
     lidar_score,
@@ -348,6 +350,60 @@ class TestJEPAGuarantees(unittest.TestCase):
         self.assertGreater(
             bound_nonlin["theoretical_recovery_bound"],
             bound_linear["theoretical_recovery_bound"],
+        )
+
+    def test_gaussian_and_ensemble_crps_properness_and_gradcheck(self) -> None:
+        gen = torch.Generator().manual_seed(304)
+        true_mu = torch.tensor([1.5, -0.8], dtype=torch.float64)
+        true_sigma = torch.tensor([0.6, 1.2], dtype=torch.float64)
+        targets = true_mu.unsqueeze(0) + true_sigma.unsqueeze(0) * torch.randn(
+            (2048, 2), generator=gen, dtype=torch.float64
+        )
+
+        # Strictly proper: true (mu, sigma) beats biased mu or collapsed/inflated sigma
+        crps_opt = gaussian_crps(
+            true_mu.expand_as(targets), true_sigma.expand_as(targets), targets
+        )
+        crps_bad_mu = gaussian_crps(
+            (true_mu + 0.8).expand_as(targets), true_sigma.expand_as(targets), targets
+        )
+        crps_collapsed_std = gaussian_crps(
+            true_mu.expand_as(targets), torch.full_like(targets, 1e-3), targets
+        )
+        self.assertLess(float(crps_opt), float(crps_bad_mu))
+        self.assertLess(float(crps_opt), float(crps_collapsed_std))
+
+        # Ensemble CRPS converges to analytical Gaussian CRPS for N(mu, sigma^2) draws
+        m_members = 256
+        ens = true_mu.view(1, 2) + true_sigma.view(1, 2) * torch.randn(
+            (m_members, 2), generator=gen, dtype=torch.float64
+        )
+        y_single = torch.tensor([1.2, -1.1], dtype=torch.float64)
+        g_val = float(gaussian_crps(true_mu, true_sigma, y_single).item())
+        e_val = float(ensemble_crps(ens, y_single, fair=True).item())
+        self.assertAlmostEqual(g_val, e_val, delta=0.06)
+
+        # Autograd gradcheck on gaussian_crps and ensemble_crps
+        mu_var = torch.tensor([0.4, -0.3], dtype=torch.float64, requires_grad=True)
+        std_var = torch.tensor([0.7, 0.9], dtype=torch.float64, requires_grad=True)
+        tgt_fixed = torch.tensor([0.1, -0.5], dtype=torch.float64)
+        self.assertTrue(
+            torch.autograd.gradcheck(
+                lambda m, s: gaussian_crps(m, s, tgt_fixed),
+                (mu_var, std_var),
+                eps=1e-6,
+                atol=1e-4,
+            )
+        )
+        ens_var = torch.randn((4, 3), generator=gen, dtype=torch.float64, requires_grad=True)
+        tgt_3 = torch.randn((3,), generator=gen, dtype=torch.float64)
+        self.assertTrue(
+            torch.autograd.gradcheck(
+                lambda e: ensemble_crps(e, tgt_3, fair=True),
+                (ens_var,),
+                eps=1e-6,
+                atol=1e-4,
+            )
         )
 
 

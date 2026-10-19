@@ -639,6 +639,88 @@ def latent_forecast_residuals(z_actual: Tensor, z_forecast: Tensor) -> Tensor:
     return norms.to(dtype=out_dtype)
 
 
+def gaussian_crps(
+    mean: Tensor,
+    std: Tensor,
+    target: Tensor,
+    *,
+    eps: float = 1e-6,
+    reduction: Literal["mean", "none"] = "mean",
+) -> Tensor:
+    """Closed-form Gaussian Continuous Ranked Probability Score (Gneiting & Raftery 2007).
+
+    Strictly proper scoring rule for parametric mean/std heads that avoids the
+    ``log(var) -> -inf`` variance-floor gaming of raw Gaussian NLL:
+      ``CRPS(N(mu, sigma^2), y) = sigma * (z * erf(z / sqrt(2)) + sqrt(2/pi) * exp(-z^2 / 2) - 1 / sqrt(pi))``
+    where ``z = (y - mu) / sigma``.
+    """
+    if mean.shape != std.shape or mean.shape != target.shape or mean.numel() == 0:
+        raise ValueError("mean, std, and target must share identical non-empty shape")
+    if reduction not in ("mean", "none"):
+        raise ValueError("reduction must be 'mean' or 'none'")
+    if eps <= 0.0:
+        raise ValueError("eps must be positive")
+    if not (torch.isfinite(mean).all() and torch.isfinite(std).all() and torch.isfinite(target).all()):
+        raise ValueError("mean, std, and target must be finite")
+    if bool((std <= 0.0).any().item()):
+        raise ValueError("std must be strictly positive")
+
+    with torch.autocast(device_type=mean.device.type, enabled=False):
+        mu = mean.to(dtype=torch.float64)
+        sigma = std.to(device=mu.device, dtype=torch.float64).clamp_min(float(eps))
+        y = target.to(device=mu.device, dtype=torch.float64)
+        z = (y - mu) / sigma
+        inv_sqrt2 = 1.0 / math.sqrt(2.0)
+        sqrt_two_over_pi = math.sqrt(2.0 / math.pi)
+        inv_sqrt_pi = 1.0 / math.sqrt(math.pi)
+        score = sigma * (
+            z * torch.erf(z * inv_sqrt2)
+            + sqrt_two_over_pi * torch.exp(-0.5 * z.square())
+            - inv_sqrt_pi
+        )
+    out_dtype = mean.dtype if mean.is_floating_point() else torch.float32
+    result = score.to(dtype=out_dtype)
+    return result.mean() if reduction == "mean" else result
+
+
+def ensemble_crps(
+    ensemble: Tensor,
+    target: Tensor,
+    *,
+    fair: bool = True,
+    reduction: Literal["mean", "none"] = "mean",
+) -> Tensor:
+    """Energy-form Ensemble Continuous Ranked Probability Score (Atlas / Earth-2 convention).
+
+    Evaluates an ensemble ``ensemble [M, ...]`` against ``target [...]``:
+      ``CRPS = (1/M) sum_m |x_m - y| - (1 / (2 M (M - 1_fair))) sum_{m, m'} |x_m - x_{m'}|``.
+    """
+    if ensemble.ndim < 2 or ensemble.shape[1:] != target.shape or target.numel() == 0:
+        raise ValueError("ensemble must have shape [M, *target.shape] with non-empty target")
+    if reduction not in ("mean", "none"):
+        raise ValueError("reduction must be 'mean' or 'none'")
+    members = int(ensemble.shape[0])
+    if (fair and members < 2) or (not fair and members < 1):
+        raise ValueError("ensemble_crps requires M >= 2 when fair=True (M >= 1 when fair=False)")
+    if not (torch.isfinite(ensemble).all() and torch.isfinite(target).all()):
+        raise ValueError("ensemble and target must be finite")
+
+    with torch.autocast(device_type=ensemble.device.type, enabled=False):
+        ens = ensemble.to(dtype=torch.float64)
+        tgt = target.to(device=ens.device, dtype=torch.float64)
+        mae_term = (ens - tgt.unsqueeze(0)).abs().mean(dim=0)
+        if members == 1:
+            spread_term = torch.zeros_like(mae_term)
+        else:
+            pairwise = (ens.unsqueeze(0) - ens.unsqueeze(1)).abs().sum(dim=(0, 1))
+            denom = 2.0 * float(members) * float(members - 1 if fair else members)
+            spread_term = pairwise / denom
+        score = mae_term - spread_term
+    out_dtype = ensemble.dtype if ensemble.is_floating_point() else torch.float32
+    result = score.to(dtype=out_dtype)
+    return result.mean() if reduction == "mean" else result
+
+
 def _conformal_quantile(values: np.ndarray, alpha: float) -> tuple[float, float]:
     n_g = len(values)
     if n_g < 1:
