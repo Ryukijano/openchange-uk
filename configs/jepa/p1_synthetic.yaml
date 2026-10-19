@@ -35,6 +35,7 @@ sigreg_t_max: 3.0
 lambda: 0.05
 lambda_mu: 0.0
 gaussian_target: identity
+objective: {name: clean_jepa, shared_dim: 128, s1_private_dim: 0, s2_private_dim: 0, gap_tau_seconds: 604800, lam_priv_inactive: 0.1, cfm_weight: 0.0, cfm_hidden_dim: 128, cfm_time_dim: 32, barlow_lambda: 0.005, mixup_lambda: 1.0, normalize_by_ceiling: true, vicreg_sim_coeff: 25.0, vicreg_std_coeff: 25.0, vicreg_cov_coeff: 1.0, vicreg_gamma: 1.0}
 optimizer: {name: adamw, lr: 5.0e-4, lr_reference_batch: 1024, lr_scaling: none_debug, betas: [0.9, 0.95], eps: 1.0e-8, weight_decay: 0.05, weight_decay_scope: matrices_only, grad_clip_norm: 3.0}
 schedule: {name: cosine, warmup_steps: 5, total_steps: 50, floor_ratio: 0.001}
 gradient_accumulation: 1

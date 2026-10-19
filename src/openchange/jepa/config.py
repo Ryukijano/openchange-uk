@@ -54,6 +54,7 @@ REQUIRED_KEYS = (
     "lambda",
     "lambda_mu",
     "gaussian_target",
+    "objective",
     "optimizer",
     "schedule",
     "gradient_accumulation",
@@ -90,6 +91,24 @@ _NESTED_KEYS = {
         "occlusion_fill",
     },
     "checkpoint": {"every_steps"},
+    "objective": {
+        "name",
+        "shared_dim",
+        "s1_private_dim",
+        "s2_private_dim",
+        "gap_tau_seconds",
+        "lam_priv_inactive",
+        "cfm_weight",
+        "cfm_hidden_dim",
+        "cfm_time_dim",
+        "barlow_lambda",
+        "mixup_lambda",
+        "normalize_by_ceiling",
+        "vicreg_sim_coeff",
+        "vicreg_std_coeff",
+        "vicreg_cov_coeff",
+        "vicreg_gamma",
+    },
 }
 _STRATA = ("joint_clear", "joint_occluded", "s1_only", "s2_only")
 _S1_BANDS = ("VV", "VH")
@@ -237,6 +256,46 @@ def validate(cfg: dict[str, Any], *, local_pilot: bool = False, cuda: bool = Fal
         raise ConfigError("gradient_accumulation must equal 1")
     if cfg["precision"] not in ({"fp32", "bf16"} if cuda else {"fp32"}):
         raise ConfigError("precision must be fp32")
+
+    objective = cfg["objective"]
+    if objective["name"] not in {
+        "clean_jepa",
+        "defensive_split_cfm",
+        "tessera_mixup",
+        "vicreg",
+    }:
+        raise ConfigError("objective.name must name a reviewed Gate-1 arm")
+    for key in ("shared_dim", "s1_private_dim", "s2_private_dim", "cfm_hidden_dim", "cfm_time_dim"):
+        if not _is_int(objective[key]) or objective[key] < 0:
+            raise ConfigError(f"objective.{key} must be a nonnegative integer")
+    if objective["shared_dim"] <= 0 or objective["cfm_time_dim"] % 2:
+        raise ConfigError("objective.shared_dim must be positive and cfm_time_dim even")
+    for key in (
+        "gap_tau_seconds",
+        "lam_priv_inactive",
+        "cfm_weight",
+        "barlow_lambda",
+        "mixup_lambda",
+        "vicreg_sim_coeff",
+        "vicreg_std_coeff",
+        "vicreg_cov_coeff",
+        "vicreg_gamma",
+    ):
+        value = objective[key]
+        if not isinstance(value, (int, float)) or isinstance(value, bool) or value < 0:
+            raise ConfigError(f"objective.{key} must be a nonnegative number")
+    if objective["name"] == "defensive_split_cfm":
+        total = (
+            objective["shared_dim"]
+            + objective["s1_private_dim"]
+            + objective["s2_private_dim"]
+        )
+        if total != cfg["projector_dim"]:
+            raise ConfigError("defensive objective subspaces must sum to projector_dim")
+        if objective["gap_tau_seconds"] <= 0:
+            raise ConfigError("defensive objective requires positive gap_tau_seconds")
+    if objective["name"] == "tessera_mixup" and objective["mixup_lambda"] <= 0:
+        raise ConfigError("tessera_mixup requires positive mixup_lambda")
 
     schedule = cfg["schedule"]
     if not _is_int(schedule["total_steps"]) or schedule["total_steps"] <= 0:

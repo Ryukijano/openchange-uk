@@ -1,0 +1,44 @@
+schema_version: 1
+status: local_pilot
+synthetic_only: false
+split: pilot
+job: jepa-gate1-vicreg
+seed: 0
+loss_reduction: mean_n_v_k
+strata: [joint_clear, joint_occluded, s1_only, s2_only]
+global_batch: 32
+global_quotas: [8, 8, 8, 8]
+stratum_weights: [0.25, 0.25, 0.25, 0.25]
+sensors: {s1: [VV, VH], s2: [B01, B02, B03, B04, B05, B06, B07, B08, B8A, B09, B11, B12]}
+normalization: manifest
+patch_size: 16
+global_views: 2
+local_views: 6
+global_crop_pixels: 224
+local_crop_pixels: 96
+global_crop_scale: [0.4, 1.0]
+local_crop_scale: [0.05, 0.4]
+crop_log_aspect: [-0.2876821, 0.2876821]
+local_sensor_probs: {s1: 0.4, s2: 0.4, both: 0.2}
+s2_gain_jitter: 0.0
+global_token_drop: 0.9
+local_token_drop: 0.5
+token_keep_rounding: half_up_exact
+model: {dim: 192, depth: 12, heads: 3, mlp_ratio: 4, pos_embed: sincos2d_ref14, drop_path: 0.0}
+projector_hidden: [2048, 2048]
+projector_dim: 128
+projector_norm: batch
+sigreg_mode: stratified
+sigreg_slices: 1024
+sigreg_knots: 17
+sigreg_t_max: 3.0
+lambda: 0.05
+lambda_mu: 0.0
+gaussian_target: identity
+objective: {name: vicreg, shared_dim: 128, s1_private_dim: 0, s2_private_dim: 0, gap_tau_seconds: 604800, lam_priv_inactive: 0.1, cfm_weight: 0.0, cfm_hidden_dim: 128, cfm_time_dim: 32, barlow_lambda: 0.005, mixup_lambda: 1.0, normalize_by_ceiling: true, vicreg_sim_coeff: 25.0, vicreg_std_coeff: 25.0, vicreg_cov_coeff: 1.0, vicreg_gamma: 1.0}
+optimizer: {name: adamw, lr: 5.0e-4, lr_reference_batch: 1024, lr_scaling: none_debug, betas: [0.9, 0.95], eps: 1.0e-8, weight_decay: 0.05, weight_decay_scope: matrices_only, grad_clip_norm: 3.0}
+schedule: {name: cosine, warmup_steps: 5, total_steps: 50, floor_ratio: 0.001}
+gradient_accumulation: 1
+precision: bf16
+runtime: {cpu_threads: 4, max_wall_seconds: 1500, deterministic: false}
+checkpoint: {every_steps: 25}

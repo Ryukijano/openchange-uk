@@ -40,7 +40,12 @@ def run(args: argparse.Namespace) -> int:
 
     from openchange.jepa import losses, runtime
     from openchange.jepa.distributed import assert_quotas
-    from openchange.jepa.model import JEPAEncoder
+    from openchange.jepa.gate1 import (
+        Gate1Model,
+        gate1_loss,
+        mix_global_view_batch,
+        stratum_preserving_permutation,
+    )
 
     local_pilot = args.local_fit or (args.dry_run and args.manifest is not None)
     cfg = load_config(args.config, local_pilot=local_pilot, cuda=args.device == "cuda")
@@ -99,6 +104,7 @@ def run(args: argparse.Namespace) -> int:
                     "losses",
                     "distributed",
                     "data",
+                    "gate1",
                     "checkpoints",
                     "runtime",
                     "guarantees",
@@ -137,7 +143,7 @@ def run(args: argparse.Namespace) -> int:
         return 0
     from openchange.jepa.data import BalancedStepSampler
 
-    model = runtime.wrap_model(JEPAEncoder(cfg), device, ctx, cfg["projector_norm"])
+    model = runtime.wrap_model(Gate1Model(cfg), device, ctx, cfg["projector_norm"])
     optimizer = runtime.optimizer_for(model, cfg, device)
     scheduler = torch.optim.lr_scheduler.LambdaLR(
         optimizer,
@@ -332,6 +338,29 @@ def run(args: argparse.Namespace) -> int:
                 ),
             ):
                 output = model(batch, validate=False)
+            mixed_output = None
+            mix_perm = None
+            mix_alpha = None
+            if cfg["objective"]["name"] == "tessera_mixup":
+                mix_perm = stratum_preserving_permutation(
+                    strata, seed=cfg["seed"], step=step
+                )
+                mix_alpha = float(
+                    torch.rand(
+                        (),
+                        generator=torch.Generator().manual_seed(cfg["seed"] + 4099 + step),
+                    ).item()
+                )
+                mixed_batch = mix_global_view_batch(batch, mix_perm, mix_alpha)
+                with (
+                    torch.profiler.record_function("jepa/mixed_encoder"),
+                    torch.autocast(
+                        device_type=device.type,
+                        dtype=torch.bfloat16,
+                        enabled=cfg["precision"] == "bf16",
+                    ),
+                ):
+                    mixed_output = model(mixed_batch, validate=False)
             with torch.profiler.record_function("jepa/sigreg"):
                 directions = losses.sigreg_directions(
                     cfg["projector_dim"],
@@ -341,19 +370,41 @@ def run(args: argparse.Namespace) -> int:
                     device=device,
                     dtype=torch.float32,
                 )
-                loss = losses.jepa_loss(
-                    output.z.float(),
-                    strata,
-                    n_global=cfg["global_views"],
-                    n_strata=4,
-                    weights=cfg["stratum_weights"],
-                    lam=cfg["lambda"],
-                    lam_mu=cfg["lambda_mu"],
+                objective = cfg["objective"]
+                directions_s1 = None
+                directions_s2 = None
+                if objective["name"] == "defensive_split_cfm":
+                    directions_s1 = losses.sigreg_directions(
+                        objective["s1_private_dim"],
+                        cfg["sigreg_slices"],
+                        seed=cfg["seed"] + 17,
+                        step=step,
+                        device=device,
+                        dtype=torch.float32,
+                    )
+                    directions_s2 = losses.sigreg_directions(
+                        objective["s2_private_dim"],
+                        cfg["sigreg_slices"],
+                        seed=cfg["seed"] + 31,
+                        step=step,
+                        device=device,
+                        dtype=torch.float32,
+                    )
+                loss = gate1_loss(
+                    cfg,
+                    model=runtime.unwrap(model),
+                    output=output,
+                    batch=batch,
+                    strata=strata,
+                    step=step,
                     directions=directions,
-                    mode=cfg["sigreg_mode"],
-                    dist=ctx,
+                    directions_s1=directions_s1,
+                    directions_s2=directions_s2,
+                    mixed_output=mixed_output,
+                    mix_perm=mix_perm,
+                    mix_alpha=mix_alpha,
+                    ctx=ctx,
                     chunk=args.sigreg_chunk,
-                    checkpoint=True,
                 )
             bad = runtime.reduce(
                 (~torch.isfinite(loss["loss"])).to(torch.int32), ctx, dist.ReduceOp.MAX
