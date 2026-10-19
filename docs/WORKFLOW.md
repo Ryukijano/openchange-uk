@@ -8,14 +8,16 @@ For staged runtime verification (single GH200, then same-node NCCL/DDP), use the
 [GPU readiness runbook](GPU_READINESS.md). It records the unresolved historical
 model-specific failure separately; a generic CUDA pass is not model readiness.
 
-The human authenticates Clifton (`clifton auth`, interactive SSO — the agent never runs it). Once a valid certificate exists, the agent may ssh, submit and monitor bounded Slurm jobs, and inspect files on the cluster under AGENTS.md limits. Official sources: [Using AI agents with Isambard](https://docs.isambard.ac.uk/user-documentation/guides/using_ai_agents/), [Login](https://docs.isambard.ac.uk/user-documentation/guides/login/), [Slurm](https://docs.isambard.ac.uk/user-documentation/guides/slurm/), [Containers](https://docs.isambard.ac.uk/user-documentation/guides/containers/), [ML packages](https://docs.isambard.ac.uk/user-documentation/applications/ML-packages/), [Storage](https://docs.isambard.ac.uk/user-documentation/information/system-storage/). If this page and the docs disagree, the docs win.
+The agent may run `clifton auth` to start the device-code/SSO flow; the human completes interactive SSO approval. Once a valid certificate exists, the agent may ssh, submit and monitor bounded Slurm jobs, and inspect files on the cluster under AGENTS.md limits. Official sources: [Using AI agents with Isambard](https://docs.isambard.ac.uk/user-documentation/guides/using_ai_agents/), [Login](https://docs.isambard.ac.uk/user-documentation/guides/login/), [Slurm](https://docs.isambard.ac.uk/user-documentation/guides/slurm/), [Containers](https://docs.isambard.ac.uk/user-documentation/guides/containers/), [ML packages](https://docs.isambard.ac.uk/user-documentation/applications/ML-packages/), [Storage](https://docs.isambard.ac.uk/user-documentation/information/system-storage/). If this page and the docs disagree, the docs win.
 
 ```text
 agent or you, locally
   -> make check
   -> commit
-you (SSO only)
+agent
   -> clifton auth
+you (SSO approval only)
+  -> open the device link and approve
 agent or you
   -> ssh u6xn.aip2.isambard
 on the login node
@@ -54,7 +56,7 @@ The run id is `slurm<SLURM_JOB_ID>` in a job and `local<UTC time>-<pid>` otherwi
 
 ## Clifton and SSH
 
-The human runs `clifton auth` (interactive SSO). The agent may then use the resulting certificate for ssh and Slurm within AGENTS.md limits. From the [login guide](https://docs.isambard.ac.uk/user-documentation/guides/login/):
+The agent runs `clifton auth` to start the device-code/SSO flow, then gives the human the link/code to approve. The agent may then use the resulting certificate for ssh and Slurm within AGENTS.md limits. From the [login guide](https://docs.isambard.ac.uk/user-documentation/guides/login/):
 
 ```bash
 # Use clifton-linux-musl-aarch64 on an Arm laptop.

@@ -163,8 +163,7 @@ the old specification is not a current balance.
 
 ## 5. Human-run steps
 
-**These commands are for the user to review and execute. The cloud agent must not
-authenticate, connect, submit or poll the cluster. Never send it credentials.**
+**The cloud agent may start `clifton auth`; the human completes SSO approval. Never copy certificates, keys, tokens, passwords or authenticated tunnels into the repository or chat.**
 
 Before using the probe:
 
@@ -173,8 +172,9 @@ Before using the probe:
    constitute a GPU pass or submit a job.
 2. Confirm the project really targets Isambard-AI Phase 2. Check the official
    [service status](https://status.isambard.ac.uk), access, allocation and quota.
-3. Authenticate yourself following the official login guide. Do not copy an SSH
-   certificate, key, token, password or authenticated tunnel into this session.
+3. Let the agent start `clifton auth`, then approve the displayed device link/code
+   yourself following the official login guide. Do not copy an SSH certificate,
+   key, token, password or authenticated tunnel into this session.
 4. On the login node, stage or reuse the documented Arm64 NGC SIF in project
    storage. Prefer the existing approved image if its provenance is known. Review
    any new pull against the official container instructions; no image pull is
