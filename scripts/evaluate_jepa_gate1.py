@@ -7,11 +7,12 @@ import argparse
 import json
 from pathlib import Path
 
+import numpy as np
 import torch
 from torch.utils.data import DataLoader
 
 from openchange.jepa.config import config_hash, load_config
-from openchange.jepa.data import BalancedStepSampler, LocalObservationDataset
+from openchange.jepa.data import LocalObservationDataset
 from openchange.jepa.gate1 import Gate1Model
 from openchange.jepa.guarantees import (
     align_sfa_matryoshka_gauge,
@@ -35,6 +36,54 @@ def parser() -> argparse.ArgumentParser:
     return result
 
 
+def _unique_eval_batches(
+    dataset: LocalObservationDataset,
+    quotas: list[int],
+    *,
+    seed: int,
+    eval_steps: int,
+) -> list[list[tuple[int, int, int]]]:
+    if len(quotas) != 4 or any(type(q) is not int or q < 0 for q in quotas):
+        raise ValueError("quotas require four nonnegative integers")
+    required = sum(quotas) * eval_steps
+    if required > len(dataset):
+        raise ValueError("diagnostic sample count exceeds pilot inventory")
+    rng = np.random.default_rng([seed, 91037])
+    clear = list(rng.permutation(dataset.eligible_indices(0)))
+    degraded = list(rng.permutation(dataset.eligible_indices(1)))
+    unrestricted = list(rng.permutation(range(len(dataset))))
+    used: set[int] = set()
+    batches = []
+    for step in range(eval_steps):
+        batch: list[tuple[int, int, int]] = []
+        for stratum, pool in ((0, clear), (1, degraded)):
+            take = quotas[stratum]
+            selected = []
+            while pool and len(selected) < take:
+                index = int(pool.pop(0))
+                if index not in used:
+                    selected.append(index)
+            if len(selected) != take:
+                raise ValueError("insufficient unique diagnostic locations")
+            for index in selected:
+                used.add(index)
+                batch.append((step, index, stratum))
+        for stratum in (2, 3):
+            take = quotas[stratum]
+            selected = []
+            while unrestricted and len(selected) < take:
+                index = int(unrestricted.pop(0))
+                if index not in used:
+                    selected.append(index)
+            if len(selected) != take:
+                raise ValueError("insufficient unique diagnostic locations")
+            for index in selected:
+                used.add(index)
+                batch.append((step, index, stratum))
+        batches.append(batch)
+    return batches
+
+
 def run(args: argparse.Namespace) -> int:
     if not 1 <= args.eval_steps <= 50:
         raise ValueError("eval_steps must be in [1, 50]")
@@ -51,14 +100,11 @@ def run(args: argparse.Namespace) -> int:
     model.eval()
 
     dataset = LocalObservationDataset(args.manifest, args.sources_config)
-    sampler = BalancedStepSampler(
+    sampler = _unique_eval_batches(
         dataset,
         cfg["global_quotas"],
         seed=cfg["seed"],
-        rank=0,
-        world_size=1,
-        start_step=0,
-        total_steps=args.eval_steps,
+        eval_steps=args.eval_steps,
     )
     loader = DataLoader(
         StepViewDataset(dataset),
