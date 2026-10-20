@@ -1,0 +1,12 @@
+[
+  {
+    "path": "outputs/jepa-gate1-tessera-slurm7560286/checkpoints/step_000025.pt",
+    "sha256": "96941a4055e3807b3c6dbe13176ecc015f2a16e4cadb7be83584738e26e52a59",
+    "step": 25
+  },
+  {
+    "path": "outputs/jepa-gate1-tessera-slurm7560286/checkpoints/step_000050.pt",
+    "sha256": "b29eea418ad2b4512e99aa5b21da107c2659f31e52fb15be1f01d659cdcad49e",
+    "step": 50
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "path": "outputs/jepa-gate1-vicreg-slurm7560286/checkpoints/step_000025.pt",
+    "sha256": "a28f2552db615d88c66abd87e7c1faf88c2e58f1d39b76efac03b219986a8996",
+    "step": 25
+  },
+  {
+    "path": "outputs/jepa-gate1-vicreg-slurm7560286/checkpoints/step_000050.pt",
+    "sha256": "a02dbfcbb677b99f12d4e60df1a66108894eb221a21590067a2a611ab894f8ec",
+    "step": 50
+  }
+]

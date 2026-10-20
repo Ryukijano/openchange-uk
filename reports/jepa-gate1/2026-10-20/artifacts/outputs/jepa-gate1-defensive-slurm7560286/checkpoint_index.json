@@ -1,0 +1,12 @@
+[
+  {
+    "path": "outputs/jepa-gate1-defensive-slurm7560286/checkpoints/step_000025.pt",
+    "sha256": "c3ee41b1c3350ce7593ae838c4cb785ace31c79207509eebed0518736089739f",
+    "step": 25
+  },
+  {
+    "path": "outputs/jepa-gate1-defensive-slurm7560286/checkpoints/step_000050.pt",
+    "sha256": "5113c6068f34381aa04a5d63a948c602c0f1bb74cf5e8e30a2066729e35af22c",
+    "step": 50
+  }
+]

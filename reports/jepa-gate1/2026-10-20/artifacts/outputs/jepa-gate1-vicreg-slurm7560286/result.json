@@ -1,0 +1,95 @@
+{
+  "checkpoint_paths": [
+    "outputs/jepa-gate1-vicreg-slurm7560286/checkpoints/step_000025.pt",
+    "outputs/jepa-gate1-vicreg-slurm7560286/checkpoints/step_000050.pt"
+  ],
+  "config_path": "configs/jepa/gate1_vicreg.yaml",
+  "device": "cuda",
+  "git_sha": "3fa7cf52b42c7b629898ef7676fed2a411007c00",
+  "last_metrics": {
+    "ep_per_view_stratum": [
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "grad_norm_before_clip": 9.705570220947266,
+    "inv": 0.08615396171808243,
+    "loader_wait_seconds_max_rank": 0.01164256315678358,
+    "loss": 15.6196928024292,
+    "lr": 1.1363343760891847e-06,
+    "peak_allocated_bytes_max_rank": 470775296,
+    "peak_reserved_bytes_max_rank": 532676608,
+    "phase": "steady_window",
+    "sigreg": 2.785703420639038,
+    "sigreg_null": 1.0524641547991607,
+    "step": 50,
+    "stratum_counts": [
+      8,
+      8,
+      8,
+      8
+    ],
+    "t_mu": 0.0,
+    "tokens_per_second": 46295.98840295965,
+    "tokens_seen": 284804,
+    "window_seconds_max_rank": 1.2270177602767944,
+    "window_steps": 10,
+    "window_tokens": 56806
+  },
+  "launch_digest": "0351fa00be4100b9481cdb4ff0c7f75e3227223978dbd8c9621ba9565413c5cc",
+  "metrics_path": "outputs/jepa-gate1-vicreg-slurm7560286/metrics.jsonl",
+  "next_step": 50,
+  "note": "bounded approved local-data pilot; not a benchmark result",
+  "run_dir": "outputs/jepa-gate1-vicreg-slurm7560286",
+  "seed": 0,
+  "start_step": 0,
+  "status": "completed",
+  "torch_version": "2.14.0a0+b2c75dd062.nv26.09",
+  "wall_seconds": 24.73830020800233,
+  "world_size": 4
+}

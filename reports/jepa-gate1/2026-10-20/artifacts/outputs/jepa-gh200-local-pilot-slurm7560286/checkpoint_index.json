@@ -1,0 +1,12 @@
+[
+  {
+    "path": "outputs/jepa-gh200-local-pilot-slurm7560286/checkpoints/step_000025.pt",
+    "sha256": "96e98015113c72db2fee63b4c34fc764451a1914923a62b5de906b8a5cdc03c5",
+    "step": 25
+  },
+  {
+    "path": "outputs/jepa-gh200-local-pilot-slurm7560286/checkpoints/step_000050.pt",
+    "sha256": "44716a5a6b0791c12369ff942a318c120122700e57a59d08dd79d3098d90ae7f",
+    "step": 50
+  }
+]

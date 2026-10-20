@@ -1,0 +1,439 @@
+{
+  "config": {
+    "path": "configs/jepa/gate1_tessera.yaml",
+    "sha256": "f470f8cf4abf762d4d5657b3162bd75f00131ec8abd336712070ac004a5e2c93"
+  },
+  "container": {
+    "image": null,
+    "inside_container": true,
+    "nvidia_pytorch_version": "26.09",
+    "sif": "/projects/u6xn/sif-images/pytorch_26.09-py3.sif",
+    "sif_sha256": "f5a41e030ff3d44936faa521480ea9164d095270d7d5bd999621579f3e400ec6"
+  },
+  "cuda_version": "13.4",
+  "device_name": "NVIDIA GH200 120GB",
+  "env": {
+    "APPTAINER_APPNAME": "",
+    "APPTAINER_BIND": "/work,/lus/lfs1aip2/projects/u6xn/data/pilot_v1",
+    "APPTAINER_COMMAND": "exec",
+    "APPTAINER_CONTAINER": "/projects/u6xn/sif-images/pytorch_26.09-py3.sif",
+    "APPTAINER_ENVIRONMENT": "/.singularity.d/env/91-environment.sh",
+    "APPTAINER_NAME": "pytorch_26.09-py3.sif",
+    "CUDA_ARCH_LIST": "8.0 8.6 9.0 10.0 11.0 12.0",
+    "CUDA_BINARY_LOADER_THREAD_COUNT": "8",
+    "CUDA_COMPONENT_LIST": "crt nvrtc driver-dev culibos-dev cudart cudart-dev nvcc tileiras cupti",
+    "CUDA_DRIVER_VERSION": "615.71.09",
+    "CUDA_HOME": "/usr/local/cuda",
+    "CUDA_MODULE_LOADING": "LAZY",
+    "CUDA_VERSION": "13.4.1.012",
+    "CUDA_VISIBLE_DEVICES": "0,1,2,3",
+    "NVIDIA_BUILD_ID": "442529826",
+    "NVIDIA_DRIVER_CAPABILITIES": "compute,utility,video",
+    "NVIDIA_PRODUCT_NAME": "PyTorch",
+    "NVIDIA_PYTORCH_VERSION": "26.09",
+    "NVIDIA_REQUIRE_CUDA": "cuda>=9.0",
+    "NVIDIA_VISIBLE_DEVICES": "all",
+    "OPENCHANGE_DATA_ROOT": "/projects/u6xn/data/pilot_v1",
+    "OPENCHANGE_EXPECTED_GIT_SHA": "3fa7cf52b42c7b629898ef7676fed2a411007c00",
+    "OPENCHANGE_GIT_DIRTY": "0",
+    "OPENCHANGE_GIT_SHA": "3fa7cf52b42c7b629898ef7676fed2a411007c00",
+    "OPENCHANGE_JEPA_MANIFEST": "/projects/u6xn/data/pilot_v1/manifest.json",
+    "OPENCHANGE_SIF": "/projects/u6xn/sif-images/pytorch_26.09-py3.sif",
+    "OPENCHANGE_SIF_SHA256": "f5a41e030ff3d44936faa521480ea9164d095270d7d5bd999621579f3e400ec6",
+    "PYTORCH_BUILD_VERSION": "2.14.0a0+b2c75dd",
+    "PYTORCH_VERSION": "2.14.0a0+b2c75dd",
+    "SINGULARITY_BIND": "/work,/lus/lfs1aip2/projects/u6xn/data/pilot_v1",
+    "SINGULARITY_CONTAINER": "/projects/u6xn/sif-images/pytorch_26.09-py3.sif",
+    "SINGULARITY_ENVIRONMENT": "/.singularity.d/env/91-environment.sh",
+    "SINGULARITY_NAME": "pytorch_26.09-py3.sif",
+    "SLURM_CLUSTER_NAME": "gracehopper",
+    "SLURM_CONF": "/var/spool/slurmd/conf-cache/slurm.conf",
+    "SLURM_CPUS_ON_NODE": "288",
+    "SLURM_GPUS": "4",
+    "SLURM_GPUS_ON_NODE": "4",
+    "SLURM_GTIDS": "0",
+    "SLURM_JOBID": "7560286",
+    "SLURM_JOB_ACCOUNT": "brics.u6xn",
+    "SLURM_JOB_CPUS_PER_NODE": "288",
+    "SLURM_JOB_END_TIME": "1792463348",
+    "SLURM_JOB_EXCLUSIVE": "NO",
+    "SLURM_JOB_GID": "1483808137",
+    "SLURM_JOB_GPUS": "0,1,2,3",
+    "SLURM_JOB_ID": "7560286",
+    "SLURM_JOB_NAME": "jepa-gate1-4gpu",
+    "SLURM_JOB_NODELIST": "nid011264",
+    "SLURM_JOB_NUM_NODES": "1",
+    "SLURM_JOB_OVERSUBSCRIBE": "NO",
+    "SLURM_JOB_PARTITION": "workq",
+    "SLURM_JOB_QOS": "normal",
+    "SLURM_JOB_SLUID": "sC3SM5B645Q300",
+    "SLURM_JOB_START_TIME": "1792461548",
+    "SLURM_JOB_UID": "1483808137",
+    "SLURM_JOB_USER": "ryukijano.u6xn",
+    "SLURM_LOCALID": "0",
+    "SLURM_NNODES": "1",
+    "SLURM_NODEID": "0",
+    "SLURM_NODELIST": "nid011264",
+    "SLURM_OOM_KILL_STEP": "0",
+    "SLURM_PRIO_PROCESS": "10",
+    "SLURM_PROCID": "0",
+    "SLURM_STEPID": "-5",
+    "SLURM_STEP_ID": "-5",
+    "SLURM_SUBMIT_DIR": "/home/u6xn/ryukijano.u6xn/openchange-uk",
+    "SLURM_SUBMIT_HOST": "login42",
+    "SLURM_TASKS_PER_NODE": "288",
+    "SLURM_TASK_PID": "253057",
+    "SLURM_TOPOLOGY_ADDR": "global.group13.nid011264",
+    "SLURM_TOPOLOGY_ADDR_PATTERN": "switch.switch.node"
+  },
+  "environment": {
+    "hostname": "nid011264",
+    "machine": "aarch64",
+    "packages": {
+      "PyYAML": "6.0.1",
+      "numpy": "2.1.0",
+      "openchange-uk": null,
+      "torch": "2.14.0a0+b2c75dd062.nv26.9.68203377"
+    },
+    "platform": "Linux-6.4.0-150700.53.81-64kb-aarch64-with-glibc2.39",
+    "python": "3.12.3",
+    "python_executable": "/usr/bin/python3",
+    "system": "Linux"
+  },
+  "git": {
+    "dirty": false,
+    "sha": "3fa7cf52b42c7b629898ef7676fed2a411007c00",
+    "source": "env"
+  },
+  "job": "jepa-gate1-tessera",
+  "launch": {
+    "code_sha256": {
+      "scripts/train_jepa_distributed.py": "f7a9d3ab7eae91e9c0fd0d866e306f32ca408abf07a4a77c9455f0762012830b",
+      "src/openchange/jepa/assimilation.py": "c74bff8a34507811399821709c37ba4939f9f53c161333c8154f9b5f1cb5c690",
+      "src/openchange/jepa/checkpoints.py": "4b5fa4781ebb1fec4e9fdd7aa34fb0db50b636b5710a39e8d285cf4756a921e7",
+      "src/openchange/jepa/coastal_physics.py": "a89c9a551fe304e977722ada8c1f5e2d126f96a8b2c99a78b7d2cead8559e299",
+      "src/openchange/jepa/config.py": "72d6f90e21c5009c69d2c2ab79d228f0bd745df925751c5a63ac746710864d95",
+      "src/openchange/jepa/data.py": "f0d73bb7c4c2f73f4b7534ee9dec2917519f0a14210414876377f983e73043dc",
+      "src/openchange/jepa/distributed.py": "2e0b174d30028c689b5665cae00c4dff1934ce938e72b3351b292dcd0c98026d",
+      "src/openchange/jepa/gate1.py": "941ad69d92a350775fe13737da840db0b0b92f74e1bf6f60a4c8d45f605c9ee9",
+      "src/openchange/jepa/guarantees.py": "67f30da965a7e90ae6e1adb849a045f33409b398d0cce0bc6982a3f24234d5b2",
+      "src/openchange/jepa/losses.py": "aa00dc1e19165c2d51c1b18d5578321f37b2b347f29cec9d1bbec7c3555b6af5",
+      "src/openchange/jepa/model.py": "00cab15e9e7d022e070f102f2c195550a19118f95cf0c862de22ddc3fb496a53",
+      "src/openchange/jepa/runtime.py": "c4c5fa4ccc9336359a1dc71750d35dbc49c342b234e550e8e9046702965a41a5",
+      "src/openchange/jepa/science_wm.py": "b9d261af9e82719a027e5fef2340f97e3b28317c0b79afb20209a3d24279bda1",
+      "src/openchange/jepa/stochastic_interpolant.py": "11440dbad7cac53338376d2bfd90b46f59e7f387e1c7ce49cff36c783fc984d9",
+      "src/openchange/jepa/views.py": "06b317df48ac4837ed115a81ffdb77c571043ddc43dce8805c52c563d1038bc2",
+      "src/openchange/jepa/wam.py": "6e7736d3664abfebf760a1f45dad77c2f0bfa5d586ccd02fb0982a5a7128bfbf"
+    },
+    "device": "cuda",
+    "git_sha": "3fa7cf52b42c7b629898ef7676fed2a411007c00",
+    "manifest_sha256": "439eb6cddbee79844aea5ff5e9514fa2cf1ddb51140a8b088500fc9771e083e0",
+    "prefetch": 2,
+    "recipe": {
+      "checkpoint": {
+        "every_steps": 25
+      },
+      "crop_log_aspect": [
+        -0.2876821,
+        0.2876821
+      ],
+      "gaussian_target": "identity",
+      "global_batch": 32,
+      "global_crop_pixels": 224,
+      "global_crop_scale": [
+        0.4,
+        1.0
+      ],
+      "global_quotas": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "global_token_drop": 0.9,
+      "global_views": 2,
+      "gradient_accumulation": 1,
+      "job": "jepa-gate1-tessera",
+      "lambda": 0.05,
+      "lambda_mu": 0.0,
+      "local_crop_pixels": 96,
+      "local_crop_scale": [
+        0.05,
+        0.4
+      ],
+      "local_sensor_probs": {
+        "both": 0.2,
+        "s1": 0.4,
+        "s2": 0.4
+      },
+      "local_token_drop": 0.5,
+      "local_views": 6,
+      "loss_reduction": "mean_n_v_k",
+      "model": {
+        "depth": 12,
+        "dim": 192,
+        "drop_path": 0.0,
+        "heads": 3,
+        "mlp_ratio": 4,
+        "pos_embed": "sincos2d_ref14"
+      },
+      "normalization": "manifest",
+      "objective": {
+        "barlow_lambda": 0.005,
+        "cfm_hidden_dim": 128,
+        "cfm_time_dim": 32,
+        "cfm_weight": 0.0,
+        "gap_tau_seconds": 604800,
+        "lam_priv_inactive": 0.1,
+        "mixup_lambda": 1.0,
+        "name": "tessera_mixup",
+        "normalize_by_ceiling": true,
+        "s1_private_dim": 0,
+        "s2_private_dim": 0,
+        "shared_dim": 128,
+        "vicreg_cov_coeff": 1.0,
+        "vicreg_gamma": 1.0,
+        "vicreg_sim_coeff": 25.0,
+        "vicreg_std_coeff": 25.0
+      },
+      "optimizer": {
+        "betas": [
+          0.9,
+          0.95
+        ],
+        "eps": 1e-08,
+        "grad_clip_norm": 3.0,
+        "lr": 0.0005,
+        "lr_reference_batch": 1024,
+        "lr_scaling": "none_debug",
+        "name": "adamw",
+        "weight_decay": 0.05,
+        "weight_decay_scope": "matrices_only"
+      },
+      "patch_size": 16,
+      "precision": "bf16",
+      "projector_dim": 128,
+      "projector_hidden": [
+        2048,
+        2048
+      ],
+      "projector_norm": "batch",
+      "runtime": {
+        "cpu_threads": 4,
+        "deterministic": false,
+        "max_wall_seconds": 1500
+      },
+      "s2_gain_jitter": 0.0,
+      "schedule": {
+        "floor_ratio": 0.001,
+        "name": "cosine",
+        "total_steps": 50,
+        "warmup_steps": 5
+      },
+      "schema_version": 1,
+      "seed": 0,
+      "sensors": {
+        "s1": [
+          "VV",
+          "VH"
+        ],
+        "s2": [
+          "B01",
+          "B02",
+          "B03",
+          "B04",
+          "B05",
+          "B06",
+          "B07",
+          "B08",
+          "B8A",
+          "B09",
+          "B11",
+          "B12"
+        ]
+      },
+      "sigreg_knots": 17,
+      "sigreg_mode": "stratified",
+      "sigreg_slices": 1024,
+      "sigreg_t_max": 3.0,
+      "split": "pilot",
+      "status": "local_pilot",
+      "strata": [
+        "joint_clear",
+        "joint_occluded",
+        "s1_only",
+        "s2_only"
+      ],
+      "stratum_weights": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "synthetic_only": false,
+      "token_keep_rounding": "half_up_exact"
+    },
+    "sigreg_chunk": 128,
+    "sources_sha256": "956930e9ff6a2a1b869ad328585ccc452a8bf1ef2018e89a650fb3b0aa485fc4",
+    "workers": 2,
+    "world_size": 4
+  },
+  "launch_digest": "899a8005ce001dd6ad3de58ea38820760671b1dbf020ca1f88fa8bcc1d7813cf",
+  "normalization": "SyncBatchNorm",
+  "note": "pilot plumbing, not an EO research result",
+  "resolved_config": {
+    "checkpoint": {
+      "every_steps": 25
+    },
+    "crop_log_aspect": [
+      -0.2876821,
+      0.2876821
+    ],
+    "gaussian_target": "identity",
+    "global_batch": 32,
+    "global_crop_pixels": 224,
+    "global_crop_scale": [
+      0.4,
+      1.0
+    ],
+    "global_quotas": [
+      8,
+      8,
+      8,
+      8
+    ],
+    "global_token_drop": 0.9,
+    "global_views": 2,
+    "gradient_accumulation": 1,
+    "job": "jepa-gate1-tessera",
+    "lambda": 0.05,
+    "lambda_mu": 0.0,
+    "local_crop_pixels": 96,
+    "local_crop_scale": [
+      0.05,
+      0.4
+    ],
+    "local_sensor_probs": {
+      "both": 0.2,
+      "s1": 0.4,
+      "s2": 0.4
+    },
+    "local_token_drop": 0.5,
+    "local_views": 6,
+    "loss_reduction": "mean_n_v_k",
+    "model": {
+      "depth": 12,
+      "dim": 192,
+      "drop_path": 0.0,
+      "heads": 3,
+      "mlp_ratio": 4,
+      "pos_embed": "sincos2d_ref14"
+    },
+    "normalization": "manifest",
+    "objective": {
+      "barlow_lambda": 0.005,
+      "cfm_hidden_dim": 128,
+      "cfm_time_dim": 32,
+      "cfm_weight": 0.0,
+      "gap_tau_seconds": 604800,
+      "lam_priv_inactive": 0.1,
+      "mixup_lambda": 1.0,
+      "name": "tessera_mixup",
+      "normalize_by_ceiling": true,
+      "s1_private_dim": 0,
+      "s2_private_dim": 0,
+      "shared_dim": 128,
+      "vicreg_cov_coeff": 1.0,
+      "vicreg_gamma": 1.0,
+      "vicreg_sim_coeff": 25.0,
+      "vicreg_std_coeff": 25.0
+    },
+    "optimizer": {
+      "betas": [
+        0.9,
+        0.95
+      ],
+      "eps": 1e-08,
+      "grad_clip_norm": 3.0,
+      "lr": 0.0005,
+      "lr_reference_batch": 1024,
+      "lr_scaling": "none_debug",
+      "name": "adamw",
+      "weight_decay": 0.05,
+      "weight_decay_scope": "matrices_only"
+    },
+    "patch_size": 16,
+    "precision": "bf16",
+    "projector_dim": 128,
+    "projector_hidden": [
+      2048,
+      2048
+    ],
+    "projector_norm": "batch",
+    "runtime": {
+      "cpu_threads": 4,
+      "deterministic": false,
+      "max_wall_seconds": 1500
+    },
+    "s2_gain_jitter": 0.0,
+    "schedule": {
+      "floor_ratio": 0.001,
+      "name": "cosine",
+      "total_steps": 50,
+      "warmup_steps": 5
+    },
+    "schema_version": 1,
+    "seed": 0,
+    "sensors": {
+      "s1": [
+        "VV",
+        "VH"
+      ],
+      "s2": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05",
+        "B06",
+        "B07",
+        "B08",
+        "B8A",
+        "B09",
+        "B11",
+        "B12"
+      ]
+    },
+    "sigreg_knots": 17,
+    "sigreg_mode": "stratified",
+    "sigreg_slices": 1024,
+    "sigreg_t_max": 3.0,
+    "split": "pilot",
+    "status": "local_pilot",
+    "strata": [
+      "joint_clear",
+      "joint_occluded",
+      "s1_only",
+      "s2_only"
+    ],
+    "stratum_weights": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ],
+    "synthetic_only": false,
+    "token_keep_rounding": "half_up_exact"
+  },
+  "resumed_from": null,
+  "run_dir": "outputs/jepa-gate1-tessera-slurm7560286",
+  "seed": 0,
+  "seeded": [
+    "random",
+    "numpy",
+    "torch"
+  ],
+  "started_utc": "2026-10-20T02:02:33+00:00",
+  "synthetic_only": false,
+  "torch_version": "2.14.0a0+b2c75dd062.nv26.09"
+}

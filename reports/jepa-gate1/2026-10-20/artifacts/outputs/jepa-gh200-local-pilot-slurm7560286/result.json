@@ -1,0 +1,95 @@
+{
+  "checkpoint_paths": [
+    "outputs/jepa-gh200-local-pilot-slurm7560286/checkpoints/step_000025.pt",
+    "outputs/jepa-gh200-local-pilot-slurm7560286/checkpoints/step_000050.pt"
+  ],
+  "config_path": "configs/jepa/gh200_local_pilot.yaml",
+  "device": "cuda",
+  "git_sha": "3fa7cf52b42c7b629898ef7676fed2a411007c00",
+  "last_metrics": {
+    "ep_per_view_stratum": [
+      [
+        2.3797495365142822,
+        3.026423692703247,
+        2.520547866821289,
+        1.916958212852478
+      ],
+      [
+        2.379735231399536,
+        3.031235933303833,
+        2.539271593093872,
+        1.9382776021957397
+      ],
+      [
+        2.2784829139709473,
+        2.961984395980835,
+        2.515512466430664,
+        1.9003584384918213
+      ],
+      [
+        2.2907235622406006,
+        2.8645312786102295,
+        2.5276033878326416,
+        1.9210718870162964
+      ],
+      [
+        2.2895872592926025,
+        2.934523820877075,
+        2.513233184814453,
+        1.9025764465332031
+      ],
+      [
+        2.38462495803833,
+        2.872464179992676,
+        2.5072267055511475,
+        1.924050211906433
+      ],
+      [
+        2.245377779006958,
+        2.806541919708252,
+        2.5090415477752686,
+        1.9156030416488647
+      ],
+      [
+        2.2525393962860107,
+        2.89027738571167,
+        2.538175582885742,
+        1.9394806623458862
+      ]
+    ],
+    "grad_norm_before_clip": 0.1371515691280365,
+    "inv": 0.021889055147767067,
+    "loader_wait_seconds_max_rank": 0.008746474049985409,
+    "loss": 0.14175990223884583,
+    "lr": 1.1363343760891847e-06,
+    "peak_allocated_bytes_max_rank": 464028672,
+    "peak_reserved_bytes_max_rank": 538968064,
+    "phase": "steady_window",
+    "sigreg": 2.4193058013916016,
+    "sigreg_null": 1.0524641547991607,
+    "step": 50,
+    "stratum_counts": [
+      8,
+      8,
+      8,
+      8
+    ],
+    "t_mu": 0.15881116688251495,
+    "tokens_per_second": 42824.89079044687,
+    "tokens_seen": 284804,
+    "window_seconds_max_rank": 1.3264715671539307,
+    "window_steps": 10,
+    "window_tokens": 56806
+  },
+  "launch_digest": "b1636456730bda949de89d192639466af522859763e53ea79675b3b428c84895",
+  "metrics_path": "outputs/jepa-gh200-local-pilot-slurm7560286/metrics.jsonl",
+  "next_step": 50,
+  "note": "bounded approved local-data pilot; not a benchmark result",
+  "run_dir": "outputs/jepa-gh200-local-pilot-slurm7560286",
+  "seed": 0,
+  "start_step": 0,
+  "status": "completed",
+  "torch_version": "2.14.0a0+b2c75dd062.nv26.09",
+  "wall_seconds": 25.751033325999742,
+  "world_size": 4
+}
