@@ -15,6 +15,16 @@ improvement on both held-out beaches. Separate clean-JEPA and hybrid Flow-Matchi
 engineering in `src/openchange/jepa/` is verified by 191 unit tests (`make check`)
 and a 50-step 4×GH200 pilot run on 480 approved `SSL4EO-S12 v1.1` pairs.
 
+## Compute, storage and dataset plan — 21 October 2026
+
+[Full plan](docs/research/COMPUTE_AND_DATA_PLAN_2026-10-21.md). Planning only: it does not approve data, splits or longer jobs.
+
+- **Storage (measured):** `/projects/u6xn` has **200 TB shared by the `u6xn` project** (22.73 GB used). Personal `$SCRATCHDIR` is **5 TB**. `$HOME` is 101 GB. Nothing is backed up.
+- **Compute:** 5,000 NHR planning balance (= 20,000 GH200 GPU-hours) through 15 March 2027. The live balance is not visible via `sacctmgr`; check the portal.
+- **Gate 1:** `defensive_split_cfm` beat `clean_jepa` on shared-subspace Procrustes residual (0.037 vs 0.051) in the bounded 50-step screen ([job 7560286](reports/jepa-gate1/2026-10-20/SUMMARY.md)). Not a benchmark.
+- **First corpus to approve:** SSL4EO-S12 v1.1 S1GRD + S2L2A train+val, **1.09 TB** (all 7 modalities: 2.26 TB).
+- **Moonshots:** a latent world-action-model data lake with a history/compute scaling study; an all-weather EO model on the full SSL4EO archive feeding a UK Hugging Face demo; an Agentic-SfM router at scale; GPU latent planning with Grace-CPU simulator verification.
+
 ## Original benchmark and engineering context
 
 Open benchmark for geographic and temporal transfer in UK environmental change detection. The first task is coastal shoreline and land-cover change. Flood mapping, urban heat, and V-JEPA 2.1 are later experiments inside the same benchmark harness.
