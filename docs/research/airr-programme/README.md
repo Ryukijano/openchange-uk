@@ -9,6 +9,7 @@ scratch workspace for provenance.
 | `masterplan.md` / `.html` | Original scaling-study masterplan (replay/headroom gates, provisional TORAX testbed, budget envelopes). |
 | `execution-plan.md` / `.html` | Week-by-week local-vs-Isambard execution guide for that masterplan. |
 | `wam-bridge.md` / `.html` | How a causal clean-JEPA world-action-model study could follow; WAM is a later objective, not the current EO work. |
+| `wam-red-team-2026-10-24.md` | Red-team of the WAM track at `ed23fd2`: missing closed-loop harness, sampler anchor confound, matched-compute maths, prior art, and a sharper Long-WAM-checkpoint comparison. |
 | `verifier-review.txt`, `pessimist-review.txt` | Independent reviews of the masterplan. |
 | `budget-ceilings.csv` | Early NHR ceiling table; superseded as a commitment — reprice from measured throughput. |
 | `repository-check.log` | Earlier repo check log captured during planning. |
